@@ -70,7 +70,7 @@ export function HighlightCarousel() {
         <div 
           className={cn(
             "relative w-full overflow-hidden rounded-[20px] group border border-black/5 dark:border-white/5",
-            "h-[160px] md:h-auto md:aspect-[1280/276]",
+            "h-[160px] md:h-auto md:aspect-[1280/285]",
             "shadow-[0_8px_40px_rgba(0,0,0,0.12)]"
           )}
         >
