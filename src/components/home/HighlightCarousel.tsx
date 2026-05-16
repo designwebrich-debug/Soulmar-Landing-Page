@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -11,13 +10,12 @@ import { useTranslation } from "@/context/LanguageContext"
 interface Slide {
   id: number
   image: string
-  link: string
 }
 
 const slides: Slide[] = [
-  { id: 1, image: "/images/highlights/soulmar-brand.png", link: "/book" },
-  { id: 2, image: "/images/highlights/soulmar-terapeutas.png", link: "/book" },
-  { id: 3, image: "/images/highlights/soulmar-academy.png", link: "/retreats" },
+  { id: 1, image: "/images/highlights/soulmar-brand.png" },
+  { id: 2, image: "/images/highlights/soulmar-terapeutas.png" },
+  { id: 3, image: "/images/highlights/soulmar-academy.png" },
 ]
 
 export function HighlightCarousel() {
@@ -81,18 +79,19 @@ export function HighlightCarousel() {
             }}
             className="absolute inset-0"
           >
-            <Link href={slides[currentIndex].link} className="block w-full h-full">
+            <div className="block w-full h-full pointer-events-none select-none">
               <Image 
                 src={slides[currentIndex].image} 
                 alt={`Slide ${currentIndex + 1}`}
                 fill
-                className="object-cover"
+                className="object-cover pointer-events-none"
                 priority
                 quality={100}
                 unoptimized={true}
                 sizes="(max-width: 1280px) 100vw, 1280px"
+                draggable={false}
               />
-            </Link>
+            </div>
           </motion.div>
         </AnimatePresence>
 
