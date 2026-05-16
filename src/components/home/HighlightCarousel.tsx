@@ -35,9 +35,9 @@ export function HighlightCarousel() {
     setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length)
   }, [])
 
-  // Auto-play with moderated interval (5 seconds)
+  // Auto-play with moderated interval (7 seconds as requested)
   useEffect(() => {
-    const timer = setInterval(slideNext, 5000)
+    const timer = setInterval(slideNext, 7000)
     return () => clearInterval(timer)
   }, [slideNext])
 
@@ -60,14 +60,20 @@ export function HighlightCarousel() {
 
   return (
     <section className="w-full bg-background dark:bg-[#0b0b0c] py-16 transition-colors duration-500">
-      <div className="max-w-[1928px] mx-auto px-6 mb-8 flex items-end justify-between">
+      <div className="max-w-[1099px] mx-auto px-6 mb-8">
          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#111111] dark:text-[#f5f5f7]">
             {t('home.highlights_title') || "Mira lo más destacado."}
          </h2>
       </div>
 
-      <div className="relative max-w-[1928px] mx-auto px-6">
-        <div className="relative aspect-[1928/625] w-full overflow-hidden rounded-[2.5rem] shadow-2xl group border border-black/5 dark:border-white/5">
+      <div className="relative max-w-[1099px] mx-auto px-6">
+        <div 
+          className={cn(
+            "relative w-full overflow-hidden rounded-[20px] group border border-black/5 dark:border-white/5",
+            "h-[160px] md:h-auto md:aspect-[1099/237]",
+            "shadow-[0_8px_40px_rgba(0,0,0,0.12)]"
+          )}
+        >
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={currentIndex}
@@ -77,8 +83,8 @@ export function HighlightCarousel() {
               animate="center"
               exit="exit"
               transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.5 }
+                x: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+                opacity: { duration: 0.4 }
               }}
               className="absolute inset-0"
             >
@@ -89,7 +95,7 @@ export function HighlightCarousel() {
                   fill
                   className="object-cover"
                   priority
-                  sizes="(max-width: 1928px) 100vw, 1928px"
+                  sizes="(max-width: 1099px) 100vw, 1099px"
                 />
               </Link>
             </motion.div>
