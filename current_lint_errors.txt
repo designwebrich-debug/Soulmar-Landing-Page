@@ -1,0 +1,239 @@
+
+> soulmar-app@0.1.0 lint
+> eslint
+
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/admin/login/page.tsx
+  12:10  warning  'cn' is defined but never used   @typescript-eslint/no-unused-vars
+  43:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+  54:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/admin/page.tsx
+   11:3    warning  'ArrowDownRight' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   14:3    warning  'Search' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   18:3    warning  'ChevronRight' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   20:3    warning  'FileText' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   24:3    warning  'Globe' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   25:3    warning  'Bell' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   27:3    warning  'DollarSign' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   42:73   error    Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/admin/page.tsx:42:73
+  40 |
+  41 | function BarChart({ height }: { height: number }) {
+> 42 |   const bars = React.useMemo(() => Array.from({ length: 30 }).map(() => Math.random() * 80 + 20), [])
+     |                                                                         ^^^^^^^^^^^^^ Cannot call impure function
+  43 |   
+  44 |   return (
+  45 |     <div style={{ height }} className="relative flex items-end gap-1.5 px-2">  react-hooks/purity
+   67:53   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+   68:44   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+   69:42   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  150:107  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  555:57   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  555:73   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  618:50   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/auth/reset-password/page.tsx
+  20:9   warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  52:14  warning  'err' is defined but never used              @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/cart/page.tsx
+   7:19  warning  'SectionHeading' is defined but never used  @typescript-eslint/no-unused-vars
+  15:3   warning  'ArrowRight' is defined but never used      @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/checkout/page.tsx
+    7:19  warning  'SectionHeading' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+    9:16  warning  'CardContent' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   12:3   warning  'CreditCard' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   13:3   warning  'Truck' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   22:3   warning  'Package' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   25:3   warning  'MessageSquare' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   26:3   warning  'Mail' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   29:17  warning  'CardIcon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   47:10  warning  'error' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   50:45  error    Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/checkout/page.tsx:50:45
+  48 |   
+  49 |   // Memoize random order suffix for the success view to avoid purity errors
+> 50 |   const randomSuffix = React.useMemo(() => (Math.random() * 10000).toFixed(0), [])
+     |                                             ^^^^^^^^^^^^^ Cannot call impure function
+  51 |   
+  52 |   const [formData, setFormData] = useState({
+  53 |     name: '',  react-hooks/purity
+   73:12  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  132:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  567:12  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  573:6   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  664:54  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/courses/[id]/page.tsx
+   4:20  warning  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+  10:3   warning  'ShieldCheck' is defined but never used   @typescript-eslint/no-unused-vars
+  16:3   warning  'User' is defined but never used          @typescript-eslint/no-unused-vars
+  25:3   warning  'Bookmark' is defined but never used      @typescript-eslint/no-unused-vars
+  27:3   warning  'FileText' is defined but never used      @typescript-eslint/no-unused-vars
+  28:3   warning  'Heart' is defined but never used         @typescript-eslint/no-unused-vars
+  37:10  warning  'Card' is defined but never used          @typescript-eslint/no-unused-vars
+  51:84  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/courses/page.tsx
+    6:10   warning  'Card' is defined but never used                @typescript-eslint/no-unused-vars
+    7:31   warning  'User' is defined but never used                @typescript-eslint/no-unused-vars
+    7:37   warning  'Bookmark' is defined but never used            @typescript-eslint/no-unused-vars
+    7:67   warning  'ShoppingCart' is defined but never used        @typescript-eslint/no-unused-vars
+   10:27   warning  'formatCOPtoUSD' is defined but never used      @typescript-eslint/no-unused-vars
+   55:11   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   56:6    error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   57:25   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  255:69   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  255:79   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  255:104  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  265:58   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  265:66   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  267:71   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  345:74   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  345:82   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  345:107  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  361:66   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  507:42   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  508:10   warning  'isLoading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  521:34   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  554:26   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  555:26   error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/dashboard/admin/page.tsx
+   4:10  warning  'Section' is defined but never used      @typescript-eslint/no-unused-vars
+   5:16  warning  'CardContent' is defined but never used  @typescript-eslint/no-unused-vars
+   9:3   warning  'BarChart3' is defined but never used    @typescript-eslint/no-unused-vars
+  12:3   warning  'Globe' is defined but never used        @typescript-eslint/no-unused-vars
+  17:3   warning  'Bell' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/dashboard/therapist/page.tsx
+   13:3   warning  'Search' is defined but never used          @typescript-eslint/no-unused-vars
+   15:3   warning  'Clock' is defined but never used           @typescript-eslint/no-unused-vars
+   20:3   warning  'Filter' is defined but never used          @typescript-eslint/no-unused-vars
+   22:3   warning  'UserCheck' is defined but never used       @typescript-eslint/no-unused-vars
+   23:3   warning  'CheckCircle2' is defined but never used    @typescript-eslint/no-unused-vars
+   24:3   warning  'Lock' is defined but never used            @typescript-eslint/no-unused-vars
+   28:8   warning  'Link' is defined but never used            @typescript-eslint/no-unused-vars
+   29:10  warning  'SectionHeading' is defined but never used  @typescript-eslint/no-unused-vars
+  191:55  warning  'i' is defined but never used               @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/dashboard/user/page.tsx
+    5:10  warning  'Section' is defined but never used             @typescript-eslint/no-unused-vars
+    5:19  warning  'SectionHeading' is defined but never used      @typescript-eslint/no-unused-vars
+   10:3   warning  'BarChart3' is defined but never used           @typescript-eslint/no-unused-vars
+   11:3   warning  'Users' is defined but never used               @typescript-eslint/no-unused-vars
+   12:3   warning  'CreditCard' is defined but never used          @typescript-eslint/no-unused-vars
+   13:3   warning  'Globe' is defined but never used               @typescript-eslint/no-unused-vars
+   14:3   warning  'ShieldCheck' is defined but never used         @typescript-eslint/no-unused-vars
+   17:3   warning  'HelpCircle' is defined but never used          @typescript-eslint/no-unused-vars
+   24:3   warning  'Star' is defined but never used                @typescript-eslint/no-unused-vars
+   44:40  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+   45:10  warning  'isLoading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  344:52  warning  'i' is defined but never used                   @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/login/page.tsx
+  15:10  warning  'cn' is defined but never used   @typescript-eslint/no-unused-vars
+  47:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+  59:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+  76:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/register/page.tsx
+   97:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+  108:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/retreats/page.tsx
+  110:97  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  152:93  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/shop/[id]/page.tsx
+    4:20  warning  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+   61:30  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   62:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:34  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:77  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  146:28  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  356:71  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  357:73  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  358:69  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  359:69  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  360:67  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  361:69  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/shop/page.tsx
+   5:18  warning  'SlidersHorizontal' is defined but never used   @typescript-eslint/no-unused-vars
+   7:10  warning  'useCart' is defined but never used             @typescript-eslint/no-unused-vars
+  18:44  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  19:10  warning  'isLoading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/home/CinemaHero.tsx
+  6:10  warning  'ArrowRight' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/home/EbookSection.tsx
+    5:18  warning  'AnimatePresence' is defined but never used           @typescript-eslint/no-unused-vars
+    6:10  warning  'Plus' is defined but never used                      @typescript-eslint/no-unused-vars
+    6:16  warning  'Minus' is defined but never used                     @typescript-eslint/no-unused-vars
+    6:29  warning  'ShoppingCart' is defined but never used              @typescript-eslint/no-unused-vars
+   82:29  warning  'index' is defined but never used                     @typescript-eslint/no-unused-vars
+   82:50  error    Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   82:73  error    Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   84:74  error    Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+   89:9   warning  'handleAdd' is assigned a value but never used        @typescript-eslint/no-unused-vars
+   98:9   warning  'handleIncrement' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  102:9   warning  'handleDecrement' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/home/HighlightCarousel.tsx
+  57:78  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/home/TestimonialsSection.tsx
+  21:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/ui/Input.tsx
+  4:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/AdminThemeContext.tsx
+  3:54  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/AuthContext.tsx
+   6:10   warning  'Session' is defined but never used                                                                                               @typescript-eslint/no-unused-vars
+  22:64   error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  25:98   error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  25:110  error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  26:55   error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  27:58   error    Unexpected any. Specify a different type                                                                                          @typescript-eslint/no-explicit-any
+  94:6    warning  React Hook useEffect has missing dependencies: 'fetchProfile' and 'supabase'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  98:13   warning  'data' is assigned a value but never used                                                                                         @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/CartContext.tsx
+   22:24  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+   47:10  warning  'isSyncing' is assigned a value but never used                                                               @typescript-eslint/no-unused-vars
+   47:21  warning  'setIsSyncing' is assigned a value but never used                                                            @typescript-eslint/no-unused-vars
+   64:54  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+   77:19  warning  'localCart' is assigned a value but never used                                                               @typescript-eslint/no-unused-vars
+   92:6   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  102:37  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/LanguageContext.tsx
+   3:54  warning  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+  13:30  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:37  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:43  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:16  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:33  warning  'index' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/lib/supabase/middleware.ts
+  18:57  warning  '_options' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/middleware.ts
+  18:57  warning  '_options' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 158 problems (66 errors, 92 warnings)
+

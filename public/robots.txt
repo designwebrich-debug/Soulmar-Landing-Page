@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /panel-admin/
+Disallow: /panel-usuario/
+Disallow: /api/
+
+Sitemap: https://soulmar.org/sitemap.xml

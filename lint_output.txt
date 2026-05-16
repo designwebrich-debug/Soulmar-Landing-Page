@@ -1,0 +1,115 @@
+
+> soulmar-app@0.1.0 lint
+> eslint
+
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/auth/reset-password/page.tsx
+  20:9   warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  52:14  warning  'err' is defined but never used              @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/courses/[id]/page.tsx
+  32:10  warning  'Card' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/courses/page.tsx
+  16:88  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:95  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:11  warning  'Feature' is defined but never used       @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/dashboard/therapist/page.tsx
+   22:8   warning  'Link' is defined but never used     @typescript-eslint/no-unused-vars
+   23:10  warning  'Section' is defined but never used  @typescript-eslint/no-unused-vars
+  185:55  warning  'i' is defined but never used        @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/login/page.tsx
+   15:10  warning  'cn' is defined but never used   @typescript-eslint/no-unused-vars
+   64:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+   76:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+   93:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+  224:37  error    'Loader2' is not defined         react/jsx-no-undef
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/panel-admin/login/page.tsx
+  42:14  warning  '_err' is defined but never used  @typescript-eslint/no-unused-vars
+  53:14  warning  '_err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/panel-admin/page.tsx
+  494:53   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  501:9    warning  'handleAction' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  594:119  error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  632:32   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  874:46   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/panel-usuario/page.tsx
+   21:11   warning  'UserIcon' is defined but never used                             @typescript-eslint/no-unused-vars
+   30:3    warning  'PanelLeftClose' is defined but never used                       @typescript-eslint/no-unused-vars
+   31:3    warning  'PanelLeftOpen' is defined but never used                        @typescript-eslint/no-unused-vars
+   32:3    warning  'Phone' is defined but never used                                @typescript-eslint/no-unused-vars
+   33:3    warning  'Search' is defined but never used                               @typescript-eslint/no-unused-vars
+   88:10   warning  'isLoading' is assigned a value but never used                   @typescript-eslint/no-unused-vars
+   98:10   warning  'orders' is assigned a value but never used                      @typescript-eslint/no-unused-vars
+   98:40   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  542:25   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  542:241  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  616:50   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  621:55   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  633:36   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/register/page.tsx
+   20:14  warning  'language' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  102:14  warning  'err' is defined but never used                @typescript-eslint/no-unused-vars
+  113:14  warning  'err' is defined but never used                @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/shop/ShopClient.tsx
+  3:28  warning  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+  7:10  warning  'createClient' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/app/shop/[id]/page.tsx
+  4:20  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/home/FooterSection.tsx
+  5:10  warning  'Instagram' is defined but never used  @typescript-eslint/no-unused-vars
+  5:21  warning  'Facebook' is defined but never used   @typescript-eslint/no-unused-vars
+  5:31  warning  'Youtube' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/components/layout/Navbar.tsx
+  9:42  warning  'LayoutDashboard' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/AuthContext.tsx
+  103:11  error    Error: Cannot access variable before it is declared
+
+`logout` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/AuthContext.tsx:103:11
+  101 |       if (user) {
+  102 |         timeout = setTimeout(() => {
+> 103 |           logout()
+      |           ^^^^^^ `logout` accessed before it is declared
+  104 |         }, 30 * 60 * 1000) // 30 mins
+  105 |       }
+  106 |     }
+
+/Users/richshalom/Desktop/SOULCAMP/soulmar-app/src/context/AuthContext.tsx:146:3
+  144 |   }
+  145 |
+> 146 |   const logout = async () => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 147 |     setIsLoading(true)
+      | ^^^^^^^^^^^^^^^^^^^^^^
+> 148 |     await supabase.auth.signOut()
+      | ^^^^^^^^^^^^^^^^^^^^^^
+> 149 |     setUser(null)
+      | ^^^^^^^^^^^^^^^^^^^^^^
+> 150 |     setSupabaseUser(null)
+      | ^^^^^^^^^^^^^^^^^^^^^^
+> 151 |     setIsLoading(false)
+      | ^^^^^^^^^^^^^^^^^^^^^^
+> 152 |     router.push("/")
+      | ^^^^^^^^^^^^^^^^^^^^^^
+> 153 |   }
+      | ^^^^ `logout` is declared here
+  154 |
+  155 |   const register = async (email: string, password: string, metadata: Partial<UserProfile>) => {
+  156 |     setIsLoading(true)  react-hooks/immutability
+  123:6   warning  React Hook useEffect has a missing dependency: 'logout'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/exhaustive-deps
+
+✖ 46 problems (14 errors, 32 warnings)
+

@@ -1,0 +1,1064 @@
+{
+  "common": {
+    "book_now": "Book Now",
+    "home": "Home",
+    "courses": "Courses",
+    "retreats": "Soulmar Camp",
+    "shop": "Shop",
+    "save": "Save",
+    "details": "View details",
+    "subscribe": "Subscribe",
+    "register": "Create Account",
+    "login": "Login",
+    "quantity_abbr": "Qty",
+    "logout": "Logout",
+    "month": "month",
+    "per_month": "/month",
+    "agendar": "Book",
+    "downloads": "Downloads",
+    "download_pdf": "Download PDF",
+    "soulmar_original": "Soulmar Original",
+    "admin": "Admin Access",
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "hero": {
+    "badge": "Welcome to Soulmar",
+    "title": "Your path to inner peace begins here",
+    "subtitle": "Expert psychological support, transformative courses, and retreats that reconnect you with your essence",
+    "cta_primary": "Book a Session",
+    "cta_secondary": "Explore Courses",
+    "scroll": "Scroll"
+  },
+  "services": {
+    "title": "Transformative Services",
+    "subtitle": "Discover our three main areas of support for your integral well-being.",
+    "items": [
+      {
+        "title": "Online Therapy",
+        "desc": "Individual sessions tailored to your pace and needs."
+      },
+      {
+        "title": "Digital Courses",
+        "desc": "Learn practical tools for your mental health."
+      },
+      {
+        "title": "Soulmar Camp",
+        "desc": "Immersive experiences to disconnect and reconnect."
+      }
+    ]
+  },
+  "home": {
+    "banner_badge": "SOULMAR CAMP 2026",
+    "banner_title": "35% OFF",
+    "banner_subtitle": "+ 3 months of free courses when booking your first retreat this month.",
+    "banner_cta": "Learn More",
+    "therapists_title": "Featured Therapists",
+    "therapists_subtitle": "Experts committed to your personal growth.",
+    "therapists_view_all": "View all therapists →",
+    "courses_badge": "New in Soulmar",
+    "courses_title": "Wellness Courses",
+    "courses_subtitle": "Inspired by the Apple Fitness+ experience, our courses are designed to immerse you in learning.",
+    "courses_cta": "View Catalog",
+    "courses_episodes": "Episodes",
+    "therapist_agendar": "Book",
+    "testimonials_title": "What our souls say",
+    "testimonials_subtitle": "Real stories of transformation and growth.",
+    "testimonials": [
+      {
+        "text": "My life completely changed after sessions with Mariana. I found the calm I was looking for.",
+        "author": "Mariana L."
+      },
+      {
+        "text": "The courses are incredibly practical. They help me day to day with stress management.",
+        "author": "Julián M."
+      },
+      {
+        "text": "The mountain Soulmar Camp was the best gift I've given myself in years. Soulmar is special.",
+        "author": "Sofía R."
+      }
+    ],
+    "verified_user": "Verified User",
+    "newsletter_title_alt": "Join the consciousness.",
+    "highlights_title": "Look at the highlights.",
+    "highlights": [
+      {
+        "title": "Human Connections",
+        "subtitle": "Online Therapy: A safe space to return to yourself.",
+        "cta": "Explore"
+      },
+      {
+        "title": "Soulmar Academy",
+        "subtitle": "Deep tools for a free mind.",
+        "cta": "Discover"
+      },
+      {
+        "title": "Soulmar Camp",
+        "subtitle": "Immersive experiences that change lives.",
+        "cta": "Join"
+      },
+      {
+        "title": "Mind & Purpose",
+        "subtitle": "Your best version is waiting for you.",
+        "cta": "Start"
+      }
+    ],
+    "ebooks_title": "We Think of You",
+    "ebooks_subtitle": "Free Soulmar E-Books"
+  },
+  "ebooks": {
+    "ansiedad": {
+      "title": "Anxiety",
+      "description": "Calm your mind and regain control."
+    },
+    "depresion": {
+      "title": "Depression",
+      "description": "A path of light for your well-being."
+    },
+    "mindset": {
+      "title": "Mindset",
+      "description": "Reprogram your mind for success."
+    }
+  },
+  "courses": {
+    "title": "Courses",
+    "subtitle": "Your space for learning and mental growth.",
+    "categories": {
+      "all": "✨ All",
+      "anxiety": "🧘 Anxiety & Stress",
+      "mindfulness": "🌊 Mindfulness & Calm",
+      "growth": "🌱 Personal Growth",
+      "yoga": "🧘 Mind & Soul",
+      "psychology": "🧠 Clinical Psychology",
+      "relationships": "🫂 Relationships",
+      "emotional": "Emotional & Trauma",
+      "mindset": "Mindset",
+      "clinical": "Clinical Tools",
+      "coaching": "Coaching"
+    },
+    "sections": {
+      "new": "New Releases",
+      "free": "Free for the Community",
+      "podcast": "Discover your favorite Podcast"
+    },
+    "library": {
+      "course1": {
+        "title": "Break Your Anxiety",
+        "focus": "Emotional regulation and trauma",
+        "keywords": "fear, panic, phobia, nerves, stress, heal, psychologist"
+      },
+      "course2": {
+        "title": "Mind in Control",
+        "focus": "Limiting beliefs and habits",
+        "keywords": "self-sabotage, discipline, routine, thought, success"
+      },
+      "course3": {
+        "title": "Goodbye Chronic Stress",
+        "focus": "Anxiety management and breathing",
+        "keywords": "relaxation, calm, burnout, peace, meditate, breathe"
+      },
+      "course4": {
+        "title": "Calm in 10 Minutes",
+        "focus": "Self-love and validation",
+        "keywords": "self-esteem, acceptance, inner peace, mindfulness, fast"
+      },
+      "course5": {
+        "title": "Silence Your Mind",
+        "focus": "Emotional management and expression",
+        "keywords": "feelings, emotional intelligence, venting, communication"
+      },
+      "course6": {
+        "title": "Total Presence",
+        "focus": "Relationships and autonomy",
+        "keywords": "dependency, freedom, loneliness, bonds, couple"
+      },
+      "course7": {
+        "title": "Reprogram Your Identity",
+        "focus": "Acceptance and resilience",
+        "keywords": "change, personality, past, trauma, future"
+      },
+      "course8": {
+        "title": "Activate Your Best Version",
+        "focus": "Healthy bonds and communication",
+        "keywords": "talk, assertiveness, social, friends, family"
+      },
+      "course9": {
+        "title": "Reconnect with Your Essence",
+        "focus": "Discipline and focus",
+        "keywords": "goals, habits, concentration, success, procrastination"
+      },
+      "course10": {
+        "title": "Align Your Inner Self",
+        "focus": "Change tools and purpose",
+        "keywords": "meaning of life, motivation, passion, mission"
+      },
+      "course11": {
+        "title": "Peace of Mind in Uncertain Times",
+        "focus": "Anxiety and mindfulness",
+        "keywords": "future, worry, calm, meditation, present"
+      },
+      "course12": {
+        "title": "Conscious Leadership and Empathy",
+        "focus": "Professional growth",
+        "keywords": "work, team, success, boss, emotional intelligence"
+      },
+      "course13": {
+        "title": "Healthy Bonds: The Art of Loving",
+        "focus": "Relationship coaching",
+        "keywords": "love, dating, marriage, communication, jealousy, breakup"
+      },
+      "course14": {
+        "title": "Neuroscience of Well-being",
+        "focus": "Clinical psychology",
+        "keywords": "brain, science, mental health, dopamine, happiness"
+      },
+      "course15": {
+        "title": "Hacking Your Self-Esteem",
+        "focus": "Self-confidence",
+        "keywords": "security, value, self-love, success, shyness"
+      },
+      "course16": {
+        "title": "Assertive Communication in Couples",
+        "focus": "Bonds",
+        "keywords": "dating, marriage, talk, fights, love"
+      },
+      "course17": {
+        "title": "Overcoming Workplace Burnout",
+        "focus": "Stress and work",
+        "keywords": "job, fatigue, exhaustion, professional, health"
+      },
+      "course18": {
+        "title": "Atomic Habits for the Mind",
+        "focus": "Conscious productivity",
+        "keywords": "routine, discipline, efficiency, time, morning"
+      },
+      "course19": {
+        "title": "Advanced Emotional Resilience",
+        "focus": "Mental strength",
+        "keywords": "crisis, problems, overcome, pain, strength"
+      },
+      "course20": {
+        "title": "The Path of Self-Knowledge",
+        "focus": "Transcendence",
+        "keywords": "soul, spirit, meditation, who am i, truth"
+      },
+      "podcast1": {
+        "title": "Soul Conversations",
+        "focus": "Anxiety and well-being",
+        "keywords": "podcast, chat, anxiety, wellbeing, mental health"
+      },
+      "podcast2": {
+        "title": "Open Mind",
+        "focus": "Mindfulness and meditation",
+        "keywords": "podcast, mindfulness, meditation, calm, relaxation"
+      },
+      "podcast3": {
+        "title": "The Art of Conscious Living",
+        "focus": "Personal growth",
+        "keywords": "podcast, consciousness, presence, habits, growth"
+      },
+      "podcast4": {
+        "title": "Voices of Resilience",
+        "focus": "Overcoming and strength",
+        "keywords": "podcast, resilience, strength, overcoming, stories"
+      },
+      "podcast5": {
+        "title": "Roots and Wings",
+        "focus": "Inner connection",
+        "keywords": "podcast, spirituality, soul, connection, purpose"
+      }
+    },
+    "pricing": {
+      "title": "Subscription Plans",
+      "subtitle": "Unlimited access to our entire course library",
+      "student": {
+        "name": "Plan Student",
+        "description": "Single user, unlimited access",
+        "features": [
+          "Access to 20+ courses",
+          "Special price",
+          "5% discount on sessions"
+        ]
+      },
+      "standard": {
+        "name": "Plan Standard",
+        "description": "Single person, unlimited access",
+        "features": [
+          "Access to 20+ courses",
+          "Priority support",
+          "10% discount on sessions"
+        ]
+      },
+      "group": {
+        "name": "Plan Group",
+        "tag": "MOST POPULAR",
+        "description": "For teams of 2 to 5 people",
+        "features": [
+          "Family or team access",
+          "User management",
+          "15% discount on sessions"
+        ]
+      }
+    },
+    "badge_new": "NEW",
+    "buy_now": "Buy Course",
+    "buy_course": "Enroll Now",
+    "watch_now": "Watch Now",
+    "view_free": "Watch free",
+    "course_not_found": "Course not found",
+    "back_to_academy": "Back to Academy",
+    "lesson_label": "Lesson",
+    "intro_lesson_title": "Radical Introduction",
+    "deep_lesson_title": "Deepening the Self",
+    "about_course": "About this Course",
+    "focus_quote": "Explore {focus} from a radically new perspective.",
+    "focus_quote_alt": "A deep dive into the tools that will transform your reality.",
+    "course_desc_prefix": "This course has been designed under Soulmar's standards of excellence to provide not just theoretical tools, but true inner transformation.",
+    "course_desc_suffix": "Through {count} cinematic lessons, we will delve into the patterns that govern your well-being and unlock new ways of inhabiting your present.",
+    "features": {
+      "hd": {
+        "title": "{count} Full HD Lessons",
+        "desc": "High production editorial content."
+      },
+      "lifetime": {
+        "title": "Lifetime Access",
+        "desc": "Learn at your own pace, anywhere."
+      },
+      "downloadable": {
+        "title": "Downloadable Material",
+        "desc": "PDF guides and practical exercises."
+      },
+      "certificate": {
+        "title": "Soulmar Certificate",
+        "desc": "Upon completing 100% of the academy."
+      }
+    },
+    "rate_course": "Rate this course",
+    "rate_course_title": "How did you like this course?",
+    "rate_course_subtitle": "Your opinion is the most important thing for us to always give you the best.",
+    "reviews_title": "Course reviews",
+    "reviews_placeholder": "Write your opinion...",
+    "reviews": {
+      "r1": "This course completely changed my perspective. Dr. Caicedo explains with incredible clarity.",
+      "r2": "The practical tools offered are next level. I recommend it 100%.",
+      "r3": "Great content, it helped me a lot with my personal process. The lessons are deep and transformative."
+    },
+    "modules_badge": "MODULES",
+    "modules_badge_desc": "Explore the {count} modules of this program designed for your transformation.",
+    "min": "MIN",
+    "free_badge": "FREE",
+    "locked_badge": "LOCKED",
+    "view_all_lessons": "See all lessons (+{count})",
+    "learning_guide": "Learning Guide",
+    "instructor_quote": "My goal is not just to teach you theory, but to accompany you in the process of rediscovering your own radical potential.",
+    "students": "Students",
+    "satisfaction_title": "Satisfaction Guaranteed",
+    "satisfaction_desc": "Join hundreds of people who have transformed their relationship with themselves through this program. 100% refund if you don't feel the change in 30 days.",
+    "guarantee_badge": "Soulmar Satisfaction Guarantee • Lifetime Access",
+    "playing_badge": "PLAYING",
+    "content_tab": "Content",
+    "overview_tab": "Overview",
+    "notes_tab": "My Notes",
+    "next_lesson": "Next Lesson",
+    "skip": "Skip",
+    "end_of_course": "End of Course",
+    "ready_title": "Ready to start your transformation?",
+    "ready_desc": "Join {instructor} and take your radical well-being to the next level with {count} modules of self-discovery.",
+    "watch_free_sample": "Watch Free Sample",
+    "episodes": "Episodes",
+    "rating": "Rating",
+    "instructor": "Instructor",
+    "duration": "Duration",
+    "explore_all": "View All",
+    "search_results": "Search Results",
+    "no_results_found": "No courses or podcasts found matching your search.",
+    "clear_filters": "Clear all filters",
+    "cta_ready": "Ready to transform your well-being?",
+    "cta_desc": "Join thousands of people already improving their mental health with our expert courses.",
+    "cta_btn": "Start now for free",
+    "back_to_courses": "Back to Courses",
+    "description_title": "About this Course",
+    "curriculum_title": "Course Curriculum",
+    "enroll_now": "Enroll Now",
+    "instructor_bio_title": "About the Instructor",
+    "hero_slides": [
+      {
+        "title": "Welcome to SoulMar Academy",
+        "subtitle": "The Power of Inner Calm",
+        "instructor": "Dra. Mariana Caicedo"
+      },
+      {
+        "title": "Elevate your Mental Well-being",
+        "subtitle": "Positive Mental Reprogramming",
+        "instructor": "Dr. Moshé Musini"
+      },
+      {
+        "title": "Learn from the Best",
+        "subtitle": "Advanced Emotional Management",
+        "instructor": "Dra. Libertad Mejía"
+      }
+    ]
+  },
+  "dashboard": {
+    "user": {
+      "sidebar": {
+        "expand": "Expand",
+        "collapse": "Collapse"
+      },
+      "home": "Home",
+      "upcoming_sessions": "Upcoming Sessions",
+      "courses": "Courses",
+      "store": "Store",
+      "settings": "Settings",
+      "light_mode": "Light Mode",
+      "dark_mode": "Dark Mode",
+      "whatsapp_help": "WhatsApp Support",
+      "logout": "Log Out",
+      "standard_plan": "STANDARD",
+      "welcome": "Welcome, {name}",
+      "subtitle": "Your personal space for well-being and growth.",
+      "online": "ONLINE",
+      "stats": {
+        "sessions": "SESSIONS",
+        "courses": "COURSES",
+        "orders": "ORDERS"
+      },
+      "calendar": "Calendar",
+      "events": "EVENTS",
+      "no_events": "No scheduled events",
+      "next_session": "NEXT SESSION",
+      "individual_therapy": "Individual Clinical Therapy",
+      "minutes": "MINUTES",
+      "join_now": "Join now",
+      "my_courses": "My Courses",
+      "explore_all": "Explore all",
+      "progress": "progress",
+      "actions": "Quick Actions",
+      "book_session": "Book Session",
+      "choose_specialist": "CHOOSE YOUR SPECIALIST",
+      "go_to_store": "Go to Store",
+      "store_catalog": "SOULMAR CATALOG",
+      "therapist_note": "Therapist Note",
+      "therapist_note_default": "Hello Richard, I hope you are applying the breathing tools we discussed in the last session. See you soon.",
+      "respond_message": "RESPOND TO MESSAGE",
+      "therapists_title": "Your Therapists",
+      "documentation": "Documentation",
+      "drag_documents": "Drag your documents or medical history here",
+      "upload_files": "UPLOAD FILES",
+      "logout_confirm_title": "Do you want to leave?",
+      "logout_confirm_desc": "We will safely close your session.",
+      "confirm_logout": "Confirm logout",
+      "cancel": "Cancel",
+      "full_agenda": "Full Agenda",
+      "full_agenda_desc": "All your scheduled encounters in one place.",
+      "session_details": "Session Details",
+      "no_sessions_scheduled": "You don't have any upcoming sessions scheduled.",
+      "configuration": "Configuration",
+      "full_name": "FULL NAME",
+      "email_address": "EMAIL ADDRESS",
+      "save_changes": "Save Changes",
+      "therapists": {
+        "mariana_role": "CLINICAL PSYCHOLOGY (SPECIALIST)",
+        "libertad_role": "CLINICAL PSYCHOLOGY",
+        "moshe_role": "ORGANIZATIONAL PSYCHOLOGY"
+      },
+      "choose_color": "Choose a color",
+      "create_event": "CREATE EVENT",
+      "event_name": "Event name",
+      "event_placeholder": "E.g.: Meditation session",
+      "new_event_desc": "Add a custom event to your calendar.",
+      "new_event_title": "New Event",
+      "personal_event": "PERSONAL EVENT",
+      "save_event": "Save event",
+      "saving": "Saving...",
+      "scheduled_events": "Scheduled events",
+      "uploaded_files": "UPLOADED FILES",
+      "uploading": "UPLOADING...",
+      "calendar_days": {
+        "sun": "S",
+        "mon": "M",
+        "tue": "T",
+        "wed": "W",
+        "thu": "T",
+        "fri": "F",
+        "sat": "S"
+      },
+      "mock_courses": {
+        "ansiedad": "Anxiety Control",
+        "mindfulness": "Daily Mindfulness"
+      },
+      "mood_title": "How are you feeling today?",
+      "mood_subtitle": "Log your daily wellbeing",
+      "evolution_title": "Your Evolution",
+      "evolution_subtitle": "Last 7 days",
+      "avg_state": "Average State",
+      "select_date": "Select a date",
+      "available_slots": "Available slots",
+      "confirm_booking": "Confirm Booking",
+      "processing": "Processing...",
+      "booking_success": "Appointment Booked!",
+      "next_14_days": "Next 14 days"
+    },
+    "admin": {
+      "console": "Admin Console",
+      "super_admin": "Superadmin Mode",
+      "overview": "Overview",
+      "sales": "Sales",
+      "users": "Users",
+      "settings": "Settings",
+      "help_center": "Help Center",
+      "growth_title": "Platform Growth",
+      "growth_subtitle": "Total revenue vs subscriptions.",
+      "month": "Month",
+      "year": "Year",
+      "daily_checkout": "Daily Checkout",
+      "daily_goal": "Daily Goal",
+      "active_sessions": "Active Sessions",
+      "server_status": "Server",
+      "optimal": "OPTIMAL",
+      "recent_activity_title": "Recent Activity",
+      "recent_activity_subtitle": "Latest transactions and registrations.",
+      "table": {
+        "user": "User",
+        "activity": "Activity",
+        "status": "Status",
+        "total": "Total",
+        "completed": "Completed",
+        "pending": "Pending"
+      },
+      "activity": {
+        "purchase_kit": "Purchase - Meditation Kit",
+        "therapy_reservation": "Reservation - Therapy Session",
+        "course_subscription": "Subscription - Pro Course"
+      },
+      "menu": {
+        "dashboard": "Dashboard",
+        "operations": "Operations",
+        "content": "Content",
+        "people": "Therapists",
+        "analytics": "Analytics",
+        "monetization": "Monetization",
+        "cms": "CMS Manager",
+        "settings": "Settings"
+      },
+      "logout": "Log Out",
+      "logout_confirm": {
+        "title": "Log Out?",
+        "desc": "Are you sure you want to log out? You will need to enter your credentials again.",
+        "confirm": "Log Out",
+        "cancel": "Cancel"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "view_all": "View all",
+        "types": {
+          "new_sub": "New subscription: Premium Plan",
+          "new_booking": "Appointment booked: {name}",
+          "consultation_done": "Consultation done: {name}"
+        },
+        "time": {
+          "min": "{count} min ago",
+          "hour": "{count} hour ago"
+        }
+      },
+      "role_admin": "Administrator",
+      "login": {
+        "title": "Welcome to Soulmar Admin Panel",
+        "subtitle": "Enter your credentials to access the system",
+        "email_label": "Corporate Email",
+        "password_label": "Password",
+        "forgot_password": "Forgot your password?",
+        "login_btn": "Log In",
+        "processing": "Processing...",
+        "or_continue": "Or continue with",
+        "google": "Google",
+        "apple": "Apple",
+        "secure_system": "Soulmar Secure System v2.0",
+        "errors": {
+          "denied": "Access denied. This account does not have administrator permissions.",
+          "failed": "Login failed. Please verify your credentials.",
+          "social_failed": "Error in social authentication."
+        }
+      }
+    },
+    "therapist": {
+      "stats": {
+        "today_sessions": "Sessions today",
+        "total_patients": "Total patients",
+        "monthly_income": "Monthly income",
+        "avg_rating": "Avg Rating",
+        "monthly_hours": "Monthly hours",
+        "pending_messages": "Pending messages"
+      },
+      "role_label": "Soulmar Specialist",
+      "search_placeholder": "Search patient, session or message...",
+      "patients": "Patients",
+      "reports": "Reports",
+      "sessions_title": "Upcoming Sessions",
+      "view_calendar": "View Full Calendar",
+      "patient_waiting": "PATIENT WAITING",
+      "enter_session": "Join Session",
+      "view_details": "View Details",
+      "messages": {
+        "title": "Messages",
+        "chats_title": "Chats",
+        "j_perez": "Hi Dr., I wanted to confirm the link for tomorrow's session. Is it the same?",
+        "c_g": "Could we move Thursday's appointment earlier?",
+        "select_chat_instruction": "Select a chat to start",
+        "no_active_patients": "No active patients."
+      },
+      "go_to_chat": "Go to Chat",
+      "performance_title": "Monthly Performance",
+      "vs_last_month": "vs last month",
+      "agenda_title": "My Radical Agenda",
+      "agenda_soulmar": "My Soulmar Agenda",
+      "agenda_desc": "Soon you will be able to manage your availability blocks and synchronization with Google/Apple Calendar here.",
+      "agenda_coming_soon": "We are building an intelligent scheduling tool. Soon you will be able to sync your external calendars here.",
+      "back_to_overview": "Back to Overview",
+      "new_session": "Create New Session",
+      "greeting": "Hello, {name}!",
+      "today_summary": "You have {count} sessions scheduled for today. The first one starts in {min} minutes.",
+      "sessions_types": {
+        "first_session": "First Session",
+        "follow_up": "Follow-up",
+        "couple": "Couple Therapy"
+      },
+      "clinical_directory": "Clinical Directory",
+      "manage_patients_desc": "Manage your database of active patients.",
+      "link_patient": "Link Patient",
+      "patient_label": "Patient",
+      "message_btn": "Message",
+      "history_btn": "History",
+      "view_patients": "View Patients"
+    },
+    "chat": {
+      "empty_title": "Start the conversation!",
+      "empty_subtitle": "Send a message to {therapistName}",
+      "online": "ONLINE",
+      "placeholder": "Write a message..."
+    }
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Log in to your account to continue your process",
+    "forgot_password": "Forgot your password?",
+    "login_btn": "Log In",
+    "processing": "Processing...",
+    "continue_with": "Or continue with",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "facebook": "Continue with Facebook",
+    "no_account": "Don't have an account?",
+    "create_here": "Create one here"
+  },
+  "navbar": {
+    "switch_to_en": "CAMBIAR A INGLÉS",
+    "switch_to_es": "SWITCH TO SPANISH"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "subtitle": "Review your products and prepare to elevate your well-being.",
+    "empty_title": "Your cart is empty",
+    "empty_desc": "It seems you haven't added anything to your Soulmar collection yet.",
+    "explore": "Explore Shop",
+    "continue": "Continue shopping",
+    "secure_payment": "100% Secure and Encrypted Payment",
+    "summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "free": "FREE",
+    "total": "Total",
+    "tax_included": "VAT Included",
+    "coupon_label": "Discount Coupon",
+    "coupon_placeholder": "CODE",
+    "coupon_apply": "Apply",
+    "coupon_applied": "Applied",
+    "coupon_invalid": "Invalid code",
+    "coupon_try": "Try with",
+    "checkout": "Proceed to Checkout",
+    "product": "Product",
+    "products": "Products",
+    "shipping_free_remaining": "Spend {amount} more for free shipping",
+    "shipping_free_reached": "You've got Free Shipping!",
+    "encrypted_payment": "Encrypted Payment",
+    "promotion_title": "Special Promotion",
+    "promotion_desc": "Use code {code} for 20% off your first purchase.",
+    "secure_checkout_with": "Secure Checkout with"
+  },
+  "checkout": {
+    "steps": {
+      "shipping": "Shipping",
+      "payment": "Card Details",
+      "confirmation": "Confirmation",
+      "success": "Success"
+    },
+    "step_payment": "Card Details",
+    "empty_title": "Empty Cart",
+    "empty_desc": "There is nothing to pay.",
+    "empty_cta": "Go to store",
+    "error_generic": "An unexpected error occurred. Please try again or contact support.",
+    "shipping_title": "Shipping Information",
+    "secure_payment": "100% Secure Payment",
+    "shipping_subtitle": "Tell us where you want to receive your Soulmar products.",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "address": "Delivery Address",
+      "city": "City",
+      "phone": "Phone",
+      "placeholder_name": "John Doe",
+      "placeholder_address": "Street 123 #45-67, Apt 101",
+      "placeholder_city": "Bogota"
+    },
+    "payment_title": "Payment Method",
+    "payment_subtitle": "100% secure transaction",
+    "card_title": "Credit / Debit Card",
+    "card_name": "Cardholder Name",
+    "card_number": "Card Number",
+    "card_expiry": "MM/YY",
+    "card_cvv": "CVV",
+    "secure_note": "Active bank-grade encryption",
+    "back": "Back",
+    "pay_now": "Pay {amount}",
+    "your_purchase": "Your Purchase",
+    "view_order": "View Order",
+    "back_to_home": "Continue Shopping",
+    "receipt": {
+      "title": "Order Receipt",
+      "subtitle": "Official details of your Soulmar transaction.",
+      "order_id": "Order ID",
+      "date": "Date",
+      "customer": "Customer Details",
+      "courier": "Shipping via Coordinadora or Servientrega",
+      "summary": "Purchase Summary",
+      "download": "Download Receipt",
+      "send_whatsapp": "Send to WhatsApp",
+      "send_email": "Send to Email",
+      "sending": "Sending...",
+      "sent_success": "Sent successfully!"
+    },
+    "shipping_note": "Priority **FREE** shipping included in your purchase for all of Colombia.",
+    "success_title": "Thank you for your purchase!",
+    "success_subtitle": "Your order has been processed. You will receive an email with shipping details in a few minutes.",
+    "estimated_shipping": "ESTIMATED SHIPPING",
+    "estimated_shipping_date": "ESTIMATED SHIPPING DATE",
+    "estimated_date": "March 24 - 28, 2026",
+    "order_badge": "Order #SM-4921 Confirmed",
+    "shipping_status_label": "Shipping Status",
+    "shipping_status_value": "Preparing",
+    "status_note": "We will send updates to your email so you can track your Soulmar Kit on its way.",
+    "go_home": "Back to Home",
+    "next_steps": "Next Steps",
+    "step_review": "Order Review",
+    "step_packaging": "Sustainable Packaging",
+    "step_shipment": "Journey Home",
+    "processing": "Processing...",
+    "steps_label": "Steps"
+  },
+  "shop": {
+    "title": "Soulmar Shop",
+    "subtitle": "Products created to elevate your daily practice and bring calm to your personal space.",
+    "search_placeholder": "Search products...",
+    "add_to_cart": "Add to Cart",
+    "back_to_shop": "Back to Shop",
+    "description": "Product Description",
+    "details_title": "Product Details",
+    "related_products": "Related Products",
+    "explore_all": "Explore all",
+    "categories": {
+      "all": "All",
+      "accessories": "Accessories",
+      "clothing": "Clothing",
+      "souvenirs": "Souvenirs",
+      "ebooks": "Ebooks"
+    },
+    "product_not_found": "Product not found",
+    "products_word": "Products",
+    "start": "Home",
+    "shop": "Shop",
+    "reviews": "reviews",
+    "save": "SAVE",
+    "product_desc_fallback": "An essential piece designed under the Soulmar philosophy. Noble materials, ethical processes, and a minimalist aesthetic that elevates any meditation or rest space.",
+    "quantity": "Quantity",
+    "max_units": "Max 10 units",
+    "free_shipping": "Free Shipping",
+    "guarantee": "Guarantee",
+    "months": "Months",
+    "changes": "Exchanges",
+    "days": "Days",
+    "quote": "Simplicity is the ultimate sophistication.",
+    "detail_desc": "Every detail of this product has been refined through multiple iterations to ensure a unique sensory experience. We use responsibly sourced materials that not only look good in your home but respect the environment they come from.",
+    "specs": {
+      "material": "Material",
+      "dimensions": "Dimensions",
+      "weight": "Weight",
+      "finish": "Finish",
+      "care": "Care",
+      "origin": "Origin"
+    },
+    "priority_shipping": "Soulmar Priority Shipping",
+    "priority_desc": "Your order will be processed in 24h. We offer free delivery throughout Colombia for a limited time. You will receive a tracking link via WhatsApp.",
+    "hero_badge": "SOULMAR COLLECTION",
+    "hero_title": "Objects that elevate\nyour consciousness.",
+    "hero_subtitle": "Minimalist design and deep purpose in every piece of our curated collection.",
+    "hero_cta": "Explore Selection",
+    "new_drops": "New Drops",
+    "all_products": "All Products",
+    "featured": "Featured",
+    "buy_now": "Buy now",
+    "add_to_wishlist": "Add to wishlist",
+    "remove_from_wishlist": "Remove from wishlist",
+    "no_results": "We couldn't find products matching your search.",
+    "bring_calm": "Bring calm to your home.",
+    "subscribe_desc": "Subscribe to receive early access to our new collections and exclusive content.",
+    "subscribe_btn": "Subscribe",
+    "products": {
+      "cap": "Soulmar Premium Cap",
+      "hoodie": "Soulmar Camp Hoodie",
+      "shirt": "Soulmar Camp T-Shirt",
+      "bracelet": "Hand-Knit Point Bracelet",
+      "ebook_anxiety": "E-Book: Anxiety Relief",
+      "ebook_depression": "E-Book: Overcoming Depression",
+      "ebook_mindset": "E-Book: Power Mindset",
+      "notebooks": "Soulmar Premium Agendas"
+    }
+  },
+  "booking": {
+    "badge": "Radical Well-being",
+    "title": "Book your Session",
+    "tagline": "Follow the steps to confirm your appointment with our specialists.",
+    "steps": {
+      "specialist": "1",
+      "date": "2",
+      "time": "3",
+      "pricing": "4",
+      "details": "5",
+      "review": "6",
+      "success": "7"
+    },
+    "step_labels": {
+      "specialist": "Specialist",
+      "date": "Calendar",
+      "time": "Slots",
+      "pricing": "Summary",
+      "details": "Details",
+      "review": "Review",
+      "success": "Success"
+    },
+    "choose_specialist": "Select your therapist",
+    "specialist_desc": "Choose the professional that best fits your current needs.",
+    "price_per_session": "Session Price",
+    "choose_time": "Choose Time",
+    "select_time": "Select your Time",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "find_moment": "Find Your Moment",
+    "agenda_with": "Book with {name} by choosing an available day and time.",
+    "available_hours": "Available Hours",
+    "select_day_first": "Select a day to see available hours",
+    "back": "Back",
+    "next": "Next",
+    "confirm_data": "Confirm Details",
+    "finish_booking": "Finalize Your Appointment",
+    "finish_desc": "Review the details and complete your registration to secure your space.",
+    "price_summary_title": "Price Summary",
+    "price_summary_desc": "Detail of services and professional fees.",
+    "final_review_title": "Final Review",
+    "final_review_desc": "Confirm all information is correct before booking.",
+    "footer_disclaimer": "By continuing, you accept our cancellation and privacy policies.",
+    "date": "Date",
+    "hour": "Time",
+    "modality": "Modality",
+    "private_video": "Online session via Meet",
+    "full_name": "Full Name",
+    "name_placeholder": "Your name",
+    "whatsapp_link": "WhatsApp for the Link",
+    "total": "Total",
+    "total_usd": "Total USD",
+    "confirm_btn": "Confirm Appointment",
+    "encryption": "256-bit Encryption",
+    "certified_payment": "Certified Payment",
+    "success": {
+      "badge": "APPOINTMENT CONFIRMED • ID: B7Q9X",
+      "title": "All set for your session!",
+      "description": "We have sent the details of your appointment with {name} to your WhatsApp and email.",
+      "date": "Date",
+      "time": "Time",
+      "link": "Link",
+      "whatsapp": "WhatsApp",
+      "whatsapp_link_short": "WhatsApp",
+      "go_to_panel": "Go to my Panel",
+      "go_home": "Back to Home"
+    },
+    "sidebar": {
+      "why_soulmar": "Why Soulmar?",
+      "points": [
+        "Certified therapists with radical experience.",
+        "Private sessions with end-to-end encryption.",
+        "Total flexibility to reschedule up to 24h before.",
+        "Total integration with your well-being dashboard."
+      ],
+      "support": "24/7 Support",
+      "support_desc": "Have questions about how to book? Write to us directly via WhatsApp and we'll help you in real time.",
+      "chat_now": "Chat with us →"
+    },
+    "therapists": {
+      "mariana": "Clinical Psychology (Specialist)",
+      "moshe": "Organizational Psychology",
+      "libertad": "Clinical Psychology"
+    }
+  },
+  "auth": {
+    "register_title": "Create your account",
+    "register_subtitle": "Join our mental well-being community.",
+    "or_register_with": "OR REGISTER WITH",
+    "google": "Register with Google",
+    "apple": "Register with Apple",
+    "facebook": "Register with Facebook",
+    "step1": "Basic Details",
+    "step2": "Interests",
+    "step3": "Security",
+    "full_name": "Full Name",
+    "email": "Email Address",
+    "interests_title": "What interests you?",
+    "interests_subtitle": "We will personalize your experience based on your tastes.",
+    "interest_labels": {
+      "meditation": "Meditation",
+      "therapy": "Therapy",
+      "retreats": "Soulmar Camp",
+      "courses": "Courses",
+      "community": "Community"
+    },
+    "password": "Password",
+    "phone": "WhatsApp (Optional)",
+    "processing": "Processing...",
+    "complete": "Complete Registration",
+    "has_account": "Already have an account?",
+    "login": "Login",
+    "success_title": "Registration Successful!",
+    "success_message": "Welcome to Soulmar, {name}. Your path to well-being has begun.",
+    "start_now": "Start now",
+    "forgot_password_title": "Forgot your password?",
+    "forgot_password_desc": "Enter your email and we'll send you a recovery link.",
+    "send_reset_link": "Send recovery link",
+    "reset_link_sent": "Link sent! Check your inbox.",
+    "reset_password_title": "Reset Password",
+    "reset_password_desc": "Enter your new password to regain access.",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "update_password_btn": "Update Password",
+    "password_updated_success": "Password updated successfully. You can now login.",
+    "notif_success_email": "A welcome email has been sent.",
+    "notif_success_whatsapp": "A notification has been sent to your WhatsApp."
+  },
+  "footer": {
+    "newsletter_title": "Join our newsletter",
+    "newsletter_desc": "Receive weekly tips on mental well-being and exclusive invitations to our events.",
+    "placeholder_email": "your@email.com",
+    "subscribe_btn": "Subscribe",
+    "privacy_accept": "By subscribing, you accept our Privacy Policy. We do not spam.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "cookies": "Cookies",
+    "rights": "© 2026 Soulmar Digital Platform. All rights reserved."
+  },
+  "retreats": {
+    "hero": {
+      "badge": "COMING SOON 2026",
+      "title": "Breathe.\nReconnect.\nReborn.",
+      "subtitle": "Immersive experiences in nature designed for the soul's rest and the awakening of consciousness.",
+      "cta": "See Upcoming Destinations"
+    },
+    "intro": {
+      "title": "More than a trip, {span}",
+      "span": "an encounter with yourself.",
+      "desc": "Our retreats are sacred spaces where time stands still. We integrate clinical psychology, mindfulness practices, and radical connection with the natural environment.",
+      "features": [
+        "Carefully selected natural environments",
+        "Expert guidance by psychologists and facilitators",
+        "Conscious and balanced nutrition"
+      ]
+    },
+    "gallery": {
+      "title": "Upcoming retreats",
+      "subtitle": "Choose the environment that most resonates with your current state.",
+      "tags": {
+        "level1": "Level 1",
+        "mindfulness": "Mindfulness",
+        "relaxation": "Relaxation",
+        "community": "Community",
+        "transformation": "Transformation",
+        "intense": "Intense"
+      },
+      "items": {
+        "mountain": {
+          "name": "Silence in the Mountain",
+          "loc": "Suesca, Colombia",
+          "date": "May 15-18"
+        },
+        "sea": {
+          "name": "Calm by the Sea",
+          "loc": "Palomino, La Guajira",
+          "date": "July 10-14"
+        },
+        "jungle": {
+          "name": "Reborn in the Jungle",
+          "loc": "Amazonas, Colombia",
+          "date": "October 05-12"
+        }
+      }
+    },
+    "pricing": {
+      "title": "Experience Packages",
+      "subtitle": "Transparent pricing designed to offer you the maximum value in each encounter.",
+      "per_person": "/ person",
+      "popular_badge": "MOST REQUESTED",
+      "plans": {
+        "basic": {
+          "title": "Basic",
+          "price": "$850",
+          "features": [
+            "Shared accommodation",
+            "All meals",
+            "Group workshops",
+            "Work material"
+          ],
+          "button": "Book now"
+        },
+        "immersion": {
+          "title": "Immersion",
+          "price": "$1,450",
+          "features": [
+            "Private room",
+            "All premium meals",
+            "1:1 session with psychologist",
+            "Lifetime access to online courses",
+            "Welcome kit"
+          ],
+          "button": "Choose Immersion"
+        },
+        "vip": {
+          "title": "VIP / Corporate",
+          "price": "Enquire",
+          "features": [
+            "Personalized for teams",
+            "Dedicated facilitator",
+            "Post-Soulmar Camp follow-up",
+            "Exclusive locations"
+          ],
+          "button": "Contact Sales"
+        }
+      }
+    },
+    "cta": {
+      "title": "Have questions about the Soulmar Camp?",
+      "subtitle": "Our team is ready to help you find the best experience for your current moment.",
+      "whatsapp": "Chat on WhatsApp",
+      "contact": "Contact Form",
+      "enquire": "Enquire"
+    }
+  }
+}
