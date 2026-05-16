@@ -40,27 +40,29 @@ export function Navbar() {
           : "bg-transparent"
       )}
     >
-      <div className="container mx-auto px-6 h-full flex items-center justify-between">
+      <div className="container mx-auto px-6 h-full flex items-center">
         {/* LEFT: Logo */}
-        <Link href="/" className="flex items-center group">
-          <div className="relative w-40 h-10 group-hover:scale-105 transition-transform duration-300">
-            <Image 
-              src="/logo-horizontal.png" 
-              alt="Soulmar" 
-              fill
-              className="object-contain"
-              priority
-              sizes="160px"
-            />
-          </div>
-        </Link>
+        <div className="flex-1 flex items-center">
+          <Link href="/" className="flex items-center group">
+            <div className="relative w-40 h-10 group-hover:scale-105 transition-transform duration-300">
+              <Image 
+                src="/logo-horizontal.png" 
+                alt="Soulmar" 
+                fill
+                className="object-contain"
+                priority
+                sizes="160px"
+              />
+            </div>
+          </Link>
+        </div>
 
-        {/* CENTER: Desktop Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        {/* CENTER: Desktop Links (Absolutely Centered) */}
+        <nav className="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
           <Link
             href="/"
             className={cn(
-              "text-sm font-medium transition-colors hover:text-primary",
+              "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
               pathname === "/" ? "text-primary" : "text-foreground/80"
             )}
           >
@@ -71,7 +73,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
+                "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
                 pathname.startsWith(link.href)
                   ? "text-primary"
                   : "text-foreground/80"
@@ -83,7 +85,7 @@ export function Navbar() {
         </nav>
 
         {/* RIGHT: Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="flex-1 hidden md:flex items-center justify-end gap-4">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -100,7 +102,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="md:hidden flex items-center gap-2 ml-auto">
           <ThemeToggle />
           <Button
             variant="ghost"
