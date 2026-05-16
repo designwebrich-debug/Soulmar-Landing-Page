@@ -12,14 +12,25 @@ export function TestimonialsSection() {
     <Section className="py-32 bg-surface dark:bg-[#0b0b0c]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-center mb-12">
+          {/* Light Mode Image */}
           <Image 
-            src="/images/testimonials-header.png" 
-            alt="Soulmar Testimonials"
+            src="/images/soulmar1.png" 
+            alt="Soulmar Testimonials Light"
             width={1024}
             height={757}
             quality={100}
             unoptimized={true}
-            className="w-full max-w-[1024px] h-auto object-contain"
+            className="w-full max-w-[1024px] h-auto object-contain dark:hidden"
+          />
+          {/* Dark Mode Image */}
+          <Image 
+            src="/images/soulmar2.png" 
+            alt="Soulmar Testimonials Dark"
+            width={1024}
+            height={757}
+            quality={100}
+            unoptimized={true}
+            className="w-full max-w-[1024px] h-auto object-contain hidden dark:block"
           />
         </div>
         <SectionHeading 
