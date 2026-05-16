@@ -60,17 +60,17 @@ export function HighlightCarousel() {
 
   return (
     <section className="w-full bg-background dark:bg-[#0b0b0c] py-16 transition-colors duration-500">
-      <div className="max-w-[1099px] mx-auto px-6 mb-8">
+      <div className="max-w-7xl mx-auto px-6 mb-8">
          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#111111] dark:text-[#f5f5f7]">
             {t('home.highlights_title') || "Mira lo más destacado."}
          </h2>
       </div>
 
-      <div className="relative max-w-[1099px] mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-6">
         <div 
           className={cn(
             "relative w-full overflow-hidden rounded-[20px] group border border-black/5 dark:border-white/5",
-            "h-[160px] md:h-auto md:aspect-[1099/237]",
+            "h-[160px] md:h-auto md:aspect-[1280/276]",
             "shadow-[0_8px_40px_rgba(0,0,0,0.12)]"
           )}
         >
@@ -95,7 +95,7 @@ export function HighlightCarousel() {
                   fill
                   className="object-cover"
                   priority
-                  sizes="(max-width: 1099px) 100vw, 1099px"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                 />
               </Link>
             </motion.div>
