@@ -95,6 +95,7 @@ export function HighlightCarousel() {
                   fill
                   className="object-cover"
                   priority
+                  quality={100}
                   sizes="(max-width: 1280px) 100vw, 1280px"
                 />
               </Link>
