@@ -46,7 +46,7 @@ export function ServicesSection() {
           </Link>
           
           {/* Card 2: Soulmar Brand */}
-          <Link href="/shop" className="group relative h-full block">
+          <Link href="/#soulmar-brand" className="group relative h-full block">
             <div className="absolute inset-0 bg-gradient-to-br from-[#ffc971]/20 to-transparent rounded-[3rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <div className="relative bg-white/40 dark:bg-white/[0.03] backdrop-blur-2xl rounded-[3rem] p-12 flex flex-col items-center text-center border border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_100px_rgba(255,201,113,0.15)] transition-all duration-700 hover:-translate-y-2 cursor-pointer h-full">
               <div className="w-24 h-24 rounded-3xl bg-[#ffc971] flex items-center justify-center mb-12 shadow-2xl shadow-[#ffc971]/30 transform group-hover:rotate-12 transition-transform duration-500">
