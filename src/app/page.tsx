@@ -11,8 +11,6 @@ export const metadata: Metadata = {
 const ServicesSection = dynamic(() => import("@/components/home/ServicesSection").then(mod => mod.ServicesSection))
 const HighlightCarousel = dynamic(() => import("@/components/home/HighlightCarousel").then(mod => mod.HighlightCarousel))
 const TherapistsSection = dynamic(() => import("@/components/home/TherapistsSection").then(mod => mod.TherapistsSection))
-const EbookSection = dynamic(() => import("@/components/home/EbookSection").then(mod => mod.EbookSection))
-const WellnessCoursesSection = dynamic(() => import("@/components/home/WellnessCoursesSection").then(mod => mod.WellnessCoursesSection))
 const TestimonialsSection = dynamic(() => import("@/components/home/TestimonialsSection").then(mod => mod.TestimonialsSection))
 const NewsletterSection = dynamic(() => import("@/components/home/NewsletterSection").then(mod => mod.NewsletterSection))
 const FooterSection = dynamic(() => import("@/components/home/FooterSection").then(mod => mod.FooterSection))
@@ -31,12 +29,6 @@ export default function Home() {
 
       {/* SECTION 3: FEATURED THERAPISTS (Apple Style) */}
       <TherapistsSection />
-
-      {/* SECTION: PREMIUM EBOOKS (Floating Cards) */}
-      <EbookSection />
-
-      {/* SECTION 4: WELLNESS COURSES (Apple Style) */}
-      <WellnessCoursesSection />
 
       {/* SECTION 5: TESTIMONIALS (Apple Music Style Highlights) */}
       <TestimonialsSection />

@@ -98,17 +98,9 @@ export function FooterSection() {
               </Link>
             </div>
             
-            <div className="h-4 w-px bg-border hidden md:block"></div>
-            
-            <Link 
-              href="/panel-admin/login" 
-              className="text-[9px] font-bold uppercase tracking-[0.15em] text-foreground/10 hover:text-primary transition-colors duration-300"
-            >
-              {t('common.admin')}
-            </Link>
+            </div>
           </div>
         </div>
-      </div>
     </footer>
   )
 }

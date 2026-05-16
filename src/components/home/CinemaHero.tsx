@@ -88,15 +88,6 @@ export function CinemaHero() {
                 {t('hero.cta_primary')}
               </Button>
             </Link>
-            <Link href="/courses" className="w-full sm:w-auto">
-              <Button 
-                variant="outline"
-                size="xl" 
-                className="w-full sm:w-auto bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-secondary-yellow hover:border-secondary-yellow hover:text-black rounded-full px-12 h-16 text-lg font-medium tracking-tight shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95"
-              >
-                {t('hero.cta_secondary')}
-              </Button>
-            </Link>
           </motion.div>
         </motion.div>
       </div>

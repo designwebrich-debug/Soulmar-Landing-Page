@@ -18,9 +18,7 @@ interface Slide {
 
 const slides: Slide[] = [
   { id: 1, image: "/images/highlights/human-connections.png", link: "/book", hoverColor: "blue" },
-  { id: 2, image: "/images/highlights/academy.png", link: "/courses", hoverColor: "yellow" },
   { id: 3, image: "/images/highlights/camp_v4.png", link: "/retreats", hoverColor: "blue" },
-  { id: 4, image: "/images/highlights/purpose_v4.png", link: "/shop", hoverColor: "yellow" }
 ]
 
 export function HighlightCarousel() {
