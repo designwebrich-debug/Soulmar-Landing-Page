@@ -11,7 +11,7 @@ export function TestimonialsSection() {
   return (
     <Section className="py-32 bg-surface dark:bg-[#0b0b0c]">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-center mb-12">
+        <div id="soulmar-brand" className="flex justify-center mb-12 scroll-mt-32">
           {/* Light Mode Image */}
           <Image 
             src="/images/soulmar2.png" 
