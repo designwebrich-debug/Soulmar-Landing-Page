@@ -15,9 +15,9 @@ export function TestimonialsSection() {
           <Image 
             src="/images/soulmar-devices.png" 
             alt="Soulmar Products on Devices" 
-            width={1280} 
-            height={946} 
-            className="w-full max-w-7xl h-auto drop-shadow-2xl"
+            width={1024} 
+            height={757} 
+            className="w-full max-w-5xl h-auto drop-shadow-2xl"
             quality={100}
             unoptimized={true}
           />
