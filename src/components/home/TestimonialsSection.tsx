@@ -14,7 +14,7 @@ export function TestimonialsSection() {
         <div className="flex justify-center mb-12">
           {/* Light Mode Image */}
           <Image 
-            src="/images/soulmar1.png" 
+            src="/images/soulmar2.png" 
             alt="Soulmar Testimonials Light"
             width={1024}
             height={757}
@@ -24,7 +24,7 @@ export function TestimonialsSection() {
           />
           {/* Dark Mode Image */}
           <Image 
-            src="/images/soulmar2.png" 
+            src="/images/soulmar1.png" 
             alt="Soulmar Testimonials Dark"
             width={1024}
             height={757}
