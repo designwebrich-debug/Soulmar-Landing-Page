@@ -27,6 +27,10 @@ export function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
+    
+    // Check initial scroll position on mount (fixes transparent background after refresh)
+    handleScroll()
+    
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
