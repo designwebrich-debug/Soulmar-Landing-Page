@@ -13,6 +13,7 @@ import { useTranslation } from "@/context/LanguageContext"
 import { useAuth } from "@/context/AuthContext"
 
 const navLinks = [
+  { key: "brand", href: "/shop" },
   { key: "retreats", href: "/retreats" },
 ]
 
