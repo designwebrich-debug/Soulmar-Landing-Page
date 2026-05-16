@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 
 // Dynamic imports for below-the-fold or heavy components
 const ServicesSection = dynamic(() => import("@/components/home/ServicesSection").then(mod => mod.ServicesSection))
-const HighlightCarousel = dynamic(() => import("@/components/home/HighlightCarousel").then(mod => mod.HighlightCarousel))
 const TherapistsSection = dynamic(() => import("@/components/home/TherapistsSection").then(mod => mod.TherapistsSection))
 const TestimonialsSection = dynamic(() => import("@/components/home/TestimonialsSection").then(mod => mod.TestimonialsSection))
 const NewsletterSection = dynamic(() => import("@/components/home/NewsletterSection").then(mod => mod.NewsletterSection))
@@ -21,12 +20,9 @@ export default function Home() {
       {/* SECTION 0: CINEMATIC HERO (Director's Cut) */}
       <CinemaHero />
 
-      {/* SECTION 1: SERVICES (Nano Banana Glass Style) */}
+      {/* SECTION 1: SERVICES (Includes Highlight Carousel nested inside) */}
       <ServicesSection />
   
-      {/* SECTION: HIGHLIGHT CAROUSEL (Apple Style Highlights) */}
-      <HighlightCarousel />
-
       {/* SECTION 3: FEATURED THERAPISTS (Apple Style) */}
       <TherapistsSection />
 
