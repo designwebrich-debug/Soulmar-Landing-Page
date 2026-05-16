@@ -11,6 +11,17 @@ export function TestimonialsSection() {
   return (
     <Section className="py-32 bg-surface dark:bg-[#0b0b0c]">
       <div className="max-w-7xl mx-auto px-6">
+        <div className="flex justify-center mb-16">
+          <Image 
+            src="/images/soulmar-devices.png" 
+            alt="Soulmar Products on Devices" 
+            width={1024} 
+            height={576} 
+            className="w-full max-w-5xl h-auto drop-shadow-2xl"
+            quality={100}
+            unoptimized={true}
+          />
+        </div>
         <SectionHeading 
           title={t('home.testimonials_title') as string} 
           subtitle={t('home.testimonials_subtitle') as string}
