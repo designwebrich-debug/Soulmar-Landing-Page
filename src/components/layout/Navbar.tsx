@@ -66,7 +66,7 @@ export function Navbar() {
           <Link
             href="/"
             className={cn(
-              "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+              "text-sm font-medium transition-all duration-300 hover:text-primary whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-md px-2 py-1",
               pathname === "/" ? "text-primary" : "text-foreground/80"
             )}
           >
@@ -77,7 +77,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                "text-sm font-medium transition-all duration-300 hover:text-primary whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-md px-2 py-1",
                 pathname.startsWith(link.href)
                   ? "text-primary"
                   : "text-foreground/80"
