@@ -23,6 +23,21 @@ export function Navbar() {
   const pathname = usePathname()
   const { language, setLanguage, t } = useTranslation()
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname !== "/") return // Only intercept if we are already on the home page
+
+    if (href === "/") {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      setMobileMenuOpen(false)
+    } else if (href.startsWith("/#")) {
+      e.preventDefault()
+      const id = href.replace("/#", "")
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+      setMobileMenuOpen(false)
+    }
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
@@ -61,10 +76,10 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* CENTER: Desktop Links (Absolutely Centered) */}
         <nav className="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
           <Link
             href="/"
+            onClick={(e) => handleNavClick(e, "/")}
             className={cn(
               "text-sm font-medium transition-all duration-300 hover:text-primary whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-md px-2 py-1",
               pathname === "/" ? "text-primary" : "text-foreground/80"
@@ -76,6 +91,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className={cn(
                 "text-sm font-medium transition-all duration-300 hover:text-primary whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-md px-2 py-1",
                 pathname.startsWith(link.href)
@@ -122,12 +138,24 @@ export function Navbar() {
       {/* Mobile Nav */}
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border shadow-lg py-4 px-6 flex flex-col gap-4 animate-in slide-in-from-top-2">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-2 text-lg font-medium">{t('common.home')}</Link>
+          <Link 
+            href="/" 
+            onClick={(e) => handleNavClick(e, "/")} 
+            className="py-2 text-lg font-medium"
+          >
+            {t('common.home')}
+          </Link>
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                if (pathname === "/") {
+                  handleNavClick(e, link.href);
+                } else {
+                  setMobileMenuOpen(false);
+                }
+              }}
               className="py-2 text-lg font-medium"
             >
               {t(`common.${link.key}`)}
