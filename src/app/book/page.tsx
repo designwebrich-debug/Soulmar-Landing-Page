@@ -14,7 +14,9 @@ import {
   ShieldCheck,
   Video,
   ArrowRight,
-  Loader2
+  Loader2,
+  Sparkles,
+  HeartHandshake
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -26,8 +28,10 @@ import { Label } from "@/components/ui/Label"
 import { cn, formatPrice, formatCOPtoUSD } from "@/lib/utils"
 import { WHATSAPP_PHONE } from "@/lib/constants"
 
+type SessionType = "evaluation_15min" | "full_session"
+
 interface Therapist {
-  id: number;
+  id: string; // Changed to string for UUID simulation
   name: string;
   specKey: string;
   rating: string;
@@ -39,7 +43,7 @@ interface Therapist {
 
 const THERAPISTS: Therapist[] = [
   { 
-    id: 1, 
+    id: "uuid-1", 
     name: "Dra. Mariana Caicedo", 
     specKey: "mariana", 
     rating: "5.0", 
@@ -49,7 +53,7 @@ const THERAPISTS: Therapist[] = [
     bio: "Psicóloga clínica con +10 años de experiencia. Especialista en terapia cognitivo-conductual y bienestar integral."
   },
   { 
-    id: 2, 
+    id: "uuid-2", 
     name: "Dra. Libertad Mejía", 
     specKey: "libertad", 
     rating: "4.9", 
@@ -59,7 +63,7 @@ const THERAPISTS: Therapist[] = [
     bio: "Especialista en psicología clínica con enfoque en regulación emocional y procesos de duelo."
   },
   { 
-    id: 3, 
+    id: "uuid-3", 
     name: "Dr. Moshé Musini", 
     specKey: "moshe", 
     rating: "4.8", 
@@ -79,11 +83,16 @@ export default function BookingPage() {
   const { t, language } = useTranslation()
   const [step, setStep] = useState(1)
   const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(null)
+  const [sessionType, setSessionType] = useState<SessionType>("full_session")
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  // Personal Data State
+  const [personalData, setPersonalData] = useState({ name: '', email: '', phone: '' })
 
   useEffect(() => {
     if (isSuccess) {
@@ -96,8 +105,11 @@ export default function BookingPage() {
     }
   }, [isSuccess])
 
-  const nextStep = () => setStep(s => Math.min(s + 1, 7))
-  const prevStep = () => setStep(s => Math.max(s - 1, 1))
+  const nextStep = () => setStep(s => Math.min(s + 1, 8))
+  const prevStep = () => {
+      setErrorMessage(null)
+      setStep(s => Math.max(s - 1, 1))
+  }
 
   // CALENDAR LOGIC
   const daysInMonth = useMemo(() => {
@@ -117,11 +129,43 @@ export default function BookingPage() {
 
   const handleBooking = async () => {
     setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    setIsLoading(false)
-    setStep(7)
-    setIsSuccess(true)
+    setErrorMessage(null)
+
+    try {
+      const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+              therapistId: selectedTherapist?.id,
+              sessionType,
+              date: new Date(`${selectedDate?.toISOString().split('T')[0]}T${selectedTime}`).toISOString(), // Simplified date merging
+              user: personalData
+          })
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+          throw new Error(data.error || 'Ocurrió un error al procesar tu solicitud.')
+      }
+
+      if (sessionType === 'full_session' && data.init_point) {
+          // Redirect to Mercado Pago
+          window.location.href = data.init_point
+      } else {
+          // Free evaluation success
+          setStep(8)
+          setIsSuccess(true)
+      }
+
+    } catch (error: any) {
+        setErrorMessage(error.message)
+    } finally {
+        setIsLoading(false)
+    }
   }
+
+  const finalPrice = sessionType === 'evaluation_15min' ? 0 : (selectedTherapist?.price || 0)
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-12 px-6 bg-surface/30">
@@ -143,7 +187,7 @@ export default function BookingPage() {
             <p className="text-foreground/60">{t('booking.tagline')}</p>
         </div>
 
-        {/* 7-STEP PROGRESS INDICATOR */}
+        {/* PROGRESS INDICATOR */}
         {!isSuccess && (
           <div className="flex items-center justify-between mb-8 max-w-[400px] mx-auto py-2 px-1">
               {[1, 2, 3, 4, 5, 6, 7].map((s) => (
@@ -219,8 +263,65 @@ export default function BookingPage() {
                             </div>
                         )}
 
-                        {/* STEP 2: CALENDAR */}
+                        {/* STEP 2: SESSION TYPE (NEW) */}
                         {step === 2 && (
+                            <div className="space-y-6">
+                                <div className="text-center space-y-2">
+                                    <h2 className="text-xl font-bold">Tipo de Sesión</h2>
+                                    <p className="text-sm text-foreground/60">¿Cómo deseas comenzar tu camino con {selectedTherapist?.name}?</p>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <button
+                                        onClick={() => setSessionType("evaluation_15min")}
+                                        className={cn(
+                                            "w-full flex flex-col p-6 rounded-2xl border-2 transition-all text-left",
+                                            sessionType === "evaluation_15min" 
+                                                ? "border-emerald-500 bg-emerald-500/5 shadow-inner" 
+                                                : "border-surface hover:border-emerald-500/30"
+                                        )}
+                                    >
+                                        <div className="flex justify-between items-center w-full mb-2">
+                                            <div className="flex items-center gap-2">
+                                                <Sparkles className="w-5 h-5 text-emerald-500" />
+                                                <h3 className="font-bold">Valoración 15 Minutos</h3>
+                                            </div>
+                                            <span className="text-xs font-bold bg-emerald-500 text-white px-2 py-1 rounded-md">GRATIS</span>
+                                        </div>
+                                        <p className="text-sm text-foreground/70">Una llamada breve para conocer a tu terapeuta, alinear objetivos y entender cómo puede ayudarte. (Limitado a 1 por paciente).</p>
+                                    </button>
+
+                                    <button
+                                        onClick={() => setSessionType("full_session")}
+                                        className={cn(
+                                            "w-full flex flex-col p-6 rounded-2xl border-2 transition-all text-left",
+                                            sessionType === "full_session" 
+                                                ? "border-primary bg-primary/5 shadow-inner" 
+                                                : "border-surface hover:border-primary/30"
+                                        )}
+                                    >
+                                        <div className="flex justify-between items-center w-full mb-2">
+                                            <div className="flex items-center gap-2">
+                                                <HeartHandshake className="w-5 h-5 text-primary" />
+                                                <h3 className="font-bold">Sesión Completa</h3>
+                                            </div>
+                                            <span className="text-sm font-bold text-primary">{formatPrice(selectedTherapist?.price || 0)}</span>
+                                        </div>
+                                        <p className="text-sm text-foreground/70">Sesión clínica profunda de 60 minutos. Trabajo terapéutico directo, herramientas y plan de acción.</p>
+                                    </button>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <Button variant="ghost" className="flex-1 h-12 rounded-full hover:bg-secondary-yellow transition-all dark:hover:text-black" onClick={prevStep}>{t('booking.back')}</Button>
+                                    <Button className="flex-[2] h-12 rounded-full shadow-lg" onClick={nextStep}>
+                                        {language === 'es' ? 'Siguiente' : 'Next'} <ArrowRight className="ml-2 w-5 h-5" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* STEP 3: CALENDAR */}
+                        {step === 3 && (
                             <div className="space-y-6">
                                 <div className="text-center space-y-2">
                                     <h2 className="text-xl font-bold">{t('booking.find_moment')}</h2>
@@ -277,8 +378,8 @@ export default function BookingPage() {
                             </div>
                         )}
 
-                        {/* STEP 3: TIME SLOTS */}
-                        {step === 3 && (
+                        {/* STEP 4: TIME SLOTS */}
+                        {step === 4 && (
                             <div className="space-y-6">
                                 <div className="text-center space-y-2">
                                     <h2 className="text-xl font-bold">{t('booking.select_time')}</h2>
@@ -330,8 +431,8 @@ export default function BookingPage() {
                             </div>
                         )}
 
-                        {/* STEP 4: PRICE SUMMARY */}
-                        {step === 4 && (
+                        {/* STEP 5: PRICE SUMMARY */}
+                        {step === 5 && (
                             <div className="space-y-6">
                                 <div className="text-center space-y-2">
                                     <h2 className="text-xl font-bold">{t('booking.price_summary_title')}</h2>
@@ -345,23 +446,30 @@ export default function BookingPage() {
                                     </div>
                                     <div className="flex justify-between items-center text-sm">
                                         <div className="text-right">
-                                            <span className="block font-bold leading-none">{formatPrice(selectedTherapist?.price || 0)}</span>
-                                            <span className="block text-[10px] text-foreground/70 uppercase mt-1">({formatCOPtoUSD(selectedTherapist?.price || 0)})</span>
+                                            <span className="block font-bold leading-none">{formatPrice(finalPrice)}</span>
+                                            {finalPrice > 0 && <span className="block text-[10px] text-foreground/70 uppercase mt-1">({formatCOPtoUSD(finalPrice)})</span>}
                                         </div>
                                     </div>
                                     <div className="pt-4 border-t border-border flex justify-between items-end">
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold uppercase text-primary tracking-[0.05em]">{t('booking.total')}</span>
-                                            <h3 className="text-3xl font-bold tracking-[-0.022em] leading-none">{formatPrice(selectedTherapist?.price || 0)}</h3>
+                                            <h3 className="text-3xl font-bold tracking-[-0.022em] leading-none">{formatPrice(finalPrice)}</h3>
                                         </div>
-                                        <p className="text-sm font-bold text-foreground/70 uppercase tracking-[-0.022em]">({formatCOPtoUSD(selectedTherapist?.price || 0)})</p>
+                                        {finalPrice > 0 && <p className="text-sm font-bold text-foreground/70 uppercase tracking-[-0.022em]">({formatCOPtoUSD(finalPrice)})</p>}
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
-                                    <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                                    <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">{t('booking.certified_payment')}</p>
-                                </div>
+                                {finalPrice > 0 ? (
+                                    <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                                        <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                                        <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">{t('booking.certified_payment')}</p>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-3 p-3 rounded-xl bg-blue-500/5 border border-blue-500/10">
+                                        <Sparkles className="w-5 h-5 text-blue-500" />
+                                        <p className="text-[10px] text-blue-600 dark:text-blue-400 font-medium">Llamada de Valoración Gratuita 100% Sin Costo.</p>
+                                    </div>
+                                )}
 
                                 <div className="flex gap-3">
                                     <Button variant="ghost" className="flex-1 h-12 rounded-full hover:bg-secondary-yellow transition-all dark:hover:text-black" onClick={prevStep}>{t('booking.back')}</Button>
@@ -372,8 +480,8 @@ export default function BookingPage() {
                             </div>
                         )}
 
-                        {/* STEP 5: PERSONAL DATA */}
-                        {step === 5 && (
+                        {/* STEP 6: PERSONAL DATA */}
+                        {step === 6 && (
                             <div className="space-y-6">
                                 <div className="text-center space-y-2">
                                     <h2 className="text-xl font-bold">{t('booking.finish_booking')}</h2>
@@ -388,16 +496,21 @@ export default function BookingPage() {
                                             <input 
                                                 className="w-full h-12 pl-10 pr-4 rounded-2xl bg-surface border-none focus:ring-2 focus:ring-primary/20 outline-none text-sm font-medium transition-all"
                                                 placeholder={t('booking.name_placeholder') as string}
+                                                value={personalData.name}
+                                                onChange={(e) => setPersonalData({...personalData, name: e.target.value})}
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-xs ml-1">{t('booking.whatsapp_link')}</Label>
+                                        <Label className="text-xs ml-1">Correo Electrónico</Label>
                                         <div className="relative">
                                             <MessageSquare className="absolute left-3 top-3.5 w-5 h-5 text-foreground/30" />
                                             <input 
+                                                type="email"
                                                 className="w-full h-12 pl-10 pr-4 rounded-2xl bg-surface border-none focus:ring-2 focus:ring-primary/20 outline-none text-sm font-medium transition-all"
-                                                placeholder={WHATSAPP_PHONE}
+                                                placeholder="tu@email.com"
+                                                value={personalData.email}
+                                                onChange={(e) => setPersonalData({...personalData, email: e.target.value})}
                                             />
                                         </div>
                                     </div>
@@ -405,20 +518,30 @@ export default function BookingPage() {
 
                                 <div className="flex gap-3 pt-4">
                                     <Button variant="ghost" className="flex-1 h-12 rounded-full hover:bg-secondary-yellow transition-all dark:hover:text-black" onClick={prevStep}>{t('booking.back')}</Button>
-                                    <Button className="flex-[2] h-12 rounded-full shadow-lg" onClick={nextStep}>
+                                    <Button className="flex-[2] h-12 rounded-full shadow-lg" onClick={nextStep} disabled={!personalData.name || !personalData.email}>
                                         {language === 'es' ? 'Siguiente' : 'Next'} <ArrowRight className="ml-2 w-5 h-5" />
                                     </Button>
                                 </div>
                             </div>
                         )}
 
-                        {/* STEP 6: FINAL REVIEW */}
-                        {step === 6 && (
+                        {/* STEP 7: FINAL REVIEW */}
+                        {step === 7 && (
                             <div className="space-y-6">
                                 <div className="text-center space-y-2">
                                     <h2 className="text-xl font-bold">{t('booking.final_review_title')}</h2>
                                     <p className="text-sm text-foreground/60">{t('booking.final_review_desc')}</p>
                                 </div>
+
+                                {errorMessage && (
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: -10 }} 
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-center"
+                                    >
+                                        <p className="text-sm text-red-600 dark:text-red-400 font-bold">{errorMessage}</p>
+                                    </motion.div>
+                                )}
 
                                 <div className="p-6 bg-surface/30 border-none space-y-6 rounded-2xl">
                                     <div className="flex items-center gap-4">
@@ -448,7 +571,8 @@ export default function BookingPage() {
                                                 })()
                                             },
                                             { icon: <Clock className="w-4 h-4" />, text: selectedTime },
-                                            { icon: <Video className="w-4 h-4" />, text: t('booking.private_video') }
+                                            { icon: <Video className="w-4 h-4" />, text: t('booking.private_video') },
+                                            { icon: <User className="w-4 h-4" />, text: personalData.email }
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3 text-xs text-foreground/60 font-medium">
                                                 <div className="w-8 h-8 rounded-lg bg-background flex items-center justify-center text-primary">{item.icon}</div>
@@ -460,8 +584,8 @@ export default function BookingPage() {
                                     <div className="pt-4 border-t border-border flex justify-between items-center">
                                         <span className="text-[10px] font-bold uppercase tracking-[0.05em] text-foreground/40">{t('booking.total')}</span>
                                         <div className="text-right">
-                                            <span className="block text-xl font-bold tracking-[-0.022em] leading-none">{formatPrice(selectedTherapist?.price || 0)}</span>
-                                            <span className="block text-[10px] text-foreground/70 uppercase mt-1">({formatCOPtoUSD(selectedTherapist?.price || 0)})</span>
+                                            <span className="block text-xl font-bold tracking-[-0.022em] leading-none">{formatPrice(finalPrice)}</span>
+                                            {finalPrice > 0 && <span className="block text-[10px] text-foreground/70 uppercase mt-1">({formatCOPtoUSD(finalPrice)})</span>}
                                         </div>
                                     </div>
                                 </div>
@@ -471,14 +595,14 @@ export default function BookingPage() {
                                     onClick={handleBooking}
                                     disabled={isLoading}
                                 >
-                                    {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : t('booking.confirm_btn')}
+                                    {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : (finalPrice > 0 ? "Proceder al Pago Seguro" : "Confirmar Valoración Gratuita")}
                                 </Button>
                                 <Button variant="ghost" className="w-full h-10 rounded-full text-sm hover:bg-secondary-yellow transition-all dark:hover:text-black" onClick={prevStep}>{t('booking.back')}</Button>
                             </div>
                         )}
 
-                        {/* STEP 7: SUCCESS */}
-                        {step === 7 && (
+                        {/* STEP 8: SUCCESS (For Free Evaluation) */}
+                        {step === 8 && (
                             <div className="text-center space-y-8 py-4">
                                 <div className="flex justify-center">
                                     <div className="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center animate-in zoom-in duration-500">
@@ -486,46 +610,13 @@ export default function BookingPage() {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <h2 className="text-2xl font-bold">{t('booking.success.title')}</h2>
+                                    <h2 className="text-2xl font-bold">¡Valoración Confirmada!</h2>
                                     <p className="text-sm text-foreground/60">
-                                        {t('booking.success.description', { name: selectedTherapist?.name })}
+                                        Hemos enviado el enlace de Google Meet a tu correo electrónico.
                                     </p>
                                 </div>
 
-                                <div className="grid grid-cols-1 gap-3 text-left">
-                                    {[
-                                        { 
-                                            icon: <CalendarIcon className="w-4 h-4" />, 
-                                            label: t('booking.success.date'), 
-                                            v: (() => {
-                                                const formatted = selectedDate?.toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-                                                if (language === 'es' && formatted) {
-                                                    const parts = formatted.split(' ');
-                                                    const day = parts[0];
-                                                    const month = parts[2].charAt(0).toUpperCase() + parts[2].slice(1);
-                                                    const year = parts[4];
-                                                    return `${day} ${month} ${year}`;
-                                                }
-                                                return formatted;
-                                            })()
-                                        },
-                                        { icon: <Clock className="w-4 h-4" />, label: t('booking.success.time'), v: selectedTime },
-                                        { icon: <Video className="w-4 h-4" />, label: t('booking.success.link'), v: t('booking.success.whatsapp') }
-                                    ].map((item, i) => (
-                                        <div key={i} className="p-4 rounded-xl bg-surface/50 border border-border flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">{item.icon}</div>
-                                            <div>
-                                                <p className="text-[10px] uppercase font-bold text-foreground/40">{item.label}</p>
-                                                <p className="font-bold text-sm tracking-tight">{item.v}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
                                 <div className="space-y-3 pt-4">
-                                    <Button asChild className="w-full h-12 rounded-full shadow-lg h-14">
-                                        <Link href="/panel-usuario">{t('booking.success.go_to_panel')}</Link>
-                                    </Button>
                                     <Button asChild variant="ghost" className="w-full h-12 rounded-full">
                                         <Link href="/">{t('booking.success.go_home')}</Link>
                                     </Button>
