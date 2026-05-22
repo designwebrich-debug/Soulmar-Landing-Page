@@ -583,6 +583,9 @@ export function AgendamientoSection() {
                                 </p>
                                 <p className="text-[10px] text-foreground/50 leading-relaxed font-semibold">
                                   {t("booking.intro_chat_desc")}
+                                  <strong className="font-extrabold text-foreground">
+                                    {language === "es" ? "totalmente gratis" : "totally free"}
+                                  </strong>
                                 </p>
                               </div>
                             </button>
