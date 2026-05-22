@@ -199,7 +199,7 @@ export function AgendamientoSection() {
       <div className="max-w-4xl mx-auto px-6">
         
         {/* SECTION HEADER */}
-        <div className="text-center mb-24 space-y-4 relative z-10">
+        <div className="text-center mb-12 md:mb-16 space-y-4 relative z-10">
           <h2 className="text-5xl md:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
             {language === "es" ? "Agenda tu Sesión" : "Schedule your Session"}
           </h2>
