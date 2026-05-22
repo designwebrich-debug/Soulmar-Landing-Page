@@ -586,6 +586,7 @@ export function AgendamientoSection() {
                                   <strong className="font-extrabold text-foreground">
                                     {language === "es" ? "(totalmente gratis)" : "(totally free)"}
                                   </strong>
+                                  .
                                 </p>
                               </div>
                             </button>
@@ -653,9 +654,7 @@ export function AgendamientoSection() {
                                 <div className="flex items-center gap-3 text-foreground/80">
                                   <Video className="w-4 h-4 text-primary flex-shrink-0" />
                                   <span>
-                                    {isIntroChat 
-                                      ? (language === "es" ? "Cortesía 15 Min" : "Courtesy 15 Min") 
-                                      : (language === "es" ? "Sesión online por meet" : "Online session via Meet")}
+                                    {language === "es" ? "Sesión online por meet" : "Online session via Meet"}
                                   </span>
                                 </div>
                               </div>
@@ -667,20 +666,12 @@ export function AgendamientoSection() {
                                     TOTAL
                                   </span>
                                   <span className="block text-2xl font-black text-foreground mt-1.5 leading-none">
-                                    {isIntroChat 
-                                      ? "$ 0 COP" 
-                                      : (language === "es" ? "$ 210.000 COP" : "$ 210,000 COP")}
+                                    {language === "es" ? "$ 120.000 COP" : "$ 120,000 COP"}
                                   </span>
                                 </div>
-                                {!isIntroChat ? (
-                                  <span className="text-[10px] font-extrabold text-foreground/40 pb-0.5 uppercase tracking-wider">
-                                    {language === "es" ? "($52.50 USD)" : "($52.50 USD)"}
-                                  </span>
-                                ) : (
-                                  <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 pb-0.5 uppercase tracking-wider">
-                                    {language === "es" ? "(¡Cortesía!)" : "(Complimentary!)"}
-                                  </span>
-                                )}
+                                <span className="text-[10px] font-extrabold text-foreground/40 pb-0.5 uppercase tracking-wider">
+                                  {language === "es" ? "($30.00 USD)" : "($30.00 USD)"}
+                                </span>
                               </div>
 
                             </div>
@@ -832,7 +823,7 @@ export function AgendamientoSection() {
         {!isSuccess && (
           <div className="flex items-center justify-center gap-2.5 mt-6 text-foreground/30 dark:text-foreground/20 text-[10px] uppercase font-extrabold tracking-wider leading-none">
             <ShieldCheck className="w-4 h-4 text-emerald-500/60 dark:text-emerald-500/40" />
-            <span>{t("booking.certified_payment")} • {language === "es" ? "Cifrado SSL de 256-bits" : "256-bit SSL Encryption"}</span>
+            <span>{t("booking.certified_payment")} • {language === "es" ? "Cifrado" : "Encrypted"}</span>
           </div>
         )}
 
