@@ -722,10 +722,10 @@ export function AgendamientoSection() {
                             <span>{t("booking.step2_back")}</span>
                           </Button>
                           <Button 
-                            variant="secondary"
+                            variant="ghost"
                             onClick={handleStep2Submit}
                             disabled={isLoading}
-                            className="h-10 px-6 rounded-full font-bold text-xs uppercase tracking-wider shadow-lg shadow-secondary-yellow/20 transition-all w-full sm:w-auto flex items-center justify-center transform active:scale-98 text-[#0b0b0c] dark:text-[#0b0b0c] hover:bg-secondary-yellow/90"
+                            className="h-10 px-6 rounded-full font-bold text-xs uppercase tracking-wider bg-soulmar-blue text-white hover:bg-secondary-yellow hover:text-[#0b0b0c] shadow-lg shadow-soulmar-blue/20 hover:shadow-secondary-yellow/30 transition-all w-full sm:w-auto flex items-center justify-center transform active:scale-98"
                           >
                             {isLoading ? (
                               <>
