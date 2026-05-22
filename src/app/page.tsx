@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 // Dynamic imports for below-the-fold or heavy components
 const ServicesSection = dynamic(() => import("@/components/home/ServicesSection").then(mod => mod.ServicesSection))
-const TherapistsSection = dynamic(() => import("@/components/home/TherapistsSection").then(mod => mod.TherapistsSection))
+const AgendamientoSection = dynamic(() => import("@/components/home/AgendamientoSection").then(mod => mod.AgendamientoSection))
 const TestimonialsSection = dynamic(() => import("@/components/home/TestimonialsSection").then(mod => mod.TestimonialsSection))
 const NewsletterSection = dynamic(() => import("@/components/home/NewsletterSection").then(mod => mod.NewsletterSection))
 const FooterSection = dynamic(() => import("@/components/home/FooterSection").then(mod => mod.FooterSection))
@@ -23,8 +23,8 @@ export default function Home() {
       {/* SECTION 1: SERVICES (Includes Highlight Carousel nested inside) */}
       <ServicesSection />
   
-      {/* SECTION 3: FEATURED THERAPISTS (Apple Style) */}
-      <TherapistsSection />
+      {/* SECTION 3: INTEGRATED PREMIUM BOOKING SECTION (In-Situ) */}
+      <AgendamientoSection />
 
       {/* SECTION 5: TESTIMONIALS (Apple Music Style Highlights) */}
       <TestimonialsSection />

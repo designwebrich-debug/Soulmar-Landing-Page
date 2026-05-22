@@ -117,7 +117,12 @@ export function Navbar() {
 
           <ThemeToggle />
           <Button asChild className="rounded-full shadow-lg hover:-translate-y-0.5 transition-transform" size="default">
-            <Link href="/book">{t("common.book_now")}</Link>
+            <Link 
+              href="/#agendamiento"
+              onClick={(e) => handleNavClick(e, "/#agendamiento")}
+            >
+              {t("common.book_now")}
+            </Link>
           </Button>
         </div>
 
@@ -174,7 +179,15 @@ export function Navbar() {
             {language === "es" ? t('navbar.switch_to_en') : t('navbar.switch_to_es')}
           </Button>
           <Button asChild size="lg" className="w-full">
-            <Link href="/book" onClick={() => setMobileMenuOpen(false)}>{t('common.book_now')}</Link>
+            <Link 
+              href="/#agendamiento" 
+              onClick={(e) => {
+                handleNavClick(e, "/#agendamiento")
+                setMobileMenuOpen(false)
+              }}
+            >
+              {t('common.book_now')}
+            </Link>
           </Button>
         </div>
       )}

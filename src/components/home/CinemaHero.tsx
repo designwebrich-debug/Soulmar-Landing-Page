@@ -80,7 +80,14 @@ export function CinemaHero() {
             transition={{ duration: 0.8, delay: 1.8 }}
             className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
           >
-            <Link href="/book" className="w-full sm:w-auto">
+            <Link 
+              href="/#agendamiento" 
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
+              }}
+              className="w-full sm:w-auto"
+            >
               <Button 
                 size="xl" 
                 className="w-full sm:w-auto bg-white text-black hover:bg-primary hover:text-white rounded-full px-12 h-16 text-lg font-medium tracking-tight shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-none"
