@@ -47,10 +47,10 @@ const THERAPISTS: Therapist[] = [
     name: "Dra. Mariana Caicedo", 
     specKey: "mariana", 
     rating: "5.0", 
-    reviews: 248,
+    reviews: 312,
     price: 210000, 
     img: "/images/therapists/mariana_v2.png",
-    bio: "Psicóloga clínica con +10 años de experiencia. Especialista en terapia cognitivo-conductual y bienestar integral."
+    bio: "Psicóloga Clínica U. Javeriana. +10 años transformando vidas en Bogotá. Experta en desarmar la ansiedad severa y reestructurar relaciones de pareja en crisis mediante Terapia Cognitivo-Conductual de alta eficacia."
   },
   { 
     id: "uuid-2", 
@@ -60,17 +60,17 @@ const THERAPISTS: Therapist[] = [
     reviews: 184,
     price: 180000, 
     img: "/images/therapists/libertad_v3.png",
-    bio: "Especialista en psicología clínica con enfoque en regulación emocional y procesos de duelo."
+    bio: "Especialista en trauma y sanación profunda. Acompaño procesos de duelo, depresión silenciosa y dependencia emocional. Un espacio clínico seguro y libre de juicios para reconectar con tu valor personal."
   },
   { 
     id: "uuid-3", 
     name: "Dr. Moshé Musini", 
     specKey: "moshe", 
     rating: "4.8", 
-    reviews: 120,
+    reviews: 145,
     price: 165000, 
     img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
-    bio: "Psicólogo organizacional experto en liderazgo consciente, propósito de vida y dinámicas de alto rendimiento."
+    bio: "Psicólogo Organizacional y Estratega Mental. Diseñado para ejecutivos, líderes y emprendedores que enfrentan burnout, síndrome del impostor o parálisis por análisis. Toma el control de tu mente y tus resultados."
   },
 ]
 
