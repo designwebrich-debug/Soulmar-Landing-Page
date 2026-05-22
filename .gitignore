@@ -41,6 +41,4 @@ yarn-error.log*
 next-env.d.ts
 .env*.local
 
-# google integrations (keep 100% locally on localhost)
-/src/lib/google/
-/scripts/generate-google-token.js
+
