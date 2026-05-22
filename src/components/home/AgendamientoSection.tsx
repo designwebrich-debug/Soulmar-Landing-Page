@@ -229,7 +229,7 @@ export function AgendamientoSection() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-b border-border/60 dark:border-border/10">
                       
                       {/* LEFT COLUMN: CALENDAR TOP */}
-                      <div className="order-1 md:order-1 p-6 pb-4 md:pb-6 md:border-r border-border/60 dark:border-border/10 flex flex-col justify-between">
+                      <div className="order-1 md:order-1 pt-8 px-6 pb-4 md:pt-9 md:pb-6 md:border-r border-border/60 dark:border-border/10 flex flex-col justify-between">
                         <div>
                           {/* MONTH SELECTOR */}
                           <div className="group flex items-center justify-between mb-6 bg-[#8da9c4] hover:bg-[#c9cba3] dark:bg-[#ffc971] dark:hover:bg-[#c9cba3] px-2.5 py-1.5 rounded-xl border border-transparent transition-all duration-300">
@@ -298,7 +298,7 @@ export function AgendamientoSection() {
                       </div>
 
                       {/* RIGHT COLUMN: FIELDS TOP */}
-                      <div className="order-3 md:order-2 p-6 pb-4 md:pb-6 border-t border-border/60 dark:border-border/10 md:border-t-0 flex flex-col justify-between">
+                      <div className="order-3 md:order-2 pt-8 px-6 pb-4 md:pt-9 md:pb-6 border-t border-border/60 dark:border-border/10 md:border-t-0 flex flex-col justify-between">
                         <div>
                           {/* FIELD 1: AVAILABLE HOURS */}
                           <div>
@@ -473,7 +473,7 @@ export function AgendamientoSection() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-b border-border/60 dark:border-border/10">
                       
                       {/* LEFT COLUMN: REGISTRATION FORM */}
-                      <div className="p-6 md:border-r border-border/60 dark:border-border/10 flex flex-col justify-between">
+                      <div className="pt-8 px-6 pb-6 md:pt-9 md:pb-6 md:border-r border-border/60 dark:border-border/10 flex flex-col justify-between">
                         <div>
                           {/* Section Header */}
                           <div className="space-y-1 mb-5">
@@ -592,7 +592,7 @@ export function AgendamientoSection() {
                       </div>
 
                       {/* RIGHT COLUMN: REVISIÓN DE AGENDAMIENTO */}
-                      <div className="p-6 flex flex-col justify-between bg-surface/3 dark:bg-surface/1 border-t border-border/60 dark:border-border/10 md:border-t-0">
+                      <div className="pt-8 px-6 pb-6 md:pt-9 md:pb-6 flex flex-col justify-between bg-surface/3 dark:bg-surface/1 border-t border-border/60 dark:border-border/10 md:border-t-0">
                         <div>
                           {/* Section Header */}
                           <div className="space-y-1 mb-5">
