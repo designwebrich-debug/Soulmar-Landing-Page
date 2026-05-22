@@ -194,7 +194,7 @@ export function AgendamientoSection() {
   return (
     <section 
       id="agendamiento" 
-      className="py-24 md:py-32 bg-white dark:bg-[#0b0b0c] transition-colors duration-500 border-t border-border/30 scroll-mt-20"
+      className="pt-12 md:pt-16 pb-24 md:pb-32 bg-white dark:bg-[#0b0b0c] transition-colors duration-500 border-t border-border/30 scroll-mt-20"
     >
       <div className="max-w-4xl mx-auto px-6">
         

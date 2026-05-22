@@ -10,7 +10,7 @@ export function ServicesSection() {
   const { t } = useTranslation()
 
   return (
-    <Section className="bg-background dark:bg-[#0b0b0c] py-24 md:py-32 transition-colors duration-500 relative overflow-hidden">
+    <Section className="bg-background dark:bg-[#0b0b0c] pt-24 md:pt-32 pb-12 md:pb-16 transition-colors duration-500 relative overflow-hidden">
       {/* Cinematic Background Accents */}
       <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-[#8da9c4]/5 blur-[120px] rounded-full -mr-20 -mt-20 animate-pulse" />
       <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-[#c9cba3]/5 blur-[100px] rounded-full -ml-20 -mb-20" />
