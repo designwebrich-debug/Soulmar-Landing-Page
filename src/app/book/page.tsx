@@ -132,13 +132,26 @@ export default function BookingPage() {
     setErrorMessage(null)
 
     try {
+      // Parse "06:00 PM" to "18:00:00"
+      let time24 = "00:00:00";
+      if (selectedTime) {
+        const [time, modifier] = selectedTime.split(' ');
+        let [hours, minutes] = time.split(':');
+        let hoursInt = parseInt(hours, 10);
+        if (hoursInt === 12) hoursInt = 0;
+        if (modifier === 'PM') hoursInt += 12;
+        time24 = `${hoursInt.toString().padStart(2, '0')}:${minutes}:00`;
+      }
+      
+      const isoDate = `${selectedDate?.toISOString().split('T')[0]}T${time24}`;
+
       const response = await fetch('/api/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
               therapistId: selectedTherapist?.id,
               sessionType,
-              date: new Date(`${selectedDate?.toISOString().split('T')[0]}T${selectedTime}`).toISOString(), // Simplified date merging
+              date: new Date(isoDate).toISOString(),
               user: personalData
           })
       })
