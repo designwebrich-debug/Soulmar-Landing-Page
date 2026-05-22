@@ -10,10 +10,14 @@ import {
   HeartHandshake
 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useTranslation } from "@/context/LanguageContext"
+import { useAuth } from "@/context/AuthContext"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent } from "@/components/ui/Card"
 import { cn, formatPrice } from "@/lib/utils"
+import confetti from "canvas-confetti"
 
 type SessionType = "evaluation_15min" | "full_session"
 
@@ -41,6 +45,8 @@ const MARIANA: Therapist = {
 
 export default function BookingPage() {
   const { t, language } = useTranslation()
+  const { user } = useAuth()
+  const { resolvedTheme } = useTheme()
   const [step, setStep] = useState(1)
   const [sessionType, setSessionType] = useState<SessionType>("full_session")
   const [iframeLoading, setIframeLoading] = useState(true)
@@ -50,56 +56,106 @@ export default function BookingPage() {
     setIframeLoading(true)
   }, [sessionType, step])
 
+  // Listen for Calendly event scheduling
+  useEffect(() => {
+    const handleCalendlyMessage = (e: MessageEvent) => {
+      // Ensure the message originates from Calendly and has data
+      if (e.origin === "https://calendly.com" && e.data && e.data.event) {
+        if (e.data.event === "calendly.event_scheduled") {
+          // Trigger Confetti Celebration!
+          confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#8da9c4', '#ffc971', '#c9cba3', '#1D9E75']
+          })
+          
+          // Advance to Step 3 (Success Step)
+          setStep(3)
+        }
+      }
+    }
+
+    window.addEventListener("message", handleCalendlyMessage)
+    return () => window.removeEventListener("message", handleCalendlyMessage)
+  }, [])
+
   const nextStep = () => setStep(s => Math.min(s + 1, 2))
   const prevStep = () => setStep(s => Math.max(s - 1, 1))
+
+  // Dynamically configure theme colors for Calendly
+  const themeParams = useMemo(() => {
+    const isDark = resolvedTheme === "dark" || resolvedTheme === undefined
+    const bg = isDark ? "000000" : "ffffff"
+    const text = isDark ? "ffffff" : "1d1d1f"
+    const primary = "8da9c4" // Soulmar Slate Blue
+    return `&background_color=${bg}&text_color=${text}&primary_color=${primary}`
+  }, [resolvedTheme])
+
+  // Dynamically prefill patient info if logged in
+  const prefillParams = useMemo(() => {
+    if (!user) return ""
+    let params = ""
+    if (user.name) {
+      params += `&name=${encodeURIComponent(user.name)}`
+    }
+    if (user.email) {
+      params += `&email=${encodeURIComponent(user.email)}`
+    }
+    return params
+  }, [user])
 
   const calendlyUrl = useMemo(() => {
     const baseUrl = process.env.NEXT_PUBLIC_CALENDLY_BASE_URL || "https://calendly.com/soulmar-org"
     const therapistKey = MARIANA.specKey
     const sessionKey = sessionType === "evaluation_15min" ? "valoracion" : "sesion"
     const slug = `${sessionKey}-${therapistKey}`
-    return `${baseUrl}/${slug}?hide_landing_page_details=1&hide_gdpr_banner=1`
-  }, [sessionType])
+    return `${baseUrl}/${slug}?hide_landing_page_details=1&hide_gdpr_banner=1${themeParams}${prefillParams}`
+  }, [sessionType, themeParams, prefillParams])
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-12 px-6 bg-surface/30">
       <div className="max-w-md w-full space-y-8">
         
-        {/* HEADER SECTION */}
-        <div className="text-center space-y-4">
-            <div className="flex justify-center mb-6">
-                <div className="relative w-58 h-20">
-                    <Image 
-                        src="/logo-soulmar-official.png" 
-                        alt="Soulmar" 
-                        fill
-                        className="object-contain"
-                        priority
-                    />
-                </div>
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight">{t('booking.title')}</h1>
-            <p className="text-foreground/60">{t('booking.tagline')}</p>
-        </div>
+        {/* HEADER SECTION (Hidden in success screen for clean celebratory aesthetics) */}
+        {step < 3 && (
+          <div className="text-center space-y-4">
+              <div className="flex justify-center mb-6">
+                  <div className="relative w-58 h-20">
+                      <Image 
+                          src="/logo-soulmar-official.png" 
+                          alt="Soulmar" 
+                          fill
+                          className="object-contain"
+                          priority
+                      />
+                  </div>
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight">{t('booking.title')}</h1>
+              <p className="text-foreground/60">{t('booking.tagline')}</p>
+          </div>
+        )}
 
-        {/* PROGRESS INDICATOR */}
-        <div className="flex items-center justify-between mb-8 max-w-[180px] mx-auto py-2 px-1">
-            {[1, 2].map((s) => (
-                <div key={s} className="flex items-center shrink-0">
-                    <div 
-                        className={cn(
-                            "w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300",
-                            step >= s ? "bg-primary text-white scale-110 shadow-lg shadow-primary/20" : "bg-surface text-foreground/40"
-                        )}
-                    >
-                        {step > s ? <CheckCircle2 className="w-5 h-5" /> : s}
-                    </div>
-                    {s < 2 && (
-                        <div className={cn("h-0.5 w-16 transition-all duration-300", step > s ? "bg-primary" : "bg-surface")} />
-                    )}
-                </div>
-            ))}
-        </div>
+        {/* PROGRESS INDICATOR (Hidden in success screen) */}
+        {step < 3 && (
+          <div className="flex items-center justify-between mb-8 max-w-[180px] mx-auto py-2 px-1">
+              {[1, 2].map((s) => (
+                  <div key={s} className="flex items-center shrink-0">
+                      <div 
+                          className={cn(
+                              "w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300",
+                              step >= s ? "bg-primary text-white scale-110 shadow-lg shadow-primary/20" : "bg-surface text-foreground/40"
+                          )}
+                      >
+                          {step > s ? <CheckCircle2 className="w-5 h-5" /> : s}
+                      </div>
+                      {s < 2 && (
+                          <div className={cn("h-0.5 w-16 transition-all duration-300", step > s ? "bg-primary" : "bg-surface")} />
+                      )}
+                  </div>
+              ))}
+          </div>
+        )}
 
         <Card className="border-none shadow-2xl bg-background overflow-hidden relative">
             <CardContent className="p-8">
@@ -231,6 +287,69 @@ export default function BookingPage() {
                                             Abre Calendly en una nueva ventana
                                         </a>
                                     </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* STEP 3: SUCCESS CONFIRMATION */}
+                        {step === 3 && (
+                            <div className="space-y-6 text-center py-4">
+                                <div className="flex justify-center">
+                                    <div className="relative">
+                                        {/* Glowing background */}
+                                        <div className="absolute inset-0 bg-emerald-500/20 blur-xl rounded-full scale-125 animate-pulse" />
+                                        <div className="w-20 h-20 rounded-full bg-emerald-500/10 border-2 border-emerald-500 flex items-center justify-center relative z-10">
+                                            <CheckCircle2 className="w-10 h-10 text-emerald-500 animate-bounce" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="flex justify-center mb-2">
+                                        <div className="relative w-40 h-12">
+                                            <Image 
+                                                src="/logo-soulmar-official.png" 
+                                                alt="Soulmar" 
+                                                fill
+                                                className="object-contain"
+                                                priority
+                                            />
+                                        </div>
+                                    </div>
+                                    <h2 className="text-2xl font-bold tracking-tight text-foreground">
+                                        ¡Cita Agendada! 🎉
+                                    </h2>
+                                    <p className="text-sm text-foreground/60 max-w-sm mx-auto">
+                                        Tu sesión con la <strong>{MARIANA.name}</strong> ha sido reservada exitosamente mediante Calendly.
+                                    </p>
+                                </div>
+
+                                <div className="p-6 rounded-2xl bg-surface/50 border border-white/5 space-y-4 text-left max-w-sm mx-auto">
+                                    <div>
+                                        <span className="text-[10px] uppercase font-bold text-primary tracking-wider">Servicio</span>
+                                        <p className="font-bold text-sm text-foreground mt-0.5">
+                                            {sessionType === 'evaluation_15min' ? 'Valoración Gratuita (15 Minutos)' : 'Sesión Clínica Completa (60 Minutos)'}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] uppercase font-bold text-primary tracking-wider">Especialista</span>
+                                        <p className="font-bold text-sm text-foreground mt-0.5">{MARIANA.name}</p>
+                                    </div>
+                                    <div>
+                                        <span className="text-[10px] uppercase font-bold text-primary tracking-wider">Enlace de Videollamada</span>
+                                        <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
+                                            El enlace oficial de Zoom/Meet y la confirmación se han enviado a tu correo {user?.email ? <strong>({user.email})</strong> : ""}. Revisa tu bandeja de entrada (y la carpeta de spam si es necesario).
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3 pt-4">
+                                    <Button asChild className="w-full h-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 text-white font-bold">
+                                        <Link href="/dashboard">Ir a mi Panel Personal</Link>
+                                    </Button>
+                                    <Button asChild variant="ghost" className="w-full h-12 rounded-full hover:bg-surface">
+                                        <Link href="/">Volver al Inicio</Link>
+                                    </Button>
                                 </div>
                             </div>
                         )}
