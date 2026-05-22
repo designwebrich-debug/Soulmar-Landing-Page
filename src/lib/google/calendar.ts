@@ -1,57 +1,41 @@
-// GOOGLE-BRIDGE: Calendar & Meet Automation
+import { google } from 'googleapis';
 
-export async function createGoogleMeetEvent({
-  patientEmail,
-  patientName,
-  therapistName,
-  startTime,
-  durationMinutes = 60
-}: {
-  patientEmail: string
-  patientName: string
-  therapistName: string
-  startTime: string // ISO String
-  durationMinutes?: number
-}) {
-  console.log(`GOOGLE-BRIDGE: Creating Google Calendar Event for ${patientName} with ${therapistName}`)
-  
-  // 1. Configure OAuth2 Client (using process.env tokens)
-  // const oauth2Client = new google.auth.OAuth2(...)
-  
-  // 2. Set Start and End times
-  const startDate = new Date(startTime)
-  const endDate = new Date(startDate.getTime() + durationMinutes * 60000)
+export async function createCalendarEvent({ patientName, therapistName, dateStr }: { patientName: string, therapistName: string, dateStr: string }) {
+  // If no credentials, return Mock Meet link
+  if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    console.log("[MOCK SYSTEM] Generando Enlace de Google Meet simulado...");
+    return "https://meet.google.com/mock-meet-link";
+  }
 
-  // 3. Define the event payload
-  const event = {
-    summary: `Sesión Soulmar: ${patientName} & ${therapistName}`,
-    description: `Sesión de terapia (o valoración) programada a través de Soulmar.`,
-    start: {
-      dateTime: startDate.toISOString(),
-      timeZone: 'America/Bogota',
-    },
-    end: {
-      dateTime: endDate.toISOString(),
-      timeZone: 'America/Bogota',
-    },
-    attendees: [
-      { email: patientEmail }
-    ],
-    conferenceData: {
-      createRequest: {
-        requestId: `soulmar-${Date.now()}`,
-        conferenceSolutionKey: { type: "hangoutsMeet" }
+  console.log("[GOOGLE BRIDGE] Autenticando con Google Calendar API...");
+
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    "https://developers.google.com/oauthplayground"
+  );
+
+  oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN });
+
+  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+  // Calculate End Time (+1 Hour)
+  const startTime = new Date(dateStr);
+  const endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
+
+  const res = await calendar.events.insert({
+    calendarId: 'primary', // The master calendar of soulmar.org@gmail.com
+    conferenceDataVersion: 1,
+    requestBody: {
+      summary: `Sesión Soulmar: ${patientName} y ${therapistName}`,
+      description: 'Sesión psicológica online agendada vía web.',
+      start: { dateTime: startTime.toISOString(), timeZone: 'America/Bogota' },
+      end: { dateTime: endTime.toISOString(), timeZone: 'America/Bogota' },
+      conferenceData: {
+        createRequest: { requestId: `soulmar-${Date.now()}` }
       }
     }
-  }
+  });
 
-  // 4. API Call to Google Calendar
-  // const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
-  // const res = await calendar.events.insert({ ... })
-  
-  // Mock return for now since we don't have the live Google keys
-  return {
-    eventId: `mock-event-id-${Date.now()}`,
-    meetLink: `https://meet.google.com/mock-link-${Math.floor(Math.random() * 1000)}`
-  }
+  return res.data.hangoutLink;
 }
