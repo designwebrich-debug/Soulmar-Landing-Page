@@ -49,6 +49,38 @@ export function AgendamientoSection() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
 
+  // Helper to disable slots that are in the past if selectedDate is today
+  const isSlotDisabled = (timeStr: string): boolean => {
+    if (!selectedDate) return true
+    const isToday = selectedDate.toDateString() === new Date().toDateString()
+    if (!isToday) return false
+
+    // Parse slot hour and minute (e.g., "08:00 AM" -> hour 8, minute 0)
+    const parts = timeStr.split(" ")
+    const timeParts = parts[0].split(":")
+    let hour = parseInt(timeParts[0], 10)
+    const minute = parseInt(timeParts[1], 10)
+    const ampm = parts[1]
+
+    if (ampm === "PM" && hour !== 12) {
+      hour += 12
+    } else if (ampm === "AM" && hour === 12) {
+      hour = 0
+    }
+
+    const now = new Date()
+    const currentHour = now.getHours()
+    const currentMinute = now.getMinutes()
+
+    if (currentHour > hour) {
+      return true
+    } else if (currentHour === hour) {
+      return currentMinute >= minute
+    }
+
+    return false
+  }
+
   const successContainerRef = useRef<HTMLDivElement>(null)
 
   // Trigger confetti on success
@@ -285,7 +317,7 @@ export function AgendamientoSection() {
                                       : isToday 
                                         ? "border border-primary text-primary font-extrabold"
                                         : isPast 
-                                          ? "opacity-15 cursor-not-allowed text-foreground/20" 
+                                          ? "opacity-35 cursor-not-allowed text-foreground/30" 
                                           : "hover:bg-primary/10 hover:text-primary text-foreground"
                                   )}
                                 >
@@ -317,18 +349,19 @@ export function AgendamientoSection() {
                                 <div className="grid grid-cols-3 gap-2">
                                   {AM_SLOTS.map((time) => {
                                     const isSelected = selectedTime === time;
+                                    const isDisabled = !selectedDate || isSlotDisabled(time);
                                     return (
                                       <button
                                         key={time}
                                         type="button"
-                                        disabled={!selectedDate}
+                                        disabled={isDisabled}
                                         onClick={() => {
                                           setSelectedTime(time)
                                           setValidationError(null)
                                         }}
                                         className={cn(
                                           "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
-                                          !selectedDate
+                                          isDisabled
                                             ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
                                             : isSelected
                                               ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
@@ -351,18 +384,19 @@ export function AgendamientoSection() {
                                 <div className="grid grid-cols-3 gap-2">
                                   {PM_SLOTS.map((time) => {
                                     const isSelected = selectedTime === time;
+                                    const isDisabled = !selectedDate || isSlotDisabled(time);
                                     return (
                                       <button
                                         key={time}
                                         type="button"
-                                        disabled={!selectedDate}
+                                        disabled={isDisabled}
                                         onClick={() => {
                                           setSelectedTime(time)
                                           setValidationError(null)
                                         }}
                                         className={cn(
                                           "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
-                                          !selectedDate
+                                          isDisabled
                                             ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
                                             : isSelected
                                               ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
@@ -804,9 +838,7 @@ export function AgendamientoSection() {
                   <Button 
                     onClick={() => {
                       setIsSuccess(false)
-                      setSelectedDate(null)
-                      setSelectedTime("")
-                      setReason("")
+                      handleCancel()
                     }}
                     className="h-12 px-8 rounded-full font-bold text-xs uppercase tracking-wider bg-primary text-white hover:bg-secondary-yellow hover:text-[#0b0b0c] dark:hover:bg-secondary-yellow shadow-lg shadow-primary/20 transition-all w-full max-w-xs flex items-center justify-center transform active:scale-98"
                   >
