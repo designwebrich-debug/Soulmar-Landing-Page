@@ -9,9 +9,9 @@ export function TestimonialsSection() {
   const { t } = useTranslation()
 
   return (
-    <Section className="py-32 bg-surface dark:bg-[#0b0b0c]">
+    <Section className="pt-32 pb-16 bg-surface dark:bg-[#0b0b0c]">
       <div className="max-w-7xl mx-auto px-6">
-        <div id="soulmar-brand" className="flex justify-center mb-24 scroll-mt-32">
+        <div id="soulmar-brand" className="flex justify-center mb-32 scroll-mt-32">
           {/* Light Mode Image */}
           <Image 
             src="/images/soulmar2.png" 
