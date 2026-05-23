@@ -17,7 +17,7 @@ export function TestimonialsSection() {
             src="/images/soulmar2.png" 
             alt="Soulmar Testimonials Light"
             width={1024}
-            height={757}
+            height={576}
             quality={100}
             unoptimized={true}
             className="w-full max-w-[1024px] h-auto object-contain dark:hidden"
@@ -27,7 +27,7 @@ export function TestimonialsSection() {
             src="/images/soulmar1.png" 
             alt="Soulmar Testimonials Dark"
             width={1024}
-            height={757}
+            height={576}
             quality={100}
             unoptimized={true}
             className="w-full max-w-[1024px] h-auto object-contain hidden dark:block"
