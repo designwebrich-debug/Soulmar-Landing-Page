@@ -11,7 +11,7 @@ export function NewsletterSection() {
   const { t } = useTranslation()
 
   return (
-    <Section className="pt-16 pb-[6.5rem] bg-surface dark:bg-[#0b0b0c] transition-colors duration-500">
+    <Section className="pt-6 pb-[6.5rem] bg-surface dark:bg-[#0b0b0c] transition-colors duration-500">
       <div className="max-w-6xl mx-auto rounded-[4rem] bg-[#0d0d0d] p-12 md:p-24 shadow-2xl relative overflow-hidden group border border-white/5">
         {/* Dynamic Brand Background Accents */}
         <div className="absolute top-0 right-0 w-[70%] h-[100%] bg-[#8da9c4]/10 rounded-full blur-[120px] -mr-[20%] opacity-40 group-hover:opacity-70 group-hover:bg-[#8da9c4]/20 transition-all duration-1000" />
