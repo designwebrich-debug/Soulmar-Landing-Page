@@ -20,7 +20,7 @@ export function NewsletterSection() {
         
         <div className="flex flex-col lg:flex-row items-center gap-16 relative z-10">
           <div className="flex-1 space-y-8 text-center lg:text-left">
-            <Badge className="bg-white/10 text-white border-white/20 px-6 py-2 rounded-full uppercase tracking-[0.1em] text-[10px] font-bold group-hover:border-[#ffc971]/40 transition-colors duration-500">
+            <Badge className="bg-white/10 text-white border-white/20 px-6 py-2 rounded-full uppercase tracking-[0.1em] text-[10px] font-bold hover:border-[#ffc971] hover:text-[#ffc971] cursor-pointer transition-colors duration-300">
               {t('footer.newsletter_title')}
             </Badge>
             <h3 className="text-5xl md:text-7xl font-bold text-white leading-[0.9] tracking-[-0.022em] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-700">
