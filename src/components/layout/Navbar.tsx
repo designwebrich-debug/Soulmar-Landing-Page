@@ -14,7 +14,6 @@ import { useAuth } from "@/context/AuthContext"
 
 const navLinks = [
   { key: "therapies", href: "/#agendamiento" },
-  { key: "test", href: "/test" },
   { key: "ebooks", href: "/#ebooks" },
 ]
 
