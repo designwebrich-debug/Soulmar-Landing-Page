@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 const ServicesSection = dynamic(() => import("@/components/home/ServicesSection").then(mod => mod.ServicesSection))
 const AgendamientoSection = dynamic(() => import("@/components/home/AgendamientoSection").then(mod => mod.AgendamientoSection))
 const TestimonialsSection = dynamic(() => import("@/components/home/TestimonialsSection").then(mod => mod.TestimonialsSection))
+const EbookSection = dynamic(() => import("@/components/home/EbookSection").then(mod => mod.EbookSection))
 const NewsletterSection = dynamic(() => import("@/components/home/NewsletterSection").then(mod => mod.NewsletterSection))
 const FooterSection = dynamic(() => import("@/components/home/FooterSection").then(mod => mod.FooterSection))
 
@@ -28,6 +29,9 @@ export default function Home() {
 
       {/* SECTION 5: TESTIMONIALS (Apple Music Style Highlights) */}
       <TestimonialsSection />
+
+      {/* SECTION 5.5: EBOOKS (Soulmar Free Resources) */}
+      <EbookSection />
 
       {/* SECTION 6: NEWSLETTER (Cinematic Brand Dynamic) */}
       <NewsletterSection />

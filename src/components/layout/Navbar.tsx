@@ -13,8 +13,9 @@ import { useTranslation } from "@/context/LanguageContext"
 import { useAuth } from "@/context/AuthContext"
 
 const navLinks = [
-  { key: "brand", href: "/#soulmar-brand" },
-  { key: "retreats", href: "/retreats" },
+  { key: "therapies", href: "/#agendamiento" },
+  { key: "test", href: "/test" },
+  { key: "ebooks", href: "/#ebooks" },
 ]
 
 export function Navbar() {
