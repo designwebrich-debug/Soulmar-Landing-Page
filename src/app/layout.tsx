@@ -2,8 +2,7 @@ import type { Metadata } from "next"
 import { Inter, Geist_Mono, Playfair_Display, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Navbar } from "@/components/layout/Navbar"
-import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
+import { AppLayoutWrapper } from "@/components/layout/AppLayoutWrapper"
 import { CartProvider } from "@/context/CartContext"
 import { LanguageProvider } from "@/context/LanguageContext"
 import { AuthProvider } from "@/context/AuthContext"
@@ -57,11 +56,7 @@ export default function RootLayout({
             <ToastProvider>
               <LanguageProvider>
                 <CartProvider>
-                  <Navbar />
-                  <main className="pt-20">
-                    {children}
-                  </main>
-                  <WhatsAppButton />
+                    <AppLayoutWrapper>{children}</AppLayoutWrapper>
                 </CartProvider>
               </LanguageProvider>
             </ToastProvider>

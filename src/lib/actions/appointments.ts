@@ -11,6 +11,7 @@ export type Appointment = {
   appointment_time: string
   status: 'pending' | 'confirmed' | 'cancelled'
   meeting_link?: string
+  reason?: string
   created_at: string
 }
 

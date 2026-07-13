@@ -30,20 +30,7 @@ export async function middleware(request: NextRequest) {
     return new NextResponse('Not Found', { status: 404 })
   }
 
-  // --- SECRET ROUTE PROTECTION: NextAuth Whitelist ---
-  if (pathname.startsWith('/portal-secreto-soulmar-77312')) {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    })
 
-    if (!token) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/'
-      url.searchParams.set('error', 'acceso_denegado')
-      return NextResponse.redirect(url)
-    }
-  }
 
   // --- SECURITY: Block suspicious URL patterns ---
   const fullUrl = request.nextUrl.toString()

@@ -23,6 +23,10 @@ export function Navbar() {
   const pathname = usePathname()
   const { language, setLanguage, t } = useTranslation()
 
+  if (pathname?.startsWith("/portal-secreto-soulmar-77312")) {
+    return null
+  }
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (pathname !== "/") return // Only intercept if we are already on the home page
 

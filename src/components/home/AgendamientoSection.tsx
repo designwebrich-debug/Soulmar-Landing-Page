@@ -49,6 +49,91 @@ export function AgendamientoSection() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
 
+  // Cargar configuraciones de horarios guardados por el admin
+  const [schedules, setSchedules] = useState<any>({
+    Lunes: { enabled: true, start: "10:00", end: "20:00" },
+    Martes: { enabled: true, start: "10:00", end: "20:00" },
+    Miércoles: { enabled: true, start: "10:00", end: "20:00" },
+    Jueves: { enabled: true, start: "10:00", end: "20:00" },
+    Viernes: { enabled: true, start: "10:00", end: "20:00" },
+    Sábado: { enabled: true, start: "10:00", end: "20:00" },
+    Domingo: { enabled: false, start: "10:00", end: "20:00" },
+  })
+  const [slotDuration, setSlotDuration] = useState("30 min")
+  const [holidays, setHolidays] = useState<any[]>([
+    { id: "1", date: "2026-05-26", reason: "Festivo local" },
+    { id: "2", date: "2026-06-22", reason: "Vacaciones" },
+  ])
+
+  useEffect(() => {
+    const savedSchedules = localStorage.getItem("soulmar_schedules")
+    const savedDuration = localStorage.getItem("soulmar_slot_duration")
+    const savedHolidays = localStorage.getItem("soulmar_holidays")
+    if (savedSchedules) setSchedules(JSON.parse(savedSchedules))
+    if (savedDuration) setSlotDuration(savedDuration)
+    if (savedHolidays) setHolidays(JSON.parse(savedHolidays))
+  }, [])
+
+  // Generar horarios de slots dinámicamente según la configuración del administrador
+  const generatedSlots = useMemo(() => {
+    if (!selectedDate) return { am: [], pm: [] }
+    
+    const weekdaysES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+    const dayName = weekdaysES[selectedDate.getDay()]
+    const config = schedules[dayName]
+    
+    if (!config || !config.enabled) return { am: [], pm: [] }
+    
+    const startParts = config.start.split(":")
+    const endParts = config.end.split(":")
+    
+    let startHour = parseInt(startParts[0]) || 10
+    let startMin = parseInt(startParts[1]) || 0
+    let endHour = parseInt(endParts[0]) || 20
+    let endMin = parseInt(endParts[1]) || 0
+    
+    let durationMins = 30
+    if (slotDuration === "45 min") durationMins = 45
+    if (slotDuration === "1 hora") durationMins = 60
+    
+    const am: string[] = []
+    const pm: string[] = []
+    
+    let currentHour = startHour
+    let currentMin = startMin
+    
+    while (currentHour < endHour || (currentHour === endHour && currentMin < endMin)) {
+      let displayHour = currentHour
+      let ampm = "AM"
+      
+      if (currentHour >= 12) {
+        ampm = "PM"
+        if (currentHour > 12) displayHour = currentHour - 12
+      } else if (currentHour === 0) {
+        displayHour = 12
+      }
+      
+      const hourStr = displayHour.toString().padStart(2, "0")
+      const minStr = currentMin.toString().padStart(2, "0")
+      const slotStr = `${hourStr}:${minStr} ${ampm}`
+      
+      if (ampm === "AM") {
+        am.push(slotStr)
+      } else {
+        pm.push(slotStr)
+      }
+      
+      currentMin += durationMins
+      if (currentMin >= 60) {
+        currentHour += Math.floor(currentMin / 60)
+        currentMin = currentMin % 60
+      }
+    }
+    
+    return { am, pm }
+  }, [selectedDate, schedules, slotDuration])
+
+
   // Helper to disable slots that are in the past if selectedDate is today
   const isSlotDisabled = (timeStr: string): boolean => {
     if (!selectedDate) return true
@@ -191,11 +276,48 @@ export function AgendamientoSection() {
     setValidationError(null)
     setIsLoading(true)
     
-    // Simular petición
-    await new Promise(resolve => setTimeout(resolve, 1800))
-    
-    setIsLoading(false)
-    setIsSuccess(true)
+    try {
+      // 1. Post to API
+      const res = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          phone,
+          email,
+          date: formattedSelectedDate,
+          time: selectedTime,
+          reason
+        })
+      })
+
+      // 2. Local storage save for instant local sync
+      const localApp = {
+        id: "local-" + Date.now(),
+        patient_id: "local-patient-id",
+        therapist_id: "local-therapist-id",
+        appointment_date: formattedSelectedDate,
+        appointment_time: selectedTime,
+        status: "pending",
+        reason: reason,
+        created_at: new Date().toISOString(),
+        patient: {
+          name: fullName,
+          email: email,
+          phone: phone
+        }
+      }
+      
+      const saved = localStorage.getItem("soulmar_appointments")
+      const list = saved ? JSON.parse(saved) : []
+      list.push(localApp)
+      localStorage.setItem("soulmar_appointments", JSON.stringify(list))
+    } catch (err) {
+      console.error("Booking error:", err)
+    } finally {
+      setIsLoading(false)
+      setIsSuccess(true)
+    }
   }
 
 
@@ -302,12 +424,23 @@ export function AgendamientoSection() {
                               const isSelected = selectedDate?.toDateString() === day.toDateString();
                               const isPast = day < new Date(new Date().setHours(0,0,0,0));
                               const isToday = day.toDateString() === new Date().toDateString();
+                              
+                              const dStr = day.toLocaleDateString("en-CA");
+                              const isHoliday = holidays.some(h => h.date === dStr);
+                              
+                              const weekdaysES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+                              const dayName = weekdaysES[day.getDay()];
+                              const dayConfig = schedules[dayName];
+                              const isClosedDay = dayConfig && !dayConfig.enabled;
+                              
+                              const isDisabled = isPast || isHoliday || isClosedDay;
+
                               return (
                                 <button
                                   key={`day-${idx}`}
                                   type="button"
-                                  onClick={() => !isPast && handleDateClick(day)}
-                                  disabled={isPast}
+                                  onClick={() => !isDisabled && handleDateClick(day)}
+                                  disabled={isDisabled}
                                   aria-label={`Día ${day.getDate()} de ${monthName}`}
                                   aria-selected={isSelected}
                                   className={cn(
@@ -316,8 +449,8 @@ export function AgendamientoSection() {
                                       ? "bg-primary text-white shadow-md shadow-primary/20 scale-105" 
                                       : isToday 
                                         ? "border border-primary text-primary font-extrabold"
-                                        : isPast 
-                                          ? "opacity-35 cursor-not-allowed text-foreground/30" 
+                                        : isDisabled 
+                                          ? "opacity-25 cursor-not-allowed text-foreground/30" 
                                           : "hover:bg-primary/10 hover:text-primary text-foreground"
                                   )}
                                 >
@@ -347,31 +480,37 @@ export function AgendamientoSection() {
                                   {language === "es" ? "Mañana (AM)" : "Morning (AM)"}
                                 </span>
                                 <div className="grid grid-cols-3 gap-2">
-                                  {AM_SLOTS.map((time) => {
-                                    const isSelected = selectedTime === time;
-                                    const isDisabled = !selectedDate || isSlotDisabled(time);
-                                    return (
-                                      <button
-                                        key={time}
-                                        type="button"
-                                        disabled={isDisabled}
-                                        onClick={() => {
-                                          setSelectedTime(time)
-                                          setValidationError(null)
-                                        }}
-                                        className={cn(
-                                          "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
-                                          isDisabled
-                                            ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
-                                            : isSelected
-                                              ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
-                                              : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-                                        )}
-                                      >
-                                          {time}
-                                      </button>
-                                    )
-                                  })}
+                                  {generatedSlots.am.length === 0 ? (
+                                    <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
+                                      {language === "es" ? "Sin horarios en la mañana" : "No morning slots available"}
+                                    </span>
+                                  ) : (
+                                    generatedSlots.am.map((time) => {
+                                      const isSelected = selectedTime === time;
+                                      const isDisabled = !selectedDate || isSlotDisabled(time);
+                                      return (
+                                        <button
+                                          key={time}
+                                          type="button"
+                                          disabled={isDisabled}
+                                          onClick={() => {
+                                            setSelectedTime(time)
+                                            setValidationError(null)
+                                          }}
+                                          className={cn(
+                                            "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
+                                            isDisabled
+                                              ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
+                                              : isSelected
+                                                ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
+                                                : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+                                          )}
+                                        >
+                                            {time}
+                                        </button>
+                                      )
+                                    })
+                                  )}
                                 </div>
                               </div>
 
@@ -382,31 +521,37 @@ export function AgendamientoSection() {
                                   {language === "es" ? "Tarde (PM)" : "Afternoon (PM)"}
                                 </span>
                                 <div className="grid grid-cols-3 gap-2">
-                                  {PM_SLOTS.map((time) => {
-                                    const isSelected = selectedTime === time;
-                                    const isDisabled = !selectedDate || isSlotDisabled(time);
-                                    return (
-                                      <button
-                                        key={time}
-                                        type="button"
-                                        disabled={isDisabled}
-                                        onClick={() => {
-                                          setSelectedTime(time)
-                                          setValidationError(null)
-                                        }}
-                                        className={cn(
-                                          "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
-                                          isDisabled
-                                            ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
-                                            : isSelected
-                                              ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
-                                              : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-                                        )}
-                                      >
-                                          {time}
-                                      </button>
-                                    )
-                                  })}
+                                  {generatedSlots.pm.length === 0 ? (
+                                    <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
+                                      {language === "es" ? "Sin horarios en la tarde" : "No afternoon slots available"}
+                                    </span>
+                                  ) : (
+                                    generatedSlots.pm.map((time) => {
+                                      const isSelected = selectedTime === time;
+                                      const isDisabled = !selectedDate || isSlotDisabled(time);
+                                      return (
+                                        <button
+                                          key={time}
+                                          type="button"
+                                          disabled={isDisabled}
+                                          onClick={() => {
+                                            setSelectedTime(time)
+                                            setValidationError(null)
+                                          }}
+                                          className={cn(
+                                            "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
+                                            isDisabled
+                                              ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
+                                              : isSelected
+                                                ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
+                                                : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+                                          )}
+                                        >
+                                            {time}
+                                        </button>
+                                      )
+                                    })
+                                  )}
                                 </div>
                               </div>
                             </div>
