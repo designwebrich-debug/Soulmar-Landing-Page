@@ -1,0 +1,18 @@
+
+> soulmar-app@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by process 12356, using available port 3001 instead.
+⚠ `eslint` configuration in next.config.mjs is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.mjs options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.1.7 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.1.26:3001
+- Environments: .env.local, .env
+
+✓ Starting...
+⨯ Unable to acquire lock at /Users/richshalom/Desktop/RICH/WEBS ANTIGRAVITY/SOULMAR-ONEPAGE/.next/dev/lock, is another instance of next dev running?
+  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.
+[?25h

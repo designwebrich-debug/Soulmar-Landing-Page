@@ -165,9 +165,14 @@ export default function AdminPage() {
       const savedDuration = localStorage.getItem("soulmar_slot_duration")
       const savedHolidays = localStorage.getItem("soulmar_holidays")
       
-      if (savedSchedules) setSchedules(JSON.parse(savedSchedules))
       if (savedDuration) setSlotDuration(savedDuration)
-      if (savedHolidays) setHolidays(JSON.parse(savedHolidays))
+      
+      if (savedSchedules) {
+        try { setSchedules(JSON.parse(savedSchedules)) } catch(e) {}
+      }
+      if (savedHolidays) {
+        try { setHolidays(JSON.parse(savedHolidays)) } catch(e) {}
+      }
     }
   }, [adminEmail])
 
