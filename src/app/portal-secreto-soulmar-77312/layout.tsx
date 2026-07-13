@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AdminSessionProvider>
-      <div className="min-h-screen bg-[#F4EFEB] text-[#0B2545] font-sans antialiased">
+      <div className="min-h-screen bg-white text-black font-sans antialiased">
         {children}
       </div>
     </AdminSessionProvider>
