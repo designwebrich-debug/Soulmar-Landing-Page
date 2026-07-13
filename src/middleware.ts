@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 
 // Protected route patterns
 const PROTECTED_ROUTES = ['/panel-usuario', '/panel-terapeuta']
@@ -18,6 +19,31 @@ const BLOCKED_PATTERNS = [
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  // --- OBFUSCATION: 404 for generic admin routes ---
+  if (
+    pathname === '/admin' || 
+    pathname.startsWith('/admin/') || 
+    pathname === '/panel-admin' || 
+    pathname.startsWith('/panel-admin/')
+  ) {
+    return new NextResponse('Not Found', { status: 404 })
+  }
+
+  // --- SECRET ROUTE PROTECTION: NextAuth Whitelist ---
+  if (pathname.startsWith('/portal-secreto-soulmar-77312')) {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    })
+
+    if (!token) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      url.searchParams.set('error', 'acceso_denegado')
+      return NextResponse.redirect(url)
+    }
+  }
 
   // --- SECURITY: Block suspicious URL patterns ---
   const fullUrl = request.nextUrl.toString()
