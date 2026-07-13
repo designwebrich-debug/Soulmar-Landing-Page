@@ -13,7 +13,7 @@ function signToken(email: string): string {
   return Buffer.from(`${payload}:${sig}`).toString("base64url")
 }
 
-function verifyToken(token: string): string | null {
+export function verifyToken(token: string): string | null {
   try {
     const decoded = Buffer.from(token, "base64url").toString("utf-8")
     const parts = decoded.split(":")

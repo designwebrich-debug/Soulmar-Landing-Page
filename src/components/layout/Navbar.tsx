@@ -23,7 +23,7 @@ export function Navbar() {
   const pathname = usePathname()
   const { language, setLanguage, t } = useTranslation()
 
-  if (pathname?.startsWith("/portal-secreto-soulmar-77312")) {
+  if (pathname?.startsWith("/admin")) {
     return null
   }
 

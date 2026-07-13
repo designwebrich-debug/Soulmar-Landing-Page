@@ -20,15 +20,7 @@ const BLOCKED_PATTERNS = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // --- OBFUSCATION: 404 for generic admin routes ---
-  if (
-    pathname === '/admin' || 
-    pathname.startsWith('/admin/') || 
-    pathname === '/panel-admin' || 
-    pathname.startsWith('/panel-admin/')
-  ) {
-    return new NextResponse('Not Found', { status: 404 })
-  }
+  // --- ROUTES ARE NOW UNRESTRICTED FOR ADMIN BY URL OBFUSCATION ---
 
 
 

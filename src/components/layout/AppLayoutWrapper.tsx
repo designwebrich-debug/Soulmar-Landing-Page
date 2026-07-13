@@ -6,7 +6,7 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
 
 export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isAdmin = pathname?.startsWith("/portal-secreto-soulmar-77312")
+  const isAdmin = pathname?.startsWith("/admin")
 
   if (isAdmin) {
     return <>{children}</>

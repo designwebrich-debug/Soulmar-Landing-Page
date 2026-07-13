@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { cookies } from "next/headers"
+import { verifyToken } from "../admin-auth/route"
 import { createAdminClient } from "@/lib/supabase/server"
 import { createCalendarEvent } from "@/lib/googleCalendar"
 
@@ -22,8 +22,11 @@ function isAuthorized(email?: string | null): boolean {
  */
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session || !isAuthorized(session.user?.email)) {
+    const cookieStore = cookies()
+    const token = cookieStore.get("soulmar_admin_session")?.value
+    const email = token ? verifyToken(token) : null
+
+    if (!email || !isAuthorized(email)) {
       return new NextResponse("Unauthorized", { status: 401 })
     }
 
@@ -66,8 +69,11 @@ export async function GET() {
  */
 export async function PATCH(request: Request) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session || !isAuthorized(session.user?.email)) {
+    const cookieStore = cookies()
+    const token = cookieStore.get("soulmar_admin_session")?.value
+    const email = token ? verifyToken(token) : null
+
+    if (!email || !isAuthorized(email)) {
       return new NextResponse("Unauthorized", { status: 401 })
     }
 
