@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { 
   LayoutDashboard, 
@@ -62,8 +61,10 @@ interface Holiday {
 }
 
 export default function AdminPage() {
-  const { data: session, status } = useSession()
   const router = useRouter()
+  // ─── AUTH PROPIO (sin NextAuth) ───────────────────────────
+  const [adminEmail, setAdminEmail] = useState<string | null>(null)
+  const [authChecked, setAuthChecked] = useState(false)
   const [activeTab, setActiveTab] = useState<"dashboard" | "appointments" | "schedules" | "clients">("dashboard")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
@@ -143,12 +144,20 @@ export default function AdminPage() {
     }
   }
 
+  // ─── Verificar sesión al montar ───────────────────────────
   useEffect(() => {
     setIsMounted(true)
+    fetch("/api/admin-auth")
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data?.authenticated) setAdminEmail(data.email)
+      })
+      .catch(() => {})
+      .finally(() => setAuthChecked(true))
   }, [])
 
   useEffect(() => {
-    if (session) {
+    if (adminEmail) {
       fetchAppointments()
 
       // Cargar configuraciones de horarios
@@ -160,7 +169,7 @@ export default function AdminPage() {
       if (savedDuration) setSlotDuration(savedDuration)
       if (savedHolidays) setHolidays(JSON.parse(savedHolidays))
     }
-  }, [session])
+  }, [adminEmail])
 
   // Guardar horario
   const handleSaveSchedules = () => {
@@ -432,27 +441,31 @@ export default function AdminPage() {
     }
     setIsSubmittingForm(true)
     try {
-      const res = await signIn("credentials", {
-        email: emailInput,
-        password: passwordInput,
-        redirect: false,
-        callbackUrl: "/portal-secreto-soulmar-77312",
+      const res = await fetch("/api/admin-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailInput, password: passwordInput }),
       })
-      if (res?.error) {
-        setFormError("Credenciales inválidas o correo no autorizado.")
-      } else if (res?.ok) {
-        // Forzar recarga del componente para que useSession detecte la sesión nueva
-        router.refresh()
+      const data = await res.json()
+      if (res.ok && data.ok) {
+        setAdminEmail(data.email)
+      } else {
+        setFormError(data.error || "Credenciales inválidas.")
       }
     } catch (err) {
-      setFormError("Ocurrió un error al iniciar sesión.")
+      setFormError("Error de conexión. Intenta de nuevo.")
     } finally {
       setIsSubmittingForm(false)
     }
   }
 
-  // Cargando
-  if (status === "loading" || !isMounted) {
+  const handleLogout = async () => {
+    await fetch("/api/admin-auth", { method: "DELETE" })
+    setAdminEmail(null)
+  }
+
+  // ─── Guardas de pantalla ───────────────────────────────────
+  if (!isMounted || !authChecked) {
     return (
       <div className="flex h-screen items-center justify-center bg-white font-dm-sans">
         <div className="flex flex-col items-center gap-4">
@@ -464,7 +477,7 @@ export default function AdminPage() {
   }
 
   // Pantalla de Acceso (Login) - Stark Black & White Premium
-  if (!session) {
+  if (!adminEmail) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#F9F9FB] px-6 py-12 font-dm-sans text-black relative">
         <div className="w-full max-w-md rounded-3xl bg-white p-10 md:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.03)] border border-neutral-200 relative z-10 animate-in fade-in duration-500">
@@ -487,23 +500,7 @@ export default function AdminPage() {
               </div>
             )}
 
-            {/* Google OAuth Button */}
-            <button
-              onClick={() => signIn("google")}
-              className="w-full h-12 rounded-full bg-black hover:bg-neutral-900 text-white transition-all flex items-center justify-center gap-3 font-bold text-xs uppercase tracking-wider cursor-pointer shadow-sm"
-            >
-              <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-6.887 4.114-4.693 0-8.5-3.807-8.5-8.5s3.807-8.5 8.5-8.5c2.1 0 4.005.765 5.508 2.025l3.207-3.207C18.255 1.08 15.39 0 12.24 0 5.48 0 0 5.48 0 12.24s5.48 12.24 12.24 12.24c6.7 0 12.015-4.8 12.015-12.24 0-.84-.075-1.575-.24-2.22H12.24Z"/>
-              </svg>
-              <span>Acceder con Google</span>
-            </button>
-
-            {/* Divisor */}
-            <div className="w-full flex items-center gap-3 text-[9px] text-neutral-400 font-extrabold uppercase tracking-widest">
-              <div className="flex-1 h-px bg-neutral-200" />
-              <span>O Acceso Manual</span>
-              <div className="flex-1 h-px bg-neutral-200" />
-            </div>
+            {/* Google OAuth - Deshabilitado en modo manual */}
 
             {/* Manual Form */}
             <form onSubmit={handleCredentialsSubmit} className="w-full space-y-4">
@@ -621,7 +618,7 @@ export default function AdminPage() {
             </div>
           </div>
           <button
-            onClick={() => signOut({ callbackUrl: "/" })}
+            onClick={() => handleLogout()}
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-neutral-300 transition-colors font-bold text-[10px] uppercase tracking-wider cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
@@ -706,7 +703,7 @@ export default function AdminPage() {
                 </div>
               </div>
               <button
-                onClick={() => signOut({ callbackUrl: "/" })}
+                  onClick={() => handleLogout()}
                 className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 text-neutral-300 font-bold text-[10px] uppercase"
               >
                 <LogOut className="w-3.5 h-3.5" />
