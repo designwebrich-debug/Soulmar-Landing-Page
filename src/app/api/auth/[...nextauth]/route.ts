@@ -164,8 +164,8 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/",
-    error: "/", // Redirige de vuelta a la landing si hay un error de autenticación
+    signIn: "/portal-secreto-soulmar-77312",
+    error: "/portal-secreto-soulmar-77312",
   }
 }
 

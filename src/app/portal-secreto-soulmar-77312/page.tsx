@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -62,6 +63,7 @@ interface Holiday {
 
 export default function AdminPage() {
   const { data: session, status } = useSession()
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState<"dashboard" | "appointments" | "schedules" | "clients">("dashboard")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
@@ -434,9 +436,13 @@ export default function AdminPage() {
         email: emailInput,
         password: passwordInput,
         redirect: false,
+        callbackUrl: "/portal-secreto-soulmar-77312",
       })
       if (res?.error) {
         setFormError("Credenciales inválidas o correo no autorizado.")
+      } else if (res?.ok) {
+        // Forzar recarga del componente para que useSession detecte la sesión nueva
+        router.refresh()
       }
     } catch (err) {
       setFormError("Ocurrió un error al iniciar sesión.")
