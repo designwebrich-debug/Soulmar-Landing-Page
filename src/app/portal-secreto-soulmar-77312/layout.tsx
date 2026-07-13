@@ -1,6 +1,5 @@
 import React from "react"
 import { Metadata } from "next"
-import AdminSessionProvider from "./AdminSessionProvider"
 
 export const metadata: Metadata = {
   title: "Soulmar | Portal Administrativo",
@@ -13,10 +12,8 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AdminSessionProvider>
-      <div className="min-h-screen bg-white text-black font-sans antialiased">
-        {children}
-      </div>
-    </AdminSessionProvider>
+    <div className="min-h-screen bg-white text-black font-sans antialiased">
+      {children}
+    </div>
   )
 }
