@@ -22,7 +22,9 @@ import {
   Trash2,
   Clock,
   Search,
-  Users
+  Users,
+  Eye,
+  EyeOff
 } from "lucide-react"
 
 interface Patient {
@@ -105,6 +107,7 @@ export default function AdminPage() {
   const [passwordInput, setPasswordInput] = useState("")
   const [formError, setFormError] = useState<string | null>(null)
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   // Cargar citas con sincronización bidireccional de localStorage
   const fetchAppointments = async () => {
@@ -534,13 +537,22 @@ export default function AdminPage() {
                 className="w-full h-12 rounded-xl px-4 bg-[#F8F8FA] border border-neutral-300 text-black font-semibold focus:bg-white focus:border-black outline-none transition-all text-xs"
               />
 
-              <input
-                type="password"
-                placeholder="Contraseña"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full h-12 rounded-xl px-4 bg-[#F8F8FA] border border-neutral-300 text-black font-semibold focus:bg-white focus:border-black outline-none transition-all text-xs"
-              />
+              <div className="relative w-full">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Contraseña"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  className="w-full h-12 rounded-xl pl-4 pr-12 bg-[#F8F8FA] border border-neutral-300 text-black font-semibold focus:bg-white focus:border-black outline-none transition-all text-xs"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
 
               <button
                 type="submit"
