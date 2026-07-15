@@ -1120,10 +1120,10 @@ export default function AdminPage() {
                               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${
                                   app.status === "confirmed" 
-                                    ? "bg-black text-white"
+                                    ? "bg-[#1D9E75]/8 text-[#1D9E75] border border-[#1D9E75]/20"
                                     : app.status === "cancelled"
-                                    ? "bg-neutral-100 text-neutral-400 border border-neutral-200"
-                                    : "bg-neutral-100 text-black border border-neutral-300"
+                                    ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
+                                    : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
                                 }`}>
                                   {app.status === "confirmed" && "Confirmada"}
                                   {app.status === "cancelled" && "Cancelada"}
