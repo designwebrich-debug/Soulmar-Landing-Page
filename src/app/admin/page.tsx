@@ -796,38 +796,38 @@ export default function AdminPage() {
               <div className="space-y-8 animate-in fade-in duration-300">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   
-                  {/* KPI 1 */}
-                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                  {/* KPI 1 - Verde Soulmar */}
+                  <div className="bg-[#1D9E75]/[0.02] rounded-3xl p-8 border border-[#1D9E75]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#1D9E75]/25 transition-all duration-300">
                     <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Citas para hoy</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#1D9E75]/80 block">Citas para hoy</span>
                       <span className="text-4xl font-black text-black font-sans block">{kpis.todayCount}</span>
-                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Sesiones activas</span>
+                      <span className="text-[9px] font-bold text-[#1D9E75] bg-[#1D9E75]/8 border border-[#1D9E75]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Sesiones activas</span>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
+                    <div className="w-12 h-12 rounded-xl bg-[#1D9E75]/10 border border-[#1D9E75]/15 flex items-center justify-center text-[#1D9E75]">
                       <Calendar className="w-6 h-6" />
                     </div>
                   </div>
 
-                  {/* KPI 2 */}
-                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                  {/* KPI 2 - Amarillo/Ámbar Soulmar */}
+                  <div className="bg-[#BA7517]/[0.02] rounded-3xl p-8 border border-[#BA7517]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#BA7517]/25 transition-all duration-300">
                     <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Conversión de Agenda</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#BA7517]/80 block">Conversión de Agenda</span>
                       <span className="text-4xl font-black text-black font-sans block">{kpis.conversionRate}%</span>
-                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Confirmación directa</span>
+                      <span className="text-[9px] font-bold text-[#BA7517] bg-[#BA7517]/8 border border-[#BA7517]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Confirmación directa</span>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
+                    <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
                       <TrendingUp className="w-6 h-6" />
                     </div>
                   </div>
 
-                  {/* KPI 3 */}
-                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                  {/* KPI 3 - Azul Soulmar */}
+                  <div className="bg-[#185FA5]/[0.02] rounded-3xl p-8 border border-[#185FA5]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#185FA5]/25 transition-all duration-300">
                     <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Citas Totales</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#185FA5]/80 block">Citas Totales</span>
                       <span className="text-4xl font-black text-black font-sans block">{kpis.totalActiveCount}</span>
-                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Reservas Activas</span>
+                      <span className="text-[9px] font-bold text-[#185FA5] bg-[#185FA5]/8 border border-[#185FA5]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Reservas Activas</span>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
+                    <div className="w-12 h-12 rounded-xl bg-[#185FA5]/10 border border-[#185FA5]/15 flex items-center justify-center text-[#185FA5]">
                       <Calendar className="w-6 h-6" />
                     </div>
                   </div>
