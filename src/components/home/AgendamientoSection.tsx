@@ -60,10 +60,7 @@ export function AgendamientoSection() {
     Domingo: { enabled: false, start: "10:00", end: "20:00" },
   })
   const [slotDuration, setSlotDuration] = useState("30 min")
-  const [holidays, setHolidays] = useState<any[]>([
-    { id: "1", date: "2026-05-26", reason: "Festivo local" },
-    { id: "2", date: "2026-06-22", reason: "Vacaciones" },
-  ])
+  const [holidays, setHolidays] = useState<any[]>([])
 
   useEffect(() => {
     const savedSchedules = localStorage.getItem("soulmar_schedules")
