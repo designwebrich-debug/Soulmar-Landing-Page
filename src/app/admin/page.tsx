@@ -69,6 +69,10 @@ const formatLocalDate = (date: Date): string => {
   return `${y}-${m}-${d}`
 }
 
+const formatCOP = (val: number): string => {
+  return `$${val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} COP`
+}
+
 export default function AdminPage() {
   const router = useRouter()
   // ─── AUTH PROPIO (sin NextAuth) ───────────────────────────
@@ -84,6 +88,7 @@ export default function AdminPage() {
   const [updatingId, setUpdatingId] = useState<string | null>(null)
   const [isCalendarConfigured, setIsCalendarConfigured] = useState(false)
   const [copiedToken, setCopiedToken] = useState(false)
+  const [selectedClientHistory, setSelectedClientHistory] = useState<any | null>(null)
 
   // Filtros de Citas
   const [filterSearch, setFilterSearch] = useState("")
@@ -414,56 +419,93 @@ export default function AdminPage() {
 
   // --- TAB CLIENTES ---
   const clientsData = useMemo(() => {
-    const realClientsMap = new Map<string, {
+    interface ClientEntry {
       name: string
       email: string
+      phone: string
       appointments: number
       completed: number
       spent: number
       lastVisit: string
-    }>()
+      history: Array<{
+        id: string
+        date: string
+        time: string
+        status: string
+        price: number
+        reason?: string
+      }>
+    }
+
+    const list: ClientEntry[] = []
 
     appointments.forEach(app => {
-      if (app.patient?.email) {
-        const email = app.patient.email.toLowerCase()
-        const existing = realClientsMap.get(email)
-        const isCompleted = app.status === "confirmed"
-        if (existing) {
-          existing.appointments += 1
-          if (isCompleted) {
-            existing.completed += 1
-            existing.spent += 45
-          }
-          if (app.appointment_date > existing.lastVisit) {
-            existing.lastVisit = app.appointment_date
-          }
-        } else {
-          realClientsMap.set(email, {
-            name: app.patient.name || "Paciente",
-            email: app.patient.email,
-            appointments: 1,
-            completed: isCompleted ? 1 : 0,
-            spent: isCompleted ? 45 : 0,
-            lastVisit: app.appointment_date
-          })
+      const email = app.patient?.email?.toLowerCase().trim() || ""
+      const phone = app.patient?.phone?.trim() || ""
+      const name = app.patient?.name?.trim() || "Paciente"
+
+      // Buscar si ya existe coincidencia por email o celular
+      let existingIndex = -1
+      for (let i = 0; i < list.length; i++) {
+        const client = list[i]
+        const emailMatch = email && client.email && client.email.toLowerCase() === email
+        const phoneMatch = phone && client.phone && client.phone === phone
+        if (emailMatch || phoneMatch) {
+          existingIndex = i
+          break
         }
       }
-    })
-    
-    const combined: Array<{
-      name: string
-      email: string
-      appointments: number
-      completed: number
-      spent: number
-      lastVisit: string
-    }> = []
 
-    realClientsMap.forEach((realVal) => {
-      combined.push(realVal)
+      const isCompleted = app.status === "confirmed"
+      const sessionPrice = 120000 // $120.000 COP
+
+      const appDetails = {
+        id: app.id,
+        date: app.appointment_date,
+        time: app.appointment_time,
+        status: app.status,
+        price: isCompleted ? sessionPrice : 0,
+        reason: app.reason
+      }
+
+      if (existingIndex !== -1) {
+        const existing = list[existingIndex]
+        existing.appointments += 1
+        if (isCompleted) {
+          existing.completed += 1
+          existing.spent += sessionPrice
+        }
+        if (app.appointment_date > existing.lastVisit) {
+          existing.lastVisit = app.appointment_date
+        }
+        // Completar datos faltantes para futuras búsquedas
+        if (!existing.email && email) existing.email = email
+        if (!existing.phone && phone) existing.phone = phone
+        existing.history.push(appDetails)
+      } else {
+        list.push({
+          name,
+          email,
+          phone,
+          appointments: 1,
+          completed: isCompleted ? 1 : 0,
+          spent: isCompleted ? sessionPrice : 0,
+          lastVisit: app.appointment_date,
+          history: [appDetails]
+        })
+      }
     })
-    
-    return combined.sort((a, b) => b.spent - a.spent)
+
+    // Ordenar historial de citas por fecha/hora desc
+    list.forEach(c => {
+      c.history.sort((a, b) => {
+        const dateCompare = b.date.localeCompare(a.date)
+        if (dateCompare !== 0) return dateCompare
+        return b.time.localeCompare(a.time)
+      })
+    })
+
+    return list.sort((a, b) => b.spent - a.spent)
   }, [appointments])
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
@@ -1366,10 +1408,14 @@ export default function AdminPage() {
                     </thead>
                     <tbody className="divide-y divide-neutral-200">
                       {clientsData.map((client, index) => (
-                        <tr key={index} className="hover:bg-neutral-50 transition-colors">
+                        <tr 
+                          key={index} 
+                          onClick={() => setSelectedClientHistory(client)}
+                          className="hover:bg-neutral-50 transition-colors cursor-pointer"
+                        >
                           <td className="px-6 py-4.5">
                             <p className="font-bold text-black">{client.name}</p>
-                            <p className="text-[10px] text-neutral-400 font-semibold">{client.email}</p>
+                            <p className="text-[10px] text-neutral-400 font-semibold">{client.email} {client.phone ? `· ${client.phone}` : ""}</p>
                           </td>
                           <td className="px-6 py-4.5 text-center font-bold text-black">
                             {client.appointments}
@@ -1378,7 +1424,7 @@ export default function AdminPage() {
                             {client.completed}
                           </td>
                           <td className="px-6 py-4.5 text-right font-black text-black">
-                            {client.spent} €
+                            {formatCOP(client.spent)}
                           </td>
                           <td className="px-6 py-4.5 text-right font-mono text-[10px] text-neutral-400 font-semibold">
                             {client.lastVisit}
@@ -1394,6 +1440,88 @@ export default function AdminPage() {
           </div>
         </main>
       </div>
+
+      {/* MODAL DE HISTORIAL DEL CLIENTE */}
+      {selectedClientHistory && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div 
+            className="fixed inset-0" 
+            onClick={() => setSelectedClientHistory(null)}
+          />
+          
+          <div className="bg-white rounded-3xl border border-neutral-200 shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="p-6 md:p-8 border-b border-neutral-100 flex items-start justify-between">
+              <div className="space-y-1">
+                <h4 className="text-lg font-black text-black uppercase tracking-tight">{selectedClientHistory.name}</h4>
+                <p className="text-xs text-neutral-400 font-semibold">{selectedClientHistory.email} {selectedClientHistory.phone ? `· ${selectedClientHistory.phone}` : ""}</p>
+                <div className="flex gap-4 pt-2 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
+                  <span>Citas: <strong className="text-black font-extrabold">{selectedClientHistory.appointments}</strong></span>
+                  <span>Completadas: <strong className="text-black font-extrabold">{selectedClientHistory.completed}</strong></span>
+                  <span>Gastado: <strong className="text-[#185FA5] font-extrabold">{formatCOP(selectedClientHistory.spent)}</strong></span>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedClientHistory(null)}
+                className="p-2 rounded-full hover:bg-neutral-100 text-black transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* History List */}
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-4">
+              <h5 className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Historial de Reservas</h5>
+              {selectedClientHistory.history.length === 0 ? (
+                <p className="text-xs text-neutral-400 font-semibold italic text-center py-8">No hay citas registradas en el historial.</p>
+              ) : (
+                <div className="space-y-3">
+                  {selectedClientHistory.history.map((app: any, appIdx: number) => {
+                    const formattedDate = new Date(app.date + "T00:00:00").toLocaleDateString("es-ES", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric"
+                    })
+                    return (
+                      <div 
+                        key={appIdx} 
+                        className="p-4 rounded-2xl border border-neutral-100 bg-neutral-50/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                      >
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-black capitalize">{formattedDate}</span>
+                            <span className="text-[10px] text-neutral-400 font-bold font-mono bg-neutral-100 px-1.5 py-0.5 rounded">{app.time}</span>
+                          </div>
+                          {app.reason && (
+                            <p className="text-[10px] text-neutral-400 font-semibold italic">Motivo: "{app.reason}"</p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3 justify-between sm:justify-end">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-extrabold uppercase tracking-wider ${
+                            app.status === "confirmed" 
+                              ? "bg-[#1D9E75]/8 text-[#1D9E75] border border-[#1D9E75]/20"
+                              : app.status === "cancelled"
+                              ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
+                              : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
+                          }`}>
+                            {app.status === "confirmed" && "Confirmada"}
+                            {app.status === "cancelled" && "Cancelada"}
+                            {app.status === "pending" && "Pendiente"}
+                          </span>
+                          <span className="text-xs font-black text-black">
+                            {formatCOP(app.price)}
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
