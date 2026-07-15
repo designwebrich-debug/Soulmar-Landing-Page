@@ -414,17 +414,15 @@ export default function AdminPage() {
 
   // --- TAB CLIENTES ---
   const clientsData = useMemo(() => {
-    const baseMock = [
-      { name: "Sara Gómez", email: "sara.gomez@example.com", appointments: 24, completed: 17, spent: 780, lastVisit: "2026-06-09" },
-      { name: "Nuria Vega", email: "nuria.vega@example.com", appointments: 26, completed: 18, spent: 670, lastVisit: "2026-06-06" },
-      { name: "Lucía Fernández", email: "lucia.fernandez@example.com", appointments: 19, completed: 16, spent: 665, lastVisit: "2026-06-15" },
-      { name: "Elena Díaz", email: "elena.diaz@example.com", appointments: 20, completed: 14, spent: 650, lastVisit: "2026-06-13" },
-      { name: "Paula Navarro", email: "paula.navarro@example.com", appointments: 22, completed: 13, spent: 595, lastVisit: "2026-06-12" },
-      { name: "Carmen Ruiz", email: "carmen.ruiz@example.com", appointments: 21, completed: 14, spent: 595, lastVisit: "2026-06-10" },
-      { name: "Marta Jiménez", email: "marta.jimenez@example.com", appointments: 15, completed: 11, spent: 580, lastVisit: "2026-06-09" },
-    ]
-    
-    const realClientsMap = new Map<string, typeof baseMock[0]>()
+    const realClientsMap = new Map<string, {
+      name: string
+      email: string
+      appointments: number
+      completed: number
+      spent: number
+      lastVisit: string
+    }>()
+
     appointments.forEach(app => {
       if (app.patient?.email) {
         const email = app.patient.email.toLowerCase()
@@ -452,19 +450,17 @@ export default function AdminPage() {
       }
     })
     
-    const combined = [...baseMock]
-    realClientsMap.forEach((realVal, realEmail) => {
-      const idx = combined.findIndex(c => c.email.toLowerCase() === realEmail)
-      if (idx !== -1) {
-        combined[idx].appointments += realVal.appointments
-        combined[idx].completed += realVal.completed
-        combined[idx].spent += realVal.spent
-        if (realVal.lastVisit > combined[idx].lastVisit) {
-          combined[idx].lastVisit = realVal.lastVisit
-        }
-      } else {
-        combined.push(realVal)
-      }
+    const combined: Array<{
+      name: string
+      email: string
+      appointments: number
+      completed: number
+      spent: number
+      lastVisit: string
+    }> = []
+
+    realClientsMap.forEach((realVal) => {
+      combined.push(realVal)
     })
     
     return combined.sort((a, b) => b.spent - a.spent)
