@@ -582,6 +582,114 @@ export default function AdminPage() {
     }
   }, [appointments])
 
+  // --- CÁLCULO DE ESTADÍSTICAS DE DEMANDA ---
+  const analyticsStats = useMemo(() => {
+    const activeApps = appointments.filter(app => app.status !== "cancelled")
+    if (activeApps.length === 0) {
+      return {
+        topDay: "Sin Datos",
+        topDayPct: 0,
+        peakPeriod: "Sin Datos",
+        peakHour: "00:00",
+        topReason: "Sin Datos",
+        topReasonCount: 0
+      }
+    }
+
+    // 1. Día más solicitado
+    const weekdays = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+    const dayCounts: { [key: string]: number } = {}
+    activeApps.forEach(app => {
+      const dIndex = new Date(app.appointment_date + "T00:00:00").getDay()
+      const dName = weekdays[dIndex]
+      dayCounts[dName] = (dayCounts[dName] || 0) + 1
+    })
+    
+    let topDay = "Sin Datos"
+    let maxDayCount = 0
+    Object.entries(dayCounts).forEach(([day, count]) => {
+      if (count > maxDayCount) {
+        maxDayCount = count
+        topDay = day
+      }
+    })
+    const topDayPct = Math.round((maxDayCount / activeApps.length) * 100)
+
+    // 2. Horas Pico (AM/PM y hora exacta)
+    let amCount = 0
+    let pmCount = 0
+    const hourCounts: { [key: string]: number } = {}
+    
+    activeApps.forEach(app => {
+      const timeStr = app.appointment_time.trim().toUpperCase()
+      
+      let isPM = false
+      if (timeStr.includes("PM")) {
+        isPM = true
+      } else if (timeStr.includes("AM")) {
+        isPM = false
+      } else {
+        const hourPart = parseInt(timeStr.split(":")[0])
+        isPM = hourPart >= 12
+      }
+      
+      if (isPM) pmCount++
+      else amCount++
+      
+      hourCounts[timeStr] = (hourCounts[timeStr] || 0) + 1
+    })
+    
+    const peakPeriod = pmCount >= amCount ? "Jornada PM" : "Jornada AM"
+    
+    let peakHour = "Sin Datos"
+    let maxHourCount = 0
+    Object.entries(hourCounts).forEach(([hour, count]) => {
+      if (count > maxHourCount) {
+        maxHourCount = count
+        peakHour = hour
+      }
+    })
+
+    // 3. Motivo de consulta más solicitado
+    const reasonCounts: { [key: string]: number } = {}
+    const getReasonCategory = (reason?: string): string => {
+      if (!reason) return "Consulta General"
+      const r = reason.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      if (r.includes("ansiedad")) return "Ansiedad"
+      if (r.includes("estres")) return "Estrés"
+      if (r.includes("depre")) return "Depresión"
+      if (r.includes("pareja") || r.includes("relacion")) return "Terapia de Pareja"
+      if (r.includes("autoestima")) return "Autoestima"
+      if (r.includes("duelo")) return "Duelo"
+      
+      const cleanReason = reason.trim()
+      return cleanReason.charAt(0).toUpperCase() + cleanReason.slice(1)
+    }
+
+    activeApps.forEach(app => {
+      const cat = getReasonCategory(app.reason)
+      reasonCounts[cat] = (reasonCounts[cat] || 0) + 1
+    })
+    
+    let topReason = "Consulta General"
+    let maxReasonCount = 0
+    Object.entries(reasonCounts).forEach(([reason, count]) => {
+      if (count > maxReasonCount) {
+        maxReasonCount = count
+        topReason = reason
+      }
+    })
+
+    return {
+      topDay,
+      topDayPct,
+      peakPeriod,
+      peakHour,
+      topReason,
+      topReasonCount: maxReasonCount
+    }
+  }, [appointments])
+
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormError(null)
@@ -1037,6 +1145,52 @@ export default function AdminPage() {
                           </g>
                         ))}
                       </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* METRICAS DE ANALITICAS ADICIONALES */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-300">
+                  
+                  {/* Card 1: Día de Mayor Demanda */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día de Mayor Demanda</span>
+                      <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.topDay}</span>
+                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.topDayPct}% de las sesiones
+                      </span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
+                      <Calendar className="w-6 h-6" />
+                    </div>
+                  </div>
+
+                  {/* Card 2: Hora Pico de Sesiones */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Hora Pico de Sesiones</span>
+                      <span className="text-3xl font-black text-black font-sans block">{analyticsStats.peakHour}</span>
+                      <span className="text-[9px] font-bold text-[#BA7517] bg-[#BA7517]/8 border border-[#BA7517]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.peakPeriod}
+                      </span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
+                      <Clock className="w-6 h-6" />
+                    </div>
+                  </div>
+
+                  {/* Card 3: Motivo más Solicitado */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Motivo más Solicitado</span>
+                      <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.topReason}</span>
+                      <span className="text-[9px] font-bold text-[#1D9E75] bg-[#1D9E75]/8 border border-[#1D9E75]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.topReasonCount} {analyticsStats.topReasonCount === 1 ? "reserva" : "reservas"}
+                      </span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-[#1D9E75]/10 border border-[#1D9E75]/15 flex items-center justify-center text-[#1D9E75]">
+                      <Search className="w-6 h-6" />
                     </div>
                   </div>
                 </div>
