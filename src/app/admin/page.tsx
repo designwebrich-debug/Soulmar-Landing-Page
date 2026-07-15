@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -177,6 +178,27 @@ export default function AdminPage() {
       .catch(() => {})
       .finally(() => setAuthChecked(true))
   }, [])
+
+  // ─── Suscribirse a cambios en tiempo real con Supabase ───
+  useEffect(() => {
+    if (!adminEmail) return
+
+    const supabase = createClient()
+    const channel = supabase
+      .channel("admin-appointments-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "appointments" },
+        () => {
+          fetchAppointments()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [adminEmail])
 
   useEffect(() => {
     if (adminEmail) {
@@ -690,6 +712,10 @@ export default function AdminPage() {
     }
   }, [appointments])
 
+  const pendingCount = useMemo(() => {
+    return appointments.filter(app => app.status === "pending").length
+  }, [appointments])
+
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormError(null)
@@ -837,14 +863,21 @@ export default function AdminPage() {
             
             <button
               onClick={() => setActiveTab("appointments")}
-              className={`w-full flex items-center gap-4 px-5 py-3 rounded-xl font-bold transition-all cursor-pointer ${
+              className={`w-full flex items-center justify-between px-5 py-3 rounded-xl font-bold transition-all cursor-pointer ${
                 activeTab === "appointments"
                   ? "bg-white text-black"
                   : "hover:bg-neutral-900 text-neutral-400 hover:text-white"
               }`}
             >
-              <Calendar className="w-4 h-4" />
-              <span className="text-xs uppercase tracking-wider">Citas</span>
+              <div className="flex items-center gap-4">
+                <Calendar className="w-4 h-4" />
+                <span className="text-xs uppercase tracking-wider">Citas</span>
+              </div>
+              {pendingCount > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[9px] font-black text-white shadow-lg animate-in zoom-in duration-300">
+                  {pendingCount}
+                </span>
+              )}
             </button>
 
             <button
@@ -931,12 +964,19 @@ export default function AdminPage() {
                 </button>
                 <button
                   onClick={() => { setActiveTab("appointments"); setMobileMenuOpen(false); }}
-                  className={`w-full flex items-center gap-4 px-5 py-3 rounded-xl font-bold transition-all ${
+                  className={`w-full flex items-center justify-between px-5 py-3 rounded-xl font-bold transition-all ${
                     activeTab === "appointments" ? "bg-white text-black" : "text-neutral-400 hover:bg-neutral-900"
                   }`}
                 >
-                  <Calendar className="w-4 h-4" />
-                  <span className="text-xs uppercase tracking-wider">Citas</span>
+                  <div className="flex items-center gap-4">
+                    <Calendar className="w-4 h-4" />
+                    <span className="text-xs uppercase tracking-wider">Citas</span>
+                  </div>
+                  {pendingCount > 0 && (
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[9px] font-black text-white shadow-lg">
+                      {pendingCount}
+                    </span>
+                  )}
                 </button>
                 <button
                   onClick={() => { setActiveTab("schedules"); setMobileMenuOpen(false); }}
