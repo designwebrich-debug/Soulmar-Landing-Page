@@ -74,6 +74,7 @@ export async function createCalendarEvent(appointment: AppointmentData) {
     const response = await retryGoogleApiCall(() => calendar.events.insert({
       calendarId: "primary",
       conferenceDataVersion: 1, // Requerido para habilitar la generación de Google Meet
+      sendUpdates: "all", // Obliga a Google a enviar el correo de invitación (Gmail) al paciente
       requestBody: {
         summary: `Consulta Psicológica: ${patientName}`,
         description: `Sesión de psicoterapia agendada en Soulmar.\n\n` +
