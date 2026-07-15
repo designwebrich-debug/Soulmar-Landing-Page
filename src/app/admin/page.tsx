@@ -840,74 +840,80 @@ export default function AdminPage() {
                       <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Volumen de Citas (Últimos 7 días)</h3>
                       <p className="text-[11px] text-neutral-400 font-semibold">Tendencia diaria de reservas agendadas en la página web.</p>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-neutral-50 border border-neutral-200 px-3 py-1 rounded-full text-[9px] font-black text-black uppercase tracking-widest">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>Monocromático</span>
-                    </div>
-                  </div>
-                  
-                  <div className="relative w-full overflow-x-auto">
-                    <div className="min-w-[600px] h-60 flex flex-col justify-between">
-                      <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full overflow-visible">
-                        <defs>
-                          <linearGradient id="bwChartGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#000000" stopOpacity="0.04" />
-                            <stop offset="100%" stopColor="#000000" stopOpacity="0.0" />
-                          </linearGradient>
-                        </defs>
-
-                        {/* thin clean grid lines */}
-                        {[0, 1, 2, 3, 4].map((gridIndex) => {
-                          const y = 20 + (gridIndex / 4) * (svgDimensions.height - 50)
-                          return (
-                            <line 
-                              key={gridIndex} 
-                              x1="0" 
-                              y1={y} 
-                              x2={svgDimensions.width} 
-                              y2={y} 
-                              stroke="#000000" 
-                              strokeOpacity="0.05"
-                            />
-                          )
-                        })}
-
-                        {/* Gradient Area under curve */}
-                        {areaD && <path d={areaD} fill="url(#bwChartGradient)" className="transition-all duration-700" />}
-
-                        {/* Glowing Line Path */}
-                        {pathD && (
-                          <path 
-                            d={pathD} 
-                            fill="none" 
-                            stroke="#000000" 
-                            strokeWidth="3.5" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            className="transition-all duration-700"
-                          />
-                        )}
-
-                        {/* Nodes with double outer glowing borders */}
-                        {chartPoints.map((p, i) => (
-                          <g key={i} className="group/node cursor-pointer">
-                            <circle 
-                              cx={p.x} 
-                              cy={p.y} 
-                              r="4.5" 
-                              fill="#FFFFFF" 
-                              stroke="#000000" 
-                              strokeWidth="3.5" 
-                              className="transition-all duration-300 group-hover/node:stroke-neutral-600 group-hover/node:r-5.5"
-                            />
-                            <text 
-                              x={p.x} 
-                              y={p.y - 12} 
-                              textAnchor="middle" 
-                              className="text-[10px] font-black fill-black font-sans"
-                            >
-                              {p.count}
-                            </text>
+                     <div className="flex items-center gap-1.5 bg-[#185FA5]/5 border border-[#185FA5]/15 px-3 py-1 rounded-full text-[9px] font-black text-[#185FA5] uppercase tracking-widest">
+                       <Sparkles className="w-3.5 h-3.5" />
+                       <span>Azul Soulmar</span>
+                     </div>
+                   </div>
+                   
+                   <div className="relative w-full overflow-x-auto">
+                     <div className="min-w-[600px] h-60 flex flex-col justify-between">
+                       <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full overflow-visible">
+                         <defs>
+                           <linearGradient id="blueChartGradient" x1="0" y1="0" x2="0" y2="1">
+                             <stop offset="0%" stopColor="#185FA5" stopOpacity="0.08" />
+                             <stop offset="100%" stopColor="#185FA5" stopOpacity="0.0" />
+                           </linearGradient>
+                           <filter id="chartLineShadow" x="-10%" y="-10%" width="120%" height="120%">
+                             <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#185FA5" floodOpacity="0.15" />
+                           </filter>
+                         </defs>
+ 
+                         {/* thin clean grid lines */}
+                         {[0, 1, 2, 3, 4].map((gridIndex) => {
+                           const y = 20 + (gridIndex / 4) * (svgDimensions.height - 50)
+                           return (
+                             <line 
+                               key={gridIndex} 
+                               x1="0" 
+                               y1={y} 
+                               x2={svgDimensions.width} 
+                               y2={y} 
+                               stroke="#000000" 
+                               strokeOpacity="0.05"
+                             />
+                           )
+                         })}
+ 
+                         {/* Gradient Area under curve */}
+                         {areaD && <path d={areaD} fill="url(#blueChartGradient)" className="transition-all duration-700" />}
+ 
+                         {/* Glowing Line Path */}
+                         {pathD && (
+                           <path 
+                             d={pathD} 
+                             fill="none" 
+                             stroke="#185FA5" 
+                             strokeWidth="3.5" 
+                             strokeLinecap="round" 
+                             strokeLinejoin="round" 
+                             filter="url(#chartLineShadow)"
+                             className="transition-all duration-700"
+                           />
+                         )}
+ 
+                         {/* Nodes with double outer glowing borders */}
+                         {chartPoints.map((p, i) => (
+                           <g key={i} className="group/node cursor-pointer">
+                             <circle 
+                               cx={p.x} 
+                               cy={p.y} 
+                               r="4.5" 
+                               fill="#FFFFFF" 
+                               stroke="#185FA5" 
+                               strokeWidth="3.5" 
+                               className="transition-all duration-300 group-hover/node:stroke-[#185FA5]/80 group-hover/node:r-5.5"
+                             />
+                             <text 
+                               cx={p.x} 
+                               cy={p.y} 
+                               x={p.x} 
+                               y={p.y - 12} 
+                               textAnchor="middle" 
+                               className="text-[10px] font-black fill-[#185FA5] font-sans"
+                             >
+                               {p.count}
+                             </text>
                             <text 
                               x={p.x} 
                               y={svgDimensions.height - 5} 
