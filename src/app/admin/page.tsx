@@ -930,34 +930,15 @@ export default function AdminPage() {
                     <div className="space-y-3">
                       <h4 className="text-[9px] font-black uppercase tracking-widest text-neutral-400">OAuth Refresh Token</h4>
                       
-                      {(session as any)?.refreshToken ? (
-                        <div className="space-y-3">
-                          <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200 text-neutral-800 font-mono text-[9px] break-all max-h-24 overflow-y-auto">
-                            {(session as any).refreshToken}
-                          </div>
-                          <button
-                            onClick={() => {
-                              navigator.clipboard.writeText((session as any).refreshToken)
-                              setCopiedToken(true)
-                              setTimeout(() => setCopiedToken(false), 2000)
-                            }}
-                            className="w-full h-11 rounded-full bg-black hover:bg-neutral-900 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-                          >
-                            {copiedToken ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                            <span className="uppercase tracking-widest text-[9px]">{copiedToken ? "Copiado" : "Copiar Token"}</span>
-                          </button>
+                      <div className="p-6 bg-[#F8F8FA] rounded-2xl border border-neutral-200 space-y-4">
+                        <div className="flex gap-2.5 text-black">
+                          <AlertCircle className="w-5 h-5 shrink-0" />
+                          <p className="text-xs font-black uppercase tracking-wider">Sincronización Local Activa</p>
                         </div>
-                      ) : (
-                        <div className="p-6 bg-[#F8F8FA] rounded-2xl border border-neutral-200 space-y-4">
-                          <div className="flex gap-2.5 text-black">
-                            <AlertCircle className="w-5 h-5 shrink-0" />
-                            <p className="text-xs font-black uppercase tracking-wider">Sincronización Local Activa</p>
-                          </div>
-                          <p className="text-[11px] text-neutral-500 leading-relaxed font-semibold">
-                            Las citas agendadas en la sección de reserva del frontend se sincronizan de inmediato con esta consola mediante hooks de bases de datos y Local Storage unificado.
-                          </p>
-                        </div>
-                      )}
+                        <p className="text-[11px] text-neutral-500 leading-relaxed font-semibold">
+                          Las citas agendadas en la sección de reserva del frontend se sincronizan de inmediato con esta consola mediante hooks de bases de datos y Local Storage unificado.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
