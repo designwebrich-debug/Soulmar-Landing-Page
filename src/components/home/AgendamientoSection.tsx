@@ -63,12 +63,18 @@ export function AgendamientoSection() {
   const [holidays, setHolidays] = useState<any[]>([])
 
   useEffect(() => {
-    const savedSchedules = localStorage.getItem("soulmar_schedules")
-    const savedDuration = localStorage.getItem("soulmar_slot_duration")
-    const savedHolidays = localStorage.getItem("soulmar_holidays")
-    if (savedSchedules) setSchedules(JSON.parse(savedSchedules))
-    if (savedDuration) setSlotDuration(savedDuration)
-    if (savedHolidays) setHolidays(JSON.parse(savedHolidays))
+    fetch("/api/settings")
+      .then(res => res.json())
+      .then(data => {
+        if (data.settings) {
+          if (data.settings.schedules && Object.keys(data.settings.schedules).length > 0) {
+            setSchedules(data.settings.schedules)
+          }
+          if (data.settings.slot_duration) setSlotDuration(data.settings.slot_duration)
+          if (data.settings.holidays) setHolidays(data.settings.holidays)
+        }
+      })
+      .catch(err => console.error("Error fetching settings:", err))
   }, [])
 
   // Generar horarios de slots dinámicamente según la configuración del administrador

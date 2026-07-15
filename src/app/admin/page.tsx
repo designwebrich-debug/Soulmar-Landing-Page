@@ -170,27 +170,35 @@ export default function AdminPage() {
       fetchAppointments()
 
       // Cargar configuraciones de horarios
-      const savedSchedules = localStorage.getItem("soulmar_schedules")
-      const savedDuration = localStorage.getItem("soulmar_slot_duration")
-      const savedHolidays = localStorage.getItem("soulmar_holidays")
-      
-      if (savedDuration) setSlotDuration(savedDuration)
-      
-      if (savedSchedules) {
-        try { setSchedules(JSON.parse(savedSchedules)) } catch(e) {}
-      }
-      if (savedHolidays) {
-        try { setHolidays(JSON.parse(savedHolidays)) } catch(e) {}
-      }
+      fetch("/api/settings")
+        .then(res => res.json())
+        .then(data => {
+          if (data.settings) {
+            if (data.settings.slot_duration) setSlotDuration(data.settings.slot_duration)
+            if (data.settings.schedules && Object.keys(data.settings.schedules).length > 0) {
+              setSchedules(data.settings.schedules)
+            }
+            if (data.settings.holidays) setHolidays(data.settings.holidays)
+          }
+        })
+        .catch(err => console.error("Error loading settings:", err))
     }
   }, [adminEmail])
 
   // Guardar horario
-  const handleSaveSchedules = () => {
-    localStorage.setItem("soulmar_schedules", JSON.stringify(schedules))
-    localStorage.setItem("soulmar_slot_duration", slotDuration)
-    localStorage.setItem("soulmar_holidays", JSON.stringify(holidays))
-    alert("Horario de apertura y festivos guardados con éxito. 🌿")
+  const handleSaveSchedules = async () => {
+    try {
+      const res = await fetch("/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ schedules, holidays, slot_duration: slotDuration })
+      })
+      if (!res.ok) throw new Error("Error saving settings")
+      alert("Horario de apertura y festivos guardados con éxito. 🌿")
+    } catch (err) {
+      console.error(err)
+      alert("Hubo un error al guardar los horarios.")
+    }
   }
 
   // Confirmar cita con sincronización inmediata
