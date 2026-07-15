@@ -115,13 +115,19 @@ export default function AdminPage() {
       let isCalendarConfig = false
       if (res.ok) {
         const data = await res.json()
-        dbApps = data.appointments || []
+        dbApps = Array.isArray(data.appointments) ? data.appointments : []
         isCalendarConfig = data.isCalendarConfigured || false
       }
       
       // Cargar citas locales agendadas en la landing page
       const localSaved = localStorage.getItem("soulmar_appointments")
-      const localList = localSaved ? JSON.parse(localSaved) : []
+      let localList: any[] = []
+      if (localSaved) {
+        try {
+          const parsed = JSON.parse(localSaved)
+          if (Array.isArray(parsed)) localList = parsed
+        } catch(e) {}
+      }
       
       // Combinar citas sin duplicar
       const mergedList = [...dbApps]
@@ -137,7 +143,10 @@ export default function AdminPage() {
       console.error("Error al cargar citas:", err)
       const localSaved = localStorage.getItem("soulmar_appointments")
       if (localSaved) {
-        setAppointments(JSON.parse(localSaved))
+        try {
+          const parsed = JSON.parse(localSaved)
+          if (Array.isArray(parsed)) setAppointments(parsed)
+        } catch(e) {}
       }
     } finally {
       setLoadingAppointments(false)
@@ -192,11 +201,15 @@ export default function AdminPage() {
       // Actualizar localStorage
       const localSaved = localStorage.getItem("soulmar_appointments")
       if (localSaved) {
-        const list = JSON.parse(localSaved)
-        const updated = list.map((app: any) => 
-          app.id === id ? { ...app, status: "confirmed" } : app
-        )
-        localStorage.setItem("soulmar_appointments", JSON.stringify(updated))
+        try {
+          const list = JSON.parse(localSaved)
+          if (Array.isArray(list)) {
+            const updated = list.map((app: any) => 
+              app.id === id ? { ...app, status: "confirmed" } : app
+            )
+            localStorage.setItem("soulmar_appointments", JSON.stringify(updated))
+          }
+        } catch(e) {}
       }
 
       setAppointments(prev => 
@@ -229,11 +242,15 @@ export default function AdminPage() {
       // Actualizar localStorage
       const localSaved = localStorage.getItem("soulmar_appointments")
       if (localSaved) {
-        const list = JSON.parse(localSaved)
-        const updated = list.map((app: any) => 
-          app.id === id ? { ...app, status: "cancelled" } : app
-        )
-        localStorage.setItem("soulmar_appointments", JSON.stringify(updated))
+        try {
+          const list = JSON.parse(localSaved)
+          if (Array.isArray(list)) {
+            const updated = list.map((app: any) => 
+              app.id === id ? { ...app, status: "cancelled" } : app
+            )
+            localStorage.setItem("soulmar_appointments", JSON.stringify(updated))
+          }
+        } catch(e) {}
       }
 
       setAppointments(prev => 
