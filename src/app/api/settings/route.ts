@@ -46,7 +46,7 @@ export async function GET() {
  */
 export async function PATCH(request: Request) {
   try {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get("soulmar_admin_session")?.value
     const email = token ? verifyToken(token) : null
 

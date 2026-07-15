@@ -22,7 +22,7 @@ function isAuthorized(email?: string | null): boolean {
  */
 export async function GET() {
   try {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get("soulmar_admin_session")?.value
     const email = token ? verifyToken(token) : null
 
@@ -69,7 +69,7 @@ export async function GET() {
  */
 export async function PATCH(request: Request) {
   try {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get("soulmar_admin_session")?.value
     const email = token ? verifyToken(token) : null
 
@@ -212,8 +212,16 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. Insertar la cita
+    // 2. Asegurar que el perfil del terapeuta exista
     const therapistId = "a1b2c3d4-1111-2222-3333-444455556666"
+    await supabase.from("profiles").upsert({
+      id: therapistId,
+      name: "Terapeuta Soulmar",
+      email: "therapist@soulmar.com",
+      role: "admin"
+    })
+
+    // 3. Insertar la cita
     const { data: newApp, error: appError } = await supabase
       .from("appointments")
       .insert({
