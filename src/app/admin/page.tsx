@@ -781,7 +781,7 @@ export default function AdminPage() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-2 border border-black/10 px-4 py-2 rounded-full text-[10px] font-bold text-black bg-neutral-50 shadow-sm uppercase tracking-widest">
+          <div className="flex items-center gap-2 border border-[#1D9E75]/20 px-4 py-2 rounded-full text-[10px] font-black text-[#1D9E75] bg-[#1D9E75]/8 shadow-sm uppercase tracking-widest">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Google Calendar Conectado</span>
           </div>
