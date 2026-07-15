@@ -89,6 +89,7 @@ export default function AdminPage() {
   const [isCalendarConfigured, setIsCalendarConfigured] = useState(false)
   const [copiedToken, setCopiedToken] = useState(false)
   const [selectedClientHistory, setSelectedClientHistory] = useState<any | null>(null)
+  const [revenueActiveTab, setRevenueActiveTab] = useState<"current" | "weekly" | "monthly">("current")
 
   // Filtros de Citas
   const [filterSearch, setFilterSearch] = useState("")
@@ -506,6 +507,79 @@ export default function AdminPage() {
     })
 
     return list.sort((a, b) => b.spent - a.spent)
+  }, [appointments])
+
+  // --- CÁLCULO DE INGRESOS ---
+  const revenueStats = useMemo(() => {
+    const today = new Date()
+    const currentYear = today.getFullYear()
+    const currentMonth = today.getMonth() // 0-11
+    
+    // 1. Ingresos Mes Presente
+    const currentMonthStr = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}`
+    const currentMonthApps = appointments.filter(app => {
+      return app.status === "confirmed" && app.appointment_date.startsWith(currentMonthStr)
+    })
+    const currentMonthRevenue = currentMonthApps.length * 120000
+
+    // 2. Desglose Semanal (Últimas 4 semanas)
+    const weeklyData = []
+    for (let i = 0; i < 4; i++) {
+      const start = new Date()
+      start.setDate(today.getDate() - (i * 7) - 6)
+      start.setHours(0,0,0,0)
+      
+      const end = new Date()
+      end.setDate(today.getDate() - (i * 7))
+      end.setHours(23,59,59,999)
+      
+      const apps = appointments.filter(app => {
+        if (app.status !== "confirmed") return false
+        const appDate = new Date(app.appointment_date + "T00:00:00")
+        return appDate >= start && appDate <= end
+      })
+      
+      const label = i === 0 
+        ? "Esta Semana" 
+        : `Hace ${i} ${i === 1 ? "semana" : "semanas"}`
+        
+      const dateRangeStr = `${start.toLocaleDateString("es-ES", { day: "numeric", month: "short" })} - ${end.toLocaleDateString("es-ES", { day: "numeric", month: "short" })}`
+      
+      weeklyData.push({
+        label,
+        range: dateRangeStr,
+        revenue: apps.length * 120000,
+        count: apps.length
+      })
+    }
+
+    // 3. Desglose Mensual (Últimos 12 meses)
+    const monthlyData = []
+    for (let i = 0; i < 12; i++) {
+      const d = new Date(currentYear, currentMonth - i, 1)
+      const year = d.getFullYear()
+      const month = d.getMonth()
+      const prefix = `${year}-${String(month + 1).padStart(2, "0")}`
+      
+      const apps = appointments.filter(app => {
+        return app.status === "confirmed" && app.appointment_date.startsWith(prefix)
+      })
+      
+      const monthLabel = d.toLocaleDateString("es-ES", { month: "long", year: "numeric" })
+      
+      monthlyData.push({
+        label: monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1),
+        revenue: apps.length * 120000,
+        count: apps.length
+      })
+    }
+
+    return {
+      currentMonthRevenue,
+      currentMonthCount: currentMonthApps.length,
+      weeklyData,
+      monthlyData
+    }
   }, [appointments])
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
@@ -965,6 +1039,116 @@ export default function AdminPage() {
                       </svg>
                     </div>
                   </div>
+                </div>
+
+                {/* INGRESOS POR CITAS CARD */}
+                <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6 hover:shadow-md transition-all duration-300">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-100 pb-5">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase flex items-center gap-1.5">
+                        <TrendingUp className="w-4 h-4 text-[#185FA5]" />
+                        <span>Ingresos por Citas</span>
+                      </h3>
+                      <p className="text-[11px] text-neutral-400 font-semibold">Resumen de ingresos basados en sesiones de Terapia Online confirmadas ($120.000 COP c/u).</p>
+                    </div>
+                    
+                    {/* Segmented controls / Pill Tabs */}
+                    <div className="flex items-center gap-1 bg-neutral-50 border border-neutral-200 p-1 rounded-full w-fit">
+                      <button
+                        onClick={() => setRevenueActiveTab("current")}
+                        className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+                          revenueActiveTab === "current"
+                            ? "bg-black text-white shadow-sm"
+                            : "text-neutral-400 hover:text-black"
+                        }`}
+                      >
+                        Mes Actual
+                      </button>
+                      <button
+                        onClick={() => setRevenueActiveTab("weekly")}
+                        className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+                          revenueActiveTab === "weekly"
+                            ? "bg-black text-white shadow-sm"
+                            : "text-neutral-400 hover:text-black"
+                        }`}
+                      >
+                        Semanal
+                      </button>
+                      <button
+                        onClick={() => setRevenueActiveTab("monthly")}
+                        className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+                          revenueActiveTab === "monthly"
+                            ? "bg-black text-white shadow-sm"
+                            : "text-neutral-400 hover:text-black"
+                        }`}
+                      >
+                        Mensual (12M)
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Render content based on active tab */}
+                  {revenueActiveTab === "current" && (
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-4 animate-in fade-in duration-300">
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-[#185FA5] block">Ganancias del Mes en Curso</span>
+                        <span className="text-4xl md:text-5xl font-black text-black font-sans block">
+                          {formatCOP(revenueStats.currentMonthRevenue)}
+                        </span>
+                        <span className="text-[10px] text-neutral-400 font-semibold block capitalize">
+                          {new Date().toLocaleDateString("es-ES", { month: "long", year: "numeric" })}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
+                        <div className="p-4 bg-neutral-50/50 border border-neutral-100 rounded-2xl text-center space-y-1">
+                          <span className="text-[9px] font-black text-neutral-400 uppercase tracking-wider block">Sesiones Realizadas</span>
+                          <span className="text-lg font-black text-black block">{revenueStats.currentMonthCount}</span>
+                        </div>
+                        <div className="p-4 bg-[#1D9E75]/5 border border-[#1D9E75]/10 rounded-2xl text-center space-y-1">
+                          <span className="text-[9px] font-black text-[#1D9E75] uppercase tracking-wider block">Valor de Sesión</span>
+                          <span className="text-lg font-black text-black block">$120.000 COP</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {revenueActiveTab === "weekly" && (
+                    <div className="space-y-3 py-2 animate-in fade-in duration-300">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block mb-2">Desglose por Citas Semanales (Últimos 30 días)</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {revenueStats.weeklyData.map((week, idx) => (
+                          <div key={idx} className="p-5 rounded-2xl border border-neutral-100 bg-neutral-50/50 flex flex-col justify-between hover:bg-neutral-50 transition-all">
+                            <div className="space-y-1">
+                              <span className="text-[9px] font-black text-[#BA7517] uppercase tracking-widest block">{week.label}</span>
+                              <span className="text-[9px] text-neutral-400 font-bold block">{week.range}</span>
+                            </div>
+                            <div className="mt-4 space-y-0.5">
+                              <span className="text-lg font-black text-black block">{formatCOP(week.revenue)}</span>
+                              <span className="text-[9px] font-bold text-neutral-400 block uppercase tracking-wider">{week.count} {week.count === 1 ? "cita" : "citas"}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {revenueActiveTab === "monthly" && (
+                    <div className="space-y-3 py-2 animate-in fade-in duration-300">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block mb-2">Desglose de Ingresos Mensuales (Últimos 12 meses)</span>
+                      <div className="max-h-[300px] overflow-y-auto rounded-2xl border border-neutral-100 divide-y divide-neutral-100">
+                        {revenueStats.monthlyData.map((month, idx) => (
+                          <div key={idx} className="flex justify-between items-center p-4 bg-white hover:bg-neutral-50 transition-all">
+                            <span className="text-xs font-bold text-black">{month.label}</span>
+                            <div className="flex items-center gap-6">
+                              <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-wider">{month.count} {month.count === 1 ? "sesión" : "sesiones"}</span>
+                              <span className="text-sm font-black text-black">{formatCOP(month.revenue)}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* API Diagnostics Console */}
