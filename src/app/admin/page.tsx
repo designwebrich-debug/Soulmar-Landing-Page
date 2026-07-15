@@ -62,6 +62,13 @@ interface Holiday {
   reason: string
 }
 
+const formatLocalDate = (date: Date): string => {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, "0")
+  const d = String(date.getDate()).padStart(2, "0")
+  return `${y}-${m}-${d}`
+}
+
 export default function AdminPage() {
   const router = useRouter()
   // ─── AUTH PROPIO (sin NextAuth) ───────────────────────────
@@ -304,7 +311,7 @@ export default function AdminPage() {
 
   // --- CÁLCULO DE MÉTRICAS ---
   const kpis = useMemo(() => {
-    const todayStr = new Date().toLocaleDateString("en-CA") // YYYY-MM-DD
+    const todayStr = formatLocalDate(new Date()) // YYYY-MM-DD
     const todayAppointments = appointments.filter(app => app.appointment_date === todayStr && app.status !== "cancelled")
     
     const activeApps = appointments.filter(app => app.status !== "cancelled")
@@ -316,6 +323,7 @@ export default function AdminPage() {
     return {
       todayCount: todayAppointments.length,
       conversionRate,
+      totalActiveCount: activeApps.length,
     }
   }, [appointments])
 
@@ -327,7 +335,7 @@ export default function AdminPage() {
     for (let i = 6; i >= 0; i--) {
       const d = new Date()
       d.setDate(today.getDate() - i)
-      const dStr = d.toLocaleDateString("en-CA")
+      const dStr = formatLocalDate(d)
       
       const count = appointments.filter(app => app.appointment_date === dStr).length
       const dayLabel = d.toLocaleDateString("es-ES", { weekday: "short" })
@@ -815,12 +823,12 @@ export default function AdminPage() {
                   {/* KPI 3 */}
                   <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
                     <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Clientes Totales</span>
-                      <span className="text-4xl font-black text-black font-sans block">{clientsData.length}</span>
-                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Base de Datos</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Citas Totales</span>
+                      <span className="text-4xl font-black text-black font-sans block">{kpis.totalActiveCount}</span>
+                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Reservas Activas</span>
                     </div>
                     <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
-                      <Users className="w-6 h-6" />
+                      <Calendar className="w-6 h-6" />
                     </div>
                   </div>
                 </div>

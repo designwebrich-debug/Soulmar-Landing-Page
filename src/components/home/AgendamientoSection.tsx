@@ -326,7 +326,10 @@ export function AgendamientoSection() {
 
   const formattedSelectedDate = useMemo(() => {
     if (!selectedDate) return ""
-    return selectedDate.toLocaleDateString("en-CA", { year: "numeric", month: "2-digit", day: "2-digit" }) // YYYY-MM-DD
+    const y = selectedDate.getFullYear()
+    const m = String(selectedDate.getMonth() + 1).padStart(2, "0")
+    const d = String(selectedDate.getDate()).padStart(2, "0")
+    return `${y}-${m}-${d}`
   }, [selectedDate])
 
   const formattedSelectedDateLong = useMemo(() => {
@@ -428,7 +431,10 @@ export function AgendamientoSection() {
                               const isPast = day < new Date(new Date().setHours(0,0,0,0));
                               const isToday = day.toDateString() === new Date().toDateString();
                               
-                              const dStr = day.toLocaleDateString("en-CA");
+                              const y = day.getFullYear()
+                              const m = String(day.getMonth() + 1).padStart(2, "0")
+                              const d = String(day.getDate()).padStart(2, "0")
+                              const dStr = `${y}-${m}-${d}`
                               const isHoliday = holidays.some(h => h.date === dStr);
                               
                               const weekdaysES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
