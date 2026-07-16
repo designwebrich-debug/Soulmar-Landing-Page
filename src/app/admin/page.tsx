@@ -693,7 +693,7 @@ export default function AdminPage() {
         app.patient?.phone?.includes(filterSearch)
         
       const dateMatch = !filterDate || app.appointment_date === filterDate
-      const statusMatch = filterStatus === "Todos" || app.status === filterStatus
+      const statusMatch = filterStatus === "Todos" ? app.status !== "cancelled" : app.status === filterStatus
       const serviceMatch = filterService === "Todos" || filterService === "Terapia Online"
       
       return nameMatch && dateMatch && statusMatch && serviceMatch
