@@ -1558,17 +1558,6 @@ export default function AdminPage() {
                                       </a>
                                     )}
 
-                                    {/* Botón de Confirmar (Círculo Verde con Icono de Check) - Solo si está pendiente */}
-                                    {app.status === "pending" && (
-                                      <button
-                                        onClick={() => handleConfirm(app.id)}
-                                        className="w-8 h-8 rounded-full bg-[#1D9E75] hover:bg-[#1D9E75]/90 text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
-                                        title="Confirmar cita"
-                                      >
-                                        <Check className="w-4 h-4" />
-                                      </button>
-                                    )}
-
                                     {/* Botón de Reprogramar (Píldora) - Solo si no está cancelada */}
                                     {app.status !== "cancelled" && (
                                       <button
@@ -1579,6 +1568,17 @@ export default function AdminPage() {
                                       </button>
                                     )}
 
+                                    {/* Botón de Confirmar (Círculo Verde con Icono de Check) - Solo si está pendiente */}
+                                    {app.status === "pending" && (
+                                      <button
+                                        onClick={() => handleConfirm(app.id)}
+                                        className="w-8 h-8 rounded-full bg-[#1D9E75]/90 hover:bg-[#1D9E75] text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                                        title="Confirmar cita"
+                                      >
+                                        <Check className="w-4 h-4" />
+                                      </button>
+                                    )}
+
                                     {/* Botón de Cancelar (Círculo Rojo con Icono de X) - Solo si no está cancelada */}
                                     {app.status !== "cancelled" && (
                                       <button
@@ -1586,7 +1586,7 @@ export default function AdminPage() {
                                           const confirmCancel = window.confirm("¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.")
                                           if (confirmCancel) handleCancel(app.id)
                                         }}
-                                        className="w-8 h-8 rounded-full bg-[#E11D48] hover:bg-[#E11D48]/90 text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                                        className="w-8 h-8 rounded-full bg-[#E0533C]/85 hover:bg-[#E0533C] text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
                                         title="Cancelar cita"
                                       >
                                         <X className="w-4 h-4" />
