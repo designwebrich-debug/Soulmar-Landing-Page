@@ -27,7 +27,8 @@ import {
   Eye,
   EyeOff,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from "lucide-react"
 
 interface Patient {
@@ -257,6 +258,66 @@ function CustomDatePicker({
                 Hoy
               </button>
             </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+function CustomSelect({
+  value,
+  onChange,
+  options,
+  placeholder = "Seleccionar...",
+  className = ""
+}: {
+  value: string
+  onChange: (val: string) => void
+  options: { value: string; label: string }[]
+  placeholder?: string
+  className?: string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const selectedOption = options.find(o => o.value === value)
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full bg-[#F8F8FA] border border-neutral-200 rounded-xl px-4 py-2.5 text-xs text-black focus:outline-none focus:border-black font-semibold cursor-pointer flex items-center justify-between text-left h-10 ${className}`}
+      >
+        <span className="truncate">{selectedOption ? selectedOption.label : placeholder}</span>
+        <ChevronDown className={`w-3.5 h-3.5 text-neutral-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+          <div className="absolute left-0 mt-2 z-50 bg-white border border-neutral-200 rounded-2xl shadow-xl py-2 w-full min-w-[160px] animate-in fade-in slide-in-from-top-2 duration-200 select-none overflow-hidden">
+            {options.map((opt) => {
+              const isSelected = opt.value === value
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    onChange(opt.value)
+                    setIsOpen(false)
+                  }}
+                  className={`w-full px-4 py-2.5 text-left text-xs font-bold transition-all cursor-pointer flex items-center justify-between ${
+                    isSelected
+                      ? "bg-[#8da9c4]/10 text-[#4c6885]"
+                      : "text-black hover:bg-neutral-50"
+                  }`}
+                >
+                  <span className="truncate">{opt.label}</span>
+                  {isSelected && <Check className="w-3.5 h-3.5 text-[#4c6885] stroke-[2.5]" />}
+                </button>
+              )
+            })}
           </div>
         </>
       )}
@@ -1623,30 +1684,32 @@ export default function AdminPage() {
 
                   <div className="space-y-1">
                     <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Estado</label>
-                    <select 
+                    <CustomSelect 
                       value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value)}
-                      className="w-full h-10 rounded-full px-4 bg-white border border-neutral-300 text-xs font-semibold focus:border-black outline-none transition-all"
-                    >
-                      <option>Todos</option>
-                      <option>Pendiente</option>
-                      <option>Confirmada</option>
-                      <option>Cancelada</option>
-                    </select>
+                      onChange={setFilterStatus}
+                      options={[
+                        { value: "Todos", label: "Todos" },
+                        { value: "Pendiente", label: "Pendiente" },
+                        { value: "Confirmada", label: "Confirmada" },
+                        { value: "Cancelada", label: "Cancelada" }
+                      ]}
+                      className="h-10 rounded-full bg-white border border-neutral-300 text-xs font-semibold focus:border-black"
+                    />
                   </div>
 
                   <div className="space-y-1">
                     <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Servicio</label>
-                    <select 
+                    <CustomSelect 
                       value={filterService}
-                      onChange={(e) => setFilterService(e.target.value)}
-                      className="w-full h-10 rounded-full px-4 bg-white border border-neutral-300 text-xs font-semibold focus:border-black outline-none transition-all"
-                    >
-                      <option>Todos</option>
-                      <option>Terapia Online</option>
-                      <option>Cursos</option>
-                      <option>Retiros</option>
-                    </select>
+                      onChange={setFilterService}
+                      options={[
+                        { value: "Todos", label: "Todos" },
+                        { value: "Terapia Online", label: "Terapia Online" },
+                        { value: "Cursos", label: "Cursos" },
+                        { value: "Retiros", label: "Retiros" }
+                      ]}
+                      className="h-10 rounded-full bg-white border border-neutral-300 text-xs font-semibold focus:border-black"
+                    />
                   </div>
 
                   <div className="flex gap-2">
