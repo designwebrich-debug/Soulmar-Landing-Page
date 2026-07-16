@@ -1529,33 +1529,23 @@ export default function AdminPage() {
                                 </div>
                               </div>
 
-                              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                                <span className={`h-8 px-4 inline-flex items-center justify-center rounded-full text-[9px] font-bold uppercase tracking-wider ${
-                                  app.status === "confirmed" 
-                                    ? "bg-[#1D9E75]/8 text-[#1D9E75] border border-[#1D9E75]/20"
-                                    : app.status === "cancelled"
-                                    ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
-                                    : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
-                                }`}>
-                                  {app.status === "confirmed" && "Confirmada"}
-                                  {app.status === "cancelled" && "Cancelada"}
-                                  {app.status === "pending" && "Pendiente"}
-                                </span>
+                              <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
+                                {/* Mostrar la etiqueta de estado únicamente si es Pendiente o Cancelada */}
+                                {app.status !== "confirmed" && (
+                                  <span className={`h-8 px-4 inline-flex items-center justify-center rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                    app.status === "cancelled"
+                                      ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
+                                      : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
+                                  }`}>
+                                    {app.status === "cancelled" && "Cancelada"}
+                                    {app.status === "pending" && "Pendiente"}
+                                  </span>
+                                )}
 
                                 {updatingId === app.id ? (
                                   <Loader2 className="w-5 h-5 animate-spin text-black" />
                                 ) : (
                                   <>
-                                    {app.status === "pending" && (
-                                      <button
-                                        onClick={() => handleConfirm(app.id)}
-                                        className="h-8 px-4 rounded-full bg-black hover:bg-neutral-900 text-white font-bold text-[9px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
-                                      >
-                                        <Video className="w-3.5 h-3.5" />
-                                        <span>Confirmar</span>
-                                      </button>
-                                    )}
-
                                     {app.status === "confirmed" && app.meeting_link && (
                                       <a
                                         href={app.meeting_link}
@@ -1568,21 +1558,39 @@ export default function AdminPage() {
                                       </a>
                                     )}
 
+                                    {/* Botón de Confirmar (Círculo Verde con Icono de Check) - Solo si está pendiente */}
+                                    {app.status === "pending" && (
+                                      <button
+                                        onClick={() => handleConfirm(app.id)}
+                                        className="w-8 h-8 rounded-full bg-[#1D9E75] hover:bg-[#1D9E75]/90 text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                                        title="Confirmar cita"
+                                      >
+                                        <Check className="w-4 h-4" />
+                                      </button>
+                                    )}
+
+                                    {/* Botón de Reprogramar (Píldora) - Solo si no está cancelada */}
                                     {app.status !== "cancelled" && (
-                                      <>
-                                        <button
-                                          onClick={() => setReschedulingApp(app)}
-                                          className="h-8 px-4 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
-                                        >
-                                          Reprogramar
-                                        </button>
-                                        <button
-                                          onClick={() => handleCancel(app.id)}
-                                          className="h-8 px-4 rounded-full border border-neutral-300 text-red-600 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
-                                        >
-                                          Cancelar
-                                        </button>
-                                      </>
+                                      <button
+                                        onClick={() => setReschedulingApp(app)}
+                                        className="h-8 px-4 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
+                                      >
+                                        Reprogramar
+                                      </button>
+                                    )}
+
+                                    {/* Botón de Cancelar (Círculo Rojo con Icono de X) - Solo si no está cancelada */}
+                                    {app.status !== "cancelled" && (
+                                      <button
+                                        onClick={() => {
+                                          const confirmCancel = window.confirm("¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.")
+                                          if (confirmCancel) handleCancel(app.id)
+                                        }}
+                                        className="w-8 h-8 rounded-full bg-[#E11D48] hover:bg-[#E11D48]/90 text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                                        title="Cancelar cita"
+                                      >
+                                        <X className="w-4 h-4" />
+                                      </button>
                                     )}
                                   </>
                                 )}
