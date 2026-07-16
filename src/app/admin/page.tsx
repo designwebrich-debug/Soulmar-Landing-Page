@@ -1529,8 +1529,8 @@ export default function AdminPage() {
                                 </div>
                               </div>
 
-                              <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${
+                              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                                <span className={`h-8 px-4 inline-flex items-center justify-center rounded-full text-[9px] font-bold uppercase tracking-wider ${
                                   app.status === "confirmed" 
                                     ? "bg-[#1D9E75]/8 text-[#1D9E75] border border-[#1D9E75]/20"
                                     : app.status === "cancelled"
@@ -1542,52 +1542,50 @@ export default function AdminPage() {
                                   {app.status === "pending" && "Pendiente"}
                                 </span>
 
-                                <div className="flex items-center gap-2">
-                                  {updatingId === app.id ? (
-                                    <Loader2 className="w-5 h-5 animate-spin text-black" />
-                                  ) : (
-                                    <>
-                                      {app.status === "pending" && (
+                                {updatingId === app.id ? (
+                                  <Loader2 className="w-5 h-5 animate-spin text-black" />
+                                ) : (
+                                  <>
+                                    {app.status === "pending" && (
+                                      <button
+                                        onClick={() => handleConfirm(app.id)}
+                                        className="h-8 px-4 rounded-full bg-black hover:bg-neutral-900 text-white font-bold text-[9px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+                                      >
+                                        <Video className="w-3.5 h-3.5" />
+                                        <span>Confirmar</span>
+                                      </button>
+                                    )}
+
+                                    {app.status === "confirmed" && app.meeting_link && (
+                                      <a
+                                        href={app.meeting_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="h-8 px-4 rounded-full border border-black text-black hover:bg-neutral-50 font-bold text-[9px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+                                      >
+                                        <ExternalLink className="w-3.5 h-3.5" />
+                                        <span>Google Meet</span>
+                                      </a>
+                                    )}
+
+                                    {app.status !== "cancelled" && (
+                                      <>
                                         <button
-                                          onClick={() => handleConfirm(app.id)}
-                                          className="h-8 px-4 rounded-full bg-black hover:bg-neutral-900 text-white font-bold text-[9px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+                                          onClick={() => setReschedulingApp(app)}
+                                          className="h-8 px-4 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
                                         >
-                                          <Video className="w-3.5 h-3.5" />
-                                          <span>Confirmar</span>
+                                          Reprogramar
                                         </button>
-                                      )}
-
-                                      {app.status === "confirmed" && app.meeting_link && (
-                                        <a
-                                          href={app.meeting_link}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="h-8 px-4 rounded-full border border-black text-black hover:bg-neutral-50 font-bold text-[9px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+                                        <button
+                                          onClick={() => handleCancel(app.id)}
+                                          className="h-8 px-4 rounded-full border border-neutral-300 text-red-600 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
                                         >
-                                          <ExternalLink className="w-3.5 h-3.5" />
-                                          <span>Google Meet</span>
-                                        </a>
-                                      )}
-
-                                      {app.status !== "cancelled" && (
-                                        <>
-                                          <button
-                                            onClick={() => setReschedulingApp(app)}
-                                            className="h-8 px-3 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
-                                          >
-                                            Reprogramar
-                                          </button>
-                                          <button
-                                            onClick={() => handleCancel(app.id)}
-                                            className="h-8 px-3 rounded-full border border-neutral-300 text-red-600 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
-                                          >
-                                            Cancelar
-                                          </button>
-                                        </>
-                                      )}
-                                    </>
-                                  )}
-                                </div>
+                                          Cancelar
+                                        </button>
+                                      </>
+                                    )}
+                                  </>
+                                )}
                               </div>
                             </div>
                           ))}
