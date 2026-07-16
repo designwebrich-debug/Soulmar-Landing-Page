@@ -120,16 +120,21 @@ export async function PATCH(request: Request) {
       const patientEmail = appointment.patient?.email || ""
       const reason = appointment.reason || "Consulta de Bienestar Radical"
 
-      // Crear el evento de Google Calendar
-      const calendarResult = await createCalendarEvent({
-        patientName,
-        patientEmail,
-        appointmentDate: targetDate,
-        appointmentTime: targetTime,
-        consultationReason: reason,
-      })
+      try {
+        // Crear el evento de Google Calendar
+        const calendarResult = await createCalendarEvent({
+          patientName,
+          patientEmail,
+          appointmentDate: targetDate,
+          appointmentTime: targetTime,
+          consultationReason: reason,
+        })
 
-      updateData.meeting_link = calendarResult.meetingLink || calendarResult.htmlLink || ""
+        updateData.meeting_link = calendarResult.meetingLink || calendarResult.htmlLink || ""
+      } catch (calErr: any) {
+        console.error("[API_APPOINTMENTS_PATCH] Google Calendar Sync Warning:", calErr)
+        // No bloqueamos la confirmación en la BD si el sincronizador de Google Calendar falla.
+      }
     }
 
     // Actualizar la cita en la base de datos

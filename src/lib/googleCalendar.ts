@@ -38,6 +38,24 @@ async function retryGoogleApiCall<T>(fn: () => Promise<T>, retries = 3, delay = 
   }
 }
 
+function convertTo24Hour(timeStr: string): string {
+  const clean = timeStr.trim().toUpperCase()
+  const match = clean.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/)
+  if (!match) return timeStr
+  
+  let hours = parseInt(match[1])
+  const minutes = match[2]
+  const ampm = match[3]
+  
+  if (ampm === "PM" && hours < 12) {
+    hours += 12
+  } else if (ampm === "AM" && hours === 12) {
+    hours = 0
+  }
+  
+  return `${String(hours).padStart(2, "0")}:${minutes}:00`
+}
+
 /**
  * Crea un evento en el Google Calendar principal y genera un enlace de Google Meet.
  */
@@ -50,10 +68,8 @@ export async function createCalendarEvent(appointment: AppointmentData) {
       throw new Error("Missing Google OAuth credentials in environment variables (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN)")
     }
 
-    // Combinar fecha y hora para el inicio (formato local sin zona horaria, Google lo interpreta con el timeZone provisto)
-    const startTimeStr = appointmentTime.includes(":") && appointmentTime.split(":").length === 2
-      ? `${appointmentTime}:00`
-      : appointmentTime
+    // Convertir hora a formato 24h seguro (HH:MM:00)
+    const startTimeStr = convertTo24Hour(appointmentTime)
     const startDateTime = `${appointmentDate}T${startTimeStr}`
 
     // Calcular la hora de finalización (duración estándar de 50 minutos)
