@@ -25,7 +25,9 @@ import {
   Search,
   Users,
   Eye,
-  EyeOff
+  EyeOff,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react"
 
 interface Patient {
@@ -72,6 +74,194 @@ const formatLocalDate = (date: Date): string => {
 
 const formatCOP = (val: number): string => {
   return `$${val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} COP`
+}
+
+const MONTHS = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+]
+const WEEKDAYS = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"]
+
+function CustomDatePicker({ 
+  value, 
+  onChange, 
+  placeholder = "dd/mm/aaaa", 
+  className = "" 
+}: { 
+  value: string
+  onChange: (val: string) => void
+  placeholder?: string
+  className?: string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [viewDate, setViewDate] = useState(new Date())
+
+  // Get current year and month
+  const year = viewDate.getFullYear()
+  const month = viewDate.getMonth()
+
+  // Generate cells
+  const cells = useMemo(() => {
+    const getDaysInMonth = (y: number, m: number) => new Date(y, m + 1, 0).getDate()
+    const getFirstDayOfMonth = (y: number, m: number) => new Date(y, m, 1).getDay()
+
+    const daysInMonth = getDaysInMonth(year, month)
+    const firstDayIndex = getFirstDayOfMonth(year, month)
+    const startDayOffset = firstDayIndex === 0 ? 6 : firstDayIndex - 1
+
+    const prevMonthDays = getDaysInMonth(year, month - 1)
+    const list: { dateStr: string; dayNum: number; isCurrentMonth: boolean; isSelected: boolean }[] = []
+
+    // Previous month padding
+    for (let i = startDayOffset - 1; i >= 0; i--) {
+      const dNum = prevMonthDays - i
+      const prevMonth = month === 0 ? 11 : month - 1
+      const prevYear = month === 0 ? year - 1 : year
+      const dateStr = `${prevYear}-${String(prevMonth + 1).padStart(2, "0")}-${String(dNum).padStart(2, "0")}`
+      list.push({
+        dateStr,
+        dayNum: dNum,
+        isCurrentMonth: false,
+        isSelected: value === dateStr
+      })
+    }
+
+    // Current month
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`
+      list.push({
+        dateStr,
+        dayNum: i,
+        isCurrentMonth: true,
+        isSelected: value === dateStr
+      })
+    }
+
+    // Next month padding
+    const remaining = 42 - list.length
+    for (let i = 1; i <= remaining; i++) {
+      const nextMonth = month === 11 ? 0 : month + 1
+      const nextYear = month === 11 ? year + 1 : year
+      const dateStr = `${nextYear}-${String(nextMonth + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`
+      list.push({
+        dateStr,
+        dayNum: i,
+        isCurrentMonth: false,
+        isSelected: value === dateStr
+      })
+    }
+
+    return list
+  }, [year, month, value])
+
+  const formattedSelectedDate = useMemo(() => {
+    if (!value) return ""
+    const [y, m, d] = value.split("-")
+    return `${d}/${m}/${y}`
+  }, [value])
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full bg-[#F8F8FA] border border-neutral-200 rounded-xl px-4 py-2.5 text-xs text-black focus:outline-none focus:border-black font-semibold cursor-pointer flex items-center justify-between text-left h-10 ${className}`}
+      >
+        <span className={value ? "text-black animate-in fade-in" : "text-neutral-400"}>
+          {formattedSelectedDate || placeholder}
+        </span>
+        <Calendar className="w-3.5 h-3.5 text-neutral-400" />
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+          <div className="absolute left-0 mt-2 z-50 bg-white border border-neutral-200 rounded-2xl shadow-xl p-4 w-72 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200 select-none">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-black text-black uppercase tracking-wider font-sans">
+                {MONTHS[month]} {year}
+              </span>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setViewDate(new Date(year, month - 1, 1))}
+                  className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500 cursor-pointer transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewDate(new Date(year, month + 1, 1))}
+                  className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500 cursor-pointer transition-colors"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Weekdays */}
+            <div className="grid grid-cols-7 gap-1 text-center">
+              {WEEKDAYS.map((day) => (
+                <span key={day} className="text-[9px] font-black text-neutral-400 uppercase tracking-widest">
+                  {day}
+                </span>
+              ))}
+            </div>
+
+            {/* Days Grid */}
+            <div className="grid grid-cols-7 gap-1">
+              {cells.map((cell, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    onChange(cell.dateStr)
+                    setIsOpen(false)
+                  }}
+                  className={`h-8 w-8 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center ${
+                    cell.isSelected
+                      ? "bg-[#8da9c4] text-white shadow-sm"
+                      : cell.isCurrentMonth
+                      ? "text-black hover:bg-neutral-100"
+                      : "text-neutral-300 hover:bg-neutral-50"
+                  }`}
+                >
+                  {cell.dayNum}
+                </button>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between pt-2 border-t border-neutral-100 text-[10px] font-black uppercase tracking-wider">
+              <button
+                type="button"
+                onClick={() => {
+                  onChange("")
+                  setIsOpen(false)
+                }}
+                className="text-neutral-400 hover:text-black transition-colors cursor-pointer"
+              >
+                Borrar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const today = new Date()
+                  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`
+                  onChange(todayStr)
+                  setIsOpen(false)
+                }}
+                className="text-[#8da9c4] hover:text-[#4c6885] transition-colors cursor-pointer"
+              >
+                Hoy
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default function AdminPage() {
@@ -1424,11 +1614,10 @@ export default function AdminPage() {
 
                   <div className="space-y-1">
                     <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Fecha</label>
-                    <input 
-                      type="date" 
+                    <CustomDatePicker 
                       value={filterDate}
-                      onChange={(e) => setFilterDate(e.target.value)}
-                      className="w-full h-10 rounded-full px-4 bg-white border border-neutral-300 text-xs font-semibold focus:border-black outline-none transition-all"
+                      onChange={setFilterDate}
+                      className="h-10 rounded-full bg-white border border-neutral-300 text-xs font-semibold focus:border-black"
                     />
                   </div>
 
@@ -1710,12 +1899,10 @@ export default function AdminPage() {
                   <form onSubmit={handleAddHoliday} className="space-y-4">
                     <div className="space-y-1.5">
                       <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Fecha*</label>
-                      <input 
-                        type="date"
+                      <CustomDatePicker 
                         value={newHolidayDate}
-                        onChange={(e) => setNewHolidayDate(e.target.value)}
-                        required
-                        className="w-full h-11 rounded-xl px-4 border border-neutral-200 bg-[#F8F8FA] focus:bg-white text-xs font-bold text-black focus:border-black outline-none transition-all shadow-sm"
+                        onChange={setNewHolidayDate}
+                        className="w-full h-11 rounded-xl px-4 border border-neutral-200 bg-[#F8F8FA] focus:bg-white text-xs font-bold text-black focus:border-black transition-all shadow-sm"
                       />
                     </div>
 
@@ -1947,12 +2134,10 @@ export default function AdminPage() {
 
               <div className="space-y-1.5">
                 <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Nueva Fecha</label>
-                <input 
-                  type="date" 
-                  required
+                <CustomDatePicker 
                   value={rescheduleDate}
-                  onChange={(e) => setRescheduleDate(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 text-sm text-black font-semibold focus:outline-none focus:border-black transition-colors"
+                  onChange={setRescheduleDate}
+                  className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 text-xs text-black font-semibold focus:border-black"
                 />
               </div>
 
