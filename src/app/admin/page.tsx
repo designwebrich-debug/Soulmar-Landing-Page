@@ -834,7 +834,7 @@ export default function AdminPage() {
       <aside className="hidden md:flex flex-col w-72 bg-black text-white p-8 justify-between relative z-20 shadow-md">
         <div className="space-y-12">
           {/* Logo / Cabecera */}
-          <div className="flex justify-start py-1">
+          <div className="flex justify-start py-1 pl-5">
             <img 
               src="/images/logo-official.png" 
               alt="Soulmar" 
