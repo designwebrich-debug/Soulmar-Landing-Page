@@ -294,27 +294,7 @@ export function AgendamientoSection() {
         })
       })
 
-      // 2. Local storage save for instant local sync
-      const localApp = {
-        id: "local-" + Date.now(),
-        patient_id: "local-patient-id",
-        therapist_id: "local-therapist-id",
-        appointment_date: formattedSelectedDate,
-        appointment_time: selectedTime,
-        status: "pending",
-        reason: reason,
-        created_at: new Date().toISOString(),
-        patient: {
-          name: fullName,
-          email: email,
-          phone: phone
-        }
-      }
-      
-      const saved = localStorage.getItem("soulmar_appointments")
-      const list = saved ? JSON.parse(saved) : []
-      list.push(localApp)
-      localStorage.setItem("soulmar_appointments", JSON.stringify(list))
+      // Removed local storage save to prevent UI duplication. Database is the single source of truth.
     } catch (err) {
       console.error("Booking error:", err)
     } finally {

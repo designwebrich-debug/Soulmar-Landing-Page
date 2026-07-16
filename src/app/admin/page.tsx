@@ -120,48 +120,18 @@ export default function AdminPage() {
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  // Cargar citas con sincronización bidireccional de localStorage
+  // Cargar citas directamente desde la base de datos (única fuente de verdad)
   const fetchAppointments = async () => {
     try {
       setLoadingAppointments(true)
       const res = await fetch("/api/appointments")
-      let dbApps = []
-      let isCalendarConfig = false
       if (res.ok) {
         const data = await res.json()
-        dbApps = Array.isArray(data.appointments) ? data.appointments : []
-        isCalendarConfig = data.isCalendarConfigured || false
+        setAppointments(Array.isArray(data.appointments) ? data.appointments : [])
+        setIsCalendarConfigured(data.isCalendarConfigured || false)
       }
-      
-      // Cargar citas locales agendadas en la landing page
-      const localSaved = localStorage.getItem("soulmar_appointments")
-      let localList: any[] = []
-      if (localSaved) {
-        try {
-          const parsed = JSON.parse(localSaved)
-          if (Array.isArray(parsed)) localList = parsed
-        } catch(e) {}
-      }
-      
-      // Combinar citas sin duplicar
-      const mergedList = [...dbApps]
-      localList.forEach((localApp: any) => {
-        if (!mergedList.some(app => app.id === localApp.id)) {
-          mergedList.push(localApp)
-        }
-      })
-
-      setAppointments(mergedList)
-      setIsCalendarConfigured(isCalendarConfig)
     } catch (err) {
       console.error("Error al cargar citas:", err)
-      const localSaved = localStorage.getItem("soulmar_appointments")
-      if (localSaved) {
-        try {
-          const parsed = JSON.parse(localSaved)
-          if (Array.isArray(parsed)) setAppointments(parsed)
-        } catch(e) {}
-      }
     } finally {
       setLoadingAppointments(false)
     }
@@ -236,25 +206,12 @@ export default function AdminPage() {
     }
   }
 
-  // Confirmar cita con sincronización inmediata
+  // Confirmar cita
   const handleConfirm = async (id: string) => {
     try {
       setUpdatingId(id)
       
-      // Actualizar localStorage
-      const localSaved = localStorage.getItem("soulmar_appointments")
-      if (localSaved) {
-        try {
-          const list = JSON.parse(localSaved)
-          if (Array.isArray(list)) {
-            const updated = list.map((app: any) => 
-              app.id === id ? { ...app, status: "confirmed" } : app
-            )
-            localStorage.setItem("soulmar_appointments", JSON.stringify(updated))
-          }
-        } catch(e) {}
-      }
-
+      // Actualización optimista del UI
       setAppointments(prev => 
         prev.map(app => app.id === id ? { ...app, status: "confirmed" } : app)
       )
@@ -277,25 +234,12 @@ export default function AdminPage() {
     }
   }
 
-  // Cancelar cita con sincronización inmediata
+  // Cancelar cita
   const handleCancel = async (id: string) => {
     try {
       setUpdatingId(id)
 
-      // Actualizar localStorage
-      const localSaved = localStorage.getItem("soulmar_appointments")
-      if (localSaved) {
-        try {
-          const list = JSON.parse(localSaved)
-          if (Array.isArray(list)) {
-            const updated = list.map((app: any) => 
-              app.id === id ? { ...app, status: "cancelled" } : app
-            )
-            localStorage.setItem("soulmar_appointments", JSON.stringify(updated))
-          }
-        } catch(e) {}
-      }
-
+      // Actualización optimista del UI
       setAppointments(prev => 
         prev.map(app => app.id === id ? { ...app, status: "cancelled" } : app)
       )
