@@ -73,6 +73,41 @@ const formatLocalDate = (date: Date): string => {
   return `${y}-${m}-${d}`
 }
 
+const formatLocalDateReadable = (dateStr: string): string => {
+  if (!dateStr) return ""
+  const parts = dateStr.split("-")
+  if (parts.length !== 3) return dateStr
+  const year = parseInt(parts[0])
+  const month = parseInt(parts[1]) - 1
+  const day = parseInt(parts[2])
+  
+  const dateObj = new Date(year, month, day)
+  const formatted = dateObj.toLocaleDateString("es-ES", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  })
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1)
+}
+
+const formatLocalDateReadableShort = (dateStr: string): string => {
+  if (!dateStr) return ""
+  const parts = dateStr.split("-")
+  if (parts.length !== 3) return dateStr
+  const year = parseInt(parts[0])
+  const month = parseInt(parts[1]) - 1
+  const day = parseInt(parts[2])
+  
+  const dateObj = new Date(year, month, day)
+  const formatted = dateObj.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  })
+  return formatted
+}
+
 const formatCOP = (val: number): string => {
   return `$${val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} COP`
 }
@@ -674,14 +709,8 @@ export default function AdminPage() {
     return Object.keys(groups)
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
       .map(date => {
-        const formattedDate = new Date(date + "T00:00:00").toLocaleDateString("es-ES", {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric"
-        })
         return {
-          dateStr: formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1),
+          dateStr: formatLocalDateReadable(date),
           appointments: groups[date].sort((a, b) => a.appointment_time.localeCompare(b.appointment_time))
         }
       })
@@ -804,7 +833,9 @@ export default function AdminPage() {
       
       const apps = appointments.filter(app => {
         if (app.status !== "confirmed") return false
-        const appDate = new Date(app.appointment_date + "T00:00:00")
+        const parts = app.appointment_date.split("-")
+        if (parts.length !== 3) return false
+        const appDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 0, 0, 0)
         return appDate >= start && appDate <= end
       })
       
@@ -869,9 +900,12 @@ export default function AdminPage() {
     const weekdays = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
     const dayCounts: { [key: string]: number } = {}
     activeApps.forEach(app => {
-      const dIndex = new Date(app.appointment_date + "T00:00:00").getDay()
-      const dName = weekdays[dIndex]
-      dayCounts[dName] = (dayCounts[dName] || 0) + 1
+      const parts = app.appointment_date.split("-")
+      if (parts.length === 3) {
+        const dIndex = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])).getDay()
+        const dName = weekdays[dIndex]
+        dayCounts[dName] = (dayCounts[dName] || 0) + 1
+      }
     })
     
     let topDay = "Sin Datos"
@@ -1932,15 +1966,16 @@ export default function AdminPage() {
                   <div className="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-neutral-200 gap-4">
                     <div className="flex items-center gap-3">
                       <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest">Intervalo:</span>
-                      <select 
+                      <CustomSelect 
                         value={slotDuration}
-                        onChange={(e) => setSlotDuration(e.target.value)}
-                        className="h-10 px-4 rounded-xl border border-neutral-200 bg-white text-xs font-bold text-black focus:border-black outline-none transition-all shadow-sm"
-                      >
-                        <option>30 min</option>
-                        <option>45 min</option>
-                        <option>1 hora</option>
-                      </select>
+                        onChange={setSlotDuration}
+                        options={[
+                          { value: "30 min", label: "30 min" },
+                          { value: "45 min", label: "45 min" },
+                          { value: "1 hora", label: "1 hora" }
+                        ]}
+                        className="h-10 rounded-xl bg-white border border-neutral-200 text-xs font-semibold focus:border-black min-w-[120px]"
+                      />
                     </div>
 
                     <button 
@@ -2003,7 +2038,7 @@ export default function AdminPage() {
                             className="flex items-center justify-between p-4 bg-white border border-neutral-200 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.01)] animate-in fade-in duration-300"
                           >
                             <div className="space-y-0.5">
-                              <p className="text-xs font-bold text-black">{h.date}</p>
+                              <p className="text-xs font-bold text-black">{formatLocalDateReadable(h.date)}</p>
                               <p className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">{h.reason}</p>
                             </div>
                             <button
@@ -2065,7 +2100,7 @@ export default function AdminPage() {
                             {formatCOP(client.spent)}
                           </td>
                           <td className="px-6 py-4.5 text-right font-mono text-[10px] text-neutral-400 font-semibold">
-                            {client.lastVisit}
+                            {formatLocalDateReadableShort(client.lastVisit)}
                           </td>
                         </tr>
                       ))}
@@ -2115,12 +2150,7 @@ export default function AdminPage() {
               ) : (
                 <div className="space-y-3">
                   {selectedClientHistory.history.map((app: any, appIdx: number) => {
-                    const formattedDate = new Date(app.date + "T00:00:00").toLocaleDateString("es-ES", {
-                      weekday: "long",
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric"
-                    })
+                    const formattedDate = formatLocalDateReadable(app.date)
                     return (
                       <div 
                         key={appIdx} 
