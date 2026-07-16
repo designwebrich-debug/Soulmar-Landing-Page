@@ -1037,7 +1037,7 @@ export default function AdminPage() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-2 border border-[#1D9E75]/20 px-4 py-2 rounded-full text-[10px] font-black text-[#1D9E75] bg-[#1D9E75]/8 shadow-sm uppercase tracking-widest">
+          <div className="flex items-center gap-2 border border-[#c9cba3]/30 px-4 py-2 rounded-full text-[10px] font-black text-[#7d8059] bg-[#c9cba3]/15 shadow-sm uppercase tracking-widest">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Google Calendar Conectado</span>
           </div>
@@ -1053,13 +1053,13 @@ export default function AdminPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   
                   {/* KPI 1 - Verde Soulmar */}
-                  <div className="bg-[#1D9E75]/[0.02] rounded-3xl p-8 border border-[#1D9E75]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#1D9E75]/25 transition-all duration-300">
+                  <div className="bg-[#c9cba3]/[0.02] rounded-3xl p-8 border border-[#c9cba3]/15 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#c9cba3]/30 transition-all duration-300">
                     <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-[#1D9E75]/80 block">Citas para hoy</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#7d8059] block">Citas para hoy</span>
                       <span className="text-4xl font-black text-black font-sans block">{kpis.todayCount}</span>
-                      <span className="text-[9px] font-bold text-[#1D9E75] bg-[#1D9E75]/8 border border-[#1D9E75]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Sesiones activas</span>
+                      <span className="text-[9px] font-bold text-[#7d8059] bg-[#c9cba3]/12 border border-[#c9cba3]/20 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Sesiones activas</span>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-[#1D9E75]/10 border border-[#1D9E75]/15 flex items-center justify-center text-[#1D9E75]">
+                    <div className="w-12 h-12 rounded-xl bg-[#c9cba3]/15 border border-[#c9cba3]/25 flex items-center justify-center text-[#7d8059]">
                       <Calendar className="w-6 h-6" />
                     </div>
                   </div>
@@ -1221,11 +1221,11 @@ export default function AdminPage() {
                     <div className="space-y-2">
                       <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Motivo más Solicitado</span>
                       <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.topReason}</span>
-                      <span className="text-[9px] font-bold text-[#1D9E75] bg-[#1D9E75]/8 border border-[#1D9E75]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                      <span className="text-[9px] font-bold text-[#7d8059] bg-[#c9cba3]/12 border border-[#c9cba3]/20 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
                         {analyticsStats.topReasonCount} {analyticsStats.topReasonCount === 1 ? "reserva" : "reservas"}
                       </span>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-[#1D9E75]/10 border border-[#1D9E75]/15 flex items-center justify-center text-[#1D9E75]">
+                    <div className="w-12 h-12 rounded-xl bg-[#c9cba3]/15 border border-[#c9cba3]/25 flex items-center justify-center text-[#7d8059]">
                       <Search className="w-6 h-6" />
                     </div>
                   </div>
@@ -1295,8 +1295,8 @@ export default function AdminPage() {
                           <span className="text-[9px] font-black text-neutral-400 uppercase tracking-wider block">Sesiones Realizadas</span>
                           <span className="text-lg font-black text-black block">{revenueStats.currentMonthCount}</span>
                         </div>
-                        <div className="p-4 bg-[#1D9E75]/5 border border-[#1D9E75]/10 rounded-2xl text-center space-y-1">
-                          <span className="text-[9px] font-black text-[#1D9E75] uppercase tracking-wider block">Valor de Sesión</span>
+                        <div className="p-4 bg-[#c9cba3]/10 border border-[#c9cba3]/20 rounded-2xl text-center space-y-1">
+                          <span className="text-[9px] font-black text-[#7d8059] uppercase tracking-wider block">Valor de Sesión</span>
                           <span className="text-lg font-black text-black block">$120.000 COP</span>
                         </div>
                       </div>
@@ -1572,7 +1572,7 @@ export default function AdminPage() {
                                     {app.status === "pending" && (
                                       <button
                                         onClick={() => handleConfirm(app.id)}
-                                        className="w-8 h-8 rounded-full bg-[#1D9E75]/10 border border-[#1D9E75]/20 text-[#1D9E75] hover:bg-[#1D9E75]/20 flex items-center justify-center transition-all cursor-pointer"
+                                        className="w-8 h-8 rounded-full bg-[#c9cba3]/15 border border-[#c9cba3]/30 text-[#7d8059] hover:bg-[#c9cba3]/25 flex items-center justify-center transition-all cursor-pointer"
                                         title="Confirmar cita"
                                       >
                                         <Check className="w-3.5 h-3.5 stroke-[3.0]" />
@@ -1888,7 +1888,7 @@ export default function AdminPage() {
                         <div className="flex items-center gap-3 justify-between sm:justify-end">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-extrabold uppercase tracking-wider ${
                             app.status === "confirmed" 
-                              ? "bg-[#1D9E75]/8 text-[#1D9E75] border border-[#1D9E75]/20"
+                              ? "bg-[#c9cba3]/15 text-[#7d8059] border border-[#c9cba3]/25"
                               : app.status === "cancelled"
                               ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
                               : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"

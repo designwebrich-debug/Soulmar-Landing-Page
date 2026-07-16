@@ -12,7 +12,7 @@ const MOODS = (t: any) => [
   { score: 1, icon: Frown, label: t('dashboard.user.mood_low', { defaultValue: "Mal" }), color: "bg-red-500", shadow: "shadow-red-500/20" },
   { score: 2, icon: Meh, label: t('dashboard.user.mood_mid', { defaultValue: "Regular" }), color: "bg-orange-500", shadow: "shadow-orange-500/20" },
   { score: 3, icon: Smile, label: t('dashboard.user.mood_ok', { defaultValue: "Bien" }), color: "bg-[#8da9c4]", shadow: "shadow-[#8da9c4]/20" },
-  { score: 5, icon: Laugh, label: t('dashboard.user.mood_great', { defaultValue: "Excelente" }), color: "bg-[#1D9E75]", shadow: "shadow-[#1D9E75]/20" },
+  { score: 5, icon: Laugh, label: t('dashboard.user.mood_great', { defaultValue: "Excelente" }), color: "bg-[#c9cba3]", shadow: "shadow-[#c9cba3]/20" },
 ]
 
 export function MoodTracker({ onLogged, t }: { onLogged?: () => void, t: any }) {
