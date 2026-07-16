@@ -1562,7 +1562,7 @@ export default function AdminPage() {
                                     {app.status !== "cancelled" && (
                                       <button
                                         onClick={() => setReschedulingApp(app)}
-                                        className="h-8 px-4 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
+                                        className="h-8 px-4 rounded-full bg-[#185FA5] hover:bg-[#185FA5]/90 text-white font-bold text-[9px] uppercase tracking-wider transition-colors cursor-pointer shadow-sm"
                                       >
                                         Reprogramar
                                       </button>
