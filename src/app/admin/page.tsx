@@ -1551,7 +1551,7 @@ export default function AdminPage() {
                                         href={app.meeting_link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="h-8 px-4 rounded-full border border-black text-black hover:bg-neutral-50 font-bold text-[9px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+                                        className="h-8 px-4 rounded-full border border-black/15 bg-black/5 hover:bg-black/10 text-black font-bold text-[9px] uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer"
                                       >
                                         <ExternalLink className="w-3.5 h-3.5" />
                                         <span>Google Meet</span>
@@ -1562,7 +1562,7 @@ export default function AdminPage() {
                                     {app.status !== "cancelled" && (
                                       <button
                                         onClick={() => setReschedulingApp(app)}
-                                        className="h-8 px-4 rounded-full bg-[#185FA5] hover:bg-[#185FA5]/90 text-white font-bold text-[9px] uppercase tracking-wider transition-colors cursor-pointer shadow-sm"
+                                        className="h-8 px-4 rounded-full bg-[#185FA5]/8 border border-[#185FA5]/25 text-[#185FA5] hover:bg-[#185FA5]/15 font-extrabold text-[9px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center"
                                       >
                                         Reprogramar
                                       </button>
@@ -1572,10 +1572,10 @@ export default function AdminPage() {
                                     {app.status === "pending" && (
                                       <button
                                         onClick={() => handleConfirm(app.id)}
-                                        className="w-8 h-8 rounded-full bg-[#1D9E75]/90 hover:bg-[#1D9E75] text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                                        className="w-8 h-8 rounded-full bg-[#1D9E75]/8 border border-[#1D9E75]/25 text-[#1D9E75] hover:bg-[#1D9E75]/18 flex items-center justify-center transition-all cursor-pointer"
                                         title="Confirmar cita"
                                       >
-                                        <Check className="w-4 h-4" />
+                                        <Check className="w-4 h-4 stroke-[2.5]" />
                                       </button>
                                     )}
 
@@ -1586,10 +1586,10 @@ export default function AdminPage() {
                                           const confirmCancel = window.confirm("¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.")
                                           if (confirmCancel) handleCancel(app.id)
                                         }}
-                                        className="w-8 h-8 rounded-full bg-[#E0533C]/85 hover:bg-[#E0533C] text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                                        className="w-8 h-8 rounded-full bg-[#E0533C]/8 border border-[#E0533C]/25 text-[#E0533C] hover:bg-[#E0533C]/18 flex items-center justify-center transition-all cursor-pointer"
                                         title="Cancelar cita"
                                       >
-                                        <X className="w-4 h-4" />
+                                        <X className="w-4 h-4 stroke-[2.5]" />
                                       </button>
                                     )}
                                   </>
