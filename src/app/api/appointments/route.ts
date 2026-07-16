@@ -161,9 +161,13 @@ export async function PATCH(request: Request) {
  * POST: Crear una nueva cita (desde el agendamiento del front).
  */
 export async function POST(request: Request) {
+  let reqDate = "2026-01-01"
+  let reqTime = "12:00"
   try {
     const body = await request.json()
     const { fullName, phone, email, date, time, reason } = body
+    reqDate = date || reqDate
+    reqTime = time || reqTime
 
     if (!fullName || !email || !date || !time) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
@@ -247,8 +251,8 @@ export async function POST(request: Request) {
         id: "temp-ex-" + Date.now(),
         patient_id: "local-user",
         therapist_id: "local-therapist",
-        appointment_date: date,
-        appointment_time: time,
+        appointment_date: reqDate,
+        appointment_time: reqTime,
         status: "pending"
       }
     })

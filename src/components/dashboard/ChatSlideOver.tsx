@@ -13,6 +13,7 @@ import {
   reactToMessage,
   editMessage,
   deleteMessage,
+  deleteMessages,
   togglePinMessage,
   updateChatColorPreference,
   type Message
