@@ -112,6 +112,14 @@ const formatCOP = (val: number): string => {
   return `$${val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} COP`
 }
 
+const getInitials = (name: string): string => {
+  if (!name) return ""
+  const parts = name.trim().split(/\s+/)
+  if (parts.length === 0) return ""
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase()
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+}
+
 const MONTHS = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -2087,8 +2095,15 @@ export default function AdminPage() {
                           className="hover:bg-neutral-50 transition-colors cursor-pointer"
                         >
                           <td className="px-6 py-4.5">
-                            <p className="font-bold text-black">{client.name}</p>
-                            <p className="text-[10px] text-neutral-400 font-semibold">{client.email} {client.phone ? `· ${client.phone}` : ""}</p>
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-[#8da9c4]/10 border border-[#8da9c4]/20 text-[#4c6885] font-black text-[10px] flex items-center justify-center tracking-tighter shrink-0 select-none">
+                                {getInitials(client.name)}
+                              </div>
+                              <div className="space-y-0.5">
+                                <p className="font-bold text-black">{client.name}</p>
+                                <p className="text-[10px] text-neutral-400 font-semibold">{client.email} {client.phone ? `· ${client.phone}` : ""}</p>
+                              </div>
+                            </div>
                           </td>
                           <td className="px-6 py-4.5 text-center font-bold text-black">
                             {client.appointments}
