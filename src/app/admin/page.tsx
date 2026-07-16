@@ -529,12 +529,21 @@ export default function AdminPage() {
       })
       if (res.ok) {
         const data = await res.json()
-        setAppointments(prev => 
-          prev.map(app => app.id === id ? data.appointment : app)
-        )
+        if (data.success && data.appointment) {
+          setAppointments(prev => 
+            prev.map(app => app.id === id ? data.appointment : app)
+          )
+        } else {
+          throw new Error(data.error || "Respuesta del servidor inválida")
+        }
+      } else {
+        const errText = await res.text()
+        throw new Error(errText)
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error al confirmar cita:", err)
+      alert("Error al confirmar cita: " + (err.message || err))
+      fetchAppointments()
     } finally {
       setUpdatingId(null)
     }
@@ -557,12 +566,21 @@ export default function AdminPage() {
       })
       if (res.ok) {
         const data = await res.json()
-        setAppointments(prev => 
-          prev.map(app => app.id === id ? data.appointment : app)
-        )
+        if (data.success && data.appointment) {
+          setAppointments(prev => 
+            prev.map(app => app.id === id ? data.appointment : app)
+          )
+        } else {
+          throw new Error(data.error || "Respuesta del servidor inválida")
+        }
+      } else {
+        const errText = await res.text()
+        throw new Error(errText)
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error al cancelar cita:", err)
+      alert("Error al cancelar cita: " + (err.message || err))
+      fetchAppointments()
     } finally {
       setUpdatingId(null)
     }
