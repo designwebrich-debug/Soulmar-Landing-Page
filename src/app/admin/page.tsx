@@ -91,6 +91,18 @@ export default function AdminPage() {
   const [copiedToken, setCopiedToken] = useState(false)
   const [selectedClientHistory, setSelectedClientHistory] = useState<any | null>(null)
   const [revenueActiveTab, setRevenueActiveTab] = useState<"current" | "weekly" | "monthly">("current")
+  
+  // Estados para reprogramación de citas
+  const [reschedulingApp, setReschedulingApp] = useState<any | null>(null)
+  const [rescheduleDate, setRescheduleDate] = useState("")
+  const [rescheduleTime, setRescheduleTime] = useState("")
+
+  useEffect(() => {
+    if (reschedulingApp) {
+      setRescheduleDate(reschedulingApp.appointment_date)
+      setRescheduleTime(reschedulingApp.appointment_time)
+    }
+  }, [reschedulingApp])
 
   // Filtros de Citas
   const [filterSearch, setFilterSearch] = useState("")
@@ -257,6 +269,46 @@ export default function AdminPage() {
       }
     } catch (err) {
       console.error("Error al cancelar cita:", err)
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
+  // Reprogramar cita
+  const handleRescheduleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!reschedulingApp || !rescheduleDate || !rescheduleTime) return
+
+    try {
+      setUpdatingId(reschedulingApp.id)
+      const appToUpdate = reschedulingApp
+      setReschedulingApp(null) // Cerrar modal
+
+      // Actualización optimista de la UI
+      setAppointments(prev => 
+        prev.map(app => app.id === appToUpdate.id 
+          ? { ...app, appointment_date: rescheduleDate, appointment_time: rescheduleTime } 
+          : app
+        )
+      )
+
+      const res = await fetch("/api/appointments", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          id: appToUpdate.id, 
+          date: rescheduleDate, 
+          time: rescheduleTime 
+        }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setAppointments(prev => 
+          prev.map(app => app.id === appToUpdate.id ? data.appointment : app)
+        )
+      }
+    } catch (err) {
+      console.error("Error al reprogramar cita:", err)
     } finally {
       setUpdatingId(null)
     }
@@ -1518,12 +1570,20 @@ export default function AdminPage() {
                                       )}
 
                                       {app.status !== "cancelled" && (
-                                        <button
-                                          onClick={() => handleCancel(app.id)}
-                                          className="h-8 px-3 rounded-full border border-neutral-300 text-red-600 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
-                                        >
-                                          Cancelar
-                                        </button>
+                                        <>
+                                          <button
+                                            onClick={() => setReschedulingApp(app)}
+                                            className="h-8 px-3 rounded-full border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
+                                          >
+                                            Reprogramar
+                                          </button>
+                                          <button
+                                            onClick={() => handleCancel(app.id)}
+                                            className="h-8 px-3 rounded-full border border-neutral-300 text-red-600 hover:bg-neutral-50 transition-colors cursor-pointer text-[9px] font-bold uppercase tracking-wider"
+                                          >
+                                            Cancelar
+                                          </button>
+                                        </>
                                       )}
                                     </>
                                   )}
@@ -1842,6 +1902,98 @@ export default function AdminPage() {
               )}
             </div>
           </div>
+        </div>
+      )}
+      {/* MODAL DE REPROGRAMACIÓN DE CITA */}
+      {reschedulingApp && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div 
+            className="fixed inset-0" 
+            onClick={() => setReschedulingApp(null)}
+          />
+          
+          <form 
+            onSubmit={handleRescheduleSubmit}
+            className="bg-white rounded-3xl border border-neutral-200 shadow-2xl w-full max-w-md overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200"
+          >
+            {/* Header */}
+            <div className="p-6 md:p-8 border-b border-neutral-100 flex items-start justify-between">
+              <div className="space-y-1">
+                <h4 className="text-base font-black text-black uppercase tracking-tight">Reprogramar Sesión</h4>
+                <p className="text-[11px] text-neutral-400 font-semibold">Ajusta la fecha y hora de la sesión del paciente.</p>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setReschedulingApp(null)}
+                className="p-2 rounded-full hover:bg-neutral-100 text-black transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Form Fields */}
+            <div className="p-6 md:p-8 space-y-5">
+              <div className="space-y-1">
+                <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Paciente</label>
+                <p className="text-sm font-bold text-black">{reschedulingApp.patient?.name || "Paciente"}</p>
+                <p className="text-xs text-neutral-400 font-semibold">{reschedulingApp.patient?.email}</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Nueva Fecha</label>
+                <input 
+                  type="date" 
+                  required
+                  value={rescheduleDate}
+                  onChange={(e) => setRescheduleDate(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 text-sm text-black font-semibold focus:outline-none focus:border-black transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Nueva Hora</label>
+                <input 
+                  type="text" 
+                  required
+                  placeholder="e.g. 02:00 PM o 10:30 AM"
+                  value={rescheduleTime}
+                  onChange={(e) => setRescheduleTime(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 text-sm text-black font-semibold focus:outline-none focus:border-black transition-colors"
+                />
+                
+                {/* Atajos de horas comunes */}
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"].map((h) => (
+                    <button
+                      key={h}
+                      type="button"
+                      onClick={() => setRescheduleTime(h)}
+                      className="px-2 py-1 rounded bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-[10px] text-neutral-600 font-bold transition-all cursor-pointer"
+                    >
+                      {h}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="p-6 md:p-8 bg-neutral-50/50 border-t border-neutral-100 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setReschedulingApp(null)}
+                className="px-4 py-2 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-500 font-bold text-xs transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-full bg-black hover:bg-neutral-900 text-white font-bold text-xs transition-colors cursor-pointer shadow-sm"
+              >
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

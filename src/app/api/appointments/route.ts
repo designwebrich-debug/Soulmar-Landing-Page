@@ -78,92 +78,74 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json()
-    const { id, status } = body // status: 'confirmed' o 'cancelled'
+    const { id, status, date, time } = body // status: 'confirmed', 'cancelled', 'pending'; date: YYYY-MM-DD; time: HH:MM AM/PM
 
-    if (!id || !["confirmed", "cancelled"].includes(status)) {
-      return NextResponse.json({ error: "Invalid parameters" }, { status: 400 })
+    if (!id) {
+      return NextResponse.json({ error: "Missing ID" }, { status: 400 })
     }
 
     const supabase = await createAdminClient()
 
-    // 1. Si el estado a cambiar es CONFIRMED, generamos el enlace en Google Calendar
-    if (status === "confirmed") {
-      // Obtener detalles de la cita y del paciente
-      const { data: appointment, error: fetchError } = await supabase
-        .from("appointments")
-        .select(`
-          *,
-          patient:patient_id (
-            name,
-            email
-          )
-        `)
-        .eq("id", id)
-        .single()
+    // Obtener detalles de la cita y del paciente
+    const { data: appointment, error: fetchError } = await supabase
+      .from("appointments")
+      .select(`
+        *,
+        patient:patient_id (
+          name,
+          email
+        )
+      `)
+      .eq("id", id)
+      .single()
 
-      if (fetchError || !appointment) {
-        console.error("[API_APPOINTMENTS_PATCH] Fetch Error:", fetchError)
-        return NextResponse.json({ error: "Appointment not found" }, { status: 404 })
-      }
+    if (fetchError || !appointment) {
+      console.error("[API_APPOINTMENTS_PATCH] Fetch Error:", fetchError)
+      return NextResponse.json({ error: "Appointment not found" }, { status: 404 })
+    }
 
-      // Evitar duplicación si ya está confirmada
-      if (appointment.status === "confirmed" && appointment.meeting_link) {
-        return NextResponse.json({ success: true, appointment })
-      }
+    const targetStatus = status || appointment.status
+    const targetDate = date || appointment.appointment_date
+    const targetTime = time || appointment.appointment_time
 
-      // Preparar datos para Google Calendar
+    const updateData: any = {
+      status: targetStatus,
+      appointment_date: targetDate,
+      appointment_time: targetTime
+    }
+
+    // Si el estado es (o cambia a) CONFIRMED, generamos el enlace en Google Calendar con la fecha/hora correspondiente
+    if (targetStatus === "confirmed") {
       const patientName = appointment.patient?.name || "Paciente Soulmar"
       const patientEmail = appointment.patient?.email || ""
       const reason = appointment.reason || "Consulta de Bienestar Radical"
 
-      // Crear el evento de Google Calendar de forma asíncrona
+      // Crear el evento de Google Calendar
       const calendarResult = await createCalendarEvent({
         patientName,
         patientEmail,
-        appointmentDate: appointment.appointment_date,
-        appointmentTime: appointment.appointment_time,
+        appointmentDate: targetDate,
+        appointmentTime: targetTime,
         consultationReason: reason,
       })
 
-      // Actualizar el estado y guardar el meeting_link de Google Meet en Supabase
-      const { data: updatedAppointment, error: updateError } = await supabase
-        .from("appointments")
-        .update({
-          status: "confirmed",
-          meeting_link: calendarResult.meetingLink || calendarResult.htmlLink || "",
-        })
-        .eq("id", id)
-        .select()
-        .single()
-
-      if (updateError) {
-        console.error("[API_APPOINTMENTS_PATCH] Update Confirmed Error:", updateError)
-        return NextResponse.json({ error: updateError.message }, { status: 500 })
-      }
-
-      return NextResponse.json({ success: true, appointment: updatedAppointment })
-    } 
-    
-    // 2. Si el estado es CANCELLED
-    if (status === "cancelled") {
-      const { data: updatedAppointment, error: updateError } = await supabase
-        .from("appointments")
-        .update({
-          status: "cancelled",
-        })
-        .eq("id", id)
-        .select()
-        .single()
-
-      if (updateError) {
-        console.error("[API_APPOINTMENTS_PATCH] Update Cancelled Error:", updateError)
-        return NextResponse.json({ error: updateError.message }, { status: 500 })
-      }
-
-      return NextResponse.json({ success: true, appointment: updatedAppointment })
+      updateData.meeting_link = calendarResult.meetingLink || calendarResult.htmlLink || ""
     }
 
-    return NextResponse.json({ error: "Action not supported" }, { status: 400 })
+    // Actualizar la cita en la base de datos
+    const { data: updatedAppointment, error: updateError } = await supabase
+      .from("appointments")
+      .update(updateData)
+      .eq("id", id)
+      .select()
+      .single()
+
+    if (updateError) {
+      console.error("[API_APPOINTMENTS_PATCH] Update Error:", updateError)
+      return NextResponse.json({ error: updateError.message }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true, appointment: updatedAppointment })
   } catch (err: any) {
     console.error("[API_APPOINTMENTS_PATCH] Exception:", err)
     return NextResponse.json({ error: err.message }, { status: 500 })

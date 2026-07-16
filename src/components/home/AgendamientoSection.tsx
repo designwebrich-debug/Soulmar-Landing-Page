@@ -61,6 +61,7 @@ export function AgendamientoSection() {
   })
   const [slotDuration, setSlotDuration] = useState("30 min")
   const [holidays, setHolidays] = useState<any[]>([])
+  const [existingAppointments, setExistingAppointments] = useState<any[]>([])
 
   useEffect(() => {
     fetch("/api/settings")
@@ -75,6 +76,16 @@ export function AgendamientoSection() {
         }
       })
       .catch(err => console.error("Error fetching settings:", err))
+
+    // Cargar todas las citas existentes para inhabilitar turnos ya ocupados
+    fetch("/api/appointments")
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data.appointments)) {
+          setExistingAppointments(data.appointments)
+        }
+      })
+      .catch(err => console.error("Error fetching appointments:", err))
   }, [])
 
   // Generar horarios de slots dinámicamente según la configuración del administrador
@@ -138,8 +149,21 @@ export function AgendamientoSection() {
 
 
   // Helper to disable slots that are in the past if selectedDate is today
+  // OR if the slot has already been booked (confirmed or pending)
   const isSlotDisabled = (timeStr: string): boolean => {
     if (!selectedDate) return true
+
+    // 1. Verificar si el slot ya está reservado (estado != "cancelled")
+    const hasBooking = existingAppointments.some(app => {
+      return (
+        app.appointment_date === formattedSelectedDate &&
+        app.appointment_time === timeStr &&
+        app.status !== "cancelled"
+      )
+    })
+    if (hasBooking) return true
+
+    // 2. Verificar si el slot es del pasado en caso de ser hoy
     const isToday = selectedDate.toDateString() === new Date().toDateString()
     if (!isToday) return false
 
