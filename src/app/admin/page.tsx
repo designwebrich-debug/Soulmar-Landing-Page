@@ -1077,13 +1077,13 @@ export default function AdminPage() {
                   </div>
 
                   {/* KPI 3 - Azul Soulmar */}
-                  <div className="bg-[#185FA5]/[0.02] rounded-3xl p-8 border border-[#185FA5]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#185FA5]/25 transition-all duration-300">
+                  <div className="bg-[#8da9c4]/[0.02] rounded-3xl p-8 border border-[#8da9c4]/15 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#8da9c4]/30 transition-all duration-300">
                     <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-[#185FA5]/80 block">Citas Totales</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#4c6885] block">Citas Totales</span>
                       <span className="text-4xl font-black text-black font-sans block">{kpis.totalActiveCount}</span>
-                      <span className="text-[9px] font-bold text-[#185FA5] bg-[#185FA5]/8 border border-[#185FA5]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Reservas Activas</span>
+                      <span className="text-[9px] font-bold text-[#4c6885] bg-[#8da9c4]/10 border border-[#8da9c4]/20 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Reservas Activas</span>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-[#185FA5]/10 border border-[#185FA5]/15 flex items-center justify-center text-[#185FA5]">
+                    <div className="w-12 h-12 rounded-xl bg-[#8da9c4]/10 border border-[#8da9c4]/20 flex items-center justify-center text-[#8da9c4]">
                       <Calendar className="w-6 h-6" />
                     </div>
                   </div>
@@ -1096,7 +1096,7 @@ export default function AdminPage() {
                       <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Volumen de Citas (Últimos 7 días)</h3>
                       <p className="text-[11px] text-neutral-400 font-semibold">Tendencia diaria de reservas agendadas en la página web.</p>
                     </div>
-                     <div className="flex items-center gap-1.5 bg-[#185FA5]/5 border border-[#185FA5]/15 px-3 py-1 rounded-full text-[9px] font-black text-[#185FA5] uppercase tracking-widest">
+                     <div className="flex items-center gap-1.5 bg-[#8da9c4]/8 border border-[#8da9c4]/20 px-3 py-1 rounded-full text-[9px] font-black text-[#4c6885] uppercase tracking-widest">
                        <Sparkles className="w-3.5 h-3.5" />
                        <span>Azul Soulmar</span>
                      </div>
@@ -1107,11 +1107,11 @@ export default function AdminPage() {
                        <svg viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`} className="w-full h-full overflow-visible">
                          <defs>
                            <linearGradient id="blueChartGradient" x1="0" y1="0" x2="0" y2="1">
-                             <stop offset="0%" stopColor="#185FA5" stopOpacity="0.08" />
-                             <stop offset="100%" stopColor="#185FA5" stopOpacity="0.0" />
+                             <stop offset="0%" stopColor="#8da9c4" stopOpacity="0.12" />
+                             <stop offset="100%" stopColor="#8da9c4" stopOpacity="0.0" />
                            </linearGradient>
                            <filter id="chartLineShadow" x="-10%" y="-10%" width="120%" height="120%">
-                             <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#185FA5" floodOpacity="0.15" />
+                             <feDropShadow dx="0" dy="4" stdDeviation="3" floodColor="#8da9c4" floodOpacity="0.25" />
                            </filter>
                          </defs>
  
@@ -1139,7 +1139,7 @@ export default function AdminPage() {
                            <path 
                              d={pathD} 
                              fill="none" 
-                             stroke="#185FA5" 
+                             stroke="#8da9c4" 
                              strokeWidth="3.5" 
                              strokeLinecap="round" 
                              strokeLinejoin="round" 
@@ -1156,9 +1156,9 @@ export default function AdminPage() {
                                cy={p.y} 
                                r="4.5" 
                                fill="#FFFFFF" 
-                               stroke="#185FA5" 
+                               stroke="#8da9c4" 
                                strokeWidth="3.5" 
-                               className="transition-all duration-300 group-hover/node:stroke-[#185FA5]/80 group-hover/node:r-5.5"
+                               className="transition-all duration-300 group-hover/node:stroke-[#8da9c4]/80 group-hover/node:r-5.5"
                              />
                              <text 
                                cx={p.x} 
@@ -1166,7 +1166,7 @@ export default function AdminPage() {
                                x={p.x} 
                                y={p.y - 12} 
                                textAnchor="middle" 
-                               className="text-[10px] font-black fill-[#185FA5] font-sans"
+                               className="text-[10px] font-black fill-[#4c6885] font-sans"
                              >
                                {p.count}
                              </text>
@@ -1236,7 +1236,7 @@ export default function AdminPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-100 pb-5">
                     <div className="space-y-1">
                       <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase flex items-center gap-1.5">
-                        <TrendingUp className="w-4 h-4 text-[#185FA5]" />
+                        <TrendingUp className="w-4 h-4 text-[#8da9c4]" />
                         <span>Ingresos por Citas</span>
                       </h3>
                       <p className="text-[11px] text-neutral-400 font-semibold">Resumen de ingresos basados en sesiones de Terapia Online confirmadas ($120.000 COP c/u).</p>
@@ -1281,7 +1281,7 @@ export default function AdminPage() {
                   {revenueActiveTab === "current" && (
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-4 animate-in fade-in duration-300">
                       <div className="space-y-2">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-[#185FA5] block">Ganancias del Mes en Curso</span>
+                        <span className="text-[9px] font-black uppercase tracking-widest text-[#4c6885] block">Ganancias del Mes en Curso</span>
                         <span className="text-4xl md:text-5xl font-black text-black font-sans block">
                           {formatCOP(revenueStats.currentMonthRevenue)}
                         </span>
@@ -1846,7 +1846,7 @@ export default function AdminPage() {
                 <div className="flex gap-4 pt-2 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
                   <span>Citas: <strong className="text-black font-extrabold">{selectedClientHistory.appointments}</strong></span>
                   <span>Completadas: <strong className="text-black font-extrabold">{selectedClientHistory.completed}</strong></span>
-                  <span>Gastado: <strong className="text-[#185FA5] font-extrabold">{formatCOP(selectedClientHistory.spent)}</strong></span>
+                  <span>Gastado: <strong className="text-[#4c6885] font-extrabold">{formatCOP(selectedClientHistory.spent)}</strong></span>
                 </div>
               </div>
               <button 
