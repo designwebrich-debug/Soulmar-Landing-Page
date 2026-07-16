@@ -658,7 +658,7 @@ export default function AdminPage() {
         app.patient?.phone?.includes(filterSearch)
         
       const dateMatch = !filterDate || app.appointment_date === filterDate
-      const statusMatch = filterStatus === "Todos" || app.status === filterStatus.toLowerCase()
+      const statusMatch = filterStatus === "Todos" || app.status === filterStatus
       const serviceMatch = filterService === "Todos" || filterService === "Terapia Online"
       
       return nameMatch && dateMatch && statusMatch && serviceMatch
@@ -1689,9 +1689,9 @@ export default function AdminPage() {
                       onChange={setFilterStatus}
                       options={[
                         { value: "Todos", label: "Todos" },
-                        { value: "Pendiente", label: "Pendiente" },
-                        { value: "Confirmada", label: "Confirmada" },
-                        { value: "Cancelada", label: "Cancelada" }
+                        { value: "pending", label: "Pendiente" },
+                        { value: "confirmed", label: "Confirmada" },
+                        { value: "cancelled", label: "Cancelada" }
                       ]}
                       className="h-10 rounded-full bg-white border border-neutral-300 text-xs font-semibold focus:border-black"
                     />
