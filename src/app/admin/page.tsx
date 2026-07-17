@@ -1732,7 +1732,47 @@ export default function AdminPage() {
 
             {/* TAB 2: CITAS */}
             {activeTab === "appointments" && (
-              <div className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-200 shadow-sm space-y-8 animate-in fade-in duration-300">
+              <div className="space-y-8 animate-in fade-in duration-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  
+                  {/* KPI 1 - Verde Soulmar */}
+                  <div className="bg-[#1D9E75]/[0.02] rounded-3xl p-8 border border-[#1D9E75]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#1D9E75]/25 transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#1D9E75]/80 block">Citas para hoy</span>
+                      <span className="text-4xl font-black text-black font-sans block">{kpis.todayCount}</span>
+                      <span className="text-[9px] font-bold text-[#1D9E75] bg-[#1D9E75]/8 border border-[#1D9E75]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Sesiones activas</span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-[#1D9E75]/10 border border-[#1D9E75]/15 flex items-center justify-center text-[#1D9E75]">
+                      <Calendar className="w-6 h-6" />
+                    </div>
+                  </div>
+
+                  {/* KPI 2 - Amarillo/Ámbar Soulmar */}
+                  <div className="bg-[#BA7517]/[0.02] rounded-3xl p-8 border border-[#BA7517]/12 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#BA7517]/25 transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#BA7517]/80 block">Conversión de Agenda</span>
+                      <span className="text-4xl font-black text-black font-sans block">{kpis.conversionRate}%</span>
+                      <span className="text-[9px] font-bold text-[#BA7517] bg-[#BA7517]/8 border border-[#BA7517]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Confirmación directa</span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
+                      <TrendingUp className="w-6 h-6" />
+                    </div>
+                  </div>
+
+                  {/* KPI 3 - Azul Soulmar */}
+                  <div className="bg-[#8da9c4]/[0.02] rounded-3xl p-8 border border-[#8da9c4]/15 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md hover:border-[#8da9c4]/30 transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#4c6885] block">Citas Totales</span>
+                      <span className="text-4xl font-black text-black font-sans block">{kpis.totalActiveCount}</span>
+                      <span className="text-[9px] font-bold text-[#4c6885] bg-[#8da9c4]/10 border border-[#8da9c4]/20 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">Reservas Activas</span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-[#8da9c4]/10 border border-[#8da9c4]/20 flex items-center justify-center text-[#8da9c4]">
+                      <Calendar className="w-6 h-6" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-200 shadow-sm space-y-8">
                 <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                   <div className="space-y-1">
                     <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Citas Agendadas</h3>
@@ -1966,6 +2006,7 @@ export default function AdminPage() {
                     ))}
                   </div>
                 )}
+                </div>
               </div>
             )}
 
