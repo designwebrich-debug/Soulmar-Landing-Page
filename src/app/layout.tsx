@@ -3,9 +3,7 @@ import { Inter, Geist_Mono, Playfair_Display, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppLayoutWrapper } from "@/components/layout/AppLayoutWrapper"
-import { CartProvider } from "@/context/CartContext"
 import { LanguageProvider } from "@/context/LanguageContext"
-import { AuthProvider } from "@/context/AuthContext"
 import { ToastProvider } from "@/context/ToastContext"
 
 const inter = Inter({
@@ -52,15 +50,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
-            <ToastProvider>
-              <LanguageProvider>
-                <CartProvider>
-                    <AppLayoutWrapper>{children}</AppLayoutWrapper>
-                </CartProvider>
-              </LanguageProvider>
-            </ToastProvider>
-          </AuthProvider>
+          <ToastProvider>
+            <LanguageProvider>
+              <AppLayoutWrapper>{children}</AppLayoutWrapper>
+            </LanguageProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

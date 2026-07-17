@@ -6,11 +6,9 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "./ThemeToggle"
 import { Button } from "@/components/ui/Button"
-import { Menu, X, ShoppingBag, UserPlus, LayoutDashboard } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useCart } from "@/context/CartContext"
 import { useTranslation } from "@/context/LanguageContext"
-import { useAuth } from "@/context/AuthContext"
 
 const navLinks = [
   { key: "therapies", href: "/#agendamiento" },
