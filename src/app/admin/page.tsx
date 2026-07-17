@@ -1963,9 +1963,9 @@ export default function AdminPage() {
                                 [day]: { ...prev[day], enabled: !daySched.enabled }
                               }))
                             }}
-                            className="flex items-center gap-3.5 cursor-pointer select-none"
+                            className="group flex items-center gap-3.5 cursor-pointer select-none"
                           >
-                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300 group-hover:border-[#8da9c4] group-hover:bg-[#8da9c4] ${
                               daySched.enabled 
                                 ? "border-black bg-black text-white" 
                                 : "border-neutral-300 bg-white"
@@ -2028,7 +2028,7 @@ export default function AdminPage() {
 
                     <button 
                       onClick={handleSaveSchedules}
-                      className="h-12 px-8 rounded-full bg-black text-white hover:bg-neutral-900 transition-all font-bold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] cursor-pointer flex items-center justify-center"
+                      className="h-12 px-8 rounded-full bg-black text-white hover:bg-[#8da9c4] transition-all font-bold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] cursor-pointer flex items-center justify-center"
                     >
                       Guardar Horario
                     </button>
@@ -2064,7 +2064,7 @@ export default function AdminPage() {
                         />
                         <button
                           type="submit"
-                          className="h-11 px-5 rounded-xl bg-black hover:bg-neutral-900 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-97 cursor-pointer"
+                          className="h-11 px-5 rounded-xl bg-black hover:bg-[#8da9c4] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-97 cursor-pointer"
                         >
                           Añadir
                         </button>
