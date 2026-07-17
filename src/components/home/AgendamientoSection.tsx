@@ -51,13 +51,13 @@ export function AgendamientoSection() {
 
   // Cargar configuraciones de horarios guardados por el admin
   const [schedules, setSchedules] = useState<any>({
-    Lunes: { enabled: true, start: "07:00", end: "19:00" },
-    Martes: { enabled: true, start: "07:00", end: "19:00" },
-    Miércoles: { enabled: true, start: "07:00", end: "19:00" },
-    Jueves: { enabled: true, start: "07:00", end: "19:00" },
-    Viernes: { enabled: true, start: "07:00", end: "19:00" },
-    Sábado: { enabled: false, start: "07:00", end: "19:00" },
-    Domingo: { enabled: false, start: "07:00", end: "19:00" },
+    Lunes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Martes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Miércoles: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Jueves: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Viernes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Sábado: { enabled: false, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Domingo: { enabled: false, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
   })
   const [slotDuration, setSlotDuration] = useState("1 hora 20 min")
   const [holidays, setHolidays] = useState<any[]>([])
@@ -98,14 +98,6 @@ export function AgendamientoSection() {
     
     if (!config || !config.enabled) return { am: [], pm: [] }
     
-    const startParts = config.start.split(":")
-    const endParts = config.end.split(":")
-    
-    let startHour = parseInt(startParts[0]) || 10
-    let startMin = parseInt(startParts[1]) || 0
-    let endHour = parseInt(endParts[0]) || 20
-    let endMin = parseInt(endParts[1]) || 0
-    
     let durationMins = 30
     if (slotDuration === "45 min") durationMins = 45
     if (slotDuration === "1 hora") durationMins = 60
@@ -114,43 +106,51 @@ export function AgendamientoSection() {
     const am: string[] = []
     const pm: string[] = []
     
-    let currentHour = startHour
-    let currentMin = startMin
+    const generateBlock = (startH: number, startM: number, endH: number, endM: number) => {
+      let currentHour = startH
+      let currentMin = startM
+      
+      while (currentHour < endH || (currentHour === endH && currentMin < endM)) {
+        let displayHour = currentHour
+        let ampm = "AM"
+        
+        if (currentHour >= 12) {
+          ampm = "PM"
+          if (currentHour > 12) displayHour = currentHour - 12
+        } else if (currentHour === 0) {
+          displayHour = 12
+        }
+        
+        const hourStr = displayHour.toString().padStart(2, "0")
+        const minStr = currentMin.toString().padStart(2, "0")
+        const slotStr = `${hourStr}:${minStr} ${ampm}`
+        
+        if (ampm === "AM") {
+          am.push(slotStr)
+        } else {
+          pm.push(slotStr)
+        }
+        
+        currentMin += durationMins
+        if (currentMin >= 60) {
+          currentHour += Math.floor(currentMin / 60)
+          currentMin = currentMin % 60
+        }
+      }
+    }
     
-    while (currentHour < endHour || (currentHour === endHour && currentMin < endMin)) {
-      // Bloque de Tiempo Privado / Descanso Dra. (11:00 AM - 1:59 PM)
-      // Si la hora llega a las 11:00 (fin del turno AM), saltamos directo a las 14:00 (2:00 PM)
-      if (currentHour >= 11 && currentHour < 14) {
-        currentHour = 14
-        currentMin = 0
-        continue
-      }
-      
-      let displayHour = currentHour
-      let ampm = "AM"
-      
-      if (currentHour >= 12) {
-        ampm = "PM"
-        if (currentHour > 12) displayHour = currentHour - 12
-      } else if (currentHour === 0) {
-        displayHour = 12
-      }
-      
-      const hourStr = displayHour.toString().padStart(2, "0")
-      const minStr = currentMin.toString().padStart(2, "0")
-      const slotStr = `${hourStr}:${minStr} ${ampm}`
-      
-      if (ampm === "AM") {
-        am.push(slotStr)
-      } else {
-        pm.push(slotStr)
-      }
-      
-      currentMin += durationMins
-      if (currentMin >= 60) {
-        currentHour += Math.floor(currentMin / 60)
-        currentMin = currentMin % 60
-      }
+    // Procesar bloque AM
+    if (config.start && config.end) {
+      const s = config.start.split(":")
+      const e = config.end.split(":")
+      generateBlock(parseInt(s[0]) || 10, parseInt(s[1]) || 0, parseInt(e[0]) || 20, parseInt(e[1]) || 0)
+    }
+    
+    // Procesar bloque PM
+    if (config.startPM && config.endPM) {
+      const s = config.startPM.split(":")
+      const e = config.endPM.split(":")
+      generateBlock(parseInt(s[0]) || 14, parseInt(s[1]) || 0, parseInt(e[0]) || 19, parseInt(e[1]) || 0)
     }
     
     return { am, pm }

@@ -55,6 +55,8 @@ interface DaySchedule {
   enabled: boolean
   start: string
   end: string
+  startPM?: string
+  endPM?: string
 }
 
 interface WorkingHours {
@@ -407,13 +409,13 @@ export default function AdminPage() {
 
   // Estados de Horarios
   const [schedules, setSchedules] = useState<WorkingHours>({
-    Lunes: { enabled: true, start: "07:00", end: "19:00" },
-    Martes: { enabled: true, start: "07:00", end: "19:00" },
-    Miércoles: { enabled: true, start: "07:00", end: "19:00" },
-    Jueves: { enabled: true, start: "07:00", end: "19:00" },
-    Viernes: { enabled: true, start: "07:00", end: "19:00" },
-    Sábado: { enabled: false, start: "07:00", end: "19:00" },
-    Domingo: { enabled: false, start: "07:00", end: "19:00" },
+    Lunes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Martes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Miércoles: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Jueves: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Viernes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Sábado: { enabled: false, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+    Domingo: { enabled: false, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
   })
   const [slotDuration, setSlotDuration] = useState("1 hora 20 min")
   const [holidays, setHolidays] = useState<Holiday[]>([])
@@ -1977,30 +1979,59 @@ export default function AdminPage() {
 
                           <div className="flex items-center gap-2">
                             {daySched.enabled ? (
-                              <div className="flex items-center gap-2 animate-in fade-in duration-300">
-                                <input 
-                                  type="text" 
-                                  value={daySched.start}
-                                  onChange={(e) => {
-                                    setSchedules(prev => ({
-                                      ...prev,
-                                      [day]: { ...prev[day], start: e.target.value }
-                                    }))
-                                  }}
-                                  className="w-20 h-10 rounded-xl border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
-                                />
-                                <span className="text-[10px] text-neutral-400 font-extrabold uppercase tracking-wider px-1">a</span>
-                                <input 
-                                  type="text" 
-                                  value={daySched.end}
-                                  onChange={(e) => {
-                                    setSchedules(prev => ({
-                                      ...prev,
-                                      [day]: { ...prev[day], end: e.target.value }
-                                    }))
-                                  }}
-                                  className="w-20 h-10 rounded-xl border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
-                                />
+                              <div className="flex flex-col gap-2 animate-in fade-in duration-300">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[9px] font-bold text-neutral-400 w-4">AM</span>
+                                  <input 
+                                    type="text" 
+                                    value={daySched.start}
+                                    onChange={(e) => {
+                                      setSchedules(prev => ({
+                                        ...prev,
+                                        [day]: { ...prev[day], start: e.target.value }
+                                      }))
+                                    }}
+                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                  />
+                                  <span className="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider px-0.5">-</span>
+                                  <input 
+                                    type="text" 
+                                    value={daySched.end}
+                                    onChange={(e) => {
+                                      setSchedules(prev => ({
+                                        ...prev,
+                                        [day]: { ...prev[day], end: e.target.value }
+                                      }))
+                                    }}
+                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                  />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[9px] font-bold text-neutral-400 w-4">PM</span>
+                                  <input 
+                                    type="text" 
+                                    value={daySched.startPM || "14:00"}
+                                    onChange={(e) => {
+                                      setSchedules(prev => ({
+                                        ...prev,
+                                        [day]: { ...prev[day], startPM: e.target.value }
+                                      }))
+                                    }}
+                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                  />
+                                  <span className="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider px-0.5">-</span>
+                                  <input 
+                                    type="text" 
+                                    value={daySched.endPM || "19:00"}
+                                    onChange={(e) => {
+                                      setSchedules(prev => ({
+                                        ...prev,
+                                        [day]: { ...prev[day], endPM: e.target.value }
+                                      }))
+                                    }}
+                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                  />
+                                </div>
                               </div>
                             ) : (
                               <span className="text-[10px] font-bold text-neutral-300 pr-10 uppercase tracking-widest">Cerrado</span>
