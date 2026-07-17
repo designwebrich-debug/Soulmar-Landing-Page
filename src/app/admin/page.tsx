@@ -1714,30 +1714,27 @@ export default function AdminPage() {
                       href="https://calendar.google.com/calendar/u/0/r"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
+                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-neutral-800 transition-colors flex items-center justify-center shadow-sm shrink-0"
                     >
-                      <Calendar className="w-4 h-4 shrink-0" />
-                      <span>Calendar</span>
+                      <Calendar className="w-5 h-5" />
                     </a>
                     
                     <a 
                       href="https://meet.google.com/landing?hs=197&authuser=0"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
+                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-neutral-800 transition-colors flex items-center justify-center shadow-sm shrink-0"
                     >
-                      <Video className="w-4 h-4 shrink-0" />
-                      <span>Meet</span>
+                      <Video className="w-5 h-5" />
                     </a>
 
                     <a 
                       href="https://drive.google.com/drive/home"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
+                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-neutral-800 transition-colors flex items-center justify-center shadow-sm shrink-0"
                     >
-                      <Folder className="w-4 h-4 shrink-0" />
-                      <span>Drive</span>
+                      <Folder className="w-5 h-5" />
                     </a>
                   </div>
                 </div>
