@@ -1953,8 +1953,9 @@ export default function AdminPage() {
                   </div>
 
                   <div className="divide-y divide-neutral-200 space-y-4">
-                    {Object.keys(schedules).map((day) => {
+                    {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => {
                       const daySched = schedules[day]
+                      if (!daySched) return null
                       return (
                         <div key={day} className="flex items-center justify-between pt-4 first:pt-0">
                           {/* Selector circular customizado */}
