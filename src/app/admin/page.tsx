@@ -407,15 +407,15 @@ export default function AdminPage() {
 
   // Estados de Horarios
   const [schedules, setSchedules] = useState<WorkingHours>({
-    Lunes: { enabled: true, start: "10:00", end: "20:00" },
-    Martes: { enabled: true, start: "10:00", end: "20:00" },
-    Miércoles: { enabled: true, start: "10:00", end: "20:00" },
-    Jueves: { enabled: true, start: "10:00", end: "20:00" },
-    Viernes: { enabled: true, start: "10:00", end: "20:00" },
-    Sábado: { enabled: true, start: "10:00", end: "20:00" },
-    Domingo: { enabled: false, start: "10:00", end: "20:00" },
+    Lunes: { enabled: true, start: "07:00", end: "18:00" },
+    Martes: { enabled: true, start: "07:00", end: "18:00" },
+    Miércoles: { enabled: true, start: "07:00", end: "18:00" },
+    Jueves: { enabled: true, start: "07:00", end: "18:00" },
+    Viernes: { enabled: true, start: "07:00", end: "18:00" },
+    Sábado: { enabled: false, start: "07:00", end: "18:00" },
+    Domingo: { enabled: false, start: "07:00", end: "18:00" },
   })
-  const [slotDuration, setSlotDuration] = useState("30 min")
+  const [slotDuration, setSlotDuration] = useState("1 hora 20 min")
   const [holidays, setHolidays] = useState<Holiday[]>([])
   const [newHolidayDate, setNewHolidayDate] = useState("")
   const [newHolidayReason, setNewHolidayReason] = useState("")
@@ -2020,7 +2020,8 @@ export default function AdminPage() {
                         options={[
                           { value: "30 min", label: "30 min" },
                           { value: "45 min", label: "45 min" },
-                          { value: "1 hora", label: "1 hora" }
+                          { value: "1 hora", label: "1 hora" },
+                          { value: "1 hora 20 min", label: "1h + 20m prep" }
                         ]}
                         className="h-10 rounded-xl bg-white border border-neutral-200 text-xs font-semibold focus:border-black min-w-[120px]"
                       />

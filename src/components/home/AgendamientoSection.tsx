@@ -51,15 +51,15 @@ export function AgendamientoSection() {
 
   // Cargar configuraciones de horarios guardados por el admin
   const [schedules, setSchedules] = useState<any>({
-    Lunes: { enabled: true, start: "10:00", end: "20:00" },
-    Martes: { enabled: true, start: "10:00", end: "20:00" },
-    Miércoles: { enabled: true, start: "10:00", end: "20:00" },
-    Jueves: { enabled: true, start: "10:00", end: "20:00" },
-    Viernes: { enabled: true, start: "10:00", end: "20:00" },
-    Sábado: { enabled: true, start: "10:00", end: "20:00" },
-    Domingo: { enabled: false, start: "10:00", end: "20:00" },
+    Lunes: { enabled: true, start: "07:00", end: "18:00" },
+    Martes: { enabled: true, start: "07:00", end: "18:00" },
+    Miércoles: { enabled: true, start: "07:00", end: "18:00" },
+    Jueves: { enabled: true, start: "07:00", end: "18:00" },
+    Viernes: { enabled: true, start: "07:00", end: "18:00" },
+    Sábado: { enabled: false, start: "07:00", end: "18:00" },
+    Domingo: { enabled: false, start: "07:00", end: "18:00" },
   })
-  const [slotDuration, setSlotDuration] = useState("30 min")
+  const [slotDuration, setSlotDuration] = useState("1 hora 20 min")
   const [holidays, setHolidays] = useState<any[]>([])
   const [existingAppointments, setExistingAppointments] = useState<any[]>([])
 
@@ -109,6 +109,7 @@ export function AgendamientoSection() {
     let durationMins = 30
     if (slotDuration === "45 min") durationMins = 45
     if (slotDuration === "1 hora") durationMins = 60
+    if (slotDuration === "1 hora 20 min") durationMins = 80
     
     const am: string[] = []
     const pm: string[] = []
@@ -117,6 +118,14 @@ export function AgendamientoSection() {
     let currentMin = startMin
     
     while (currentHour < endHour || (currentHour === endHour && currentMin < endMin)) {
+      // Bloque de Tiempo Privado / Descanso Dra. (11:00 AM - 1:59 PM)
+      // Si la hora llega a las 11:00 (fin del turno AM), saltamos directo a las 14:00 (2:00 PM)
+      if (currentHour >= 11 && currentHour < 14) {
+        currentHour = 14
+        currentMin = 0
+        continue
+      }
+      
       let displayHour = currentHour
       let ampm = "AM"
       
