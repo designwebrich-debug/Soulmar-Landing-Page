@@ -51,13 +51,13 @@ export function AgendamientoSection() {
 
   // Cargar configuraciones de horarios guardados por el admin
   const [schedules, setSchedules] = useState<any>({
-    Lunes: { enabled: true, start: "07:00", end: "18:00" },
-    Martes: { enabled: true, start: "07:00", end: "18:00" },
-    Miércoles: { enabled: true, start: "07:00", end: "18:00" },
-    Jueves: { enabled: true, start: "07:00", end: "18:00" },
-    Viernes: { enabled: true, start: "07:00", end: "18:00" },
-    Sábado: { enabled: false, start: "07:00", end: "18:00" },
-    Domingo: { enabled: false, start: "07:00", end: "18:00" },
+    Lunes: { enabled: true, start: "07:00", end: "19:00" },
+    Martes: { enabled: true, start: "07:00", end: "19:00" },
+    Miércoles: { enabled: true, start: "07:00", end: "19:00" },
+    Jueves: { enabled: true, start: "07:00", end: "19:00" },
+    Viernes: { enabled: true, start: "07:00", end: "19:00" },
+    Sábado: { enabled: false, start: "07:00", end: "19:00" },
+    Domingo: { enabled: false, start: "07:00", end: "19:00" },
   })
   const [slotDuration, setSlotDuration] = useState("1 hora 20 min")
   const [holidays, setHolidays] = useState<any[]>([])
