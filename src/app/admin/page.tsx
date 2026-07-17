@@ -918,6 +918,8 @@ export default function AdminPage() {
       return {
         topDay: "Sin Datos",
         topDayPct: 0,
+        lowestDay: "Sin Datos",
+        lowestDayPct: 0,
         peakPeriod: "Sin Datos",
         peakHour: "00:00",
         topReason: "Sin Datos",
@@ -939,13 +941,25 @@ export default function AdminPage() {
     
     let topDay = "Sin Datos"
     let maxDayCount = 0
+    let lowestDay = "Sin Datos"
+    let minDayCount = Infinity
+    
     Object.entries(dayCounts).forEach(([day, count]) => {
       if (count > maxDayCount) {
         maxDayCount = count
         topDay = day
       }
+      if (count < minDayCount) {
+        minDayCount = count
+        lowestDay = day
+      }
     })
+    
+    // Si no hay días registrados con citas, corregimos Infinity
+    if (minDayCount === Infinity) minDayCount = 0
+    
     const topDayPct = Math.round((maxDayCount / activeApps.length) * 100)
+    const lowestDayPct = activeApps.length > 0 ? Math.round((minDayCount / activeApps.length) * 100) : 0
 
     // 2. Horas Pico (AM/PM y hora exacta)
     let amCount = 0
@@ -1500,7 +1514,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* METRICAS DE ANALITICAS ADICIONALES */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-300">
                   
                   {/* Card 1: Día de Mayor Demanda */}
                   <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
@@ -1529,8 +1543,22 @@ export default function AdminPage() {
                       <Clock className="w-6 h-6" />
                     </div>
                   </div>
+                  
+                  {/* Card 3: Día Menos Agendado */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día Menos Agendado</span>
+                      <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.lowestDay}</span>
+                      <span className="text-[9px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.lowestDayPct}% de las sesiones
+                      </span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600">
+                      <Calendar className="w-6 h-6" />
+                    </div>
+                  </div>
 
-                  {/* Card 3: Motivo más Solicitado */}
+                  {/* Card 4: Motivo más Solicitado */}
                   <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
                     <div className="space-y-2">
                       <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Motivo más Solicitado</span>
@@ -1947,7 +1975,7 @@ export default function AdminPage() {
                 
                 <div className="lg:col-span-2 flex flex-col gap-8">
                   {/* Cards de Analíticas Rápidas */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {/* Card 1: Día de Mayor Demanda */}
                     <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
                       <div className="space-y-2">
@@ -1973,6 +2001,20 @@ export default function AdminPage() {
                       </div>
                       <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
                         <Clock className="w-6 h-6" />
+                      </div>
+                    </div>
+                    
+                    {/* Card 3: Día Menos Agendado */}
+                    <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día Menos Agendado</span>
+                        <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.lowestDay}</span>
+                        <span className="text-[9px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                          {analyticsStats.lowestDayPct}% de las sesiones
+                        </span>
+                      </div>
+                      <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600">
+                        <Calendar className="w-6 h-6" />
                       </div>
                     </div>
                   </div>
