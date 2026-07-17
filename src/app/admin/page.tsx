@@ -1721,7 +1721,7 @@ export default function AdminPage() {
                     </a>
                     
                     <a 
-                      href="#"
+                      href="https://meet.google.com/landing?hs=197&authuser=0"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
@@ -1731,7 +1731,7 @@ export default function AdminPage() {
                     </a>
 
                     <a 
-                      href="#"
+                      href="https://drive.google.com/drive/home"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
