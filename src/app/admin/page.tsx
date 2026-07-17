@@ -1708,13 +1708,19 @@ export default function AdminPage() {
                     <p className="text-[11px] text-neutral-400 font-semibold">Gestiona el estado y enlace virtual de cada sesión clínica.</p>
                   </div>
                   
-                  <button 
-                    onClick={() => alert("El agendamiento directo se realiza de forma interactiva en la página principal. 🌿")}
-                    className="h-11 px-6 rounded-full bg-black text-white hover:bg-neutral-900 transition-all font-bold text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-sm"
+                  <a 
+                    href="https://calendar.google.com/calendar/u/0/r"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-11 px-6 rounded-full bg-white border border-neutral-200 text-black hover:bg-neutral-50 transition-all font-bold text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-sm"
                   >
-                    <Plus className="w-4 h-4" />
-                    <span>+ Nueva cita</span>
-                  </button>
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" 
+                      alt="Google Calendar" 
+                      className="w-4 h-4"
+                    />
+                    <span>Ver en Calendar</span>
+                  </a>
                 </div>
 
                 {/* FILTROS DE CITAS */}
