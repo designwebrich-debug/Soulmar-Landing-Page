@@ -1189,7 +1189,7 @@ export default function AdminPage() {
             <img 
               src="/images/logo-official.png" 
               alt="Soulmar" 
-              className="w-full max-w-[170px] h-auto object-contain"
+              className="w-full max-w-[165px] h-auto object-contain"
             />
           </div>
 
@@ -1288,7 +1288,7 @@ export default function AdminPage() {
                   <img 
                     src="/images/logo-official.png" 
                     alt="Soulmar" 
-                    className="w-32 h-auto object-contain"
+                    className="w-[124px] h-auto object-contain"
                   />
                 </div>
                 <button 
