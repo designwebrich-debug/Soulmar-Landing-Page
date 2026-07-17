@@ -28,12 +28,17 @@
     "no": "No"
   },
   "hero": {
-    "badge": "Bienvenido a Soulmar",
-    "title": "Tu camino hacia la paz interior comienza aquí",
-    "subtitle": "Acompañamiento psicológico experto, cursos transformadores y retiros que conectan con tu esencia",
+    "badge": "BIENESTAR EMOCIONAL Y SALUD MENTAL",
+    "title_part1": "Terapia online",
+    "title_part2": "para sanar y conectar",
+    "subtitle": "En Soulmar conectas con psicólogos clínicos de primer nivel desde cualquier lugar, a tu propio ritmo. Agenda sesiones en un espacio 100% seguro, confidencial e ideal para tu calma.",
     "cta_primary": "Agendar Cita",
-    "cta_secondary": "Explorar Cursos",
-    "scroll": "Deslizar"
+    "cta_secondary": "Conocer Terapeutas",
+    "scroll": "Deslizar",
+    "stats_sessions": "Sesiones realizadas",
+    "stats_satisfaction": "De satisfacción",
+    "stats_secure": "Seguro y privado",
+    "reviews_badge": "Basado en más de 2,000 reseñas en Soulmar"
   },
   "services": {
     "title": "Servicios que transforman",

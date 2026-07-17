@@ -28,12 +28,17 @@
     "no": "No"
   },
   "hero": {
-    "badge": "Welcome to Soulmar",
-    "title": "Your path to inner peace begins here",
-    "subtitle": "Expert psychological support, transformative courses, and retreats that reconnect you with your essence",
-    "cta_primary": "Book a Session",
-    "cta_secondary": "Explore Courses",
-    "scroll": "Scroll"
+    "badge": "EMOTIONAL WELL-BEING & MENTAL HEALTH",
+    "title_part1": "Online therapy",
+    "title_part2": "to heal and connect",
+    "subtitle": "At Soulmar, you connect with top-tier clinical psychologists from anywhere, at your own pace. Book sessions in a 100% safe, confidential space designed for your peace of mind.",
+    "cta_primary": "Book Session",
+    "cta_secondary": "Meet Therapists",
+    "scroll": "Scroll",
+    "stats_sessions": "Sessions conducted",
+    "stats_satisfaction": "Satisfaction rate",
+    "stats_secure": "Safe & private",
+    "reviews_badge": "Based on over 2,000 reviews at Soulmar"
   },
   "services": {
     "title": "Transformative Services",
