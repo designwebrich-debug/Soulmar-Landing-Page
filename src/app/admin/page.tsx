@@ -393,6 +393,9 @@ export default function AdminPage() {
   const [reschedulingApp, setReschedulingApp] = useState<any | null>(null)
   const [rescheduleDate, setRescheduleDate] = useState("")
   const [rescheduleTime, setRescheduleTime] = useState("")
+  
+  // Estado para confirmación de cierre de sesión
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
   useEffect(() => {
     if (reschedulingApp) {
@@ -1262,8 +1265,8 @@ export default function AdminPage() {
             </div>
           </div>
           <button
-            onClick={() => handleLogout()}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-neutral-300 transition-colors font-bold text-[10px] uppercase tracking-wider cursor-pointer"
+            onClick={() => setShowLogoutConfirm(true)}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 text-neutral-300 border border-transparent hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 hover:scale-[1.01] transition-all duration-300 font-bold text-[10px] uppercase tracking-wider cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Cerrar Sesión</span>
@@ -1354,8 +1357,11 @@ export default function AdminPage() {
                 </div>
               </div>
               <button
-                  onClick={() => handleLogout()}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 text-neutral-300 font-bold text-[10px] uppercase"
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  setShowLogoutConfirm(true)
+                }}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-neutral-900 text-neutral-300 border border-transparent hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 hover:scale-[1.01] transition-all duration-300 font-bold text-[10px] uppercase cursor-pointer"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Cerrar Sesión</span>
@@ -2490,6 +2496,42 @@ export default function AdminPage() {
               </button>
             </div>
           </form>
+        </div>
+      )}
+      {/* MODAL DE CONFIRMACIÓN DE CIERRE DE SESIÓN */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
+          <div 
+            className="fixed inset-0" 
+            onClick={() => setShowLogoutConfirm(false)}
+          />
+          
+          <div className="bg-white rounded-[32px] border border-neutral-200 shadow-2xl w-full max-w-sm overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200 p-8 md:p-10 space-y-6">
+            <div className="space-y-2 text-center">
+              <h4 className="text-sm font-black text-black uppercase tracking-widest">Cerrar Sesión</h4>
+              <p className="text-xs text-neutral-400 font-semibold leading-relaxed">
+                ¿Estás seguro de que deseas salir del panel de administración?
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={async () => {
+                  setShowLogoutConfirm(false)
+                  await handleLogout()
+                }}
+                className="w-full h-11 rounded-full bg-red-500 hover:bg-red-600 text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg active:scale-97 cursor-pointer flex items-center justify-center"
+              >
+                Sí, salir
+              </button>
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="w-full h-11 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-500 font-bold text-xs uppercase tracking-widest transition-all duration-300 active:scale-97 cursor-pointer flex items-center justify-center"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
