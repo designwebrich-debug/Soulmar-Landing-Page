@@ -30,7 +30,8 @@ import {
   ChevronRight,
   ChevronDown,
   Folder,
-  Star
+  Star,
+  Monitor
 } from "lucide-react"
 
 interface Patient {
@@ -1157,6 +1158,31 @@ export default function AdminPage() {
   if (!adminEmail) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#F9F9FB] px-6 py-12 font-dm-sans text-black relative">
+        {/* PANTALLA DE BLOQUEO PARA DISPOSITIVOS MÓVILES */}
+        <div className="md:hidden fixed inset-0 z-[9999] bg-black text-white flex flex-col items-center justify-center p-8 text-center animate-in fade-in duration-300">
+          <div className="space-y-6 max-w-sm flex flex-col items-center">
+            <img 
+              src="/images/logo-official.png" 
+              alt="Soulmar" 
+              className="w-32 h-auto object-contain mb-2"
+            />
+            <div className="w-12 h-12 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-red-500">
+              <Monitor className="w-6 h-6 animate-pulse" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-sm font-black uppercase tracking-widest text-white">Acceso Restringido</h2>
+              <p className="text-xs text-neutral-400 font-semibold leading-relaxed">
+                El panel de administración de Soulmar está diseñado exclusivamente para computadores de escritorio o portátiles.
+              </p>
+            </div>
+            <div className="pt-4">
+              <span className="px-4 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-[9px] font-bold text-neutral-400 uppercase tracking-widest">
+                Por favor usa un ordenador
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div className="w-full max-w-md rounded-3xl bg-white p-10 md:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.03)] border border-neutral-200 relative z-10 animate-in fade-in duration-500">
           <div className="flex flex-col items-center space-y-8">
             <div className="h-14 w-14 rounded-2xl bg-black flex items-center justify-center text-white shadow-md">
@@ -1226,6 +1252,30 @@ export default function AdminPage() {
 
   return (
     <div className="flex h-screen bg-[#F9F9FB] overflow-hidden font-dm-sans text-black relative">
+      {/* PANTALLA DE BLOQUEO PARA DISPOSITIVOS MÓVILES */}
+      <div className="md:hidden fixed inset-0 z-[9999] bg-black text-white flex flex-col items-center justify-center p-8 text-center animate-in fade-in duration-300">
+        <div className="space-y-6 max-w-sm flex flex-col items-center">
+          <img 
+            src="/images/logo-official.png" 
+            alt="Soulmar" 
+            className="w-32 h-auto object-contain mb-2"
+          />
+          <div className="w-12 h-12 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-red-500">
+            <Monitor className="w-6 h-6 animate-pulse" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-sm font-black uppercase tracking-widest text-white">Acceso Restringido</h2>
+            <p className="text-xs text-neutral-400 font-semibold leading-relaxed">
+              El panel de administración de Soulmar está diseñado exclusivamente para computadores de escritorio o portátiles.
+            </p>
+          </div>
+          <div className="pt-4">
+            <span className="px-4 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-[9px] font-bold text-neutral-400 uppercase tracking-widest">
+              Por favor usa un ordenador
+            </span>
+          </div>
+        </div>
+      </div>
       
       {/* SIDEBAR - Stark Monochromatic Premium */}
       <aside className="hidden md:flex flex-col w-72 bg-black text-white p-8 justify-between relative z-20 shadow-md">
