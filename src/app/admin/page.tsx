@@ -29,7 +29,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Folder
+  Folder,
+  Star
 } from "lucide-react"
 
 interface Patient {
@@ -431,6 +432,51 @@ export default function AdminPage() {
   const [formError, setFormError] = useState<string | null>(null)
   const [isSubmittingForm, setIsSubmittingForm] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  // Calcular usuarios VIP (mínimo 3 reservas en cualquier semana del año)
+  const vipPatients = useMemo(() => {
+    const patientWeekCounts: Record<string, Record<string, number>> = {}
+    
+    appointments.forEach(app => {
+      // Solo contar citas confirmadas o pendientes (no canceladas)
+      if (app.status === "cancelled" || !app.patient?.email) return
+      
+      const email = app.patient.email.toLowerCase().trim()
+      const dateParts = app.appointment_date.split("-")
+      if (dateParts.length !== 3) return
+      
+      const d = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]))
+      if (isNaN(d.getTime())) return
+      
+      // Calcular número de semana simple en el año
+      const firstDayOfYear = new Date(d.getFullYear(), 0, 1)
+      const pastDaysOfYear = (d.getTime() - firstDayOfYear.getTime()) / 86400000
+      const weekNum = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7)
+      const yearWeekKey = `${d.getFullYear()}-W${weekNum}`
+      
+      if (!patientWeekCounts[email]) {
+        patientWeekCounts[email] = {}
+      }
+      patientWeekCounts[email][yearWeekKey] = (patientWeekCounts[email][yearWeekKey] || 0) + 1
+    })
+    
+    const vips = new Set<string>()
+    Object.entries(patientWeekCounts).forEach(([email, weeks]) => {
+      const hasMin3InAnyWeek = Object.values(weeks).some(count => count >= 3)
+      if (hasMin3InAnyWeek) {
+        vips.add(email)
+      }
+    })
+    return vips
+  }, [appointments])
+
+  // Helper para generar link de WhatsApp
+  const getWhatsAppLink = (phone: string) => {
+    const cleaned = phone.replace(/\D/g, "")
+    // Por defecto, asumimos indicativo de Colombia (57) si tiene 10 dígitos y no empieza por indicativo
+    const phoneWithPrefix = (cleaned.length === 10 && !cleaned.startsWith("57")) ? `57${cleaned}` : cleaned
+    return `https://wa.me/${phoneWithPrefix}`
+  }
 
   // Cargar citas directamente desde la base de datos (única fuente de verdad)
   const fetchAppointments = async () => {
@@ -1933,14 +1979,46 @@ export default function AdminPage() {
                                 <div className="h-8 w-px bg-neutral-200 hidden sm:block" />
 
                                 <div className="space-y-0.5">
-                                  <p className="font-bold text-sm text-black">
-                                    {app.patient?.name || "Sin Nombre"} <span className="text-neutral-400 font-medium font-sans">· Terapia Online</span>
+                                  <p className="font-bold text-sm text-black flex items-center gap-1.5">
+                                    <span>{app.patient?.name || "Sin Nombre"}</span>
+                                    {app.patient?.email && vipPatients.has(app.patient.email.toLowerCase().trim()) && (
+                                      <span title="Cliente VIP: Mínimo 3 reservas por semana">
+                                        <Star className="w-3.5 h-3.5 text-[#BA7517] fill-[#BA7517] shrink-0" />
+                                      </span>
+                                    )}
+                                    <span className="text-neutral-400 font-medium font-sans">· Terapia Online</span>
                                   </p>
                                   <p className="text-xs text-neutral-500 font-medium">
-                                    {app.patient?.email} · {app.patient?.phone || "Sin Teléfono"}
+                                    {app.patient?.email ? (
+                                      <a 
+                                        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${app.patient.email}`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="hover:text-black hover:underline transition-all duration-200"
+                                      >
+                                        {app.patient.email}
+                                      </a>
+                                    ) : (
+                                      "Sin Correo"
+                                    )}
+                                    {" · "}
+                                    {app.patient?.phone ? (
+                                      <a 
+                                        href={getWhatsAppLink(app.patient.phone)} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="hover:text-[#1D9E75] hover:underline transition-all duration-200 font-semibold"
+                                      >
+                                        {app.patient.phone}
+                                      </a>
+                                    ) : (
+                                      "Sin Teléfono"
+                                    )}
                                   </p>
                                   {app.reason && (
-                                    <p className="text-[10px] text-neutral-400 font-semibold italic">Motivo: "{app.reason}"</p>
+                                    <p className="text-[10px] text-neutral-800 font-bold">
+                                      Motivo: <span className="font-extrabold text-black">"{app.reason}"</span>
+                                    </p>
                                   )}
                                 </div>
                               </div>
@@ -2303,8 +2381,45 @@ export default function AdminPage() {
                                 {getInitials(client.name)}
                               </div>
                               <div className="space-y-0.5">
-                                <p className="font-bold text-black">{client.name}</p>
-                                <p className="text-[10px] text-neutral-400 font-semibold">{client.email} {client.phone ? `· ${client.phone}` : ""}</p>
+                                <p className="font-bold text-black flex items-center gap-1.5">
+                                  <span>{client.name}</span>
+                                  {client.email && vipPatients.has(client.email.toLowerCase().trim()) && (
+                                    <span title="Cliente VIP: Mínimo 3 reservas por semana">
+                                      <Star className="w-3.5 h-3.5 text-[#BA7517] fill-[#BA7517] shrink-0" />
+                                    </span>
+                                  )}
+                                </p>
+                                <p className="text-[10px] text-neutral-400 font-semibold">
+                                  {client.email ? (
+                                    <a 
+                                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${client.email}`} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer" 
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="hover:text-black hover:underline transition-all duration-200"
+                                    >
+                                      {client.email}
+                                    </a>
+                                  ) : (
+                                    "Sin Correo"
+                                  )}
+                                  {client.phone ? (
+                                    <>
+                                      {" · "}
+                                      <a 
+                                        href={getWhatsAppLink(client.phone)} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="hover:text-[#1D9E75] hover:underline transition-all duration-200 font-semibold"
+                                      >
+                                        {client.phone}
+                                      </a>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                </p>
                               </div>
                             </div>
                           </td>
@@ -2344,8 +2459,43 @@ export default function AdminPage() {
             {/* Header */}
             <div className="p-6 md:p-8 border-b border-neutral-100 flex items-start justify-between">
               <div className="space-y-1">
-                <h4 className="text-lg font-black text-black uppercase tracking-tight">{selectedClientHistory.name}</h4>
-                <p className="text-xs text-neutral-400 font-semibold">{selectedClientHistory.email} {selectedClientHistory.phone ? `· ${selectedClientHistory.phone}` : ""}</p>
+                <h4 className="text-lg font-black text-black uppercase tracking-tight flex items-center gap-2">
+                  <span>{selectedClientHistory.name}</span>
+                  {selectedClientHistory.email && vipPatients.has(selectedClientHistory.email.toLowerCase().trim()) && (
+                    <span title="Cliente VIP: Mínimo 3 reservas por semana">
+                      <Star className="w-4 h-4 text-[#BA7517] fill-[#BA7517] shrink-0" />
+                    </span>
+                  )}
+                </h4>
+                <p className="text-xs text-neutral-400 font-semibold">
+                  {selectedClientHistory.email ? (
+                    <a 
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${selectedClientHistory.email}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="hover:text-black hover:underline transition-all duration-200"
+                    >
+                      {selectedClientHistory.email}
+                    </a>
+                  ) : (
+                    "Sin Correo"
+                  )}
+                  {selectedClientHistory.phone ? (
+                    <>
+                      {" · "}
+                      <a 
+                        href={getWhatsAppLink(selectedClientHistory.phone)} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="hover:text-[#1D9E75] hover:underline transition-all duration-200 font-semibold"
+                      >
+                        {selectedClientHistory.phone}
+                      </a>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </p>
                 <div className="flex gap-4 pt-2 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
                   <span>Citas: <strong className="text-black font-extrabold">{selectedClientHistory.appointments}</strong></span>
                   <span>Completadas: <strong className="text-black font-extrabold">{selectedClientHistory.completed}</strong></span>
@@ -2380,7 +2530,9 @@ export default function AdminPage() {
                             <span className="text-[10px] text-neutral-400 font-bold font-mono bg-neutral-100 px-1.5 py-0.5 rounded">{app.time}</span>
                           </div>
                           {app.reason && (
-                            <p className="text-[10px] text-neutral-400 font-semibold italic">Motivo: "{app.reason}"</p>
+                            <p className="text-[10px] text-neutral-800 font-bold">
+                              Motivo: <span className="font-extrabold text-black">"{app.reason}"</span>
+                            </p>
                           )}
                         </div>
                         <div className="flex items-center gap-3 justify-between sm:justify-end">
