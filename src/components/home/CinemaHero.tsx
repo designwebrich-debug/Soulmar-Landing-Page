@@ -26,46 +26,34 @@ export function CinemaHero() {
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 space-y-6 md:space-y-8 text-left"
           >
-            {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] font-sans">
-              {t('hero.title_part1')}{" "}
-              <span className="text-[#8da9c4] block sm:inline">
-                {t('hero.title_part2')}
-              </span>
-            </h1>
-
-            {/* Subheadline */}
-            <p className="text-sm md:text-base text-neutral-400 font-medium leading-relaxed max-w-xl">
-              {t('hero.subtitle')}
-            </p>
+            {/* Title & Subtitle Group (Closer spacing) */}
+            <div className="space-y-2 md:space-y-3">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] font-sans">
+                {t('hero.title_part1')}{" "}
+                <span className="text-[#8da9c4]">
+                  {t('hero.title_part2')}
+                </span>
+              </h1>
+              <p className="text-sm md:text-base text-neutral-300 font-medium leading-relaxed max-w-xl">
+                {t('hero.subtitle')}
+              </p>
+            </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <div>
               <Link 
                 href="/#agendamiento" 
                 onClick={(e) => {
                   e.preventDefault()
                   document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
                 }}
-                className="w-full sm:w-auto"
+                className="inline-block w-full sm:w-auto"
               >
                 <Button 
                   size="xl" 
                   className="w-full sm:w-auto bg-[#8da9c4] hover:bg-[#8da9c4]/90 text-white font-bold text-xs uppercase tracking-widest rounded-full px-10 h-14 shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-95 border-none cursor-pointer"
                 >
                   {t('hero.cta_primary')}
-                </Button>
-              </Link>
-              <Link 
-                href="/book" 
-                className="w-full sm:w-auto"
-              >
-                <Button 
-                  size="xl" 
-                  variant="outline" 
-                  className="w-full sm:w-auto border border-white/20 hover:border-white/40 bg-transparent text-white font-bold text-xs uppercase tracking-widest rounded-full px-10 h-14 hover:bg-white/5 transition-all duration-300 transform hover:scale-[1.03] active:scale-95 cursor-pointer"
-                >
-                  {t('hero.cta_secondary')}
                 </Button>
               </Link>
             </div>
