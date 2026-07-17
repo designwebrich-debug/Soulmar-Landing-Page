@@ -28,7 +28,8 @@ import {
   EyeOff,
   ChevronLeft,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Folder
 } from "lucide-react"
 
 interface Patient {
@@ -1708,19 +1709,37 @@ export default function AdminPage() {
                     <p className="text-[11px] text-neutral-400 font-semibold">Gestiona el estado y enlace virtual de cada sesión clínica.</p>
                   </div>
                   
-                  <a 
-                    href="https://calendar.google.com/calendar/u/0/r"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-11 px-6 rounded-full bg-white border border-neutral-200 text-black hover:bg-neutral-50 transition-all font-bold text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-sm"
-                  >
-                    <img 
-                      src="/google-calendar.png" 
-                      alt="Google Calendar" 
-                      className="w-4 h-4"
-                    />
-                    <span>Ver en Calendar</span>
-                  </a>
+                  <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 hide-scrollbar">
+                    <a 
+                      href="https://calendar.google.com/calendar/u/0/r"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
+                    >
+                      <Calendar className="w-4 h-4 shrink-0" />
+                      <span>Calendar</span>
+                    </a>
+                    
+                    <a 
+                      href="#"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
+                    >
+                      <Video className="w-4 h-4 shrink-0" />
+                      <span>Meet</span>
+                    </a>
+
+                    <a 
+                      href="#"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-11 px-5 sm:px-6 rounded-full bg-black text-white hover:scale-[1.03] transition-transform duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm whitespace-nowrap"
+                    >
+                      <Folder className="w-4 h-4 shrink-0" />
+                      <span>Drive</span>
+                    </a>
+                  </div>
                 </div>
 
                 {/* FILTROS DE CITAS */}
