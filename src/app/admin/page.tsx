@@ -499,15 +499,25 @@ export default function AdminPage() {
     }
   }, [adminEmail])
 
-  // Guardar horario
-  const handleSaveSchedules = async () => {
+  // Helper para persistir configuraciones en base de datos
+  const persistSettings = async (newSchedules: any, newHolidays: Holiday[], newDuration: string) => {
     try {
       const res = await fetch("/api/settings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ schedules, holidays, slot_duration: slotDuration })
+        body: JSON.stringify({ schedules: newSchedules, holidays: newHolidays, slot_duration: newDuration })
       })
       if (!res.ok) throw new Error("Error saving settings")
+    } catch (err) {
+      console.error("Error persisting settings:", err)
+      throw err;
+    }
+  }
+
+  // Guardar horario
+  const handleSaveSchedules = async () => {
+    try {
+      await persistSettings(schedules, holidays, slotDuration)
       alert("Horario de apertura y festivos guardados con éxito. 🌿")
     } catch (err) {
       console.error(err)
@@ -630,7 +640,7 @@ export default function AdminPage() {
   }
 
   // Agregar festivo
-  const handleAddHoliday = (e: React.FormEvent) => {
+  const handleAddHoliday = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newHolidayDate) return
     const newHol: Holiday = {
@@ -638,14 +648,22 @@ export default function AdminPage() {
       date: newHolidayDate,
       reason: newHolidayReason.trim() || "Festivo / Cerrado"
     }
-    setHolidays(prev => [...prev, newHol])
+    const updatedHolidays = [...holidays, newHol]
+    setHolidays(updatedHolidays)
     setNewHolidayDate("")
     setNewHolidayReason("")
+    
+    // Persistencia automática
+    await persistSettings(schedules, updatedHolidays, slotDuration)
   }
 
   // Eliminar festivo
-  const handleDeleteHoliday = (id: string) => {
-    setHolidays(prev => prev.filter(h => h.id !== id))
+  const handleDeleteHoliday = async (id: string) => {
+    const updatedHolidays = holidays.filter(h => h.id !== id)
+    setHolidays(updatedHolidays)
+    
+    // Persistencia automática
+    await persistSettings(schedules, updatedHolidays, slotDuration)
   }
 
   // --- CÁLCULO DE MÉTRICAS ---
