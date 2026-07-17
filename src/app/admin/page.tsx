@@ -1714,7 +1714,7 @@ export default function AdminPage() {
                       href="https://calendar.google.com/calendar/u/0/r"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-neutral-800 transition-colors flex items-center justify-center shadow-sm shrink-0"
+                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-[#185FA5] transition-colors flex items-center justify-center shadow-sm shrink-0"
                     >
                       <Calendar className="w-5 h-5" />
                     </a>
@@ -1723,7 +1723,7 @@ export default function AdminPage() {
                       href="https://meet.google.com/landing?hs=197&authuser=0"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-neutral-800 transition-colors flex items-center justify-center shadow-sm shrink-0"
+                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-[#185FA5] transition-colors flex items-center justify-center shadow-sm shrink-0"
                     >
                       <Video className="w-5 h-5" />
                     </a>
@@ -1732,7 +1732,7 @@ export default function AdminPage() {
                       href="https://drive.google.com/drive/home"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-neutral-800 transition-colors flex items-center justify-center shadow-sm shrink-0"
+                      className="w-11 h-11 rounded-full bg-black text-white hover:bg-[#185FA5] transition-colors flex items-center justify-center shadow-sm shrink-0"
                     >
                       <Folder className="w-5 h-5" />
                     </a>
@@ -1808,7 +1808,7 @@ export default function AdminPage() {
                     </button>
                     <button 
                       onClick={fetchAppointments}
-                      className="flex-1 h-10 rounded-full bg-black text-white hover:bg-neutral-900 text-[10px] uppercase font-bold transition-all cursor-pointer shadow-sm"
+                      className="flex-1 h-10 rounded-full bg-black text-white hover:bg-[#185FA5] text-[10px] uppercase font-bold transition-all cursor-pointer shadow-sm"
                     >
                       Filtrar
                     </button>
