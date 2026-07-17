@@ -1516,7 +1516,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* METRICAS DE ANALITICAS ADICIONALES */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-300">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-300">
                   
                   {/* Card 1: Día de Mayor Demanda */}
                   <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
@@ -1557,20 +1557,6 @@ export default function AdminPage() {
                     </div>
                     <div className="w-12 h-12 rounded-xl bg-[#1D9E75]/10 border border-[#1D9E75]/15 flex items-center justify-center text-[#1D9E75]">
                       <Search className="w-6 h-6" />
-                    </div>
-                  </div>
-                  
-                  {/* Card 4: Día Menos Agendado */}
-                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
-                    <div className="space-y-2">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día Menos Agendado</span>
-                      <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.lowestDay}</span>
-                      <span className="text-[9px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
-                        {analyticsStats.lowestDayPct}% de las sesiones
-                      </span>
-                    </div>
-                    <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600">
-                      <Calendar className="w-6 h-6" />
                     </div>
                   </div>
                 </div>
