@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, Star } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from "@/context/LanguageContext"
 
@@ -26,17 +26,10 @@ export function CinemaHero() {
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 space-y-6 md:space-y-8 text-left"
           >
-            {/* Category tag / Badge */}
-            <div>
-              <span className="text-[9px] font-black uppercase tracking-widest text-[#8da9c4] bg-[#8da9c4]/8 border border-[#8da9c4]/15 px-3 py-1.5 rounded-full inline-block">
-                {t('hero.badge')}
-              </span>
-            </div>
-
             {/* Headline */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1] font-sans">
-              {t('hero.title_part1')} <br className="hidden sm:inline" />
-              <span className="text-[#8da9c4] italic font-serif font-normal block mt-1">
+              {t('hero.title_part1')}{" "}
+              <span className="text-[#8da9c4] block sm:inline">
                 {t('hero.title_part2')}
               </span>
             </h1>
@@ -98,39 +91,6 @@ export function CinemaHero() {
                 </span>
               </div>
             </div>
-
-            {/* Review Badge */}
-            <div className="bg-neutral-900/40 border border-neutral-800/80 rounded-3xl p-4 flex items-center gap-4 max-w-md shadow-inner backdrop-blur-sm">
-              <div className="flex -space-x-2.5 overflow-hidden shrink-0">
-                {[
-                  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=100&h=100",
-                  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=100&h=100",
-                  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100",
-                  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100"
-                ].map((img, idx) => (
-                  <img 
-                    key={idx}
-                    className="inline-block h-8 w-8 rounded-full ring-2 ring-black object-cover" 
-                    src={img} 
-                    alt="Terapeuta" 
-                  />
-                ))}
-              </div>
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-black text-white">4.95 / 5</span>
-                  <div className="flex text-[#BA7517]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-current" />
-                    ))}
-                  </div>
-                </div>
-                <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider block">
-                  {t('hero.reviews_badge')}
-                </span>
-              </div>
-            </div>
-
           </motion.div>
 
           {/* COLUMN 2: IMAGE (Inspired by Selia / generated cozy wellness image) */}
