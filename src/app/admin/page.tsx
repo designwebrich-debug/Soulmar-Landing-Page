@@ -1945,8 +1945,40 @@ export default function AdminPage() {
             {activeTab === "schedules" && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in duration-300 items-start">
                 
-                {/* Horario de Apertura */}
-                <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6">
+                <div className="lg:col-span-2 flex flex-col gap-8">
+                  {/* Cards de Analíticas Rápidas */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {/* Card 1: Día de Mayor Demanda */}
+                    <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día de Mayor Demanda</span>
+                        <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.topDay}</span>
+                        <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                          {analyticsStats.topDayPct}% de las sesiones
+                        </span>
+                      </div>
+                      <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
+                        <Calendar className="w-6 h-6" />
+                      </div>
+                    </div>
+
+                    {/* Card 2: Hora Pico de Sesiones */}
+                    <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Hora Pico de Sesiones</span>
+                        <span className="text-3xl font-black text-black font-sans block">{analyticsStats.peakHour}</span>
+                        <span className="text-[9px] font-bold text-[#BA7517] bg-[#BA7517]/8 border border-[#BA7517]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                          {analyticsStats.peakPeriod}
+                        </span>
+                      </div>
+                      <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
+                        <Clock className="w-6 h-6" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Horario de Apertura */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6">
                   <div className="space-y-1">
                     <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Horario de Apertura</h3>
                     <p className="text-[11px] text-neutral-400 font-semibold">Define los intervalos de agenda disponibles para reserva en la landing page.</p>
@@ -2065,6 +2097,7 @@ export default function AdminPage() {
                     >
                       Guardar Horario
                     </button>
+                  </div>
                   </div>
                 </div>
 
