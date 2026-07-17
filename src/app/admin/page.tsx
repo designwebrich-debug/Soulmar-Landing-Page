@@ -1029,6 +1029,8 @@ export default function AdminPage() {
     return {
       topDay,
       topDayPct,
+      lowestDay,
+      lowestDayPct,
       peakPeriod,
       peakHour,
       topReason,
@@ -2012,246 +2014,248 @@ export default function AdminPage() {
 
             {/* TAB 3: HORARIOS */}
             {activeTab === "schedules" && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in duration-300 items-start">
-                
-                <div className="lg:col-span-2 flex flex-col gap-8">
-                  {/* Cards de Analíticas Rápidas */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    {/* Card 1: Día de Mayor Demanda */}
-                    <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día de Mayor Demanda</span>
-                        <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.topDay}</span>
-                        <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
-                          {analyticsStats.topDayPct}% de las sesiones
-                        </span>
-                      </div>
-                      <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
-                        <Calendar className="w-6 h-6" />
-                      </div>
+              <div className="space-y-8 animate-in fade-in duration-300">
+                {/* METRICAS DE ANALITICAS ADICIONALES (100% arriba y solas) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  
+                  {/* Card 1: Día de Mayor Demanda */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día de Mayor Demanda</span>
+                      <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.topDay}</span>
+                      <span className="text-[9px] font-bold text-neutral-600 bg-neutral-100 border border-neutral-200 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.topDayPct}% de las sesiones
+                      </span>
                     </div>
-
-                    {/* Card 2: Hora Pico de Sesiones */}
-                    <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Hora Pico de Sesiones</span>
-                        <span className="text-3xl font-black text-black font-sans block">{analyticsStats.peakHour}</span>
-                        <span className="text-[9px] font-bold text-[#BA7517] bg-[#BA7517]/8 border border-[#BA7517]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
-                          {analyticsStats.peakPeriod}
-                        </span>
-                      </div>
-                      <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
-                        <Clock className="w-6 h-6" />
-                      </div>
-                    </div>
-                    
-                    {/* Card 3: Día Menos Agendado */}
-                    <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día Menos Agendado</span>
-                        <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.lowestDay}</span>
-                        <span className="text-[9px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
-                          {analyticsStats.lowestDayPct}% de las sesiones
-                        </span>
-                      </div>
-                      <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600">
-                        <Calendar className="w-6 h-6" />
-                      </div>
+                    <div className="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-200 flex items-center justify-center text-black">
+                      <Calendar className="w-6 h-6" />
                     </div>
                   </div>
 
+                  {/* Card 2: Hora Pico de Sesiones */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Hora Pico de Sesiones</span>
+                      <span className="text-3xl font-black text-black font-sans block">{analyticsStats.peakHour}</span>
+                      <span className="text-[9px] font-bold text-[#BA7517] bg-[#BA7517]/8 border border-[#BA7517]/15 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.peakPeriod}
+                      </span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-[#BA7517]/10 border border-[#BA7517]/15 flex items-center justify-center text-[#BA7517]">
+                      <Clock className="w-6 h-6" />
+                    </div>
+                  </div>
+
+                  {/* Card 3: Día Menos Agendado */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 flex items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:shadow-md transition-all duration-300">
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-neutral-400 block">Día Menos Agendado</span>
+                      <span className="text-3xl font-black text-black font-sans block truncate max-w-[180px]">{analyticsStats.lowestDay}</span>
+                      <span className="text-[9px] font-bold text-red-600 bg-red-50 border border-red-100 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                        {analyticsStats.lowestDayPct}% de las sesiones
+                      </span>
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600">
+                      <Calendar className="w-6 h-6" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* BLOQUES DE CONFIGURACIÓN DE HORARIOS */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                  
                   {/* Horario de Apertura */}
-                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6">
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Horario de Apertura</h3>
-                    <p className="text-[11px] text-neutral-400 font-semibold">Define los intervalos de agenda disponibles para reserva en la landing page.</p>
-                  </div>
-
-                  <div className="divide-y divide-neutral-200 space-y-4">
-                    {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => {
-                      const daySched = schedules[day]
-                      if (!daySched) return null
-                      return (
-                        <div key={day} className="flex items-center justify-between pt-4 first:pt-0">
-                          {/* Selector circular customizado */}
-                          <div 
-                            onClick={() => {
-                              setSchedules(prev => ({
-                                ...prev,
-                                [day]: { ...prev[day], enabled: !daySched.enabled }
-                              }))
-                            }}
-                            className="group flex items-center gap-3.5 cursor-pointer select-none"
-                          >
-                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300 group-hover:border-[#8da9c4] group-hover:bg-[#8da9c4] ${
-                              daySched.enabled 
-                                ? "border-black bg-black text-white" 
-                                : "border-neutral-300 bg-white"
-                            }`}>
-                              {daySched.enabled && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                            </div>
-                            <span className="text-xs font-bold text-black uppercase tracking-wider">{day}</span>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            {daySched.enabled ? (
-                              <div className="flex flex-col gap-2 animate-in fade-in duration-300">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-[9px] font-bold text-neutral-400 w-4">AM</span>
-                                  <input 
-                                    type="text" 
-                                    value={daySched.start}
-                                    onChange={(e) => {
-                                      setSchedules(prev => ({
-                                        ...prev,
-                                        [day]: { ...prev[day], start: e.target.value }
-                                      }))
-                                    }}
-                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
-                                  />
-                                  <span className="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider px-0.5">-</span>
-                                  <input 
-                                    type="text" 
-                                    value={daySched.end}
-                                    onChange={(e) => {
-                                      setSchedules(prev => ({
-                                        ...prev,
-                                        [day]: { ...prev[day], end: e.target.value }
-                                      }))
-                                    }}
-                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
-                                  />
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-[9px] font-bold text-neutral-400 w-4">PM</span>
-                                  <input 
-                                    type="text" 
-                                    value={daySched.startPM || "14:00"}
-                                    onChange={(e) => {
-                                      setSchedules(prev => ({
-                                        ...prev,
-                                        [day]: { ...prev[day], startPM: e.target.value }
-                                      }))
-                                    }}
-                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
-                                  />
-                                  <span className="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider px-0.5">-</span>
-                                  <input 
-                                    type="text" 
-                                    value={daySched.endPM || "19:00"}
-                                    onChange={(e) => {
-                                      setSchedules(prev => ({
-                                        ...prev,
-                                        [day]: { ...prev[day], endPM: e.target.value }
-                                      }))
-                                    }}
-                                    className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
-                                  />
-                                </div>
-                              </div>
-                            ) : (
-                              <span className="text-[10px] font-bold text-neutral-300 pr-10 uppercase tracking-widest">Cerrado</span>
-                            )}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-neutral-200 gap-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest">Intervalo:</span>
-                      <CustomSelect 
-                        value={slotDuration}
-                        onChange={setSlotDuration}
-                        options={[
-                          { value: "30 min", label: "30 min" },
-                          { value: "45 min", label: "45 min" },
-                          { value: "1 hora", label: "1 hora" },
-                          { value: "1 hora 20 min", label: "1h + 20m prep" }
-                        ]}
-                        className="h-10 rounded-xl bg-white border border-neutral-200 text-xs font-semibold focus:border-black min-w-[120px]"
-                      />
+                  <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Horario de Apertura</h3>
+                      <p className="text-[11px] text-neutral-400 font-semibold">Define los intervalos de agenda disponibles para reserva en la landing page.</p>
                     </div>
 
-                    <button 
-                      onClick={handleSaveSchedules}
-                      className="h-12 px-8 rounded-full bg-black text-white hover:bg-[#8da9c4] transition-all font-bold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] cursor-pointer flex items-center justify-center"
-                    >
-                      Guardar Horario
-                    </button>
-                  </div>
-                  </div>
-                </div>
-
-                {/* Días Cerrados / Festivos */}
-                <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6">
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Días Cerrados</h3>
-                    <p className="text-[11px] text-neutral-400 font-semibold">Configura fechas en las que la clínica se encuentre cerrada.</p>
-                  </div>
-
-                  <form onSubmit={handleAddHoliday} className="space-y-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Fecha*</label>
-                      <CustomDatePicker 
-                        value={newHolidayDate}
-                        onChange={setNewHolidayDate}
-                        className="w-full h-11 rounded-xl px-4 border border-neutral-200 bg-[#F8F8FA] focus:bg-white text-xs font-bold text-black focus:border-black transition-all shadow-sm"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Motivo (Opcional)*</label>
-                      <div className="flex gap-2">
-                        <input 
-                          type="text"
-                          placeholder="Ej: Festivo, Vacaciones..."
-                          value={newHolidayReason}
-                          onChange={(e) => setNewHolidayReason(e.target.value)}
-                          className="flex-1 h-11 rounded-xl px-4 border border-neutral-200 bg-[#F8F8FA] focus:bg-white text-xs font-semibold text-black focus:border-black outline-none transition-all shadow-sm"
-                        />
-                        <button
-                          type="submit"
-                          className="h-11 px-5 rounded-xl bg-black hover:bg-[#8da9c4] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-97 cursor-pointer"
-                        >
-                          Añadir
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-
-                  {/* Listado de festivos */}
-                  <div className="space-y-4 pt-5 border-t border-neutral-200">
-                    <h4 className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Días Registrados</h4>
-                    
-                    {holidays.length === 0 ? (
-                      <p className="text-xs text-neutral-300 font-semibold text-center py-4 uppercase tracking-widest">Sin registros</p>
-                    ) : (
-                      <div className="space-y-2.5">
-                        {holidays.map((h) => (
-                          <div 
-                            key={h.id}
-                            className="flex items-center justify-between p-4 bg-white border border-neutral-200 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.01)] animate-in fade-in duration-300"
-                          >
-                            <div className="space-y-0.5">
-                              <p className="text-xs font-bold text-black">{formatLocalDateReadable(h.date)}</p>
-                              <p className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">{h.reason}</p>
-                            </div>
-                            <button
-                              onClick={() => handleDeleteHoliday(h.id)}
-                              className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-neutral-50 transition-all cursor-pointer"
-                              title="Eliminar festivo"
+                    <div className="divide-y divide-neutral-200 space-y-4">
+                      {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => {
+                        const daySched = schedules[day]
+                        if (!daySched) return null
+                        return (
+                          <div key={day} className="flex items-center justify-between pt-4 first:pt-0">
+                            {/* Selector circular customizado */}
+                            <div 
+                              onClick={() => {
+                                setSchedules(prev => ({
+                                  ...prev,
+                                  [day]: { ...prev[day], enabled: !daySched.enabled }
+                                }))
+                              }}
+                              className="group flex items-center gap-3.5 cursor-pointer select-none"
                             >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                              <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-300 group-hover:border-[#8da9c4] group-hover:bg-[#8da9c4] ${
+                                daySched.enabled 
+                                  ? "border-black bg-black text-white" 
+                                  : "border-neutral-300 bg-white"
+                              }`}>
+                                {daySched.enabled && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                              </div>
+                              <span className="text-xs font-bold text-black uppercase tracking-wider">{day}</span>
+                            </div>
 
+                            <div className="flex items-center gap-2">
+                              {daySched.enabled ? (
+                                <div className="flex flex-col gap-2 animate-in fade-in duration-300">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[9px] font-bold text-neutral-400 w-4">AM</span>
+                                    <input 
+                                      type="text" 
+                                      value={daySched.start}
+                                      onChange={(e) => {
+                                        setSchedules(prev => ({
+                                          ...prev,
+                                          [day]: { ...prev[day], start: e.target.value }
+                                        }))
+                                      }}
+                                      className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                    />
+                                    <span className="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider px-0.5">-</span>
+                                    <input 
+                                      type="text" 
+                                      value={daySched.end}
+                                      onChange={(e) => {
+                                        setSchedules(prev => ({
+                                          ...prev,
+                                          [day]: { ...prev[day], end: e.target.value }
+                                        }))
+                                      }}
+                                      className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                    />
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[9px] font-bold text-neutral-400 w-4">PM</span>
+                                    <input 
+                                      type="text" 
+                                      value={daySched.startPM || "14:00"}
+                                      onChange={(e) => {
+                                        setSchedules(prev => ({
+                                          ...prev,
+                                          [day]: { ...prev[day], startPM: e.target.value }
+                                        }))
+                                      }}
+                                      className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                    />
+                                    <span className="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider px-0.5">-</span>
+                                    <input 
+                                      type="text" 
+                                      value={daySched.endPM || "19:00"}
+                                      onChange={(e) => {
+                                        setSchedules(prev => ({
+                                          ...prev,
+                                          [day]: { ...prev[day], endPM: e.target.value }
+                                        }))
+                                      }}
+                                      className="w-16 h-8 rounded-lg border border-neutral-200 bg-white text-center text-xs font-bold text-black outline-none focus:border-black transition-all shadow-sm"
+                                    />
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-[10px] font-bold text-neutral-300 pr-10 uppercase tracking-widest">Cerrado</span>
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-neutral-200 gap-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest">Intervalo:</span>
+                        <CustomSelect 
+                          value={slotDuration}
+                          onChange={setSlotDuration}
+                          options={[
+                            { value: "30 min", label: "30 min" },
+                            { value: "45 min", label: "45 min" },
+                            { value: "1 hora", label: "1 hora" },
+                            { value: "1 hora 20 min", label: "1h + 20m prep" }
+                          ]}
+                          className="h-10 rounded-xl bg-white border border-neutral-200 text-xs font-semibold focus:border-black min-w-[120px]"
+                        />
+                      </div>
+
+                      <button 
+                        onClick={handleSaveSchedules}
+                        className="h-12 px-8 rounded-full bg-black text-white hover:bg-[#8da9c4] transition-all font-bold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] cursor-pointer flex items-center justify-center"
+                      >
+                        Guardar Horario
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Días Cerrados / Festivos */}
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-200 shadow-sm space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-black text-black tracking-tight font-sans uppercase">Días Cerrados</h3>
+                      <p className="text-[11px] text-neutral-400 font-semibold">Configura fechas en las que la clínica se encuentre cerrada.</p>
+                    </div>
+
+                    <form onSubmit={handleAddHoliday} className="space-y-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Fecha*</label>
+                        <CustomDatePicker 
+                          value={newHolidayDate}
+                          onChange={setNewHolidayDate}
+                          className="w-full h-11 rounded-xl px-4 border border-neutral-200 bg-[#F8F8FA] focus:bg-white text-xs font-bold text-black focus:border-black transition-all shadow-sm"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-[9px] font-black uppercase tracking-wider text-neutral-400">Motivo (Opcional)*</label>
+                        <div className="flex gap-2">
+                          <input 
+                            type="text"
+                            placeholder="Ej: Festivo, Vacaciones..."
+                            value={newHolidayReason}
+                            onChange={(e) => setNewHolidayReason(e.target.value)}
+                            className="flex-1 h-11 rounded-xl px-4 border border-neutral-200 bg-[#F8F8FA] focus:bg-white text-xs font-semibold text-black focus:border-black outline-none transition-all shadow-sm"
+                          />
+                          <button
+                            type="submit"
+                            className="h-11 px-5 rounded-xl bg-black hover:bg-[#8da9c4] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-97 cursor-pointer"
+                          >
+                            Añadir
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+
+                    {/* Listado de festivos */}
+                    <div className="space-y-4 pt-5 border-t border-neutral-200">
+                      <h4 className="text-[9px] font-black uppercase tracking-widest text-neutral-400">Días Registrados</h4>
+                      
+                      {holidays.length === 0 ? (
+                        <p className="text-xs text-neutral-300 font-semibold text-center py-4 uppercase tracking-widest">Sin registros</p>
+                      ) : (
+                        <div className="space-y-2.5">
+                          {holidays.map((h) => (
+                            <div 
+                              key={h.id}
+                              className="flex items-center justify-between p-4 bg-white border border-neutral-200 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.01)] animate-in fade-in duration-300"
+                            >
+                              <div className="space-y-0.5">
+                                <p className="text-xs font-bold text-black">{formatLocalDateReadable(h.date)}</p>
+                                <p className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">{h.reason}</p>
+                              </div>
+                              <button
+                                onClick={() => handleDeleteHoliday(h.id)}
+                                className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-neutral-50 transition-all cursor-pointer"
+                                title="Eliminar festivo"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
               </div>
             )}
 
