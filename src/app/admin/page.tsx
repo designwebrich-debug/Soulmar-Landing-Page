@@ -1715,7 +1715,7 @@ export default function AdminPage() {
                     className="h-11 px-6 rounded-full bg-white border border-neutral-200 text-black hover:bg-neutral-50 transition-all font-bold text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-sm"
                   >
                     <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" 
+                      src="/google-calendar.png" 
                       alt="Google Calendar" 
                       className="w-4 h-4"
                     />
