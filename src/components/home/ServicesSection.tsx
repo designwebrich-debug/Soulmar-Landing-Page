@@ -103,35 +103,35 @@ export function ServicesSection() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${svc.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
                 {/* Card body */}
-                <div className={`relative bg-white/50 dark:bg-white/[0.03] backdrop-blur-2xl rounded-[2rem] p-7 flex flex-col items-center text-center border border-white/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${svc.hover} transition-all duration-500 hover:-translate-y-1.5 cursor-pointer h-full`}>
+                <div className={`relative bg-white/50 dark:bg-white/[0.03] backdrop-blur-2xl rounded-[2rem] p-9 flex flex-col items-center text-center border border-white/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${svc.hover} transition-all duration-500 hover:-translate-y-1.5 cursor-pointer h-full`}>
 
                   {/* Icon pill */}
                   <div
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-lg ${svc.shadow} transform group-hover:rotate-6 transition-transform duration-500`}
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg ${svc.shadow} transform group-hover:rotate-6 transition-transform duration-500`}
                     style={{ backgroundColor: svc.color }}
                   >
                     <Icon
-                      className="w-6 h-6"
+                      className="w-8 h-8"
                       style={{ color: svc.color === "#1d1d1f" ? "#ffffff" : "#ffffff" }}
                     />
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-base font-bold mb-2 text-[#1d1d1f] dark:text-white leading-tight">
+                  <h3 className="text-lg font-bold mb-3 text-[#1d1d1f] dark:text-white leading-tight">
                     {svc.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[#1d1d1f]/50 dark:text-white/40 text-sm leading-snug mb-5 flex-1 font-medium">
+                  <p className="text-[#1d1d1f]/50 dark:text-white/40 text-base leading-snug mb-6 flex-1 font-medium">
                     {svc.desc}
                   </p>
 
                   {/* CTA link */}
                   <div
-                    className="text-xs font-bold flex items-center gap-1.5 group-hover:gap-3 transition-all tracking-[0.05em] uppercase"
+                    className="text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all tracking-[0.05em] uppercase"
                     style={{ color: svc.color === "#1d1d1f" ? "#1d1d1f" : svc.color }}
                   >
-                    {t('common.details')} <ArrowRight className="w-3.5 h-3.5" />
+                    {t('common.details')} <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </Link>
