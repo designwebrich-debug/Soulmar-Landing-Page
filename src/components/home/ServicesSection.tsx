@@ -128,8 +128,8 @@ export function ServicesSection() {
 
                   {/* CTA link */}
                   <div
-                    className="text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all tracking-[0.05em] uppercase"
-                    style={{ color: svc.color === "#1d1d1f" ? "#1d1d1f" : svc.color }}
+                    className={`text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all tracking-[0.05em] uppercase ${svc.color === "#1d1d1f" ? "text-[#1d1d1f] dark:text-white" : ""}`}
+                    style={svc.color !== "#1d1d1f" ? { color: svc.color } : undefined}
                   >
                     {t('common.details')} <ArrowRight className="w-4 h-4" />
                   </div>
