@@ -288,7 +288,7 @@ export function AgendamientoSection() {
       return
     }
     if (reason.trim().length < 5) {
-      setValidationError(language === "es" ? "Por favor escribe un motivo de consulta más descriptivo (mínimo 5 letras)." : "Please enter a descriptive reason for consultation (minimum 5 characters).")
+      setValidationError(language === "es" ? "Por favor escribe un motivo de consulta" : "Please enter a reason for consultation")
       return
     }
     setValidationError(null)
