@@ -141,7 +141,7 @@ export function ServicesSection() {
       </div>
 
       {/* Highlights Slider */}
-      <div className="max-w-5xl mx-auto px-6 pt-14 relative z-10">
+      <div className="max-w-5xl mx-auto px-6 pt-24 relative z-10">
         <HighlightCarousel />
       </div>
     </Section>
