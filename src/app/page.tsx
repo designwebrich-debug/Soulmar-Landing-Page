@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { CinemaHero } from "@/components/home/CinemaHero"
 
 export const metadata: Metadata = {
-  title: "Soulmar | Psicología, Meditación y Bienestar Radical",
-  description: "Descubre una plataforma diseñada para tu salud mental. Cursos de psicología, objetos de diseño minimalista y una comunidad enfocada en la calma.",
+  title: "Terapia Online - Dra. Mariana Caicedo | Psicóloga Clínica",
+  description: "Terapia online con la Dra. Mariana Caicedo, psicóloga clínica. Un espacio cálido y confidencial para acompañarte en tu proceso de bienestar emocional. Agenda tu sesión.",
 }
 
 // Dynamic imports for below-the-fold or heavy components

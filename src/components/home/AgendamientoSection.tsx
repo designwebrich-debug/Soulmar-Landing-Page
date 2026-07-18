@@ -504,7 +504,7 @@ export function AgendamientoSection() {
                                 <div className="grid grid-cols-3 gap-2">
                                   {generatedSlots.am.length === 0 ? (
                                     <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
-                                      {language === "es" ? "Sin horarios en la mañana" : "No morning slots available"}
+                                      {language === "es" ? "Sin cupos en la mañana — prueba en la tarde 🍂" : "No morning slots — try the afternoon 🍂"}
                                     </span>
                                   ) : (
                                     generatedSlots.am.map((time) => {
@@ -545,7 +545,7 @@ export function AgendamientoSection() {
                                 <div className="grid grid-cols-3 gap-2">
                                   {generatedSlots.pm.length === 0 ? (
                                     <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
-                                      {language === "es" ? "Sin horarios en la tarde" : "No afternoon slots available"}
+                                      {language === "es" ? "Sin cupos en la tarde — prueba en la mañana 🌅" : "No afternoon slots — try the morning 🌅"}
                                     </span>
                                   ) : (
                                     generatedSlots.pm.map((time) => {
@@ -608,7 +608,7 @@ export function AgendamientoSection() {
                               setReason(e.target.value)
                               if (validationError) setValidationError(null)
                             }}
-                            placeholder={language === "es" ? "Ej. Manejo del estrés y regulación emocional" : "e.g. Stress management and anxiety regulation"}
+                            placeholder={language === "es" ? "Cuéntame brevemente qué te trae por aquí (esto queda entre nosotras)." : "Tell me briefly what brings you here (this stays between us)."}
                             className="h-10 text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full"
                           />
                         </div>
@@ -622,12 +622,12 @@ export function AgendamientoSection() {
                       {/* Left Summary */}
                       <div className="text-center sm:text-left">
                         <span className="block text-[8px] font-extrabold uppercase tracking-widest text-foreground/45">
-                          {language === "es" ? "RESUMEN DE RESERVA" : "SUMMARY OF BOOKING"}
+                          {language === "es" ? "Tu sesión" : "Your session"}
                         </span>
                         <span className="block text-xs font-bold text-primary mt-1">
                           {selectedDate && selectedTime 
                             ? `${formattedSelectedDateLong} (${language === "es" ? "Sesión Virtual vía Google Meet" : "Virtual Session via Google Meet"})`
-                            : (language === "es" ? "Completa la selección en el panel" : "Complete selection above")}
+                            : (language === "es" ? "Completa los datos y nos vemos pronto" : "Complete details and see you soon")}
                         </span>
                       </div>
 
@@ -646,7 +646,7 @@ export function AgendamientoSection() {
                             onClick={handleCancel}
                             className="h-10 px-5 rounded-full font-bold text-xs uppercase tracking-wider border border-border/80 hover:bg-surface-hover text-foreground/70 transition-all w-full sm:w-auto"
                           >
-                            {language === "es" ? "Cancelar" : "Cancel"}
+                            {language === "es" ? "Volver" : "Back"}
                           </Button>
                           <Button 
                             onClick={handleStep1Next}
@@ -1022,7 +1022,7 @@ export function AgendamientoSection() {
         {!isSuccess && (
           <div className="flex items-center justify-center gap-2.5 mt-6 text-foreground/30 dark:text-foreground/20 text-[10px] uppercase font-extrabold tracking-wider leading-none">
             <ShieldCheck className="w-4 h-4 text-emerald-500/60 dark:text-emerald-500/40" />
-            <span>{t("booking.certified_payment")} • {language === "es" ? "Cifrado" : "Encrypted"}</span>
+            <span>{language === "es" ? "Tu información está protegida en todo momento" : "Your information is protected at all times"}</span>
           </div>
         )}
 

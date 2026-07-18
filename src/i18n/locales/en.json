@@ -28,25 +28,26 @@
     "no": "No"
   },
   "hero": {
-    "badge": "CONSULTATION AVAILABLE TODAY • LIMITED SPOTS",
-    "title_part1": "Online",
-    "title_part2": "Therapy",
-    "subtitle": "Your process can begin with a conversation",
-    "cta_primary": "Book Session",
-    "cta_secondary": "Book now",
+    "badge": "ONLINE PSYCHOLOGICAL SUPPORT",
+    "title_part1": "A space",
+    "title_part2": "to return to yourself",
+    "subtitle": "Online therapy with Dr. Mariana Caicedo, clinical psychologist. At your own pace, from wherever you are, without judgment.",
+    "cta_primary": "Book my first session",
+    "cta_secondary": "Book my session",
     "scroll": "Scroll",
     "stats_sessions": "Book in 2 minutes",
     "stats_satisfaction": "100% Confidential",
     "stats_secure": "Safe space",
-    "reviews_badge": "Dr. Mariana Caicedo • Clinical Psychology"
+    "reviews_badge": "Dr. Mariana Caicedo • Clinical Psychology",
+    "trust_line": "A confidential space, guided by a professional"
   },
   "services": {
-    "title": "What type of support are you looking for?",
-    "subtitle": "Discover our three main areas of support for your integral well-being.",
+    "title": "How can I accompany you?",
+    "subtitle": "Each person comes to therapy for a different reason. Let's start by understanding yours.",
     "items": [
       {
-        "title": "Online Therapy",
-        "desc": "Individual sessions tailored to your pace and needs."
+        "title": "Individual Therapy",
+        "desc": "A one-hour space, just for you, to talk about what you are going through."
       },
       {
         "title": "Soulmar Brand (Coming Soon)",
@@ -72,24 +73,24 @@
     "courses_cta": "View Catalog",
     "courses_episodes": "Episodes",
     "therapist_agendar": "Book",
-    "testimonials_title": "What our souls say",
+    "testimonials_title": "Stories from those who took the step",
     "testimonials_subtitle": "Real stories of transformation and growth.",
     "testimonials": [
       {
-        "text": "My life completely changed after sessions with Mariana. I found the calm I was looking for.",
-        "author": "Mariana L."
+        "text": "I arrived at Soulmar not knowing what to expect. Today, months later, I feel I have real tools to manage my anxiety and a different relationship with my thoughts.",
+        "author": "Mariana L., patient since 2024"
       },
       {
-        "text": "The courses are incredibly practical. They help me day to day with stress management.",
-        "author": "Julián M."
+        "text": "The online sessions with Dr. Mariana have given me a safe, judgment-free space to talk about my work overload. Her practical approach is just what I needed.",
+        "author": "Mateo G., patient since 2024"
       },
       {
-        "text": "The mountain Soulmar Camp was the best gift I've given myself in years. Soulmar is special.",
-        "author": "Sofía R."
+        "text": "Learning to set boundaries and process my grief at my own pace has been key. Feeling supported in such a warm way made all the difference in my process.",
+        "author": "Sofía R., patient since 2024"
       }
     ],
     "verified_user": "Verified User",
-    "newsletter_title_alt": "Join the consciousness.",
+    "newsletter_title_alt": "A message every week, to care for your mind",
     "highlights_title": "Look at the highlights.",
     "highlights": [
       {
@@ -114,7 +115,7 @@
       }
     ],
     "ebooks_title": "We Think of You",
-    "ebooks_subtitle": "Free Soulmar E-Books"
+    "ebooks_subtitle": "Free resources to accompany you, whether you are in therapy or not"
   },
   "ebooks": {
     "ansiedad": {
@@ -123,11 +124,11 @@
     },
     "depresion": {
       "title": "Depression",
-      "description": "A path of light for your well-being."
+      "description": "Small steps, one path at a time."
     },
     "mindset": {
       "title": "Mindset",
-      "description": "Reprogram your mind for success."
+      "description": "Tools to think with more clarity and less noise."
     }
   },
   "courses": {
@@ -841,7 +842,7 @@
       "step3": "03 Tell us your reason",
       "step4": "04 Confirm appointment"
     },
-    "consultation_reason": "What is your reason for consultation?",
+    "consultation_reason": "Tell me briefly what brings you here (this stays between us).",
     "consultation_placeholder": "Briefly describe how you feel or what you would like to address in this session...",
     "mariana_clinical_quote": "My approach is based on providing you with practical tools and a safe space for your personal growth.",
     "mariana_years_exp": "+10 years of clinical experience",
@@ -849,9 +850,9 @@
     "booking_summary_title": "Summary of your booking",
     "price_per_session_cop": "$120,000 COP",
     "price_per_session_usd": "approx. $30 USD",
-    "badge": "Radical Well-being",
-    "title": "Book your Session",
-    "tagline": "Follow the steps to confirm your appointment with our specialists.",
+    "badge": "Individual Therapy",
+    "title": "Book your space",
+    "tagline": "Choose the day and time that best suit you. There is no rush, only the right moment to start.",
     "steps": {
       "specialist": "1",
       "date": "2",
@@ -900,7 +901,7 @@
     "whatsapp_link": "WhatsApp for the Link",
     "total": "Total",
     "total_usd": "Total USD",
-    "confirm_btn": "Continue",
+    "confirm_btn": "Confirm my session",
     "encryption": "SSL Encrypted Connection",
     "certified_payment": "Secure Booking",
     "email": "Email Address",
@@ -914,7 +915,7 @@
     "discount_courtesy": "Complimentary Discount",
     "step2_back": "Back",
     "step2_next": "Next",
-    "step3_confirm": "Confirm Appointment",
+    "step3_confirm": "Confirm my session",
     "step3_back": "Back",
     "step3_title": "Final Review",
     "step3_desc": "Confirm all details are correct before finalizing your booking.",
@@ -948,7 +949,7 @@
     "therapists": {
       "mariana": "Clinical Psychology (Specialist)",
       "moshe": "Organizational Psychology",
-      "libertad": "Clinical Psychology"
+      "libertad": "Especialista en Trauma"
     }
   },
   "auth": {

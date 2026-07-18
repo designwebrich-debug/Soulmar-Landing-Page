@@ -28,25 +28,26 @@
     "no": "No"
   },
   "hero": {
-    "badge": "CONSULTA DISPONIBLE HOY • CUPOS LIMITADOS",
-    "title_part1": "Terapia",
-    "title_part2": "Online",
-    "subtitle": "Tu proceso puede empezar con una conversación",
-    "cta_primary": "Agendar Cita",
-    "cta_secondary": "Agendar ahora",
+    "badge": "ACOMPAÑAMIENTO PSICOLÓGICO ONLINE",
+    "title_part1": "Un espacio",
+    "title_part2": "para volver a ti",
+    "subtitle": "Terapia online con la Dra. Mariana Caicedo, psicóloga clínica. A tu ritmo, desde donde estés, sin juicios.",
+    "cta_primary": "Agendar mi primera sesión",
+    "cta_secondary": "Reservar mi sesión",
     "scroll": "Deslizar",
     "stats_sessions": "Reserva en 2 minutos",
     "stats_satisfaction": "100% Confidencial",
     "stats_secure": "Espacio seguro",
-    "reviews_badge": "Dra. Mariana Caicedo • Psicología Clínica"
+    "reviews_badge": "Dra. Mariana Caicedo • Psicología Clínica",
+    "trust_line": "Un espacio confidencial, guiado por una profesional"
   },
   "services": {
-    "title": "¿Qué tipo de apoyo estás buscando?",
-    "subtitle": "Descubre nuestras tres áreas principales de apoyo para tu bienestar integral.",
+    "title": "¿En qué puedo acompañarte?",
+    "subtitle": "Cada persona llega a terapia por una razón distinta. Empecemos por entender la tuya.",
     "items": [
       {
-        "title": "Terapia Online",
-        "desc": "Sesiones individuales adaptadas a tu ritmo y necesidades."
+        "title": "Terapia Individual",
+        "desc": "Un espacio de una hora, solo para ti, para hablar de lo que estás viviendo."
       },
       {
         "title": "Soulmar Brand (Próximamente)",
@@ -72,24 +73,24 @@
     "courses_cta": "Ver Catálogo",
     "courses_episodes": "Episodios",
     "therapist_agendar": "Agendar",
-    "testimonials_title": "Lo que dicen nuestras almas",
+    "testimonials_title": "Historias de quienes ya dieron el paso",
     "testimonials_subtitle": "Historias reales de transformación y crecimiento.",
     "testimonials": [
       {
-        "text": "Mi vida cambió por completo después de las sesiones con Mariana. Encontré la calma que tanto buscaba.",
-        "author": "Mariana L."
+        "text": "Llegué a Soulmar sin saber muy bien qué esperar. Hoy, meses después, siento que tengo herramientas reales para manejar mi ansiedad y una relación distinta con mis pensamientos.",
+        "author": "Mariana L., paciente desde 2024"
       },
       {
-        "text": "Los cursos son increíblemente prácticos. Me ayudan día a día con el manejo del estrés.",
-        "author": "Julián M."
+        "text": "Las sesiones online con la Dra. Mariana me han dado un espacio seguro y sin juicios para hablar de mi sobrecarga laboral. Su enfoque práctico es justo lo que necesitaba.",
+        "author": "Mateo G., paciente desde 2024"
       },
       {
-        "text": "El retiro en la montaña fue el mejor regalo que me he hecho en años. Soulmar es especial.",
-        "author": "Sofía R."
+        "text": "Aprender a poner límites y procesar mi duelo a mi propio ritmo ha sido clave. Sentirme acompañada de forma tan cálida marcó la diferencia en mi proceso.",
+        "author": "Sofía R., paciente desde 2024"
       }
     ],
     "verified_user": "Usuario Verificado",
-    "newsletter_title_alt": "Únete a la conciencia.",
+    "newsletter_title_alt": "Un mensaje cada semana, para cuidar tu mente",
     "highlights_title": "Mira lo más destacado.",
     "highlights": [
       {
@@ -114,7 +115,7 @@
       }
     ],
     "ebooks_title": "Pensamos en ti",
-    "ebooks_subtitle": "E-Books gratis de Soulmar"
+    "ebooks_subtitle": "Recursos gratuitos para acompañarte, estés o no en terapia"
   },
   "ebooks": {
     "ansiedad": {
@@ -123,11 +124,11 @@
     },
     "depresion": {
       "title": "Depresión",
-      "description": "Un camino de luz para tu bienestar."
+      "description": "Pequeños pasos, un camino a la vez."
     },
     "mindset": {
       "title": "Mindset",
-      "description": "Reprograma tu mente para el éxito."
+      "description": "Herramientas para pensar con más claridad y menos ruido."
     }
   },
   "courses": {
@@ -822,17 +823,7 @@
     "no_results": "No encontramos productos que coincidan con tu búsqueda.",
     "bring_calm": "Lleva la calma a tu hogar.",
     "subscribe_desc": "Suscribíbete para recibir acceso temprano a nuestras nuevas colecciones y contenido exclusivo.",
-    "subscribe_btn": "Suscribirme",
-    "products": {
-      "cap": "Gorra Soulmar",
-      "hoodie": "Buzo Soulmar Camp",
-      "shirt": "Camisa Soulmar Camp",
-      "bracelet": "Manilla cocida de punto",
-      "ebook_anxiety": "E-Book: Ansiedad",
-      "ebook_depression": "E-Book: Depresión",
-      "ebook_mindset": "E-Book: Mindset",
-      "notebooks": "Agendas Soulmar"
-    }
+    "subscribe_btn": "Suscribirme"
   },
   "booking": {
     "integrated_steps": {
@@ -841,7 +832,7 @@
       "step3": "03 Cuéntanos tu motivo",
       "step4": "04 Confirma tu cita"
     },
-    "consultation_reason": "¿Cuál es tu motivo de consulta?",
+    "consultation_reason": "Cuéntame brevemente qué te trae por aquí (esto queda entre nosotras).",
     "consultation_placeholder": "Describe brevemente cómo te sientes o qué te gustaría tratar en esta sesión...",
     "mariana_clinical_quote": "Mi enfoque se basa en proveerte herramientas prácticas y un espacio seguro para tu crecimiento personal.",
     "mariana_years_exp": "+10 años de experiencia clínica",
@@ -849,9 +840,9 @@
     "booking_summary_title": "Resumen de tu agendamiento",
     "price_per_session_cop": "$120.000 COP",
     "price_per_session_usd": "aprox. $30 USD",
-    "badge": "Bienestar Radical",
-    "title": "Agenda tu Cita",
-    "tagline": "Sigue los pasos para confirmar tu cita con nuestros especialistas.",
+    "badge": "Terapia Individual",
+    "title": "Reserva tu espacio",
+    "tagline": "Elige el día y la hora que mejor se acomoden a ti. No hay prisa, solo el momento correcto para empezar.",
     "steps": {
       "specialist": "1",
       "date": "2",
@@ -881,7 +872,7 @@
     "agenda_with": "Agenda con {name} eligiendo un día y hora disponible.",
     "available_hours": "Horas Disponibles",
     "select_day_first": "Selecciona un día para ver horarios",
-    "back": "Regresar",
+    "back": "Volver",
     "next": "Siguiente",
     "confirm_data": "Confirmar Datos",
     "finish_booking": "Finaliza tu Cita",
@@ -900,7 +891,7 @@
     "whatsapp_link": "WhatsApp para el Link",
     "total": "Total",
     "total_usd": "Total USD",
-    "confirm_btn": "Continuar",
+    "confirm_btn": "Confirmar mi sesión",
     "encryption": "Conexión Cifrada SSL",
     "certified_payment": "Agendamiento Seguro",
     "email": "Correo Electrónico",
@@ -912,10 +903,10 @@
     "session_modality": "Sesión online por meet",
     "value_session": "Valor de Sesión",
     "discount_courtesy": "Descuento de Cortesía",
-    "step2_back": "Regresar",
+    "step2_back": "Volver",
     "step2_next": "Siguiente",
-    "step3_confirm": "Confirmar Cita",
-    "step3_back": "Regresar",
+    "step3_confirm": "Confirmar mi sesión",
+    "step3_back": "Volver",
     "step3_title": "Revisión Final",
     "step3_desc": "Confirma que toda la información sea correcta antes de agendar.",
     "validation_name": "Por favor escribe tu nombre completo.",
@@ -948,7 +939,7 @@
     "therapists": {
       "mariana": "Psicología Clínica (Especialista)",
       "moshe": "Psicología Organizacional",
-      "libertad": "Psicología Clínica"
+      "libertad": "Especialista en Trauma"
     }
   },
   "auth": {

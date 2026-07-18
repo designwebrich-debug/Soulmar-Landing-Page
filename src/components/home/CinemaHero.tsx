@@ -8,11 +8,11 @@ import { ChevronDown, Calendar, ShieldCheck, Clock } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from "@/context/LanguageContext"
 import { format, addDays } from "date-fns"
-import { es } from "date-fns/locale"
+import { es, enUS } from "date-fns/locale"
 
 export function CinemaHero() {
-  const { t } = useTranslation()
-  const [nextSlot, setNextSlot] = React.useState<string>("Cargando...")
+  const { t, language } = useTranslation()
+  const [nextSlot, setNextSlot] = React.useState<string>("")
 
   React.useEffect(() => {
     // 1. Fetch settings and appointments in parallel
@@ -142,14 +142,14 @@ export function CinemaHero() {
             // Found it! Format the output beautifully:
             let dayPrefix = ""
             if (isToday) {
-              dayPrefix = "Hoy"
+              dayPrefix = language === "es" ? "Hoy" : "Today"
             } else {
               const tomorrow = addDays(new Date(), 1)
               const isTomorrow = dateToCheck.toDateString() === tomorrow.toDateString()
               if (isTomorrow) {
-                dayPrefix = "Mañana"
+                dayPrefix = language === "es" ? "Mañana" : "Tomorrow"
               } else {
-                dayPrefix = format(dateToCheck, "EEEE d 'de' MMMM", { locale: es })
+                dayPrefix = format(dateToCheck, language === "es" ? "EEEE d 'de' MMMM" : "EEEE, MMMM d", { locale: language === "es" ? es : enUS })
                 // Capitalize first letter of dayPrefix
                 dayPrefix = dayPrefix.charAt(0).toUpperCase() + dayPrefix.slice(1)
               }
@@ -166,33 +166,35 @@ export function CinemaHero() {
         dateToCheck = addDays(dateToCheck, 1)
       }
 
-      setNextSlot(foundSlot || "Próximamente disponible")
+      setNextSlot(foundSlot || (language === "es" ? "Próximamente disponible" : "Soon available"))
     }).catch(err => {
       console.error("Error calculating next slot:", err)
-      setNextSlot("Hoy, 4:00 PM") // Fallback
+      setNextSlot(language === "es" ? "Hoy, 4:00 PM" : "Today, 4:00 PM") // Fallback
     })
-  }, [])
+  }, [language])
+
+  const displaySlot = nextSlot || (language === "es" ? "Agenda cuando estés lista o listo" : "Book when you are ready")
 
   // Defining the 5 cards dynamically so we can loop them in a marquee
   const cards = [
     // CARD 1: Perfil de la Dra.
     <div key="c1" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">Profesional</span>
+        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">{language === "es" ? "Tu psicóloga" : "Your psychologist"}</span>
         <h4 className="text-sm font-black text-neutral-900 leading-tight">Dra. Mariana Caicedo</h4>
-        <p className="text-[10px] text-[#8da9c4] font-bold uppercase tracking-wider">Psicología Clínica</p>
+        <p className="text-[10px] text-[#8da9c4] font-bold uppercase tracking-wider">{language === "es" ? "Psicóloga Clínica • Terapia Online" : "Clinical Psychologist • Online Therapy"}</p>
       </div>
       <div className="flex items-center gap-1.5">
         <span className="w-1.5 h-1.5 rounded-full bg-[#1D9E75] animate-pulse" />
-        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Disponible</span>
+        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">{language === "es" ? "Disponible" : "Available"}</span>
       </div>
     </div>,
 
     // CARD 2: Disponibilidad y Botón Verde Soulmar
     <div key="c2" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block">Próxima sesión</span>
-        <p className="text-xs font-black text-neutral-900 leading-tight">{nextSlot}</p>
+        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block">{language === "es" ? "Próxima sesión" : "Next session"}</span>
+        <p className="text-xs font-black text-neutral-900 leading-tight">{displaySlot}</p>
       </div>
       <Link 
         href="/#agendamiento" 
@@ -202,8 +204,8 @@ export function CinemaHero() {
         }}
         className="block"
       >
-        <Button className="w-full bg-[#c9cba3] hover:bg-[#c9cba3]/90 text-neutral-900 font-black text-[9px] uppercase tracking-widest rounded-full h-8 shadow-sm transition-all duration-300 border-none cursor-pointer">
-          Agendar ahora
+        <Button className="w-full bg-[#c9cba3] hover:bg-[#ffc971] text-neutral-900 font-black text-[9px] uppercase tracking-widest rounded-full h-8 shadow-sm transition-all duration-300 border-none cursor-pointer">
+          {t('hero.cta_secondary')}
         </Button>
       </Link>
     </div>,
@@ -211,8 +213,8 @@ export function CinemaHero() {
     // CARD 3: Siri Breathing Wave (Dark Contrast Card in Center)
     <div key="c3" className="w-[250px] h-[155px] bg-neutral-900 border border-white/10 rounded-3xl p-5 shadow-md flex flex-col justify-between text-white hover:border-white/20 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block font-sans">Bienestar Radical</span>
-        <p className="text-xs font-bold text-neutral-300 leading-tight">Encuentra tu centro emocional hoy.</p>
+        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block font-sans">{language === "es" ? "Proceso sin prisa" : "Unhurried process"}</span>
+        <p className="text-xs font-bold text-neutral-300 leading-tight">{language === "es" ? "Cada sesión avanza al ritmo que tú necesitas." : "Each session progresses at the pace you need."}</p>
       </div>
       <div className="flex justify-start">
         <div className="flex items-center gap-1 h-3.5">
@@ -239,26 +241,26 @@ export function CinemaHero() {
     // CARD 4: Confidencialidad
     <div key="c4" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-[#BA7517] uppercase tracking-widest block">Privacidad</span>
-        <h4 className="text-sm font-black text-neutral-900 leading-tight">100% Confidencial</h4>
-        <p className="text-[10px] text-neutral-400 font-bold leading-normal">Sesiones encriptadas de extremo a extremo.</p>
+        <span className="text-[8px] font-black text-[#BA7517] uppercase tracking-widest block">{language === "es" ? "Privacidad" : "Privacy"}</span>
+        <h4 className="text-sm font-black text-neutral-900 leading-tight">{language === "es" ? "Un espacio solo tuyo" : "A space just yours"}</h4>
+        <p className="text-[10px] text-neutral-400 font-bold leading-normal">{language === "es" ? "Todo lo que compartes queda protegido y en absoluta confidencialidad." : "Everything you share remains protected and in absolute confidentiality."}</p>
       </div>
       <div className="flex items-center gap-1.5">
         <ShieldCheck className="w-3.5 h-3.5 text-[#1D9E75]" />
-        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Espacio Seguro</span>
+        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">{language === "es" ? "Espacio Seguro" : "Safe Space"}</span>
       </div>
     </div>,
 
     // CARD 5: Modalidad Flex
     <div key="c5" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">Metodología</span>
-        <h4 className="text-sm font-black text-neutral-900 leading-tight">Modalidad Flexible</h4>
-        <p className="text-[10px] text-neutral-400 font-bold leading-normal">Sesiones personalizadas desde cualquier lugar.</p>
+        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">{language === "es" ? "Modalidad" : "Modality"}</span>
+        <h4 className="text-sm font-black text-neutral-900 leading-tight">{language === "es" ? "Terapia donde tú estés" : "Therapy wherever you are"}</h4>
+        <p className="text-[10px] text-neutral-400 font-bold leading-normal">{language === "es" ? "Conéctate desde casa, el trabajo o donde te sientas cómodo/a." : "Connect from home, work, or wherever you feel comfortable."}</p>
       </div>
       <div className="flex items-center gap-1.5">
         <Calendar className="w-3.5 h-3.5 text-[#8da9c4]" />
-        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Online</span>
+        <span className="text-[9px] font-bold text-[#8da9c4] uppercase tracking-wider">Online</span>
       </div>
     </div>
   ]
@@ -355,7 +357,7 @@ export function CinemaHero() {
                 ))}
               </div>
               <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest leading-none">
-                Calidad y confidencialidad asegurada
+                {t('hero.trust_line')}
               </span>
             </div>
 
