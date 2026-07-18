@@ -7,6 +7,8 @@ import Link from "next/link"
 import { ChevronDown, Calendar, ShieldCheck, Clock } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from "@/context/LanguageContext"
+import { format, addDays } from "date-fns"
+import { es } from "date-fns/locale"
 
 function BreathingWave() {
   return (
@@ -36,6 +38,166 @@ function BreathingWave() {
 
 export function CinemaHero() {
   const { t } = useTranslation()
+  const [nextSlot, setNextSlot] = React.useState<string>("Cargando...")
+
+  React.useEffect(() => {
+    // 1. Fetch settings and appointments in parallel
+    Promise.all([
+      fetch("/api/settings").then(res => res.json()),
+      fetch("/api/appointments").then(res => res.json())
+    ]).then(([settingsData, appointmentsData]) => {
+      const settings = settingsData.settings || {}
+      const schedules = settings.schedules || {}
+      const slotDuration = settings.slot_duration || "1 hora 20 min"
+      const holidays = settings.holidays || []
+      const appointments = appointmentsData.appointments || []
+
+      // 2. Loop starting from today (up to 30 days into the future) to find the first available slot
+      let foundSlot = ""
+      let dateToCheck = new Date()
+
+      for (let i = 0; i < 30; i++) {
+        const formattedDate = format(dateToCheck, "yyyy-MM-dd")
+
+        // Check if date is a holiday
+        const isHoliday = holidays.some((h: any) => {
+          const hDate = typeof h === 'string' ? h : h.date;
+          return hDate === formattedDate;
+        })
+
+        if (isHoliday) {
+          dateToCheck = addDays(dateToCheck, 1)
+          continue
+        }
+
+        // Get weekday name in Spanish
+        const weekdaysES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+        const dayName = weekdaysES[dateToCheck.getDay()]
+        const config = schedules[dayName]
+
+        if (!config || !config.enabled) {
+          dateToCheck = addDays(dateToCheck, 1)
+          continue
+        }
+
+        // Determine duration in minutes
+        let durationMins = 30
+        if (slotDuration === "45 min") durationMins = 45
+        if (slotDuration === "1 hora") durationMins = 60
+        if (slotDuration === "1 hora 20 min") durationMins = 80
+
+        const slots: string[] = []
+
+        const generateBlock = (startH: number, startM: number, endH: number, endM: number) => {
+          let currentHour = startH
+          let currentMin = startM
+          
+          while (currentHour < endH || (currentHour === endH && currentMin < endM)) {
+            let displayHour = currentHour
+            let ampm = "AM"
+            
+            if (currentHour >= 12) {
+              ampm = "PM"
+              if (currentHour > 12) displayHour = currentHour - 12
+            } else if (currentHour === 0) {
+              displayHour = 12
+            }
+            
+            const hourStr = displayHour.toString().padStart(2, "0")
+            const minStr = currentMin.toString().padStart(2, "0")
+            slots.push(`${hourStr}:${minStr} ${ampm}`)
+            
+            currentMin += durationMins
+            if (currentMin >= 60) {
+              currentHour += Math.floor(currentMin / 60)
+              currentMin = currentMin % 60
+            }
+          }
+        }
+
+        // Generate AM block
+        if (config.start && config.end) {
+          const s = config.start.split(":")
+          const e = config.end.split(":")
+          generateBlock(parseInt(s[0]) || 7, parseInt(s[1]) || 0, parseInt(e[0]) || 12, parseInt(e[1]) || 0)
+        }
+
+        // Generate PM block
+        if (config.startPM && config.endPM) {
+          const s = config.startPM.split(":")
+          const e = config.endPM.split(":")
+          generateBlock(parseInt(s[0]) || 14, parseInt(s[1]) || 0, parseInt(e[0]) || 19, parseInt(e[1]) || 0)
+        }
+
+        // Check slots for this date
+        const isToday = dateToCheck.toDateString() === new Date().toDateString()
+        const now = new Date()
+        const currentHour = now.getHours()
+        const currentMinute = now.getMinutes()
+
+        for (const slot of slots) {
+          // Check if slot is in the past (if today)
+          if (isToday) {
+            const parts = slot.split(" ")
+            const timeParts = parts[0].split(":")
+            let slotHour = parseInt(timeParts[0], 10)
+            const slotMinute = parseInt(timeParts[1], 10)
+            const ampm = parts[1]
+
+            if (ampm === "PM" && slotHour !== 12) {
+              slotHour += 12
+            } else if (ampm === "AM" && slotHour === 12) {
+              slotHour = 0
+            }
+
+            if (currentHour > slotHour || (currentHour === slotHour && currentMinute >= slotMinute)) {
+              continue
+            }
+          }
+
+          // Check if already booked
+          const isBooked = appointments.some((app: any) => {
+            return (
+              app.appointment_date === formattedDate &&
+              app.appointment_time === slot &&
+              app.status !== "cancelled"
+            )
+          })
+
+          if (!isBooked) {
+            // Found it! Format the output beautifully:
+            let dayPrefix = ""
+            if (isToday) {
+              dayPrefix = "Hoy"
+            } else {
+              const tomorrow = addDays(new Date(), 1)
+              const isTomorrow = dateToCheck.toDateString() === tomorrow.toDateString()
+              if (isTomorrow) {
+                dayPrefix = "Mañana"
+              } else {
+                dayPrefix = format(dateToCheck, "EEEE d 'de' MMMM", { locale: es })
+                // Capitalize first letter of dayPrefix
+                dayPrefix = dayPrefix.charAt(0).toUpperCase() + dayPrefix.slice(1)
+              }
+            }
+            foundSlot = `${dayPrefix}, ${slot}`
+            break
+          }
+        }
+
+        if (foundSlot) {
+          break
+        }
+
+        dateToCheck = addDays(dateToCheck, 1)
+      }
+
+      setNextSlot(foundSlot || "Próximamente disponible")
+    }).catch(err => {
+      console.error("Error calculating next slot:", err)
+      setNextSlot("Hoy, 4:00 PM") // Fallback
+    })
+  }, [])
 
   return (
     <section className="relative w-full min-h-screen lg:h-screen overflow-hidden bg-[#060608] flex items-center pt-24 lg:pt-0">
@@ -100,23 +262,23 @@ export function CinemaHero() {
               </Link>
             </div>
 
-            {/* Trust Indicators grid */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-neutral-900">
-              <div className="flex items-start gap-2">
-                <Clock className="w-4 h-4 text-[#8da9c4] shrink-0 mt-0.5" />
-                <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-tight">
+            {/* Trust Indicators grid (Aligned 100% Horizontally) */}
+            <div className="grid grid-cols-3 gap-4 md:gap-6 pt-6 border-t border-neutral-900">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#8da9c4] shrink-0" />
+                <span className="text-[9px] md:text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-none">
                   {t('hero.stats_sessions')}
                 </span>
               </div>
-              <div className="flex items-start gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#1D9E75] shrink-0 mt-0.5" />
-                <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-tight">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#1D9E75] shrink-0" />
+                <span className="text-[9px] md:text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-none">
                   {t('hero.stats_satisfaction')}
                 </span>
               </div>
-              <div className="flex items-start gap-2">
-                <Calendar className="w-4 h-4 text-[#BA7517] shrink-0 mt-0.5" />
-                <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-tight">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-[#BA7517] shrink-0" />
+                <span className="text-[9px] md:text-[10px] text-neutral-400 font-bold uppercase tracking-wider block leading-none">
                   {t('hero.stats_secure')}
                 </span>
               </div>
@@ -190,7 +352,7 @@ export function CinemaHero() {
                       Siguiente espacio libre
                     </span>
                     <span className="text-xs font-black text-white block">
-                      Hoy, 4:00 PM (Col)
+                      {nextSlot}
                     </span>
                   </div>
                   
@@ -203,7 +365,7 @@ export function CinemaHero() {
                     className="block"
                   >
                     <Button 
-                      className="w-full bg-[#1D9E75] hover:bg-[#1D9E75]/90 text-white font-bold text-[9px] uppercase tracking-widest rounded-full h-9 shadow-lg transition-transform duration-300 transform hover:scale-[1.03] active:scale-95 border-none cursor-pointer"
+                      className="w-full bg-[#c9cba3] hover:bg-[#c9cba3]/90 text-neutral-900 font-black text-[9px] uppercase tracking-widest rounded-full h-9 shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-95 border-none cursor-pointer"
                     >
                       {t('hero.cta_secondary')}
                     </Button>
