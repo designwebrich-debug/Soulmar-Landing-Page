@@ -266,7 +266,7 @@ export function CinemaHero() {
   ]
 
   return (
-    <section className="relative w-full min-h-screen bg-gradient-to-b from-[#f0f7fc] to-[#e1effa] flex flex-col justify-between pt-28 pb-12 overflow-hidden">
+    <section className="relative w-full min-h-screen bg-gradient-to-b from-[#f0f7fc] to-[#e1effa] flex flex-col justify-between pt-16 pb-12 overflow-hidden">
       
       {/* CSS Styles injection for smooth GPU-accelerated horizontal scrolling */}
       <style>{`
@@ -318,7 +318,7 @@ export function CinemaHero() {
             </div>
 
             {/* Apple style headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-[72px] font-black tracking-tight text-neutral-900 leading-[1.02] font-sans">
+            <h1 className="text-5xl md:text-6xl lg:text-[72px] font-black tracking-tight text-neutral-900 leading-[0.9] font-sans">
               {t('hero.title_part1')}{" "}
               <span className="text-[#8da9c4] block sm:inline">
                 {t('hero.title_part2')}
@@ -326,7 +326,7 @@ export function CinemaHero() {
             </h1>
 
             {/* Persuasive subtitle */}
-            <p className="text-base md:text-lg text-neutral-600 font-medium leading-relaxed max-w-xl">
+            <p className="text-base md:text-lg text-neutral-600 font-medium leading-snug max-w-xl">
               {t('hero.subtitle')}
             </p>
 
