@@ -107,12 +107,11 @@ export function ServicesSection() {
 
                   {/* Icon pill */}
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg ${svc.shadow} transform group-hover:rotate-6 transition-transform duration-500`}
-                    style={{ backgroundColor: svc.color }}
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg ${svc.shadow} transform group-hover:rotate-6 transition-transform duration-500 ${svc.color === "#1d1d1f" ? "bg-[#1d1d1f] dark:bg-white" : ""}`}
+                    style={svc.color !== "#1d1d1f" ? { backgroundColor: svc.color } : undefined}
                   >
                     <Icon
-                      className="w-8 h-8"
-                      style={{ color: svc.color === "#1d1d1f" ? "#ffffff" : "#ffffff" }}
+                      className={`w-8 h-8 ${svc.color === "#1d1d1f" ? "text-white dark:text-[#1d1d1f]" : "text-white"}`}
                     />
                   </div>
 
