@@ -304,7 +304,7 @@ export function CinemaHero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-7 space-y-6 md:space-y-8 text-left"
+            className="lg:col-span-7 space-y-4 text-left"
           >
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 bg-[#1D9E75]/10 border border-[#1D9E75]/20 px-3.5 py-1.5 rounded-full">
@@ -331,7 +331,7 @@ export function CinemaHero() {
             </p>
 
             {/* Custom Pill Button with circle arrow ↗ */}
-            <div className="pt-2">
+            <div>
               <Link 
                 href="/#agendamiento" 
                 onClick={(e) => {
@@ -350,7 +350,7 @@ export function CinemaHero() {
             </div>
 
             {/* Rated / Trust Indicators */}
-            <div className="flex flex-col gap-2 pt-2">
+            <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-1 text-[#BA7517]">
                 {[...Array(5)].map((_, i) => (
                   <span key={i} className="text-sm">★</span>
