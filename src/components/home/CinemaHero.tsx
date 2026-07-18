@@ -10,32 +10,6 @@ import { useTranslation } from "@/context/LanguageContext"
 import { format, addDays } from "date-fns"
 import { es } from "date-fns/locale"
 
-function BreathingWave() {
-  return (
-    <div className="flex items-center justify-center gap-1.5 h-8 px-3.5 py-1 bg-black/60 border border-white/10 rounded-full backdrop-blur-md shadow-xl">
-      <span className="text-[8px] font-black text-neutral-300 uppercase tracking-widest mr-1">Regulación emocional</span>
-      <div className="flex items-center gap-1 h-3.5">
-        {[1, 2, 3, 4, 5].map((val) => (
-          <motion.span
-            key={val}
-            className="w-[2px] bg-[#8da9c4] rounded-full"
-            animate={{
-              scaleY: [0.3, 1.2, 0.3],
-              backgroundColor: ["#8da9c4", "#1D9E75", "#8da9c4"]
-            }}
-            transition={{
-              duration: 1.5 + (val * 0.25),
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{ height: '14px', transformOrigin: 'center' }}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export function CinemaHero() {
   const { t } = useTranslation()
   const [nextSlot, setNextSlot] = React.useState<string>("Cargando...")
@@ -199,9 +173,121 @@ export function CinemaHero() {
     })
   }, [])
 
+  // Defining the 5 cards dynamically so we can loop them in a marquee
+  const cards = [
+    // CARD 1: Perfil de la Dra.
+    <div key="c1" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
+      <div className="space-y-1">
+        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">Profesional</span>
+        <h4 className="text-sm font-black text-neutral-900 leading-tight">Dra. Mariana Caicedo</h4>
+        <p className="text-[10px] text-[#8da9c4] font-bold uppercase tracking-wider">Psicología Clínica</p>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#1D9E75] animate-pulse" />
+        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Disponible</span>
+      </div>
+    </div>,
+
+    // CARD 2: Disponibilidad y Botón Verde Soulmar
+    <div key="c2" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
+      <div className="space-y-1">
+        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block">Próxima sesión</span>
+        <p className="text-xs font-black text-neutral-900 leading-tight">{nextSlot}</p>
+      </div>
+      <Link 
+        href="/#agendamiento" 
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" });
+        }}
+        className="block"
+      >
+        <Button className="w-full bg-[#c9cba3] hover:bg-[#c9cba3]/90 text-neutral-900 font-black text-[9px] uppercase tracking-widest rounded-full h-8 shadow-sm transition-all duration-300 border-none cursor-pointer">
+          Agendar ahora
+        </Button>
+      </Link>
+    </div>,
+
+    // CARD 3: Siri Breathing Wave (Dark Contrast Card in Center)
+    <div key="c3" className="w-[250px] h-[155px] bg-neutral-900 border border-white/10 rounded-3xl p-5 shadow-md flex flex-col justify-between text-white hover:border-white/20 transition-all select-none">
+      <div className="space-y-1">
+        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block font-sans">Bienestar Radical</span>
+        <p className="text-xs font-bold text-neutral-300 leading-tight">Encuentra tu centro emocional hoy.</p>
+      </div>
+      <div className="flex justify-start">
+        <div className="flex items-center gap-1 h-3.5">
+          {[1, 2, 3, 4, 5].map((val) => (
+            <motion.span
+              key={val}
+              className="w-[2px] bg-[#8da9c4] rounded-full"
+              animate={{
+                scaleY: [0.3, 1.2, 0.3],
+                backgroundColor: ["#8da9c4", "#c9cba3", "#8da9c4"]
+              }}
+              transition={{
+                duration: 1.5 + (val * 0.25),
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              style={{ height: '14px', transformOrigin: 'center' }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>,
+
+    // CARD 4: Confidencialidad
+    <div key="c4" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
+      <div className="space-y-1">
+        <span className="text-[8px] font-black text-[#BA7517] uppercase tracking-widest block">Privacidad</span>
+        <h4 className="text-sm font-black text-neutral-900 leading-tight">100% Confidencial</h4>
+        <p className="text-[10px] text-neutral-400 font-bold leading-normal">Sesiones encriptadas de extremo a extremo.</p>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <ShieldCheck className="w-3.5 h-3.5 text-[#1D9E75]" />
+        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Espacio Seguro</span>
+      </div>
+    </div>,
+
+    // CARD 5: Modalidad Flex
+    <div key="c5" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
+      <div className="space-y-1">
+        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">Metodología</span>
+        <h4 className="text-sm font-black text-neutral-900 leading-tight">Modalidad Flexible</h4>
+        <p className="text-[10px] text-neutral-400 font-bold leading-normal">Sesiones personalizadas desde cualquier lugar.</p>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <Calendar className="w-3.5 h-3.5 text-[#8da9c4]" />
+        <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Online</span>
+      </div>
+    </div>
+  ]
+
   return (
     <section className="relative w-full min-h-screen bg-gradient-to-b from-[#f0f7fc] to-[#e1effa] flex flex-col justify-between pt-28 pb-12 overflow-hidden">
       
+      {/* CSS Styles injection for smooth GPU-accelerated horizontal scrolling */}
+      <style>{`
+        @keyframes marqueeRight {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        .animate-marquee-right {
+          animation: marqueeRight 35s linear infinite;
+        }
+        .animate-marquee-right:hover {
+          animation-play-state: paused;
+        }
+        .mask-gradient-edges {
+          mask-image: linear-gradient(to right, transparent, white 12%, white 88%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, white 12%, white 88%, transparent);
+        }
+      `}</style>
+
       {/* Background Orbs & Light Ambient glows (Brand colors matching Apple Premium) */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#8da9c4]/15 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute bottom-[20%] right-[-10%] w-[60%] h-[60%] bg-[#c9cba3]/20 rounded-full blur-[160px] pointer-events-none z-0" />
@@ -314,102 +400,20 @@ export function CinemaHero() {
         </div>
       </div>
 
-      {/* BOTTOM LAYOUT CONTENT: 5 DYNAMIC CARDS ROW */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          className="flex overflow-x-auto lg:overflow-visible gap-4 pb-4 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x scrollbar-hide lg:grid lg:grid-cols-5"
-        >
-          {/* CARD 1: Perfil de la Dra. */}
-          <div className="flex-shrink-0 w-[240px] lg:w-auto bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm snap-start flex flex-col justify-between">
-            <div className="space-y-1.5">
-              <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">Profesional</span>
-              <h4 className="text-sm font-black text-neutral-900 leading-tight">Dra. Mariana Caicedo</h4>
-              <p className="text-[10px] text-[#8da9c4] font-bold uppercase tracking-wider">Psicología Clínica</p>
-            </div>
-            <div className="flex items-center gap-1.5 mt-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1D9E75] animate-pulse" />
-              <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Disponible</span>
-            </div>
+      {/* BOTTOM LAYOUT CONTENT: 5 DYNAMIC CARDS IN INFINITE HORIZONTAL MARQUEE */}
+      <div className="relative z-10 w-full overflow-hidden py-2">
+        <div className="mask-gradient-edges w-full overflow-hidden py-3">
+          {/* Flex container that moves infinitely from left to right (using double set of cards) */}
+          <div className="flex gap-4 w-max animate-marquee-right">
+            
+            {/* First Set of 5 Cards */}
+            {cards}
+            
+            {/* Second Set of 5 Cards (for seamless infinite wrapper loop) */}
+            {cards}
+            
           </div>
-
-          {/* CARD 2: Disponibilidad y Botón Verde Soulmar */}
-          <div className="flex-shrink-0 w-[240px] lg:w-auto bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm snap-start flex flex-col justify-between">
-            <div className="space-y-1.5">
-              <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block">Próxima sesión</span>
-              <p className="text-xs font-black text-neutral-900 leading-tight">{nextSlot}</p>
-            </div>
-            <Link 
-              href="/#agendamiento" 
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="mt-4"
-            >
-              <Button className="w-full bg-[#c9cba3] hover:bg-[#c9cba3]/90 text-neutral-900 font-black text-[9px] uppercase tracking-widest rounded-full h-8 shadow-sm transition-all duration-300 border-none cursor-pointer">
-                Agendar ahora
-              </Button>
-            </Link>
-          </div>
-
-          {/* CARD 3: Siri Breathing Wave (Dark Contrast Card in Center) */}
-          <div className="flex-shrink-0 w-[240px] lg:w-auto bg-neutral-900 border border-white/10 rounded-3xl p-5 shadow-md snap-start flex flex-col justify-between text-white">
-            <div className="space-y-1">
-              <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block">Bienestar Radical</span>
-              <p className="text-xs font-bold text-neutral-300 leading-tight">Encuentra tu centro emocional hoy.</p>
-            </div>
-            <div className="mt-4 flex justify-start">
-              <div className="flex items-center gap-1 h-3.5">
-                {[1, 2, 3, 4, 5].map((val) => (
-                  <motion.span
-                    key={val}
-                    className="w-[2px] bg-[#8da9c4] rounded-full"
-                    animate={{
-                      scaleY: [0.3, 1.2, 0.3],
-                      backgroundColor: ["#8da9c4", "#c9cba3", "#8da9c4"]
-                    }}
-                    transition={{
-                      duration: 1.5 + (val * 0.25),
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{ height: '14px', transformOrigin: 'center' }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* CARD 4: Confidencialidad */}
-          <div className="flex-shrink-0 w-[240px] lg:w-auto bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm snap-start flex flex-col justify-between">
-            <div className="space-y-1.5">
-              <span className="text-[8px] font-black text-[#BA7517] uppercase tracking-widest block">Privacidad</span>
-              <h4 className="text-sm font-black text-neutral-900 leading-tight">100% Confidencial</h4>
-              <p className="text-[10px] text-neutral-400 font-bold leading-normal">Tus sesiones están encriptadas de extremo a extremo.</p>
-            </div>
-            <div className="mt-4 flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#1D9E75]" />
-              <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Espacio Seguro</span>
-            </div>
-          </div>
-
-          {/* CARD 5: Modalidad Flex */}
-          <div className="flex-shrink-0 w-[240px] lg:w-auto bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm snap-start flex flex-col justify-between">
-            <div className="space-y-1.5">
-              <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">Metodología</span>
-              <h4 className="text-sm font-black text-neutral-900 leading-tight">Modalidad Flexible</h4>
-              <p className="text-[10px] text-neutral-400 font-bold leading-normal">Sesiones personalizadas desde cualquier dispositivo.</p>
-            </div>
-            <div className="mt-4 flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-[#8da9c4]" />
-              <span className="text-[9px] font-bold text-neutral-500 uppercase tracking-wider">Online</span>
-            </div>
-          </div>
-
-        </motion.div>
+        </div>
       </div>
 
     </section>
