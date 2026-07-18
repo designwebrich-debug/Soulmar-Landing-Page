@@ -103,7 +103,7 @@ function EbookCard({ ebook, t }: {
       whileHover={{ y: -16 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       viewport={{ once: true }}
-      className="group relative flex flex-col bg-white dark:bg-white/[0.03] rounded-[32px] p-8 transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.04)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] dark:shadow-none dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.2)] border border-black/[0.03] dark:border-white/[0.05]"
+      className="group relative flex flex-col bg-white rounded-[32px] p-8 transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.04)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] border border-black/[0.03]"
     >
       {/* Image Container */}
       <div className="relative aspect-[4/5] mb-10 transition-transform duration-700 ease-out">
@@ -122,31 +122,31 @@ function EbookCard({ ebook, t }: {
         />
         
         {/* Rating Badge Mockup */}
-        <div className="absolute top-0 right-0 bg-white/80 dark:bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-black/5 dark:border-white/10 flex items-center gap-1 shadow-sm">
+        <div className="absolute top-0 right-0 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-black/5 flex items-center gap-1 shadow-sm">
           <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-          <span className="text-[10px] font-bold text-[#1d1d1f] dark:text-white">4.9</span>
+          <span className="text-[10px] font-bold text-[#1d1d1f]">4.9</span>
         </div>
       </div>
 
       {/* Content */}
       <div className="space-y-2 mb-8">
-        <h3 className="text-3xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">
+        <h3 className="text-3xl font-bold text-[#1d1d1f] tracking-tight">
           {ebookData.title as string}
         </h3>
-        <p className="text-[#1d1d1f]/40 dark:text-white/40 text-sm font-medium">
+        <p className="text-[#1d1d1f]/40 text-sm font-medium">
           {ebook.author}
         </p>
-        <p className="text-[#1d1d1f]/60 dark:text-white/60 text-xs mt-2 leading-relaxed">
+        <p className="text-[#1d1d1f]/60 text-xs mt-2 leading-relaxed">
           {ebookData.description as string}
         </p>
-        <div className="flex items-center gap-1.5 mt-3 text-[10px] font-bold uppercase tracking-[0.05em] text-[#1d1d1f]/40 dark:text-white/30">
+        <div className="flex items-center gap-1.5 mt-3 text-[10px] font-bold uppercase tracking-[0.05em] text-[#1d1d1f]/40">
           <Download className="w-3 h-3" strokeWidth={3} />
           <span>{ebook.downloads} {t('common.downloads') as string}</span>
         </div>
       </div>
 
       {/* Bottom Bar: Action Button */}
-      <div className="mt-auto flex flex-col items-center pt-8 border-t border-black/[0.03] dark:border-white/[0.05]">
+      <div className="mt-auto flex flex-col items-center pt-8 border-t border-black/[0.03]">
         {/* Action Button (Centered) */}
         <div className="relative h-14 w-full max-w-[200px]">
           <motion.button
