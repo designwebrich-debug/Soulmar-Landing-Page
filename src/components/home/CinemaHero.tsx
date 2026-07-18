@@ -336,11 +336,11 @@ export function CinemaHero() {
                   e.preventDefault()
                   document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
                 }}
-                className="inline-flex items-center gap-4 bg-[#c9cba3] hover:bg-[#c9cba3]/90 text-neutral-900 font-black px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-95 group cursor-pointer border border-[#c9cba3]/20"
+                className="inline-flex items-center gap-4 bg-[#c9cba3] hover:bg-[#ffc971] text-neutral-900 font-black px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-95 group cursor-pointer border border-[#c9cba3]/20 hover:border-[#ffc971]/20"
               >
                 <span className="text-[10px] uppercase tracking-widest leading-none">{t('hero.cta_primary')}</span>
-                <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center text-[#c9cba3] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center text-[#c9cba3] group-hover:text-[#ffc971] transition-colors duration-300 shrink-0">
+                  <svg className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </div>
