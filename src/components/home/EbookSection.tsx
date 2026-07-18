@@ -47,7 +47,7 @@ const EBOOKS = [
 export function EbookSection() {
   const { t } = useTranslation()
   return (
-    <section id="ebooks" className="py-32 bg-[#8da9c4] dark:bg-[#0b0b0c] transition-colors duration-500 overflow-hidden">
+    <section id="ebooks" className="py-32 bg-[#8da9c4] dark:bg-[#8da9c4] transition-colors duration-500 overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6">
         {/* Header */}
         <div className="flex flex-col items-start mb-20 space-y-4">
