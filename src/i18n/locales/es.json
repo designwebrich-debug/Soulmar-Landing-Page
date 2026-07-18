@@ -28,17 +28,17 @@
     "no": "No"
   },
   "hero": {
-    "badge": "BIENESTAR EMOCIONAL Y SALUD MENTAL",
-    "title_part1": "Terapia",
-    "title_part2": "Online",
-    "subtitle": "Tu proceso puede empezar con una conversación",
+    "badge": "CONSULTA DISPONIBLE HOY • CUPOS LIMITADOS",
+    "title_part1": "Terapia psicológica",
+    "title_part2": "online para tu calma.",
+    "subtitle": "El primer paso hacia tu calma interior comienza con una conversación. Agenda tu sesión en línea con la Dra. Mariana Caicedo.",
     "cta_primary": "Agendar Cita",
-    "cta_secondary": "Conocer Terapeutas",
+    "cta_secondary": "Agendar este espacio",
     "scroll": "Deslizar",
-    "stats_sessions": "Sesiones realizadas",
-    "stats_satisfaction": "De satisfacción",
-    "stats_secure": "Seguro y privado",
-    "reviews_badge": "Basado en más de 2,000 reseñas en Soulmar"
+    "stats_sessions": "Reserva en 2 minutos",
+    "stats_satisfaction": "100% Confidencial",
+    "stats_secure": "Espacio seguro",
+    "reviews_badge": "Dra. Mariana Caicedo • Psicología Clínica"
   },
   "services": {
     "title": "¿Qué tipo de apoyo estás buscando?",

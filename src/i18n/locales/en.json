@@ -28,17 +28,17 @@
     "no": "No"
   },
   "hero": {
-    "badge": "EMOTIONAL WELL-BEING & MENTAL HEALTH",
-    "title_part1": "Online",
-    "title_part2": "Therapy",
-    "subtitle": "Your process can begin with a conversation",
+    "badge": "CONSULTATION AVAILABLE TODAY • LIMITED SPOTS",
+    "title_part1": "Online psychological therapy",
+    "title_part2": "designed for your peace.",
+    "subtitle": "The first step toward your inner peace begins with a conversation. Book your online session with Dr. Mariana Caicedo.",
     "cta_primary": "Book Session",
-    "cta_secondary": "Meet Therapists",
+    "cta_secondary": "Book this spot",
     "scroll": "Scroll",
-    "stats_sessions": "Sessions conducted",
-    "stats_satisfaction": "Satisfaction rate",
-    "stats_secure": "Safe & private",
-    "reviews_badge": "Based on over 2,000 reviews at Soulmar"
+    "stats_sessions": "Book in 2 minutes",
+    "stats_satisfaction": "100% Confidential",
+    "stats_secure": "Safe space",
+    "reviews_badge": "Dr. Mariana Caicedo • Clinical Psychology"
   },
   "services": {
     "title": "What type of support are you looking for?",
