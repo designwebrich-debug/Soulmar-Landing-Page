@@ -608,7 +608,7 @@ export function AgendamientoSection() {
                               setReason(e.target.value)
                               if (validationError) setValidationError(null)
                             }}
-                            placeholder={language === "es" ? "Cuéntame brevemente qué te trae por aquí (esto queda entre nosotras)." : "Tell me briefly what brings you here (this stays between us)."}
+                            placeholder={language === "es" ? "Cuéntame sobre que deseas hablar" : "Tell me what you'd like to talk about"}
                             className="h-10 text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full"
                           />
                         </div>
