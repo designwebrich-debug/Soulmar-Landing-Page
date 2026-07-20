@@ -319,8 +319,8 @@ export function CinemaHero() {
 
             {/* Apple style headline */}
             <h1 
-              className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans pb-4"
-              style={{ lineHeight: '0.88' }}
+              className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0"
+              style={{ lineHeight: '0.7' }}
             >
               {t('hero.title_part1')}{" "}
               <span className="text-[#8da9c4]">
