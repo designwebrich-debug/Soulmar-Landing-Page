@@ -396,8 +396,9 @@ export default function AdminPage() {
   const [rescheduleDate, setRescheduleDate] = useState("")
   const [rescheduleTime, setRescheduleTime] = useState("")
   
-  // Estado para confirmación de cierre de sesión
+  // Estado para confirmación de cierre de sesión y cancelación
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+  const [cancelingAppId, setCancelingAppId] = useState<string | null>(null)
 
   useEffect(() => {
     if (reschedulingApp) {
@@ -2129,8 +2130,7 @@ export default function AdminPage() {
                                     {app.status !== "cancelled" && (
                                       <button
                                         onClick={() => {
-                                          const confirmCancel = window.confirm("¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.")
-                                          if (confirmCancel) handleCancel(app.id)
+                                          setCancelingAppId(app.id)
                                         }}
                                         className="w-8 h-8 rounded-full bg-[#E0533C]/10 border border-[#E0533C]/20 text-[#E0533C] hover:bg-[#E0533C]/20 flex items-center justify-center transition-all cursor-pointer"
                                         title="Cancelar cita"
@@ -2765,6 +2765,43 @@ export default function AdminPage() {
                 className="w-full h-11 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-500 font-bold text-xs uppercase tracking-widest transition-all duration-300 active:scale-97 cursor-pointer flex items-center justify-center"
               >
                 Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIRMACIÓN DE CANCELACIÓN */}
+      {cancelingAppId && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
+          <div 
+            className="fixed inset-0" 
+            onClick={() => setCancelingAppId(null)}
+          />
+          
+          <div className="bg-white rounded-[32px] border border-neutral-200 shadow-2xl w-full max-w-sm overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200 p-8 md:p-10 space-y-6">
+            <div className="space-y-2 text-center">
+              <h4 className="text-sm font-black text-black uppercase tracking-widest">Cancelar Cita</h4>
+              <p className="text-xs text-neutral-400 font-semibold leading-relaxed">
+                ¿Estás seguro de que deseas cancelar esta cita? Esta acción no se puede deshacer.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={() => {
+                  handleCancel(cancelingAppId)
+                  setCancelingAppId(null)
+                }}
+                className="w-full h-11 rounded-full bg-red-500 hover:bg-red-600 text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg active:scale-97 cursor-pointer flex items-center justify-center"
+              >
+                Sí, cancelar cita
+              </button>
+              <button
+                onClick={() => setCancelingAppId(null)}
+                className="w-full h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center"
+              >
+                No, mantener
               </button>
             </div>
           </div>
