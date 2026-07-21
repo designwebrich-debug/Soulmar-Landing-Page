@@ -2671,6 +2671,16 @@ export default function AdminPage() {
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"].filter((timeStr) => {
                     if (!rescheduleDate) return true
+                    
+                    // Verificar si ya está reservado por otra cita activa
+                    const isBooked = appointments.some(app => 
+                      app.appointment_date === rescheduleDate && 
+                      app.appointment_time === timeStr && 
+                      app.status !== "cancelled" &&
+                      app.id !== reschedulingApp?.id // no bloquear la hora actual de la cita a reprogramar
+                    )
+                    if (isBooked) return false
+                    
                     const today = new Date()
                     const todayStr = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0')
                     if (rescheduleDate !== todayStr) return true
@@ -2689,6 +2699,7 @@ export default function AdminPage() {
                     
                     if (currentHour > hour) return false
                     if (currentHour === hour && currentMinute >= minute) return false
+                    
                     return true
                   }).map((h) => (
                     <button
