@@ -790,7 +790,9 @@ export default function AdminPage() {
         app.patient?.phone?.includes(filterSearch)
         
       const dateMatch = !filterDate || app.appointment_date === filterDate
-      const statusMatch = filterStatus === "Todos" ? app.status !== "cancelled" : app.status === filterStatus
+      const statusMatch = filterStatus === "Todos" 
+        ? (filterSearch ? true : app.status !== "cancelled") 
+        : app.status === filterStatus
       const serviceMatch = filterService === "Todos" || filterService === "Terapia Online"
       
       return nameMatch && dateMatch && statusMatch && serviceMatch
@@ -2667,7 +2669,7 @@ export default function AdminPage() {
                 
                 {/* Atajos de horas comunes */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
-                  {["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"].map((h) => (
+                  {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"].map((h) => (
                     <button
                       key={h}
                       type="button"
