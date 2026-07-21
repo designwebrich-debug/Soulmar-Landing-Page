@@ -2669,7 +2669,28 @@ export default function AdminPage() {
                 
                 {/* Atajos de horas comunes */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
-                  {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"].map((h) => (
+                  {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"].filter((timeStr) => {
+                    if (!rescheduleDate) return true
+                    const today = new Date()
+                    const todayStr = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0')
+                    if (rescheduleDate !== todayStr) return true
+                    
+                    const parts = timeStr.split(" ")
+                    const timeParts = parts[0].split(":")
+                    let hour = parseInt(timeParts[0], 10)
+                    const minute = parseInt(timeParts[1], 10)
+                    const ampm = parts[1]
+                    
+                    if (ampm === "PM" && hour !== 12) hour += 12
+                    else if (ampm === "AM" && hour === 12) hour = 0
+                    
+                    const currentHour = today.getHours()
+                    const currentMinute = today.getMinutes()
+                    
+                    if (currentHour > hour) return false
+                    if (currentHour === hour && currentMinute >= minute) return false
+                    return true
+                  }).map((h) => (
                     <button
                       key={h}
                       type="button"
