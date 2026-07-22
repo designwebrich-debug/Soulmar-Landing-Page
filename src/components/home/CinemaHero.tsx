@@ -18,7 +18,7 @@ export function CinemaHero() {
   const slides = React.useMemo(() => [
     {
       id: 1,
-      image: "/images/SV-Hero-Main.jpg",
+      image: "/images/BannerHero01.jpg",
       titlePart1: t('hero.slide1_title_part1') || t('hero.title_part1'),
       titlePart2: t('hero.slide1_title_part2') || t('hero.title_part2'),
       subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
@@ -29,7 +29,7 @@ export function CinemaHero() {
     },
     {
       id: 2,
-      image: "/images/SV-Hero-HR.jpg",
+      image: "/images/BannerHero03.jpg",
       titlePart1: t('hero.slide2_title_part1'),
       titlePart2: t('hero.slide2_title_part2'),
       subtitle: t('hero.slide2_subtitle'),
@@ -40,7 +40,7 @@ export function CinemaHero() {
     },
     {
       id: 3,
-      image: "/images/SV-Hero-Couples.jpg",
+      image: "/images/BannerHero02.jpg",
       titlePart1: t('hero.slide3_title_part1'),
       titlePart2: t('hero.slide3_title_part2'),
       subtitle: t('hero.slide3_subtitle'),
