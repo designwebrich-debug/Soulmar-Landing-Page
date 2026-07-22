@@ -34,7 +34,7 @@ export function CinemaHero() {
       titlePart2: t('hero.slide2_title_part2'),
       subtitle: t('hero.slide2_subtitle'),
       color: "text-neutral-900",
-      gradient: "from-[#c9cba3]/95 via-[#c9cba3]/70 to-transparent",
+      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent",
       buttonClass: "bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white border-white/20 hover:border-neutral-900/20",
       buttonIconClass: "bg-neutral-900 text-white group-hover:bg-white group-hover:text-neutral-900"
     },
@@ -45,7 +45,7 @@ export function CinemaHero() {
       titlePart2: t('hero.slide3_title_part2'),
       subtitle: t('hero.slide3_subtitle'),
       color: "text-neutral-900",
-      gradient: "from-[#ffc971]/95 via-[#ffc971]/70 to-transparent",
+      gradient: "",
       buttonClass: "bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white border-white/20 hover:border-neutral-900/20",
       buttonIconClass: "bg-neutral-900 text-white group-hover:bg-white group-hover:text-neutral-900"
     }
@@ -333,6 +333,10 @@ export function CinemaHero() {
               priority
               quality={100}
             />
+            {/* Dynamic slide-specific gradient overlay */}
+            {activeSlide.gradient && (
+              <div className={`absolute inset-0 bg-gradient-to-r ${activeSlide.gradient} w-full lg:w-3/4 z-10`} />
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
