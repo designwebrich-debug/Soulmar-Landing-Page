@@ -316,7 +316,7 @@ export function CinemaHero() {
       
       {/* Background Image (Max Quality) */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.div
             key={activeSlide.id}
             initial={{ opacity: 0 }}
@@ -330,12 +330,9 @@ export function CinemaHero() {
               alt="Soulmar Background" 
               fill 
               className="object-cover"
-              quality={100}
               priority
-              unoptimized
+              quality={100}
             />
-            {/* Dynamic slide-specific gradient overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${activeSlide.gradient} w-full lg:w-3/4 z-10`} />
           </motion.div>
         </AnimatePresence>
       </div>
