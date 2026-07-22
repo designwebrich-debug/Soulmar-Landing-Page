@@ -22,7 +22,8 @@ export function CinemaHero() {
       titlePart1: t('hero.slide1_title_part1') || t('hero.title_part1'),
       titlePart2: t('hero.slide1_title_part2') || t('hero.title_part2'),
       subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
-      color: "text-[#8da9c4]"
+      color: "text-[#8da9c4]",
+      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent"
     },
     {
       id: 2,
@@ -30,7 +31,8 @@ export function CinemaHero() {
       titlePart1: t('hero.slide2_title_part1'),
       titlePart2: t('hero.slide2_title_part2'),
       subtitle: t('hero.slide2_subtitle'),
-      color: "text-[#1D9E75]"
+      color: "text-[#1D9E75]",
+      gradient: "from-[#c9cba3]/95 via-[#c9cba3]/70 to-transparent"
     },
     {
       id: 3,
@@ -38,7 +40,8 @@ export function CinemaHero() {
       titlePart1: t('hero.slide3_title_part1'),
       titlePart2: t('hero.slide3_title_part2'),
       subtitle: t('hero.slide3_subtitle'),
-      color: "text-[#BA7517]"
+      color: "text-[#BA7517]",
+      gradient: "from-[#ffc971]/95 via-[#ffc971]/70 to-transparent"
     }
   ], [t])
 
@@ -325,10 +328,10 @@ export function CinemaHero() {
               priority
               unoptimized
             />
+            {/* Dynamic slide-specific gradient overlay */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${activeSlide.gradient} w-full lg:w-3/4 z-10`} />
           </motion.div>
         </AnimatePresence>
-        {/* Subtle gradient overlay to guarantee text legibility on the left side */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent w-full lg:w-3/4 z-10" />
       </div>
 
       {/* CSS Styles injection for smooth GPU-accelerated horizontal scrolling */}
