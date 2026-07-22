@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronDown, Calendar, ShieldCheck, Clock } from "lucide-react"
@@ -13,6 +13,43 @@ import { es, enUS } from "date-fns/locale"
 export function CinemaHero() {
   const { t, language } = useTranslation()
   const [nextSlot, setNextSlot] = React.useState<string>("")
+  const [currentSlide, setCurrentSlide] = React.useState(0)
+
+  const slides = React.useMemo(() => [
+    {
+      id: 1,
+      image: "/images/hero-background-main.jpg",
+      titlePart1: t('hero.slide1_title_part1') || t('hero.title_part1'),
+      titlePart2: t('hero.slide1_title_part2') || t('hero.title_part2'),
+      subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
+      color: "text-[#8da9c4]"
+    },
+    {
+      id: 2,
+      image: "/images/hero-background-hr.jpg",
+      titlePart1: t('hero.slide2_title_part1'),
+      titlePart2: t('hero.slide2_title_part2'),
+      subtitle: t('hero.slide2_subtitle'),
+      color: "text-[#1D9E75]"
+    },
+    {
+      id: 3,
+      image: "/images/hero-background-couples.jpg",
+      titlePart1: t('hero.slide3_title_part1'),
+      titlePart2: t('hero.slide3_title_part2'),
+      subtitle: t('hero.slide3_subtitle'),
+      color: "text-[#BA7517]"
+    }
+  ], [t])
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [slides.length])
+
+  const activeSlide = slides[currentSlide]
 
   React.useEffect(() => {
     // 1. Fetch settings and appointments in parallel
@@ -269,18 +306,29 @@ export function CinemaHero() {
     <section className="relative w-full min-h-screen flex flex-col justify-between pt-16 pb-12 overflow-hidden">
       
       {/* Background Image (Max Quality) */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        <Image 
-          src="/images/hero-background-main.jpg" 
-          alt="Soulmar Background" 
-          fill 
-          className="object-cover"
-          quality={100}
-          priority
-          unoptimized
-        />
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={activeSlide.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image 
+              src={activeSlide.image} 
+              alt="Soulmar Background" 
+              fill 
+              className="object-cover"
+              quality={100}
+              priority
+              unoptimized
+            />
+          </motion.div>
+        </AnimatePresence>
         {/* Subtle gradient overlay to guarantee text legibility on the left side */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent w-full lg:w-3/4" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent w-full lg:w-3/4 z-10" />
       </div>
 
       {/* CSS Styles injection for smooth GPU-accelerated horizontal scrolling */}
@@ -333,20 +381,33 @@ export function CinemaHero() {
             </div>
 
             {/* Apple style headline */}
-            <h1 
-              className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0"
-              style={{ lineHeight: '0.7' }}
-            >
-              {t('hero.title_part1')}{" "}
-              <span className="text-[#8da9c4]">
-                {t('hero.title_part2')}
-              </span>
-            </h1>
+            <div className="min-h-[240px] md:min-h-[280px] lg:min-h-[300px] flex flex-col justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeSlide.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="space-y-4"
+                >
+                  <h1 
+                    className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0"
+                    style={{ lineHeight: '0.7' }}
+                  >
+                    {activeSlide.titlePart1}{" "}
+                    <span className={activeSlide.color}>
+                      {activeSlide.titlePart2}
+                    </span>
+                  </h1>
 
-            {/* Persuasive subtitle */}
-            <p className="text-base md:text-lg text-neutral-600 font-medium leading-snug max-w-xl">
-              {t('hero.subtitle')}
-            </p>
+                  {/* Persuasive subtitle */}
+                  <p className="text-base md:text-lg text-neutral-600 font-medium leading-snug max-w-xl">
+                    {activeSlide.subtitle}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
             {/* Custom Pill Button with circle arrow ↗ */}
             <div>
