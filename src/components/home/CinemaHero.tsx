@@ -22,8 +22,10 @@ export function CinemaHero() {
       titlePart1: t('hero.slide1_title_part1') || t('hero.title_part1'),
       titlePart2: t('hero.slide1_title_part2') || t('hero.title_part2'),
       subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
-      color: "text-[#8da9c4]",
-      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent"
+      color: "text-neutral-900", // User requested black titles for all
+      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent",
+      buttonClass: "bg-[#c9cba3] hover:bg-[#ffc971] text-neutral-900 border-[#c9cba3]/20 hover:border-[#ffc971]/20",
+      buttonIconClass: "bg-neutral-900 text-[#c9cba3] group-hover:text-[#ffc971]"
     },
     {
       id: 2,
@@ -31,8 +33,10 @@ export function CinemaHero() {
       titlePart1: t('hero.slide2_title_part1'),
       titlePart2: t('hero.slide2_title_part2'),
       subtitle: t('hero.slide2_subtitle'),
-      color: "text-[#1D9E75]",
-      gradient: "from-[#c9cba3]/95 via-[#c9cba3]/70 to-transparent"
+      color: "text-neutral-900",
+      gradient: "from-[#c9cba3]/95 via-[#c9cba3]/70 to-transparent",
+      buttonClass: "bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white border-white/20 hover:border-neutral-900/20",
+      buttonIconClass: "bg-neutral-900 text-white group-hover:bg-white group-hover:text-neutral-900"
     },
     {
       id: 3,
@@ -40,8 +44,10 @@ export function CinemaHero() {
       titlePart1: t('hero.slide3_title_part1'),
       titlePart2: t('hero.slide3_title_part2'),
       subtitle: t('hero.slide3_subtitle'),
-      color: "text-[#BA7517]",
-      gradient: "from-[#ffc971]/95 via-[#ffc971]/70 to-transparent"
+      color: "text-neutral-900",
+      gradient: "from-[#ffc971]/95 via-[#ffc971]/70 to-transparent",
+      buttonClass: "bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white border-white/20 hover:border-neutral-900/20",
+      buttonIconClass: "bg-neutral-900 text-white group-hover:bg-white group-hover:text-neutral-900"
     }
   ], [t])
 
@@ -420,10 +426,10 @@ export function CinemaHero() {
                   e.preventDefault()
                   document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
                 }}
-                className="inline-flex items-center gap-4 bg-[#c9cba3] hover:bg-[#ffc971] text-neutral-900 font-black px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-95 group cursor-pointer border border-[#c9cba3]/20 hover:border-[#ffc971]/20"
+                className={`inline-flex items-center gap-4 font-black px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-95 group cursor-pointer border ${activeSlide.buttonClass}`}
               >
                 <span className="text-[10px] uppercase tracking-widest leading-none">{t('hero.cta_primary')}</span>
-                <div className="w-8 h-8 rounded-full bg-neutral-900 flex items-center justify-center text-[#c9cba3] group-hover:text-[#ffc971] transition-colors duration-300 shrink-0">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 shrink-0 ${activeSlide.buttonIconClass}`}>
                   <svg className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
