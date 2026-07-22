@@ -402,9 +402,10 @@ export function CinemaHero() {
                 >
                   <h1 
                     className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0"
-                    style={{ lineHeight: '0.7' }}
+                    style={{ lineHeight: '0.85' }}
                   >
-                    {activeSlide.titlePart1}{" "}
+                    {activeSlide.titlePart1}
+                    <br />
                     <span className={activeSlide.color}>
                       {activeSlide.titlePart2}
                     </span>
