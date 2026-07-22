@@ -24,8 +24,8 @@ export function CinemaHero() {
       subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
       color: "text-neutral-900", // User requested black titles for all
       gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent",
-      buttonClass: "bg-[#c9cba3] hover:bg-[#ffc971] text-neutral-900 border-[#c9cba3]/20 hover:border-[#ffc971]/20",
-      buttonIconClass: "bg-neutral-900 text-[#c9cba3] group-hover:text-[#ffc971]"
+      buttonClass: "bg-[#8da9c4] hover:bg-[#ffc971] text-white hover:text-neutral-900 border-[#8da9c4]/20 hover:border-[#ffc971]/20",
+      buttonIconClass: "bg-white text-[#8da9c4] group-hover:text-[#ffc971]"
     },
     {
       id: 2,
@@ -35,8 +35,8 @@ export function CinemaHero() {
       subtitle: t('hero.slide2_subtitle'),
       color: "text-neutral-900",
       gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent",
-      buttonClass: "bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white border-white/20 hover:border-neutral-900/20",
-      buttonIconClass: "bg-neutral-900 text-white group-hover:bg-white group-hover:text-neutral-900"
+      buttonClass: "bg-[#ffc971] hover:bg-neutral-900 text-neutral-900 hover:text-white border-[#ffc971]/20 hover:border-neutral-900/20",
+      buttonIconClass: "bg-neutral-900 text-[#ffc971] group-hover:bg-white group-hover:text-neutral-900"
     },
     {
       id: 3,
@@ -46,8 +46,8 @@ export function CinemaHero() {
       subtitle: t('hero.slide3_subtitle'),
       color: "text-neutral-900",
       gradient: "",
-      buttonClass: "bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white border-white/20 hover:border-neutral-900/20",
-      buttonIconClass: "bg-neutral-900 text-white group-hover:bg-white group-hover:text-neutral-900"
+      buttonClass: "bg-[#8da9c4] hover:bg-neutral-900 text-white hover:text-white border-[#8da9c4]/20 hover:border-neutral-900/20",
+      buttonIconClass: "bg-white text-[#8da9c4] group-hover:bg-white group-hover:text-neutral-900"
     }
   ], [t])
 
@@ -421,7 +421,7 @@ export function CinemaHero() {
             </div>
 
             {/* Custom Pill Button with circle arrow ↗ */}
-            <div>
+            <div className="-mt-2">
               <Link 
                 href="/#agendamiento" 
                 onClick={(e) => {
