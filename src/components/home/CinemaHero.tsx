@@ -403,7 +403,7 @@ export function CinemaHero() {
                 >
                   <h1 
                     className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0"
-                    style={{ lineHeight: '0.85' }}
+                    style={{ lineHeight: '0.75' }}
                   >
                     {activeSlide.titlePart1}
                     <br />
