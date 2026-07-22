@@ -266,8 +266,21 @@ export function CinemaHero() {
   ]
 
   return (
-    <section className="relative w-full min-h-screen bg-gradient-to-b from-[#f0f7fc] to-[#e1effa] flex flex-col justify-between pt-16 pb-12 overflow-hidden">
+    <section className="relative w-full min-h-screen flex flex-col justify-between pt-16 pb-12 overflow-hidden">
       
+      {/* Background Image (Max Quality) */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <Image 
+          src="/images/hero-background-main.jpg" 
+          alt="Soulmar Background" 
+          fill 
+          className="object-cover"
+          quality={100}
+          priority
+          unoptimized
+        />
+      </div>
+
       {/* CSS Styles injection for smooth GPU-accelerated horizontal scrolling */}
       <style>{`
         @keyframes marqueeRight {
@@ -289,11 +302,6 @@ export function CinemaHero() {
           -webkit-mask-image: linear-gradient(to right, transparent, white 12%, white 88%, transparent);
         }
       `}</style>
-
-      {/* Background Orbs & Light Ambient glows (Brand colors matching Apple Premium) */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#8da9c4]/15 rounded-full blur-[140px] pointer-events-none z-0" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[60%] h-[60%] bg-[#c9cba3]/20 rounded-full blur-[160px] pointer-events-none z-0" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none z-0 opacity-40" />
 
       {/* TOP & MIDDLE LAYOUT CONTENT */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex-grow flex items-center mb-16 lg:mb-8">
