@@ -303,6 +303,11 @@ export function CinemaHero() {
         }
       `}</style>
 
+      {/* Background Orbs & Light Ambient glows (Brand colors matching Apple Premium) */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#8da9c4]/15 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[60%] h-[60%] bg-[#c9cba3]/20 rounded-full blur-[160px] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none z-0 opacity-40" />
+
       {/* TOP & MIDDLE LAYOUT CONTENT */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex-grow flex items-center mb-16 lg:mb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
