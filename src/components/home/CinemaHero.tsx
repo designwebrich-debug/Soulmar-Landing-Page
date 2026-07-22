@@ -381,41 +381,7 @@ export function CinemaHero() {
 
           </motion.div>
 
-          {/* COLUMN 2: RIGHT SIDE DOCTOR PORTRAIT */}
-          <div className="lg:col-span-5 relative w-full flex items-center justify-center lg:justify-end">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-[380px] md:max-w-[400px] aspect-[4/5] rounded-[40px] overflow-hidden border border-neutral-200/50 shadow-2xl bg-neutral-100"
-            >
-              <Image 
-                src="/images/hero-soulmar-cozy.jpg" 
-                alt="Dra. Mariana Caicedo" 
-                fill 
-                className="object-cover transition-transform duration-[2000ms] hover:scale-103"
-                priority
-                sizes="(max-width: 768px) 100vw, 400px"
-              />
-              
-              {/* Soft overlay gradient at the bottom */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-              {/* Status Indicator over image */}
-              <div className="absolute bottom-6 left-6 right-6 space-y-1 text-left">
-                <div className="inline-flex items-center gap-1.5 bg-black/40 border border-white/10 backdrop-blur-md px-3 py-1 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#1D9E75] relative flex">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1D9E75] opacity-75" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#1D9E75]" />
-                  </span>
-                  <span className="text-[8px] font-black uppercase tracking-widest text-white">
-                    En línea y disponible
-                  </span>
-                </div>
-                <h3 className="text-lg font-black text-white leading-none">Dra. Mariana Caicedo</h3>
-              </div>
-            </motion.div>
-          </div>
+          {/* Removed COLUMN 2: RIGHT SIDE DOCTOR PORTRAIT to allow background image to be visible */}
 
         </div>
       </div>
