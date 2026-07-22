@@ -279,6 +279,8 @@ export function CinemaHero() {
           priority
           unoptimized
         />
+        {/* Subtle gradient overlay to guarantee text legibility on the left side */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent w-full lg:w-3/4" />
       </div>
 
       {/* CSS Styles injection for smooth GPU-accelerated horizontal scrolling */}
