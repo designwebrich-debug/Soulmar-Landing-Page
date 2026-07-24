@@ -421,7 +421,7 @@ export function CinemaHero() {
             </div>
 
             {/* Custom Pill Button with circle arrow ↗ */}
-            <div className="-mt-2">
+            <div className="-mt-6">
               <Link 
                 href="/#agendamiento" 
                 onClick={(e) => {
