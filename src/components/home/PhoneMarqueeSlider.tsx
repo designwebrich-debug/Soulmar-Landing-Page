@@ -25,11 +25,14 @@ export function PhoneMarqueeSlider() {
     }
   }
 
-  // Duplicate 4 sets so it loops seamlessly from left to right endlessly without empty space
+  // Duplicate 4 sets so it loops seamlessly 100% edge-to-edge from left to right endlessly without any gap
   const marqueeItems = [...slides, ...slides, ...slides, ...slides]
 
   return (
-    <div id="soulmar-brand" className="w-full overflow-hidden py-4 relative group scroll-mt-32">
+    <div
+      id="soulmar-brand"
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden py-0 my-0 group scroll-mt-32"
+    >
       {/* Inline styles for infinite left-to-right marquee animation with pause on hover */}
       <style jsx>{`
         @keyframes marqueeRightPhones {
@@ -41,7 +44,7 @@ export function PhoneMarqueeSlider() {
           }
         }
         .animate-marquee-phones {
-          animation: marqueeRightPhones 32s linear infinite;
+          animation: marqueeRightPhones 35s linear infinite;
           will-change: transform;
         }
         .animate-marquee-phones:hover {
@@ -49,19 +52,15 @@ export function PhoneMarqueeSlider() {
         }
       `}</style>
 
-      {/* Premium subtle gradient fade edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-28 z-10 bg-gradient-to-r from-surface dark:from-[#0b0b0c] to-transparent pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-28 z-10 bg-gradient-to-l from-surface dark:from-[#0b0b0c] to-transparent pointer-events-none" />
-
-      {/* Sliding track */}
-      <div className="flex gap-6 sm:gap-10 w-max animate-marquee-phones">
+      {/* Edge-to-Edge Sliding track with 0px gap between images */}
+      <div className="flex gap-0 w-max animate-marquee-phones">
         {marqueeItems.map((item, idx) => (
           <Link
             key={`${item.id}-${idx}`}
             href="/#agendamiento"
             onClick={handleScrollToBooking}
             aria-label="Agendar cita en Soulmar"
-            className="block relative flex-shrink-0 cursor-pointer transition-transform duration-300 hover:scale-[1.015] shadow-xl rounded-3xl overflow-hidden group/item"
+            className="block relative flex-shrink-0 cursor-pointer p-0 m-0 border-0 outline-none"
           >
             <Image
               src={item.src}
@@ -70,7 +69,7 @@ export function PhoneMarqueeSlider() {
               height={576}
               quality={100}
               unoptimized={true}
-              className="w-[500px] sm:w-[750px] lg:w-[960px] xl:w-[1024px] h-auto object-contain rounded-3xl"
+              className="w-[100vw] sm:w-[50vw] h-auto block object-cover p-0 m-0 border-0"
               priority={idx < 2}
             />
           </Link>
