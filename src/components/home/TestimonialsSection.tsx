@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Star } from "lucide-react"
 import { Section, SectionHeading } from "@/components/layout/Section"
 import { useTranslation } from "@/context/LanguageContext"

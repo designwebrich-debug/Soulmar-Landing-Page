@@ -125,6 +125,7 @@ export function ServicesSection() {
               </Link>
             )
           })}
+        </div>
       </div>
     </Section>
   )
