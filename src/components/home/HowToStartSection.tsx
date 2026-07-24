@@ -10,7 +10,7 @@ export function HowToStartSection() {
     { num: "PASO 4:", text: "Agrega tu nombre completo" },
     { num: "PASO 5:", text: "Agrega tu número celular" },
     { num: "PASO 6:", text: "Agrega tu correo" },
-    { num: "PASO 7:", text: 'Dale clic al botón que dice "Confirmar sesión" y listo Bienvenido a Soulmar.' }
+    { num: "PASO 7:", text: 'Dale clic en "Confirmar sesión"' }
   ]
 
   return (
@@ -28,31 +28,31 @@ export function HowToStartSection() {
           className="w-full h-auto block"
         />
 
-        {/* Floating Text Overlay - Directly over left side of the video */}
-        <div className="absolute inset-0 flex items-center z-10 pointer-events-none px-6 md:px-12 lg:px-20">
-          <div className="w-full max-w-lg lg:max-w-xl space-y-3 sm:space-y-4 pointer-events-auto">
+        {/* Floating Text Overlay - Perfectly Centered Vertically on the Left Side */}
+        <div className="absolute inset-0 flex items-center justify-start z-10 pointer-events-none px-8 md:px-16 lg:px-24 xl:px-32">
+          <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl space-y-4 sm:space-y-6 md:space-y-8 pointer-events-auto">
             
-            {/* Titles */}
-            <div className="space-y-1">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black tracking-tighter text-[#8da9c4] leading-none uppercase">
+            {/* Titles with Apple/Silicon Valley Responsive Typography */}
+            <div className="space-y-1 sm:space-y-2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-[#8da9c4] leading-none uppercase">
                 AGENDAR EN FÁCIL
               </h2>
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[28px] font-black tracking-tighter text-[#1d1d1f] dark:text-white leading-none uppercase">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tighter text-[#1d1d1f] dark:text-white leading-none uppercase">
                 SIGUE ESTOS PASOS
               </h3>
             </div>
 
-            {/* Step Items - Clean without white boxes */}
-            <div className="space-y-1.5 sm:space-y-2">
+            {/* Step Items - High legibility, crisp proportions */}
+            <div className="space-y-2.5 sm:space-y-3.5 md:space-y-4">
               {steps.map((step, idx) => (
                 <div 
                   key={idx} 
-                  className="flex items-center gap-2.5 md:gap-3 py-0.5"
+                  className="flex items-center gap-3 md:gap-4 py-0.5"
                 >
-                  <span className="bg-[#8da9c4] text-white text-[9px] md:text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-md shrink-0 shadow-sm">
+                  <span className="bg-[#8da9c4] text-white text-[11px] sm:text-xs md:text-sm font-black tracking-wider uppercase px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg md:rounded-xl shrink-0 shadow-md">
                     {step.num}
                   </span>
-                  <p className="text-[#1d1d1f] dark:text-white/90 font-bold text-[10px] sm:text-[11px] md:text-xs leading-snug">
+                  <p className="text-[#1d1d1f] dark:text-white/95 font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-snug">
                     {step.text}
                   </p>
                 </div>
