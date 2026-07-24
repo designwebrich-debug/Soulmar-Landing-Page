@@ -26,7 +26,7 @@ export function NewsletterSection() {
             <h3 className="text-5xl md:text-7xl font-bold text-white leading-[0.9] tracking-[-0.022em] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-700">
               {t('home.newsletter_title_alt')}
             </h3>
-            <p className="text-white/50 text-xl font-medium max-w-md mx-auto lg:mx-0 group-hover:text-white/70 transition-colors duration-700 leading-relaxed">
+            <p className="text-white/50 text-xl font-medium max-w-md mx-auto lg:mx-0 group-hover:text-white/70 transition-colors duration-700 leading-snug">
               {t('footer.newsletter_desc')}
             </p>
           </div>
