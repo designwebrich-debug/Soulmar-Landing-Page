@@ -3,13 +3,18 @@
 import { Star } from "lucide-react"
 import { Section, SectionHeading } from "@/components/layout/Section"
 import { useTranslation } from "@/context/LanguageContext"
+import { PhoneMarqueeSlider } from "./PhoneMarqueeSlider"
 
 export function TestimonialsSection() {
   const { t } = useTranslation()
 
   return (
-    <Section className="pt-32 pb-6 bg-surface dark:bg-[#0b0b0c]">
+    <Section className="pt-20 pb-6 bg-surface dark:bg-[#0b0b0c]">
       <div className="max-w-7xl mx-auto px-6">
+        {/* Continuous Left-to-Right Marquee Slider */}
+        <div className="mb-24">
+          <PhoneMarqueeSlider />
+        </div>
         <SectionHeading 
           title={t('home.testimonials_title') as string} 
           subtitle={t('home.testimonials_subtitle') as string}

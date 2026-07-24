@@ -4,7 +4,6 @@ import Link from "next/link"
 import { ArrowRight, Heart, Users, Briefcase, ClipboardList, Brain, CloudRain } from "lucide-react"
 import { Section } from "@/components/layout/Section"
 import { useTranslation } from "@/context/LanguageContext"
-import { PhoneMarqueeSlider } from "./PhoneMarqueeSlider"
 
 const serviceConfigs = [
   {
@@ -126,12 +125,6 @@ export function ServicesSection() {
               </Link>
             )
           })}
-        </div>
-      </div>
-
-      {/* Highlights Phone Marquee Slider */}
-      <div className="w-full pt-20 relative z-10">
-        <PhoneMarqueeSlider />
       </div>
     </Section>
   )

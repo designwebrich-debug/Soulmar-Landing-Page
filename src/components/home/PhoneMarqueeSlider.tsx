@@ -29,7 +29,7 @@ export function PhoneMarqueeSlider() {
   const marqueeItems = [...slides, ...slides, ...slides, ...slides]
 
   return (
-    <div id="soulmar-brand" className="w-full overflow-hidden py-8 mb-28 relative group scroll-mt-32">
+    <div id="soulmar-brand" className="w-full overflow-hidden py-4 relative group scroll-mt-32">
       {/* Inline styles for infinite left-to-right marquee animation with pause on hover */}
       <style jsx>{`
         @keyframes marqueeRightPhones {
