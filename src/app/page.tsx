@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 // Dynamic imports for below-the-fold or heavy components
 const ServicesSection = dynamic(() => import("@/components/home/ServicesSection").then(mod => mod.ServicesSection))
 const HowToStartSection = dynamic(() => import("@/components/home/HowToStartSection").then(mod => mod.HowToStartSection))
+const PhoneMarqueeSlider = dynamic(() => import("@/components/home/PhoneMarqueeSlider").then(mod => mod.PhoneMarqueeSlider))
 const AgendamientoSection = dynamic(() => import("@/components/home/AgendamientoSection").then(mod => mod.AgendamientoSection))
 const TestimonialsSection = dynamic(() => import("@/components/home/TestimonialsSection").then(mod => mod.TestimonialsSection))
 const EbookSection = dynamic(() => import("@/components/home/EbookSection").then(mod => mod.EbookSection))
@@ -25,8 +26,11 @@ export default function Home() {
       {/* SECTION 1: SERVICES (Includes Highlight Carousel nested inside) */}
       <ServicesSection />
   
-      {/* SECTION 2: HOW TO START */}
+      {/* SECTION 2: HOW TO START (Laptop Video + 7 Steps) */}
       <HowToStartSection />
+
+      {/* SECTION 2.5: 3D COVERFLOW PHONE SHOWCASE CAROUSEL */}
+      <PhoneMarqueeSlider />
 
       {/* SECTION 3: INTEGRATED PREMIUM BOOKING SECTION (In-Situ) */}
       <AgendamientoSection />
