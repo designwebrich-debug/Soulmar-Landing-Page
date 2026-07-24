@@ -87,53 +87,20 @@ export function HowToStartSection() {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="relative w-full max-w-[320px] aspect-[9/19] bg-white rounded-[45px] shadow-2xl border-[12px] border-[#1d1d1f] overflow-hidden flex flex-col">
+            <div className="relative w-full max-w-[320px] aspect-[9/19] bg-black rounded-[45px] shadow-2xl border-[12px] border-[#1d1d1f] overflow-hidden flex flex-col">
               {/* iPhone Notch */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[30px] bg-[#1d1d1f] rounded-b-[20px] z-20"></div>
               
-              {/* App Interface Mockup */}
-              <div className="flex-1 bg-[#f8f9fa] relative w-full h-full">
-                {/* Header */}
-                <div className="pt-12 pb-4 px-6 bg-white shadow-sm relative z-10">
-                  <Image src="/images/logo-official.png" alt="Soulmar Logo" width={80} height={24} className="opacity-80" />
-                  <p className="text-xs text-neutral-500 font-medium mt-2">Hola, elige qué necesitas hoy</p>
-                </div>
-
-                {/* Content Body */}
-                <div className="p-4 space-y-4 relative h-full">
-                  {/* Banner */}
-                  <div className="w-full rounded-2xl bg-[#8da9c4]/10 p-4 flex gap-4 items-center border border-[#8da9c4]/20">
-                    <div className="flex-1 space-y-1">
-                      <h4 className="text-sm font-bold text-[#1d1d1f]">Un regalo para toda la vida</h4>
-                      <p className="text-[10px] text-neutral-500 leading-tight">Regala sesiones de terapia y crecimiento.</p>
-                    </div>
-                  </div>
-
-                  {/* Appointment Card */}
-                  <div className="w-full bg-white rounded-3xl p-5 shadow-sm border border-neutral-100">
-                    <h4 className="text-sm font-bold text-[#1d1d1f] mb-3">Tu próxima cita</h4>
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-full bg-neutral-200 overflow-hidden relative">
-                        <Image src="/images/hero-soulmar-cozy.jpg" alt="Dra" fill className="object-cover" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Terapia individual con</p>
-                        <p className="text-sm font-bold text-[#1d1d1f]">Dra. Mariana Caicedo</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <button className="flex-1 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs font-bold py-2 rounded-xl transition-colors">Ver chat</button>
-                      <button className="flex-1 bg-[#251e3e] text-white text-xs font-bold py-2 rounded-xl">Iniciar cita</button>
-                    </div>
-                  </div>
-                  
-                  {/* Bottom nav tabs */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white rounded-full p-2 flex justify-between px-6 shadow-md border border-neutral-100">
-                    <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-[#251e3e] font-bold text-xs">🏠</div>
-                    <div className="w-8 h-8 rounded-full bg-transparent flex items-center justify-center text-neutral-400 font-bold text-xs">📅</div>
-                    <div className="w-8 h-8 rounded-full bg-transparent flex items-center justify-center text-neutral-400 font-bold text-xs">👤</div>
-                  </div>
-                </div>
+              {/* Video Mockup Container */}
+              <div className="w-full h-full relative overflow-hidden bg-black">
+                <video 
+                  src="/videos/video-mockup.mp4" 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
             
