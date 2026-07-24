@@ -217,7 +217,7 @@ export function CinemaHero() {
               if (isTomorrow) {
                 dayPrefix = language === "es" ? "Mañana" : "Tomorrow"
               } else {
-                dayPrefix = format(dateToCheck, language === "es" ? "EEEE d 'de' MMMM" : "EEEE, MMMM d", { locale: language === "es" ? es : enUS })
+                dayPrefix = format(dateToCheck, language === "es" ? "EEE d MMM" : "EEE, MMM d", { locale: language === "es" ? es : enUS })
                 // Capitalize first letter of dayPrefix
                 dayPrefix = dayPrefix.charAt(0).toUpperCase() + dayPrefix.slice(1)
               }
@@ -268,7 +268,7 @@ export function CinemaHero() {
           <Calendar className="w-3 h-3 text-[#8da9c4]" />
           {language === "es" ? "Próxima sesión" : "Next session"}
         </span>
-        <p className="text-xl md:text-2xl font-black text-neutral-900 leading-tight tracking-tight">{displaySlot}</p>
+        <p className="text-[17px] font-black text-neutral-900 leading-tight tracking-tighter whitespace-nowrap">{displaySlot}</p>
       </div>
       <Link 
         href="/#agendamiento" 
