@@ -290,12 +290,12 @@ export function CinemaHero() {
         <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block font-sans">{language === "es" ? "Proceso sin prisa" : "Unhurried process"}</span>
         <p className="text-xs font-bold text-neutral-300 leading-tight">{language === "es" ? "Cada sesión avanza al ritmo que tú necesitas." : "Each session progresses at the pace you need."}</p>
       </div>
-      <div className="flex justify-start">
-        <div className="flex items-center gap-1 h-3.5">
+      <div className="flex justify-center w-full">
+        <div className="flex items-center gap-3">
           {[1, 2, 3, 4, 5].map((val) => (
             <motion.span
               key={val}
-              className="w-[2px] bg-[#8da9c4] rounded-full"
+              className="w-[6px] bg-[#8da9c4] rounded-full"
               animate={{
                 scaleY: [0.3, 1.2, 0.3],
                 backgroundColor: ["#8da9c4", "#c9cba3", "#8da9c4"]
@@ -305,7 +305,7 @@ export function CinemaHero() {
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              style={{ height: '14px', transformOrigin: 'center' }}
+              style={{ height: '42px', transformOrigin: 'center' }}
             />
           ))}
         </div>
