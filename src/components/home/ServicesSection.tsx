@@ -6,11 +6,9 @@ import { Section } from "@/components/layout/Section"
 import { useTranslation } from "@/context/LanguageContext"
 import { HighlightCarousel } from "./HighlightCarousel"
 
-const services = [
+const serviceConfigs = [
   {
     icon: Heart,
-    title: "Terapia Individual",
-    desc: "Un espacio de una hora, solo para ti, para hablar de lo que estás viviendo.",
     color: "#8da9c4",      // Azul Soulmar
     shadow: "shadow-[#8da9c4]/25",
     hover: "group-hover:shadow-[0_40px_80px_rgba(141,169,196,0.18)]",
@@ -18,8 +16,6 @@ const services = [
   },
   {
     icon: Users,
-    title: "Terapia de Pareja",
-    desc: "Un espacio compartido para reconectar, sanar y construir desde el diálogo.",
     color: "#ffc971",      // Amarillo Soulmar
     shadow: "shadow-[#ffc971]/25",
     hover: "group-hover:shadow-[0_40px_80px_rgba(255,201,113,0.18)]",
@@ -27,8 +23,6 @@ const services = [
   },
   {
     icon: Briefcase,
-    title: "Talento Humano",
-    desc: "Bienestar psicológico para equipos de trabajo, organizaciones y líderes.",
     color: "#c9cba3",      // Verde Soulmar
     shadow: "shadow-[#c9cba3]/25",
     hover: "group-hover:shadow-[0_40px_80px_rgba(201,203,163,0.18)]",
@@ -36,8 +30,6 @@ const services = [
   },
   {
     icon: ClipboardList,
-    title: "Tests de Personalidad",
-    desc: "Evaluaciones clínicas que te ayudan a conocerte mejor y a entender tus patrones.",
     color: "#1d1d1f",      // Negro
     shadow: "shadow-[#1d1d1f]/10",
     hover: "group-hover:shadow-[0_40px_80px_rgba(29,29,31,0.12)]",
@@ -45,8 +37,6 @@ const services = [
   },
   {
     icon: Brain,
-    title: "Terapia en Ansiedad",
-    desc: "Herramientas clínicas para comprender y gestionar la ansiedad desde adentro.",
     color: "#a78bfa",      // Lila
     shadow: "shadow-[#a78bfa]/25",
     hover: "group-hover:shadow-[0_40px_80px_rgba(167,139,250,0.18)]",
@@ -54,8 +44,6 @@ const services = [
   },
   {
     icon: CloudRain,
-    title: "Terapia en Depresión",
-    desc: "Acompañamiento clínico especializado para transitar la depresión con apoyo profesional.",
     color: "#8da9c4",      // Azul Soulmar
     shadow: "shadow-[#8da9c4]/25",
     hover: "group-hover:shadow-[0_40px_80px_rgba(141,169,196,0.18)]",
@@ -65,6 +53,7 @@ const services = [
 
 export function ServicesSection() {
   const { t } = useTranslation()
+  const items = t<Array<{ title: string; desc: string }>>('services.items', { returnObjects: true }) || []
 
   return (
     <Section className="bg-background dark:bg-[#0b0b0c] pt-20 md:pt-28 pb-16 md:pb-20 transition-colors duration-500 relative overflow-hidden">
@@ -85,11 +74,12 @@ export function ServicesSection() {
       {/* 3×2 Grid */}
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((svc) => {
-            const Icon = svc.icon
+          {serviceConfigs.map((cfg, index) => {
+            const Icon = cfg.icon
+            const item = items[index] || { title: "", desc: "" }
             return (
               <Link
-                key={svc.title}
+                key={index}
                 href="/#agendamiento"
                 className="group relative block"
                 onClick={(e) => {
@@ -100,35 +90,35 @@ export function ServicesSection() {
                 }}
               >
                 {/* Hover glow */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${svc.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${cfg.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
                 {/* Card body */}
-                <div className={`relative bg-white/50 dark:bg-white/[0.03] backdrop-blur-2xl rounded-[2rem] p-9 flex flex-col items-center text-center border border-white/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${svc.hover} transition-all duration-500 hover:-translate-y-1.5 cursor-pointer h-full`}>
+                <div className={`relative bg-white/50 dark:bg-white/[0.03] backdrop-blur-2xl rounded-[2rem] p-9 flex flex-col items-center text-center border border-white/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${cfg.hover} transition-all duration-500 hover:-translate-y-1.5 cursor-pointer h-full`}>
 
                   {/* Icon pill */}
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg ${svc.shadow} transform group-hover:rotate-6 transition-transform duration-500 ${svc.color === "#1d1d1f" ? "bg-[#1d1d1f] dark:bg-white" : ""}`}
-                    style={svc.color !== "#1d1d1f" ? { backgroundColor: svc.color } : undefined}
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg ${cfg.shadow} transform group-hover:rotate-6 transition-transform duration-500 ${cfg.color === "#1d1d1f" ? "bg-[#1d1d1f] dark:bg-white" : ""}`}
+                    style={cfg.color !== "#1d1d1f" ? { backgroundColor: cfg.color } : undefined}
                   >
                     <Icon
-                      className={`w-8 h-8 ${svc.color === "#1d1d1f" ? "text-white dark:text-[#1d1d1f]" : "text-white"}`}
+                      className={`w-8 h-8 ${cfg.color === "#1d1d1f" ? "text-white dark:text-[#1d1d1f]" : "text-white"}`}
                     />
                   </div>
 
                   {/* Title */}
                   <h3 className="text-lg font-bold mb-3 text-[#1d1d1f] dark:text-white leading-tight">
-                    {svc.title}
+                    {item.title}
                   </h3>
 
                   {/* Description */}
                   <p className="text-[#1d1d1f]/50 dark:text-white/40 text-base leading-snug mb-6 flex-1 font-medium">
-                    {svc.desc}
+                    {item.desc}
                   </p>
 
                   {/* CTA link */}
                   <div
-                    className={`text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all tracking-[0.05em] uppercase ${svc.color === "#1d1d1f" ? "text-[#1d1d1f] dark:text-white" : ""}`}
-                    style={svc.color !== "#1d1d1f" ? { color: svc.color } : undefined}
+                    className={`text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all tracking-[0.05em] uppercase ${cfg.color === "#1d1d1f" ? "text-[#1d1d1f] dark:text-white" : ""}`}
+                    style={cfg.color !== "#1d1d1f" ? { color: cfg.color } : undefined}
                   >
                     {t('common.details')} <ArrowRight className="w-4 h-4" />
                   </div>

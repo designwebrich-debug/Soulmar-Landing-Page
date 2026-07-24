@@ -56,15 +56,27 @@
     "items": [
       {
         "title": "Individual Therapy",
-        "desc": "A one-hour space, just for you, to talk about what you are going through."
+        "desc": "A one-hour space, just for you, to talk about what you are experiencing."
       },
       {
-        "title": "Soulmar Brand (Coming Soon)",
-        "desc": "Purposeful designs in every piece of our collection."
+        "title": "Couples Therapy",
+        "desc": "A shared space to reconnect, heal, and build through dialogue."
       },
       {
-        "title": "Soulmar Camp",
-        "desc": "Immersive experiences to disconnect and reconnect."
+        "title": "Human Talent",
+        "desc": "Psychological well-being for work teams, organizations, and leaders."
+      },
+      {
+        "title": "Personality Tests",
+        "desc": "Clinical evaluations to help you know yourself better and understand your patterns."
+      },
+      {
+        "title": "Anxiety Therapy",
+        "desc": "Clinical tools to understand and manage anxiety from within."
+      },
+      {
+        "title": "Depression Therapy",
+        "desc": "Specialized clinical support to navigate depression with professional guidance."
       }
     ]
   },

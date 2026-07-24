@@ -59,12 +59,24 @@
         "desc": "Un espacio de una hora, solo para ti, para hablar de lo que estás viviendo."
       },
       {
-        "title": "Soulmar Brand (Próximamente)",
-        "desc": "Diseños con propósito en cada pieza de nuestra colección"
+        "title": "Terapia de Pareja",
+        "desc": "Un espacio compartido para reconectar, sanar y construir desde el diálogo."
       },
       {
-        "title": "Soulmar Camp",
-        "desc": "Experiencias inmersivas para desconectar y reconectar."
+        "title": "Talento Humano",
+        "desc": "Bienestar psicológico para equipos de trabajo, organizaciones y líderes."
+      },
+      {
+        "title": "Tests de Personalidad",
+        "desc": "Evaluaciones clínicas que te ayudan a conocerte mejor y a entender tus patrones."
+      },
+      {
+        "title": "Terapia en Ansiedad",
+        "desc": "Herramientas clínicas para comprender y gestionar la ansiedad desde adentro."
+      },
+      {
+        "title": "Terapia en Depresión",
+        "desc": "Acompañamiento clínico especializado para transitar la depresión con apoyo profesional."
       }
     ]
   },
