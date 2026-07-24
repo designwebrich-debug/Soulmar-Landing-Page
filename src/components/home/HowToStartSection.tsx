@@ -11,9 +11,9 @@ export function HowToStartSection() {
   const title2 = isEn ? "FOLLOW THESE STEPS" : "SIGUE ESTOS PASOS"
 
   const steps = [
-    { num: isEn ? "STEP 1:" : "PASO 1:", text: isEn ? "Select the date." : "Seleciona el día." },
-    { num: isEn ? "STEP 2:" : "PASO 2:", text: isEn ? "Select the time." : "Seleciona la hora." },
-    { num: isEn ? "STEP 3:" : "PASO 3:", text: isEn ? "Select reason for consultation." : "Seleciona Motivo de consulta." },
+    { num: isEn ? "STEP 1:" : "PASO 1:", text: isEn ? "Select the date" : "Seleciona el día" },
+    { num: isEn ? "STEP 2:" : "PASO 2:", text: isEn ? "Select the time" : "Seleciona la hora" },
+    { num: isEn ? "STEP 3:" : "PASO 3:", text: isEn ? "Select reason for consultation" : "Seleciona Motivo de consulta" },
     { num: isEn ? "STEP 4:" : "PASO 4:", text: isEn ? "Enter your full name" : "Agrega tu nombre completo" },
     { num: isEn ? "STEP 5:" : "PASO 5:", text: isEn ? "Enter your phone number" : "Agrega tu número celular" },
     { num: isEn ? "STEP 6:" : "PASO 6:", text: isEn ? "Enter your email" : "Agrega tu correo" },
@@ -35,12 +35,12 @@ export function HowToStartSection() {
           className="w-full h-auto block"
         />
 
-        {/* Floating Text Overlay - Precisely aligned to laptop display height */}
-        <div className="absolute inset-0 flex items-center justify-start z-10 pointer-events-none px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32">
-          <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl space-y-2 sm:space-y-3 md:space-y-4 pointer-events-auto">
+        {/* Floating Text Overlay - Shifted slightly right towards the laptop */}
+        <div className="absolute inset-0 flex items-center justify-start z-10 pointer-events-none pl-10 sm:pl-16 md:pl-24 lg:pl-32 xl:pl-44 pr-6">
+          <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl pointer-events-auto">
             
-            {/* Titles with exact Laptop Display proportionality */}
-            <div className="space-y-0.5 sm:space-y-1">
+            {/* Titles with exact Laptop Display proportionality & 2pt bottom gap */}
+            <div className="space-y-0.5 sm:space-y-1 mb-3 sm:mb-4 md:mb-5">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[34px] xl:text-[40px] font-black tracking-tighter text-[#8da9c4] leading-none uppercase">
                 {title1}
               </h2>
@@ -49,7 +49,7 @@ export function HowToStartSection() {
               </h3>
             </div>
 
-            {/* Step Items - Fixed color in dark mode & Soulmar Yellow on hover */}
+            {/* Step Items - Clean without trailing periods */}
             <div className="space-y-1.5 sm:space-y-2 md:space-y-2.5">
               {steps.map((step, idx) => (
                 <div 
