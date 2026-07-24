@@ -5,8 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-// Currently 3 initial items uploaded by user. Can easily expand up to 6 items when user uploads the rest.
-const initialCards = [
+const cards = [
   {
     id: "card-1",
     src: "/images/slider/phone-card-1.png",
@@ -25,14 +24,30 @@ const initialCards = [
     title: "Encuentra tu propósito",
     alt: "Terapia individual e introspección en Soulmar",
   },
+  {
+    id: "card-4",
+    src: "/images/slider/phone-card-4.png",
+    title: "Vence la depresión",
+    alt: "Terapia para vencer la depresión en Soulmar",
+  },
+  {
+    id: "card-5",
+    src: "/images/slider/phone-card-5.png",
+    title: "Gobierna la ansiedad",
+    alt: "Terapia para gobernar la ansiedad en Soulmar",
+  },
+  {
+    id: "card-6",
+    src: "/images/slider/phone-card-6.png",
+    title: "Un espacio seguro",
+    alt: "Terapia individual un espacio seguro en Soulmar",
+  },
 ]
 
 export function PhoneMarqueeSlider() {
-  const [activeIndex, setActiveIndex] = useState(1) // Start with center card active
+  const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
 
-  // Duplicate list if fewer than 5 items to create rich 3D Coverflow depth
-  const cards = initialCards.length < 5 ? [...initialCards, ...initialCards] : initialCards
   const totalCards = cards.length
 
   const handleNext = useCallback(() => {
@@ -60,7 +75,7 @@ export function PhoneMarqueeSlider() {
   return (
     <div
       id="soulmar-brand"
-      className="w-full relative py-12 overflow-hidden scroll-mt-32 select-none"
+      className="w-full relative pt-16 sm:pt-24 pb-8 overflow-hidden scroll-mt-32 select-none bg-surface dark:bg-[#0b0b0c]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -71,7 +86,7 @@ export function PhoneMarqueeSlider() {
         <button
           onClick={handlePrev}
           aria-label="Anterior"
-          className="absolute left-2 sm:left-6 z-40 p-3 rounded-full bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
+          className="absolute left-2 sm:left-6 z-40 p-3 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
         >
           <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
         </button>
@@ -80,7 +95,7 @@ export function PhoneMarqueeSlider() {
         <button
           onClick={handleNext}
           aria-label="Siguiente"
-          className="absolute right-2 sm:right-6 z-40 p-3 rounded-full bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
+          className="absolute right-2 sm:right-6 z-40 p-3 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
         >
           <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
         </button>
@@ -119,19 +134,19 @@ export function PhoneMarqueeSlider() {
             } else if (isLeft) {
               transformStyle = "translateX(-65%) scale(0.85) rotateY(22deg)"
               zIndex = 20
-              opacity = 0.8
+              opacity = 0.85
             } else if (isRight) {
               transformStyle = "translateX(65%) scale(0.85) rotateY(-22deg)"
               zIndex = 20
-              opacity = 0.8
+              opacity = 0.85
             } else if (isFarLeft) {
               transformStyle = "translateX(-115%) scale(0.7) rotateY(32deg)"
               zIndex = 10
-              opacity = 0.4
+              opacity = 0.45
             } else if (isFarRight) {
               transformStyle = "translateX(115%) scale(0.7) rotateY(-32deg)"
               zIndex = 10
-              opacity = 0.4
+              opacity = 0.45
             }
 
             return (
@@ -143,7 +158,7 @@ export function PhoneMarqueeSlider() {
                   }
                 }}
                 className={`absolute transition-all duration-700 ease-out cursor-pointer transform-gpu ${
-                  isCenter ? "pointer-events-auto" : "hover:opacity-90"
+                  isCenter ? "pointer-events-auto" : "hover:opacity-95"
                 }`}
                 style={{
                   transform: transformStyle,
@@ -155,7 +170,7 @@ export function PhoneMarqueeSlider() {
                 <Link
                   href="/#agendamiento"
                   onClick={handleScrollToBooking}
-                  className="block relative group/card"
+                  className="block relative group/card p-0 m-0"
                 >
                   <Image
                     src={card.src}
@@ -164,11 +179,7 @@ export function PhoneMarqueeSlider() {
                     height={1024}
                     quality={100}
                     unoptimized={true}
-                    className={`w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 ${
-                      isCenter
-                        ? "drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
-                        : "drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]"
-                    }`}
+                    className="w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
                     priority={isCenter}
                   />
                 </Link>
@@ -178,10 +189,10 @@ export function PhoneMarqueeSlider() {
         </div>
       </div>
 
-      {/* Pagination Dots */}
-      <div className="flex items-center justify-center gap-2 mt-8 z-30 relative">
-        {initialCards.map((_, idx) => {
-          const isActive = activeIndex % initialCards.length === idx
+      {/* Pagination Dots (Seamless on surface background) */}
+      <div className="flex items-center justify-center gap-2.5 mt-6 z-30 relative">
+        {cards.map((_, idx) => {
+          const isActive = activeIndex === idx
           return (
             <button
               key={idx}
