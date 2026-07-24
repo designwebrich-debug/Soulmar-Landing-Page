@@ -61,13 +61,35 @@ export function CinemaHero() {
   const activeSlide = slides[currentSlide]
 
   React.useEffect(() => {
-    // 1. Fetch settings and appointments in parallel
+    // 1. Fetch settings and appointments safely
+    const safeFetch = async (url: string) => {
+      try {
+        const res = await fetch(url)
+        return await res.json()
+      } catch (e) {
+        return {}
+      }
+    }
+    
     Promise.all([
-      fetch("/api/settings").then(res => res.json()),
-      fetch("/api/appointments").then(res => res.json())
+      safeFetch("/api/settings"),
+      safeFetch("/api/appointments")
     ]).then(([settingsData, appointmentsData]) => {
       const settings = settingsData.settings || {}
-      const schedules = settings.schedules || {}
+      let schedules = settings.schedules || {}
+      
+      // Fallback si no hay horarios configurados en BD
+      if (Object.keys(schedules).length === 0) {
+        schedules = {
+          Lunes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+          Martes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+          Miércoles: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+          Jueves: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+          Viernes: { enabled: true, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+          Sábado: { enabled: false, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+          Domingo: { enabled: false, start: "07:00", end: "11:00", startPM: "14:00", endPM: "19:00" },
+        }
+      }
       const slotDuration = settings.slot_duration || "1 hora 20 min"
       const holidays = settings.holidays || []
       const appointments = appointmentsData.appointments || []
@@ -226,7 +248,10 @@ export function CinemaHero() {
     // CARD 1: Perfil de la Dra.
     <div key="c1" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest block">{language === "es" ? "Tu psicóloga" : "Your psychologist"}</span>
+        <span className="text-[8px] font-black text-neutral-400 uppercase tracking-widest flex items-center gap-1">
+          <ShieldCheck className="w-3 h-3 text-neutral-400" />
+          {language === "es" ? "Tu psicóloga" : "Your psychologist"}
+        </span>
         <h4 className="text-sm font-black text-neutral-900 leading-tight">Dra. Mariana Caicedo</h4>
         <p className="text-[10px] text-[#8da9c4] font-bold uppercase tracking-wider">{language === "es" ? "Psicóloga Clínica • Terapia Online" : "Clinical Psychologist • Online Therapy"}</p>
       </div>
@@ -239,8 +264,11 @@ export function CinemaHero() {
     // CARD 2: Disponibilidad y Botón Verde Soulmar
     <div key="c2" className="w-[250px] h-[155px] bg-white border border-neutral-200/60 rounded-3xl p-5 shadow-sm flex flex-col justify-between hover:border-neutral-300/80 transition-all select-none">
       <div className="space-y-1">
-        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest block">{language === "es" ? "Próxima sesión" : "Next session"}</span>
-        <p className="text-xs font-black text-neutral-900 leading-tight">{displaySlot}</p>
+        <span className="text-[8px] font-black text-[#8da9c4] uppercase tracking-widest flex items-center gap-1">
+          <Calendar className="w-3 h-3 text-[#8da9c4]" />
+          {language === "es" ? "Próxima sesión" : "Next session"}
+        </span>
+        <p className="text-xl md:text-2xl font-black text-neutral-900 leading-tight tracking-tight">{displaySlot}</p>
       </div>
       <Link 
         href="/#agendamiento" 
