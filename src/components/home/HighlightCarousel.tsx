@@ -60,8 +60,8 @@ export function HighlightCarousel() {
     <div className="relative w-full">
       <div 
         className={cn(
-          "relative w-full overflow-hidden rounded-[3rem] group border border-black/5 dark:border-white/5",
-          "h-[160px] md:h-auto md:aspect-[1280/285]",
+          "relative w-full overflow-hidden rounded-3xl md:rounded-[3rem] group border border-black/5 dark:border-white/5",
+          "aspect-[1928/625]",
           "shadow-[0_8px_40px_rgba(0,0,0,0.12)]"
         )}
       >
