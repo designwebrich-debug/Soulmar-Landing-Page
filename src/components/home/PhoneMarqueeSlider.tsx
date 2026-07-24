@@ -75,12 +75,12 @@ export function PhoneMarqueeSlider() {
   return (
     <div
       id="soulmar-brand"
-      className="w-full relative pt-16 sm:pt-24 pb-8 overflow-hidden scroll-mt-32 select-none bg-surface dark:bg-[#0b0b0c]"
+      className="w-full relative pt-32 sm:pt-40 lg:pt-48 pb-12 overflow-hidden scroll-mt-32 select-none bg-white dark:bg-[#0b0b0c]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* 3D Coverflow Stage Container */}
-      <div className="max-w-6xl mx-auto px-4 relative flex items-center justify-center min-h-[460px] sm:min-h-[580px] lg:min-h-[640px]">
+      <div className="max-w-6xl mx-auto px-4 relative flex items-center justify-center min-h-[520px] sm:min-h-[680px] lg:min-h-[750px]">
         
         {/* Previous Button */}
         <button
@@ -189,8 +189,8 @@ export function PhoneMarqueeSlider() {
         </div>
       </div>
 
-      {/* Pagination Dots (Seamless on surface background) */}
-      <div className="flex items-center justify-center gap-2.5 mt-6 z-30 relative">
+      {/* Pagination Dots (Seamless on pure white background) */}
+      <div className="flex items-center justify-center gap-2.5 mt-12 sm:mt-16 z-30 relative">
         {cards.map((_, idx) => {
           const isActive = activeIndex === idx
           return (
