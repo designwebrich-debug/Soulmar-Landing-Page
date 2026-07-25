@@ -46,7 +46,7 @@ interface Appointment {
   therapist_id: string
   appointment_date: string
   appointment_time: string
-  status: "pending" | "confirmed" | "cancelled"
+  status: "pending" | "confirmed" | "cancelled" | "no_show"
   meeting_link?: string
   reason?: string
   created_at: string
@@ -396,9 +396,9 @@ export default function AdminPage() {
   const [rescheduleDate, setRescheduleDate] = useState("")
   const [rescheduleTime, setRescheduleTime] = useState("")
   
-  // Estado para confirmación de cierre de sesión y cancelación
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [cancelingAppId, setCancelingAppId] = useState<string | null>(null)
+  const [noShowAppId, setNoShowAppId] = useState<string | null>(null)
 
   useEffect(() => {
     if (reschedulingApp) {
@@ -644,6 +644,43 @@ export default function AdminPage() {
     } catch (err: any) {
       console.error("Error al cancelar cita:", err)
       alert("Error al cancelar cita: " + (err.message || err))
+      fetchAppointments()
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
+  // Marcar como No Asistió
+  const handleNoShow = async (id: string) => {
+    try {
+      setUpdatingId(id)
+
+      // Actualización optimista del UI
+      setAppointments(prev => 
+        prev.map(app => app.id === id ? { ...app, status: "no_show" } : app)
+      )
+
+      const res = await fetch("/api/appointments", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "no_show" }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        if (data.success && data.appointment) {
+          setAppointments(prev => 
+            prev.map(app => app.id === id ? data.appointment : app)
+          )
+        } else {
+          throw new Error(data.error || "Respuesta del servidor inválida")
+        }
+      } else {
+        const errText = await res.text()
+        throw new Error(errText)
+      }
+    } catch (err: any) {
+      console.error("Error al marcar como no asistió:", err)
+      alert("Error al marcar como no asistió: " + (err.message || err))
       fetchAppointments()
     } finally {
       setUpdatingId(null)
@@ -2077,14 +2114,17 @@ export default function AdminPage() {
                               </div>
 
                               <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-                                {/* Mostrar la etiqueta de estado únicamente si es Pendiente o Cancelada */}
+                                {/* Mostrar la etiqueta de estado únicamente si es Pendiente, Cancelada o No Asistió */}
                                 {app.status !== "confirmed" && (
                                   <span className={`h-8 px-4 inline-flex items-center justify-center rounded-full text-[9px] font-bold uppercase tracking-wider ${
                                     app.status === "cancelled"
                                       ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
+                                      : app.status === "no_show"
+                                      ? "bg-neutral-500/10 text-neutral-600 border border-neutral-500/20"
                                       : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
                                   }`}>
                                     {app.status === "cancelled" && "Cancelada"}
+                                    {app.status === "no_show" && "No Asistió"}
                                     {app.status === "pending" && "Pendiente"}
                                   </span>
                                 )}
@@ -2112,6 +2152,16 @@ export default function AdminPage() {
                                         className="h-8 px-4 rounded-full bg-[#8da9c4]/12 border border-[#8da9c4]/30 text-[#4c6885] hover:bg-[#8da9c4]/22 font-extrabold text-[9px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center"
                                       >
                                         Reprogramar
+                                      </button>
+                                    )}
+
+                                    {/* Botón de No Asistió - Solo si está confirmada */}
+                                    {app.status === "confirmed" && (
+                                      <button
+                                        onClick={() => setNoShowAppId(app.id)}
+                                        className="h-8 px-4 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-600 hover:bg-neutral-200 font-extrabold text-[9px] uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center"
+                                      >
+                                        No Asistió
                                       </button>
                                     )}
 
@@ -2802,6 +2852,43 @@ export default function AdminPage() {
                 className="w-full h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center"
               >
                 No, mantener
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIRMACIÓN DE NO ASISTIÓ */}
+      {noShowAppId && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
+          <div 
+            className="fixed inset-0" 
+            onClick={() => setNoShowAppId(null)}
+          />
+          
+          <div className="bg-white rounded-[32px] border border-neutral-200 shadow-2xl w-full max-w-sm overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200 p-8 md:p-10 space-y-6">
+            <div className="space-y-2 text-center">
+              <h4 className="text-sm font-black text-black uppercase tracking-widest">Paciente No Asistió</h4>
+              <p className="text-xs text-neutral-400 font-semibold leading-relaxed">
+                ¿Confirmas que el paciente no se presentó a la sesión? Esto marcará la cita como "No Asistió".
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={() => {
+                  handleNoShow(noShowAppId)
+                  setNoShowAppId(null)
+                }}
+                className="w-full h-11 rounded-full bg-neutral-800 hover:bg-black text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg active:scale-97 cursor-pointer flex items-center justify-center"
+              >
+                Sí, marcar falta
+              </button>
+              <button
+                onClick={() => setNoShowAppId(null)}
+                className="w-full h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center"
+              >
+                Cancelar
               </button>
             </div>
           </div>
