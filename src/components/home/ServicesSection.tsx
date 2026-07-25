@@ -127,8 +127,10 @@ export function ServicesSection() {
             )
           })}
         </div>
+      </div>
+
       {/* Highlight Carousel */}
-      <div className="relative z-10 w-full mt-24">
+      <div className="max-w-5xl mx-auto px-6 pt-16 relative z-10">
         <HighlightCarousel />
       </div>
     </Section>
