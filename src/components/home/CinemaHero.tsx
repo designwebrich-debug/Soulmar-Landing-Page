@@ -360,6 +360,7 @@ export function CinemaHero() {
               className="object-cover"
               priority
               quality={100}
+              unoptimized={true}
             />
             {/* Dynamic slide-specific gradient overlay */}
             {activeSlide.gradient && (
