@@ -117,6 +117,8 @@ function EbookCard({ ebook, t }: {
           src={ebook.image}
           alt={ebookData.title as string}
           fill
+          quality={100}
+          unoptimized={true}
           className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-700 ease-out"
           sizes="(max-width: 768px) 100vw, 350px"
         />

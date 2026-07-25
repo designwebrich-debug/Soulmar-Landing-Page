@@ -70,6 +70,8 @@ export function Navbar() {
                 src="/logo-horizontal.png" 
                 alt="Soulmar" 
                 fill
+                quality={100}
+                unoptimized={true}
                 className="object-contain"
                 priority
                 sizes="160px"

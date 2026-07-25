@@ -823,6 +823,8 @@ export function AgendamientoSection() {
                                     src="/images/therapists/mariana.png" 
                                     alt="Dra. Mariana Caicedo" 
                                     fill
+                                    quality={100}
+                                    unoptimized={true}
                                     sizes="48px"
                                     className="object-cover"
                                   />
