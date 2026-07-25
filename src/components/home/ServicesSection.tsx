@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowRight, Heart, Users, Briefcase, ClipboardList, Brain, CloudRain } from "lucide-react"
 import { Section } from "@/components/layout/Section"
+import { HighlightCarousel } from "./HighlightCarousel"
 import { useTranslation } from "@/context/LanguageContext"
 
 const serviceConfigs = [
@@ -126,6 +127,9 @@ export function ServicesSection() {
             )
           })}
         </div>
+      {/* Highlight Carousel */}
+      <div className="relative z-10 w-full mt-24">
+        <HighlightCarousel />
       </div>
     </Section>
   )
