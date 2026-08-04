@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { createHmac } from "crypto"
 
 const ADMIN_WHITELIST = ["designwebrich@gmail.com", "soulmar.org@gmail.com"]
-const MASTER_PASSWORD = process.env.ADMIN_MASTER_PASSWORD || "soulmar123"
-const SECRET = process.env.NEXTAUTH_SECRET || "soulmar-secreto-super-secreto-2026-xyz-admin-jwt"
+const MASTER_PASSWORD = process.env.ADMIN_MASTER_PASSWORD || "ryhkiX-tokro4-tugtef"
+const SECRET = process.env.NEXTAUTH_SECRET || "soulmar-sec-token-2026-ryhkiX-tokro4-tugtef"
 const COOKIE_NAME = "soulmar_admin_session"
 const COOKIE_MAX_AGE = 60 * 60 * 8 // 8 horas
 
