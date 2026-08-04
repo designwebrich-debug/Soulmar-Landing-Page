@@ -1,9 +1,30 @@
 import { NextResponse } from "next/server"
+import { cookies } from "next/headers"
+import { verifyToken } from "../admin-auth/route"
 import { createAdminClient } from "@/lib/supabase/server"
 import { createCalendarEvent } from "@/lib/googleCalendar"
 
+function isAuthorized(email?: string | null): boolean {
+  if (!email) return false
+  const whitelistEnv = process.env.ADMIN_WHITELIST 
+    ? process.env.ADMIN_WHITELIST.split(",") 
+    : []
+  const whitelist = whitelistEnv.length > 0 
+    ? whitelistEnv.map(e => e.trim().toLowerCase())
+    : ["soulmar.org@gmail.com", "designwebrich@gmail.com"]
+  return whitelist.includes(email.trim().toLowerCase())
+}
+
 export async function GET() {
   try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get("soulmar_admin_session")?.value
+    const email = token ? verifyToken(token) : null
+
+    if (!email || !isAuthorized(email)) {
+      return new NextResponse("Unauthorized Access Blocked", { status: 401 })
+    }
+
     const supabase = await createAdminClient()
     
     // 1. Obtener la primera cita pendiente

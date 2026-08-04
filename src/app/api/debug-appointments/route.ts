@@ -1,8 +1,29 @@
 import { NextResponse } from "next/server"
+import { cookies } from "next/headers"
+import { verifyToken } from "../admin-auth/route"
 import { createAdminClient } from "@/lib/supabase/server"
+
+function isAuthorized(email?: string | null): boolean {
+  if (!email) return false
+  const whitelistEnv = process.env.ADMIN_WHITELIST 
+    ? process.env.ADMIN_WHITELIST.split(",") 
+    : []
+  const whitelist = whitelistEnv.length > 0 
+    ? whitelistEnv.map(e => e.trim().toLowerCase())
+    : ["soulmar.org@gmail.com", "designwebrich@gmail.com"]
+  return whitelist.includes(email.trim().toLowerCase())
+}
 
 export async function GET(request: Request) {
   try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get("soulmar_admin_session")?.value
+    const email = token ? verifyToken(token) : null
+
+    if (!email || !isAuthorized(email)) {
+      return new NextResponse("Unauthorized Access Blocked", { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const id = searchParams.get("id")
     const action = searchParams.get("action") // "list" | "confirm"
