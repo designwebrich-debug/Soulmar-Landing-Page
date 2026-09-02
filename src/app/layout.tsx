@@ -30,7 +30,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://soulmar.org"),
+  metadataBase: new URL("https://www.soulmar.org"),
   title: {
     default: "Soulmar | Psicología y Bienestar",
     template: "%s | Soulmar"
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Soulmar | Psicología y Bienestar",
     description: "Plataforma de bienestar mental inspirada en la calma y el equilibrio.",
-    url: "https://soulmar.org",
+    url: "https://www.soulmar.org",
     siteName: "Soulmar",
     locale: "es_CO",
     type: "website",

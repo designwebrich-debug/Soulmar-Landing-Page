@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/'],
     },
-    sitemap: 'https://soulmar.org/sitemap.xml',
+    sitemap: 'https://www.soulmar.org/sitemap.xml',
   }
 }
