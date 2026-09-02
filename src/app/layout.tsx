@@ -30,8 +30,23 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Soulmar | Psicología y Bienestar",
+  metadataBase: new URL("https://soulmar.org"),
+  title: {
+    default: "Soulmar | Psicología y Bienestar",
+    template: "%s | Soulmar"
+  },
   description: "Plataforma de bienestar mental inspirada en la calma y el equilibrio.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Soulmar | Psicología y Bienestar",
+    description: "Plataforma de bienestar mental inspirada en la calma y el equilibrio.",
+    url: "https://soulmar.org",
+    siteName: "Soulmar",
+    locale: "es_CO",
+    type: "website",
+  },
 }
 
 export default function RootLayout({
