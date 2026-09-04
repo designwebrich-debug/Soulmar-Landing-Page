@@ -80,20 +80,23 @@ export function HighlightCarousel() {
             className="absolute inset-0"
           >
             <div className="block w-full h-full pointer-events-none select-none">
-              <Image 
+              <img 
                 src={slides[currentIndex].image} 
                 alt={`Slide ${currentIndex + 1}`}
-                fill
-                className="object-cover pointer-events-none"
-                priority
-                quality={100}
-                unoptimized={true}
-                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="w-full h-full object-cover pointer-events-none"
+                loading="eager"
                 draggable={false}
               />
             </div>
           </motion.div>
         </AnimatePresence>
+
+        {/* Preload all slides in hidden container for zero-delay display */}
+        <div className="hidden" aria-hidden="true">
+          {slides.map((s) => (
+            <img key={s.id} src={s.image} alt="" />
+          ))}
+        </div>
 
         {/* Navigation Arrows (Apple Style) */}
         <div className="absolute inset-0 flex items-center justify-between px-4 md:px-8 z-10 pointer-events-none">
