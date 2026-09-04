@@ -13,9 +13,9 @@ interface Slide {
 }
 
 const slides: Slide[] = [
-  { id: 1, image: "/images/highlights/soulmar-brand.png" },
-  { id: 2, image: "/images/highlights/soulmar-terapeutas.png" },
-  { id: 3, image: "/images/highlights/soulmar-academy.png" },
+  { id: 1, image: "/images/highlights/SLIDER01.png" },
+  { id: 2, image: "/images/highlights/SLIDER02.png" },
+  { id: 3, image: "/images/highlights/SLIDER03.png" },
 ]
 
 export function HighlightCarousel() {
