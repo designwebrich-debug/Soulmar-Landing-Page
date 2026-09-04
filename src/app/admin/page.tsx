@@ -1162,7 +1162,7 @@ export default function AdminPage() {
       const res = await fetch("/api/admin-auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: emailInput, password: passwordInput }),
+        body: JSON.stringify({ email: emailInput.trim(), password: passwordInput.trim() }),
       })
       const data = await res.json()
       if (res.ok && data.ok) {

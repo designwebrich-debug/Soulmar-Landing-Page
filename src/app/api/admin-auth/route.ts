@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createHmac } from "crypto"
 
-const ADMIN_WHITELIST = ["designwebrich@gmail.com", "soulmar.org@gmail.com"]
+const DEFAULT_ADMINS = ["designwebrich@gmail.com", "soulmar.org@gmail.com"]
+const envAdmins = process.env.ADMIN_WHITELIST 
+  ? process.env.ADMIN_WHITELIST.split(",").map(e => e.trim().toLowerCase()) 
+  : []
+const ADMIN_WHITELIST = Array.from(new Set([...DEFAULT_ADMINS, ...envAdmins]))
 const MASTER_PASSWORD = process.env.ADMIN_MASTER_PASSWORD && process.env.ADMIN_MASTER_PASSWORD !== "soulmar123" 
   ? process.env.ADMIN_MASTER_PASSWORD 
   : "ryhkiX-tokro4-tugtef"

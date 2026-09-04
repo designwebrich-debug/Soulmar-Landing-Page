@@ -7,12 +7,11 @@ import { createCalendarEvent } from "@/lib/googleCalendar"
 // Helper para validar si el correo pertenece a la lista blanca
 function isAuthorized(email?: string | null): boolean {
   if (!email) return false
-  const whitelistEnv = process.env.ADMIN_WHITELIST 
-    ? process.env.ADMIN_WHITELIST.split(",") 
+  const defaultWhitelist = ["designwebrich@gmail.com", "soulmar.org@gmail.com"]
+  const envWhitelist = process.env.ADMIN_WHITELIST 
+    ? process.env.ADMIN_WHITELIST.split(",").map(e => e.trim().toLowerCase()) 
     : []
-  const whitelist = whitelistEnv.length > 0 
-    ? whitelistEnv.map(e => e.trim().toLowerCase())
-    : ["soulmar.org@gmail.com", "designwebrich@gmail.com"]
+  const whitelist = Array.from(new Set([...defaultWhitelist, ...envWhitelist]))
   return whitelist.includes(email.trim().toLowerCase())
 }
 
