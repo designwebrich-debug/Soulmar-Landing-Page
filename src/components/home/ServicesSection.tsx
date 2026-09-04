@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Heart, Users, Briefcase, ClipboardList, Brain, CloudRain } from "lucide-react"
+import { ArrowRight, Heart, Users, Sparkles, ClipboardList, Brain, CloudRain } from "lucide-react"
 import { Section } from "@/components/layout/Section"
 import { HighlightCarousel } from "./HighlightCarousel"
 import { useTranslation } from "@/context/LanguageContext"
@@ -22,7 +22,7 @@ const serviceConfigs = [
     glow: "from-[#ffc971]/20",
   },
   {
-    icon: Briefcase,
+    icon: Sparkles,
     color: "#c9cba3",      // Verde Soulmar
     shadow: "shadow-[#c9cba3]/25",
     hover: "group-hover:shadow-[0_40px_80px_rgba(201,203,163,0.18)]",
