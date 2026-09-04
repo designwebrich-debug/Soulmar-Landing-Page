@@ -6,7 +6,7 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_SECRET,
   process.env.NEXTAUTH_URL 
     ? `${process.env.NEXTAUTH_URL}/api/auth/callback/google`
-    : "https://soulmar-landing-page.vercel.app/api/auth/callback/google"
+    : "https://www.soulmar.org/api/auth/callback/google"
 )
 
 // Configurar el refresh token para permitir la renovación automática del access token
