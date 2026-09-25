@@ -27,8 +27,8 @@ const cards = [
   {
     id: "card-4",
     src: "/images/slider/phone-card-4.png",
-    title: "Vence la depresión",
-    alt: "Terapia para vencer la depresión en Soulmar",
+    title: "Transita la depresión",
+    alt: "Terapia para transitar la depresión en Soulmar",
   },
   {
     id: "card-5",
