@@ -132,8 +132,8 @@ export const COURSE_DATA = [
   { id: "course20", category: "growth", image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800", rating: 5.0, duration: "5h 45m", price: 140000, instructor: "Dra. Mariana Caicedo", episodes: 7 }
 ];
 
-export const WHATSAPP_PHONE = "+57 302 459 4428";
-export const WHATSAPP_ID = "573024594428";
+export const WHATSAPP_PHONE = "+57 301 3035158";
+export const WHATSAPP_ID = "573013035158";
 export const WHATSAPP_DEFAULT_MESSAGE = "Hola 🌿✨ estoy dando este paso porque quiero empezar a sentirme mejor conmigo 💛 Me encantaría que me orientaran un poco sobre cómo Soulmar puede acompañarme en este proceso 💙";
 export const WHATSAPP_LINK = `https://api.whatsapp.com/send?phone=${WHATSAPP_ID}&text=${encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE)}`;
 
