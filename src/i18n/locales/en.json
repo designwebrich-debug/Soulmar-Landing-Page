@@ -98,16 +98,19 @@
     "testimonials_subtitle": "Real stories of transformation and growth.",
     "testimonials": [
       {
-        "text": "I arrived at Soulmar not knowing what to expect. Today, months later, I feel I have real tools to manage my anxiety and a different relationship with my thoughts.",
-        "author": "Mariana L., patient since 2024"
+        "text": "I came to Soulmar not quite knowing what to expect. Today, months later, I feel I have acquired real tools to manage my anxiety and have built a much healthier relationship with my own thoughts.",
+        "author": "Mariana L., patient since 2024",
+        "image": "5"
       },
       {
-        "text": "The online sessions with Dr. Mariana have given me a safe, judgment-free space to talk about my work overload. Her practical approach is just what I needed.",
-        "author": "Mateo G., patient since 2024"
+        "text": "The online sessions with Dr. Mariana have provided me with a safe, judgment-free space to address my work burnout. Her practical approach has been exactly what I needed.",
+        "author": "Mateo G., patient since 2024",
+        "image": "11"
       },
       {
-        "text": "Learning to set boundaries and process my grief at my own pace has been key. Feeling supported in such a warm way made all the difference in my process.",
-        "author": "Sofía R., patient since 2024"
+        "text": "Learning to set healthy boundaries and process my grief at my own pace has been fundamental. Feeling accompanied in such a warm and empathetic way marked a turning point in my healing process.",
+        "author": "Sofía R., patient since 2024",
+        "image": "9"
       }
     ],
     "verified_user": "Verified User",

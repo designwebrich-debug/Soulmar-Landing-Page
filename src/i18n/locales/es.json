@@ -98,16 +98,19 @@
     "testimonials_subtitle": "Historias reales de transformación y crecimiento.",
     "testimonials": [
       {
-        "text": "Llegué a Soulmar sin saber muy bien qué esperar. Hoy, meses después, siento que tengo herramientas reales para manejar mi ansiedad y una relación distinta con mis pensamientos.",
-        "author": "Mariana L., paciente desde 2024"
+        "text": "Llegué a Soulmar sin saber muy bien qué esperar. Hoy, meses después, siento que he adquirido herramientas reales para gestionar mi ansiedad y he construido una relación más sana con mis propios pensamientos.",
+        "author": "Mariana L., paciente desde 2024",
+        "image": "5"
       },
       {
-        "text": "Las sesiones online con la Dra. Mariana me han dado un espacio seguro y sin juicios para hablar de mi sobrecarga laboral. Su enfoque práctico es justo lo que necesitaba.",
-        "author": "Mateo G., paciente desde 2024"
+        "text": "Las sesiones en línea con la Dra. Mariana me han brindado un espacio seguro y libre de juicios para abordar mi sobrecarga laboral. Su enfoque práctico ha sido exactamente lo que necesitaba.",
+        "author": "Mateo G., paciente desde 2024",
+        "image": "11"
       },
       {
-        "text": "Aprender a poner límites y procesar mi duelo a mi propio ritmo ha sido clave. Sentirme acompañada de forma tan cálida marcó la diferencia en mi proceso.",
-        "author": "Sofía R., paciente desde 2024"
+        "text": "Aprender a establecer límites sanos y a procesar mi duelo a mi propio ritmo ha sido fundamental. Sentirme acompañada de una forma tan cálida y empática marcó un antes y un después en mi proceso de sanación.",
+        "author": "Sofía R., paciente desde 2024",
+        "image": "9"
       }
     ],
     "verified_user": "Usuario Verificado",

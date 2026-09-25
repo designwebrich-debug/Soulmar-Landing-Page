@@ -141,10 +141,6 @@ function EbookCard({ ebook, t }: {
         <p className="text-[#1d1d1f]/60 text-xs mt-2 leading-relaxed">
           {ebookData.description as string}
         </p>
-        <div className="flex items-center gap-1.5 mt-3 text-[10px] font-bold uppercase tracking-[0.05em] text-[#1d1d1f]/40">
-          <Download className="w-3 h-3" strokeWidth={3} />
-          <span>{ebook.downloads} {t('common.downloads') as string}</span>
-        </div>
       </div>
 
       {/* Bottom Bar: Action Button */}

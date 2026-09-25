@@ -19,7 +19,7 @@ export function TestimonialsSection() {
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {(() => {
-            const safeList = t<Array<{ author: string; text: string }>>('home.testimonials', { returnObjects: true }) || [];
+            const safeList = t<Array<{ author: string; text: string; image: string }>>('home.testimonials', { returnObjects: true }) || [];
             return Array.isArray(safeList) ? safeList.map((testimonial, i) => (
               <div key={i} className="bg-white/40 dark:bg-white/[0.02] backdrop-blur-xl rounded-[2.5rem] p-12 flex flex-col items-start border border-white/40 dark:border-white/10 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group">
                 <div className="flex gap-1 mb-8">
@@ -31,7 +31,7 @@ export function TestimonialsSection() {
                 <div className="flex items-center gap-4 mt-auto">
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-[#8da9c4]/20 border border-white/20">
                         <Image 
-                          src={`https://i.pravatar.cc/150?u=${testimonial.author}`} 
+                          src={`https://i.pravatar.cc/150?img=${testimonial.image}`} 
                           alt={testimonial.author}
                           width={48}
                           height={48}
