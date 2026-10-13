@@ -567,24 +567,26 @@ export function CinemaHero() {
         </div>
 
         {/* BOTONES DEBAJO DEL BANNER: ANSIEDAD, DEPRESIÓN, EMOCIONES (CRISTAL LÍQUIDO) */}
-        <div className="grid grid-cols-3 gap-2 w-full pt-1">
-          {threeTopicButtons.map((btn) => {
-            const Icon = btn.icon
-            return (
-              <Link
-                key={btn.id}
-                href={btn.href}
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.getElementById("servicios")?.scrollIntoView({ behavior: "smooth" })
-                }}
-                className="liquid-glass rounded-full py-2.5 px-1.5 flex items-center justify-center gap-1.5 text-[12px] font-bold text-neutral-800 dark:text-white shadow-sm active:scale-95 transition-transform cursor-pointer select-none text-center"
-              >
-                <Icon className="w-3.5 h-3.5 shrink-0 stroke-[2.4]" style={{ color: btn.color }} />
-                <span className="truncate">{btn.label}</span>
-              </Link>
-            )
-          })}
+        <div className="w-full mt-6 mb-7 pt-1">
+          <div className="grid grid-cols-3 gap-2.5 w-full">
+            {threeTopicButtons.map((btn) => {
+              const Icon = btn.icon
+              return (
+                <Link
+                  key={btn.id}
+                  href={btn.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    document.getElementById("servicios")?.scrollIntoView({ behavior: "smooth" })
+                  }}
+                  className="liquid-glass rounded-full py-3 px-2 flex items-center justify-center gap-1.5 text-[12.5px] font-bold text-neutral-800 dark:text-white shadow-md active:scale-95 transition-transform cursor-pointer select-none text-center min-h-[46px]"
+                >
+                  <Icon className="w-[15px] h-[15px] shrink-0 stroke-[2.4]" style={{ color: btn.color }} />
+                  <span className="truncate">{btn.label}</span>
+                </Link>
+              )
+            })}
+          </div>
         </div>
 
         {/* MÓDULOS QUE LE SIGUEN: GRID 2 COLUMNAS DE CAJAS REDONDEADAS */}
