@@ -215,4 +215,105 @@
       display: block !important;
     }
   }
+
+  /* ============================================================
+     LIQUID GLASS (iOS 26 style) — transparent material.
+     Low blur so the content underneath stays visible, a bright
+     chrome rim, and inner light refraction along the edges.
+     ============================================================ */
+  .liquid-glass {
+    position: relative;
+    isolation: isolate;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.14) 100%);
+    -webkit-backdrop-filter: blur(6px) saturate(185%) brightness(1.06);
+    backdrop-filter: blur(6px) saturate(185%) brightness(1.06);
+    box-shadow:
+      /* outer depth */
+      0 10px 30px -10px rgba(0, 0, 0, 0.28),
+      0 2px 6px rgba(0, 0, 0, 0.08),
+      /* top specular edge */
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+      /* bottom refracted edge */
+      inset 0 -1px 0 rgba(255, 255, 255, 0.55),
+      /* inner lens glow (thickness of the glass) */
+      inset 0 0 14px rgba(255, 255, 255, 0.28),
+      inset 0 -8px 16px -8px rgba(255, 255, 255, 0.35);
+  }
+  /* Chrome gradient rim (bright top-left & bottom-right like real glass) */
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.2px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.25) 30%,
+      rgba(255, 255, 255, 0.08) 55%,
+      rgba(255, 255, 255, 0.45) 80%,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* Soft curved highlight on the upper half (convex lens reflection) */
+  .liquid-glass::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 2px;
+    height: 42%;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .dark .liquid-glass {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.07) 100%);
+    -webkit-backdrop-filter: blur(6px) saturate(170%) brightness(0.95);
+    backdrop-filter: blur(6px) saturate(170%) brightness(0.95);
+    box-shadow:
+      0 10px 30px -10px rgba(0, 0, 0, 0.6),
+      0 2px 6px rgba(0, 0, 0, 0.3),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 0 14px rgba(255, 255, 255, 0.08),
+      inset 0 -8px 16px -8px rgba(255, 255, 255, 0.12);
+  }
+  .dark .liquid-glass::before {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.1) 30%,
+      rgba(255, 255, 255, 0.03) 55%,
+      rgba(255, 255, 255, 0.18) 80%,
+      rgba(255, 255, 255, 0.45) 100%
+    );
+  }
+  .dark .liquid-glass::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  /* Active "drop" inside the glass (like the Inbox pill) */
+  .liquid-glass-pill {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.45) 100%);
+    box-shadow:
+      0 3px 10px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.06);
+  }
+  .dark .liquid-glass-pill {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+    box-shadow:
+      0 3px 10px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+  }
 }
