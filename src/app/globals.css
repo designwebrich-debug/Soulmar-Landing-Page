@@ -189,7 +189,11 @@
   }
   @media (max-width: 767px) {
     .laptop-mockup-mobile-centered {
-      object-position: 95% center !important;
+      aspect-ratio: 1.47 / 1 !important;
+      object-fit: cover !important;
+      object-position: 100% center !important;
+      width: 100% !important;
+      display: block !important;
     }
   }
 }

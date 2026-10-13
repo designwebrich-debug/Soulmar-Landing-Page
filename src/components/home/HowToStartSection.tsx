@@ -33,7 +33,7 @@ export function HowToStartSection() {
             loop 
             muted 
             playsInline 
-            className="w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-auto h-auto block object-cover laptop-mockup-mobile-centered md:object-fill"
+            className="w-full h-auto block laptop-mockup-mobile-centered md:aspect-auto md:object-fill"
           />
         </div>
 
