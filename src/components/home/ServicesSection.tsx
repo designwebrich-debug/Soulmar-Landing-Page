@@ -112,7 +112,7 @@ export function ServicesSection() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[#1d1d1f]/60 dark:text-white/50 text-sm sm:text-base leading-relaxed mb-6 flex-1 font-medium">
+                  <p className="text-[#1d1d1f]/70 dark:text-white/60 text-[16.5px] md:text-base leading-[1.65] mb-6 flex-1 font-medium">
                     {item.desc}
                   </p>
 
