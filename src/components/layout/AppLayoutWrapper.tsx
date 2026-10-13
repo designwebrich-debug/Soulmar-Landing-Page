@@ -16,7 +16,7 @@ export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <main className="pt-20 pb-24 md:pb-0">
+      <main className="pt-16 md:pt-20 pb-24 md:pb-0">
         {children}
       </main>
       <WhatsAppButton />

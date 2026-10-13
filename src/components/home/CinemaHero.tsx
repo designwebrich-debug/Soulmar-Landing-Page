@@ -439,7 +439,7 @@ export function CinemaHero() {
           1. VERSIÓN CELULAR EXCLUSIVA (ESTILO APP SPROUTS / RAPPI)
           Caja grande en carrusel de 3 fotos + Píldoras de temas + Grid de 2 módulos
           ========================================================================= */}
-      <div className="md:hidden flex flex-col w-full pt-16 pb-8 px-3.5 space-y-3 relative z-10">
+      <div className="md:hidden flex flex-col w-full pt-1 pb-8 px-3.5 space-y-3 relative z-10">
         
         {/* CAJA GRANDE EN TODO EL HOME (CARRUSEL DE 3 FOTOS) */}
         <div className="relative w-full h-[510px] rounded-[36px] overflow-hidden shadow-2xl flex flex-col justify-between p-5 select-none bg-neutral-900 border border-white/10">
