@@ -25,7 +25,7 @@ export function HowToStartSection() {
       {/* Master Container: Stacks vertically on mobile (video on top, steps below), absolute overlay on desktop */}
       <div className="w-full relative flex flex-col md:block">
         
-        {/* Laptop Video Mockup - Positioned at top on mobile, full-width background on desktop */}
+        {/* Laptop Video Mockup - Positioned at top and centered on mobile, full-width background on desktop */}
         <div className="w-full relative overflow-hidden">
           <video 
             src="/videos/video-mockup.mp4" 
@@ -33,7 +33,7 @@ export function HowToStartSection() {
             loop 
             muted 
             playsInline 
-            className="w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-auto h-auto block object-cover object-[69%_center] md:object-fill"
+            className="w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-auto h-auto block object-cover laptop-mockup-mobile-centered md:object-fill"
           />
         </div>
 
