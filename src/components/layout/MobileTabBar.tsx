@@ -17,7 +17,10 @@ export function MobileTabBar() {
   const [isSearching, setIsSearching] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [mounted, setMounted] = useState(false)
+  const [isOverLightBg, setIsOverLightBg] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const isDarkMode = resolvedTheme === "dark"
 
   useEffect(() => {
     setMounted(true)
@@ -59,10 +62,97 @@ export function MobileTabBar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [pathname, isSearching])
 
-  // Don't show in admin panel
-  if (pathname?.startsWith("/admin")) {
-    return null
-  }
+  // Smart Contrast: Real-time background luminance detector under the floating dock
+  useEffect(() => {
+    let ticking = false
+
+    const detectUnderlyingLuminance = () => {
+      if (typeof window === "undefined" || typeof document === "undefined") return
+
+      // Sample coordinates at the vertical position of the floating menu (~50px from bottom)
+      const sampleY = Math.max(10, window.innerHeight - 50)
+      const sampleX = window.innerWidth / 2
+
+      try {
+        const elements = document.elementsFromPoint(sampleX, sampleY)
+        if (!elements || elements.length === 0) {
+          setIsOverLightBg(isDarkMode ? false : true)
+          return
+        }
+
+        let detectedLight: boolean | null = null
+
+        for (const el of elements) {
+          // Skip the floating dock itself and any non-content wrapper
+          if (el.closest('[data-floating-dock="true"]')) continue
+          if (el.tagName === "HTML") continue
+
+          // Direct check for known light sections
+          if (el.closest("#como-empezar")) {
+            detectedLight = true
+            break
+          }
+
+          // Inspect computed background color up the DOM tree
+          let cur: HTMLElement | null = el as HTMLElement
+          while (cur && cur !== document.body && cur !== document.documentElement) {
+            const style = window.getComputedStyle(cur)
+            const bg = style.backgroundColor
+            if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
+              const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
+              if (match) {
+                const r = parseInt(match[1], 10)
+                const g = parseInt(match[2], 10)
+                const b = parseInt(match[3], 10)
+                const a = match[4] !== undefined ? parseFloat(match[4]) : 1
+                if (a > 0.25) {
+                  // ITU-R BT.709 relative luminance formula
+                  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+                  detectedLight = lum > 0.52
+                  break
+                }
+              }
+            }
+            cur = cur.parentElement
+          }
+
+          if (detectedLight !== null) break
+        }
+
+        if (detectedLight !== null) {
+          setIsOverLightBg(detectedLight)
+        } else {
+          // Default based on active theme
+          setIsOverLightBg(!isDarkMode)
+        }
+      } catch {
+        setIsOverLightBg(!isDarkMode)
+      }
+    }
+
+    const onScrollOrResize = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          detectUnderlyingLuminance()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    // Initial check
+    detectUnderlyingLuminance()
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true })
+    window.addEventListener("resize", onScrollOrResize, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize)
+      window.removeEventListener("resize", onScrollOrResize)
+    }
+  }, [isDarkMode])
+
+
 
   const triggerHaptic = () => {
     if (typeof navigator !== "undefined" && navigator.vibrate) {
@@ -184,13 +274,53 @@ export function MobileTabBar() {
     },
   ]
 
-  if (!mounted) return null
-
-  const isDarkMode = resolvedTheme === "dark"
+  if (!mounted || pathname?.startsWith("/admin")) {
+    return null
+  }
 
   return (
-    <div className="md:hidden fixed bottom-6 left-0 right-0 z-[9990] flex items-center justify-center gap-2.5 pointer-events-none px-4">
-      {/* ================= DOCK PRINCIPAL (Cristal líquido transparente) ================= */}
+    <div
+      data-floating-dock="true"
+      className="md:hidden fixed bottom-6 left-0 right-0 z-[9990] flex items-center justify-center gap-2 pointer-events-none px-3"
+    >
+      {/* ================= 1. MODO CLARO / OSCURO EN SU PROPIO CÍRCULO (IZQUIERDA) ================= */}
+      <AnimatePresence mode="popLayout" initial={false}>
+        {!isSearching && (
+          <motion.button
+            key="theme-circle"
+            onClick={toggleTheme}
+            initial={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
+            transition={{ type: "spring", stiffness: 380, damping: 32 }}
+            style={{ borderRadius: 9999 }}
+            whileTap={{ scale: 0.9 }}
+            className={cn(
+              "liquid-glass w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none rounded-full",
+              isOverLightBg && "liquid-glass-light-bg"
+            )}
+            aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+            title={isDarkMode ? "Modo Claro" : "Modo Oscuro"}
+          >
+            <span
+              className={cn(
+                "relative z-10 transition-colors duration-300",
+                isOverLightBg
+                  ? "text-neutral-800 hover:text-black"
+                  : "text-white/80 hover:text-white"
+              )}
+            >
+              {isDarkMode ? (
+                <Sun className="w-[19px] h-[19px] stroke-[2.2]" />
+              ) : (
+                <Moon className="w-[19px] h-[19px] stroke-[2.2]" />
+              )}
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* ================= 2. DOCK PRINCIPAL (Cristal líquido transparente) ================= */}
       <AnimatePresence mode="popLayout" initial={false}>
         {!isSearching && (
           <motion.nav
@@ -201,7 +331,10 @@ export function MobileTabBar() {
             exit={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
             transition={{ type: "spring", stiffness: 420, damping: 32 }}
             style={{ borderRadius: 9999 }}
-            className="liquid-glass flex items-center gap-1 p-1.5 pointer-events-auto origin-left"
+            className={cn(
+              "liquid-glass flex items-center gap-1 p-1.5 pointer-events-auto origin-center",
+              isOverLightBg && "liquid-glass-light-bg"
+            )}
           >
             {/* 1. Inicio, 2. Terapias, 3. Agendar, 4. Libros & PDFs */}
             {navTabs.map((tab) => {
@@ -230,10 +363,14 @@ export function MobileTabBar() {
 
                   <span
                     className={cn(
-                      "relative z-10 flex items-center justify-center transition-colors duration-200",
+                      "relative z-10 flex items-center justify-center transition-colors duration-300",
                       isActive
-                        ? "text-[#8da9c4]"
-                        : "text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+                        ? isOverLightBg
+                          ? "text-[#2b5a80]"
+                          : "text-[#8da9c4]"
+                        : isOverLightBg
+                        ? "text-neutral-700 hover:text-black"
+                        : "text-white/75 hover:text-white"
                     )}
                   >
                     <Icon className="w-[18px] h-[18px] stroke-[2.2]" />
@@ -241,34 +378,11 @@ export function MobileTabBar() {
                 </button>
               )
             })}
-
-            {/* Divider */}
-            <div className="relative z-10 w-[1px] h-5 bg-black/10 dark:bg-white/15 mx-0.5" />
-
-            {/* 5. Modo Claro / Oscuro */}
-            <button
-              onClick={toggleTheme}
-              className={cn(
-                "relative z-10 flex items-center justify-center w-10 h-10 rounded-full",
-                "text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white",
-                "transition-transform active:scale-90 select-none cursor-pointer"
-              )}
-              aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-              title={isDarkMode ? "Modo Claro" : "Modo Oscuro"}
-            >
-              {isDarkMode ? (
-                <Sun className="w-[18px] h-[18px] stroke-[2.2]" />
-              ) : (
-                <Moon className="w-[18px] h-[18px] stroke-[2.2]" />
-              )}
-            </button>
           </motion.nav>
         )}
       </AnimatePresence>
 
-      {/* ================= LUPA EN SU PROPIO CÍRCULO (estilo Rappi) =================
-          Shares a layoutId with the search bar, so the circle physically
-          stretches into the full-width bar and shrinks back on (X). */}
+      {/* ================= 3. LUPA EN SU PROPIO CÍRCULO (DERECHA) ================= */}
       {isSearching ? (
         <motion.form
           key="search-bar"
@@ -276,7 +390,10 @@ export function MobileTabBar() {
           onSubmit={handleSearchSubmit}
           transition={{ type: "spring", stiffness: 380, damping: 32 }}
           style={{ borderRadius: 9999 }}
-          className="liquid-glass flex-1 max-w-md h-[52px] flex items-center gap-2.5 pl-4 pr-1.5 pointer-events-auto"
+          className={cn(
+            "liquid-glass flex-1 max-w-md h-[52px] flex items-center gap-2.5 pl-4 pr-1.5 pointer-events-auto",
+            isOverLightBg && "liquid-glass-light-bg"
+          )}
         >
           <motion.div
             initial={{ opacity: 0, x: -6 }}
@@ -284,21 +401,32 @@ export function MobileTabBar() {
             transition={{ delay: 0.12, duration: 0.2 }}
             className="relative z-10 flex items-center w-full gap-2.5"
           >
-            <Search className="w-5 h-5 text-neutral-600 dark:text-white/70 shrink-0 stroke-[2.2]" />
+            <Search
+              className={cn(
+                "w-5 h-5 shrink-0 stroke-[2.2] transition-colors duration-300",
+                isOverLightBg ? "text-neutral-700" : "text-white/80"
+              )}
+            />
             <input
               ref={searchInputRef}
               type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={language === "es" ? "Buscar en Soulmar..." : "Search in Soulmar..."}
-              className="flex-1 min-w-0 bg-transparent text-[16px] font-semibold text-neutral-900 dark:text-white placeholder:text-neutral-500 dark:placeholder:text-white/50 outline-none border-none p-0"
+              className={cn(
+                "flex-1 min-w-0 bg-transparent text-[16px] font-semibold outline-none border-none p-0 transition-colors duration-300",
+                isOverLightBg
+                  ? "text-neutral-900 placeholder:text-neutral-500"
+                  : "text-white placeholder:text-white/60"
+              )}
             />
             <button
               type="button"
               onClick={closeSearch}
               className={cn(
                 "w-10 h-10 rounded-full flex items-center justify-center shrink-0 liquid-glass-pill",
-                "text-neutral-700 dark:text-white active:scale-90 transition-transform cursor-pointer"
+                "active:scale-90 transition-transform cursor-pointer",
+                isOverLightBg ? "text-neutral-800" : "text-white"
               )}
               aria-label="Cancelar búsqueda"
               title="Cancelar"
@@ -315,11 +443,21 @@ export function MobileTabBar() {
           transition={{ type: "spring", stiffness: 380, damping: 32 }}
           style={{ borderRadius: 9999 }}
           whileTap={{ scale: 0.9 }}
-          className="liquid-glass w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none"
+          className={cn(
+            "liquid-glass w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none rounded-full",
+            isOverLightBg && "liquid-glass-light-bg"
+          )}
           aria-label={language === "es" ? "Buscar en la web" : "Search site"}
           title={language === "es" ? "Buscar" : "Search"}
         >
-          <span className="relative z-10 text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">
+          <span
+            className={cn(
+              "relative z-10 transition-colors duration-300",
+              isOverLightBg
+                ? "text-neutral-800 hover:text-black"
+                : "text-white/80 hover:text-white"
+            )}
+          >
             <Search className="w-[19px] h-[19px] stroke-[2.4]" />
           </span>
         </motion.button>
