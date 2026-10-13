@@ -365,9 +365,7 @@ export function MobileTabBar() {
                     className={cn(
                       "relative z-10 flex items-center justify-center transition-colors duration-300",
                       isActive
-                        ? isOverLightBg
-                          ? "text-[#2b5a80]"
-                          : "text-[#8da9c4]"
+                        ? "text-[#8da9c4]"
                         : isOverLightBg
                         ? "text-neutral-700 hover:text-black"
                         : "text-white/75 hover:text-white"
