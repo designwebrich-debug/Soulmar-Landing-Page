@@ -88,14 +88,16 @@ export function CinemaHero() {
       id: "ansiedad",
       label: language === "es" ? "Ansiedad" : "Anxiety",
       icon: Sparkles,
-      iconColor: "text-emerald-500 dark:text-emerald-400",
+      iconColor: "text-[#c9cba3]",
+      color: "#c9cba3", // Verde Soulmar
       href: "/#servicios",
     },
     {
       id: "depresion",
       label: language === "es" ? "Depresión" : "Depression",
       icon: Brain,
-      iconColor: "text-purple-500 dark:text-purple-400",
+      iconColor: "text-[#8da9c4]",
+      color: "#8da9c4", // Azul Soulmar
       href: "/#servicios",
     },
     {
@@ -103,6 +105,7 @@ export function CinemaHero() {
       label: language === "es" ? "Emociones" : "Emotions",
       icon: Heart,
       iconColor: "text-rose-500 dark:text-rose-400",
+      color: "#f43f5e",
       href: "/#servicios",
     },
   ], [language])
@@ -577,7 +580,7 @@ export function CinemaHero() {
                 }}
                 className="liquid-glass rounded-full py-2.5 px-1.5 flex items-center justify-center gap-1.5 text-[12px] font-bold text-neutral-800 dark:text-white shadow-sm active:scale-95 transition-transform cursor-pointer select-none text-center"
               >
-                <Icon className={`w-3.5 h-3.5 shrink-0 stroke-[2.2] ${btn.iconColor}`} />
+                <Icon className="w-3.5 h-3.5 shrink-0 stroke-[2.4]" style={{ color: btn.color }} />
                 <span className="truncate">{btn.label}</span>
               </Link>
             )
