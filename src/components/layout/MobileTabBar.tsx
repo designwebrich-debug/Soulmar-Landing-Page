@@ -232,8 +232,8 @@ export function MobileTabBar() {
                     className={cn(
                       "relative z-10 flex items-center justify-center transition-colors duration-200",
                       isActive
-                        ? "text-[#007aff] dark:text-[#38bdf8]"
-                        : "text-neutral-700/80 hover:text-neutral-900 dark:text-white/75 dark:hover:text-white"
+                        ? "text-[#8da9c4]"
+                        : "text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
                     )}
                   >
                     <Icon className="w-[18px] h-[18px] stroke-[2.2]" />
@@ -250,7 +250,7 @@ export function MobileTabBar() {
               onClick={toggleTheme}
               className={cn(
                 "relative z-10 flex items-center justify-center w-10 h-10 rounded-full",
-                "text-neutral-700/80 hover:text-neutral-900 dark:text-white/75 dark:hover:text-white",
+                "text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white",
                 "transition-transform active:scale-90 select-none cursor-pointer"
               )}
               aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
@@ -319,7 +319,7 @@ export function MobileTabBar() {
           aria-label={language === "es" ? "Buscar en la web" : "Search site"}
           title={language === "es" ? "Buscar" : "Search"}
         >
-          <span className="relative z-10 text-neutral-700/80 dark:text-white/75">
+          <span className="relative z-10 text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">
             <Search className="w-[19px] h-[19px] stroke-[2.4]" />
           </span>
         </motion.button>
