@@ -133,41 +133,33 @@ export function CinemaHero() {
     {
       id: "individual",
       tag: "1 A 1",
-      tagBg: "bg-[#8da9c4]/20 text-[#2b5a80] dark:text-[#8da9c4]",
       title: language === "es" ? "Terapia Individual" : "Individual Therapy",
       desc: language === "es" ? "Acompañamiento clínico" : "Clinical guidance",
-      image: "/images/slider/phone-card-1.png",
-      cardBg: "bg-[#f2f5f9] dark:bg-[#181d24]",
+      image: "/images/BannerHero01.jpg",
       href: "/#agendamiento",
     },
     {
       id: "pareja",
       tag: language === "es" ? "PAREJAS" : "COUPLES",
-      tagBg: "bg-[#c9cba3]/30 text-[#4c5c36] dark:text-[#c9cba3]",
       title: language === "es" ? "Terapia Pareja" : "Couples Therapy",
       desc: language === "es" ? "Vínculos y acuerdos" : "Bonds & agreements",
-      image: "/images/slider/phone-card-2.png",
-      cardBg: "bg-[#f1f6ed] dark:bg-[#18221b]",
+      image: "/images/BannerHero03.jpg",
       href: "/#agendamiento",
     },
     {
       id: "familiar",
       tag: language === "es" ? "FAMILIAS" : "FAMILIES",
-      tagBg: "bg-[#ffc971]/25 text-[#8a5d1b] dark:text-[#ffc971]",
       title: language === "es" ? "Orientación Familiar" : "Family Guidance",
       desc: language === "es" ? "Dinámicas afectivas" : "Emotional dynamics",
-      image: "/images/slider/phone-card-3.png",
-      cardBg: "bg-[#fdf7ee] dark:bg-[#231d16]",
+      image: "/images/hero-soulmar-cozy.jpg",
       href: "/#agendamiento",
     },
     {
       id: "ebooks",
       tag: language === "es" ? "GRATIS" : "FREE",
-      tagBg: "bg-sky-500/20 text-sky-700 dark:text-sky-300",
       title: language === "es" ? "Libros & PDFs" : "Books & PDFs",
       desc: language === "es" ? "Guías descargables" : "Downloadable guides",
-      image: "/images/ebooks/ansiedad.png",
-      cardBg: "bg-[#eef3f9] dark:bg-[#161d26]",
+      image: "/images/BannerHero02.jpg",
       href: "/#ebooks",
     },
   ], [language])
@@ -589,7 +581,7 @@ export function CinemaHero() {
           </div>
         </div>
 
-        {/* MÓDULOS QUE LE SIGUEN: GRID 2 COLUMNAS DE CAJAS REDONDEADAS */}
+        {/* MÓDULOS QUE LE SIGUEN: GRID 2 COLUMNAS DE CAJAS CON FOTO COMPLETA (FULL BLEED) */}
         <div className="grid grid-cols-2 gap-3 pt-1">
           {mobileModules.map((mod) => (
             <Link
@@ -603,32 +595,37 @@ export function CinemaHero() {
                   el.scrollIntoView({ behavior: "smooth" })
                 }
               }}
-              className={`rounded-[28px] p-3 flex flex-col justify-between ${mod.cardBg} border border-black/5 dark:border-white/10 shadow-sm active:scale-[0.98] transition-transform group`}
+              className="relative w-full h-[200px] sm:h-[220px] rounded-[28px] overflow-hidden shadow-lg border border-white/20 dark:border-white/10 flex flex-col justify-between p-3.5 select-none active:scale-[0.98] transition-transform group"
             >
-              {/* Imagen redondeada superior */}
-              <div className="h-28 w-full rounded-2xl overflow-hidden relative mb-2.5 bg-white/50 dark:bg-black/20 flex items-center justify-center">
-                <Image
-                  src={mod.image}
-                  alt={mod.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <span className={`absolute top-2 left-2 text-[8.5px] font-black uppercase px-2 py-0.5 rounded-full ${mod.tagBg}`}>
-                  {mod.tag}
-                </span>
-              </div>
+              {/* Foto que abarca la totalidad del espacio de la caja */}
+              <Image
+                src={mod.image}
+                alt={mod.title}
+                fill
+                quality={95}
+                unoptimized
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
 
-              {/* Título, descripción y botón (+) */}
-              <div className="flex items-end justify-between gap-1 mt-1">
-                <div className="min-w-0">
-                  <h3 className="text-[13px] font-black text-neutral-900 dark:text-white leading-tight truncate">
+              {/* Degradado cinemático para legibilidad perfecta de los textos */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35 pointer-events-none" />
+
+              {/* Tag / Badge por encima de la foto (Arriba a la izquierda) */}
+              <span className="relative z-10 self-start text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/25 backdrop-blur-md border border-white/30 text-white shadow-sm">
+                {mod.tag}
+              </span>
+
+              {/* Textos y botón (+) por encima de la foto (Abajo) */}
+              <div className="relative z-10 flex items-end justify-between gap-1 mt-auto">
+                <div className="min-w-0 pr-1 text-left">
+                  <h3 className="text-[13.5px] font-black text-white leading-tight drop-shadow-md truncate">
                     {mod.title}
                   </h3>
-                  <p className="text-[10px] text-neutral-500 dark:text-neutral-400 font-medium leading-tight truncate mt-0.5">
+                  <p className="text-[10px] text-white/80 font-medium leading-tight drop-shadow-sm truncate mt-0.5">
                     {mod.desc}
                   </p>
                 </div>
-                <div className="w-7 h-7 rounded-full bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
+                <div className="w-8 h-8 rounded-full bg-white text-neutral-900 flex items-center justify-center shrink-0 shadow-lg group-hover:bg-[#8da9c4] group-hover:text-white transition-colors duration-200">
                   <Plus className="w-4 h-4 stroke-[2.5]" />
                 </div>
               </div>
