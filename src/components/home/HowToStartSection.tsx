@@ -21,7 +21,7 @@ export function HowToStartSection() {
   ]
 
   return (
-    <section id="como-empezar" className="w-full relative overflow-hidden bg-[#f5f4f0]">
+    <section id="como-empezar" className="w-full relative overflow-hidden bg-[#f5f4f0] dark:bg-[#000000] transition-colors duration-500">
       {/* Master Container: Stacks vertically on mobile (video on top, steps below), absolute overlay on desktop */}
       <div className="w-full relative flex flex-col md:block">
         
@@ -46,7 +46,7 @@ export function HowToStartSection() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[34px] xl:text-[40px] font-black tracking-tighter text-[#8da9c4] leading-tight md:leading-none uppercase">
                 {title1}
               </h2>
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[24px] xl:text-[28px] font-black tracking-tighter text-[#1d1d1f] leading-tight md:leading-none uppercase">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[24px] xl:text-[28px] font-black tracking-tighter text-[#1d1d1f] dark:text-white leading-tight md:leading-none uppercase">
                 {title2}
               </h3>
             </div>
