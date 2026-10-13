@@ -51,17 +51,17 @@ export function HowToStartSection() {
               </h3>
             </div>
 
-            {/* Step Items - Clean and readable */}
-            <div className="space-y-2 md:space-y-2.5">
+            {/* Step Items - iOS Inset Grouped Card on mobile, clean list on desktop */}
+            <div className="bg-white/90 dark:bg-[#1c1c1e]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-5 md:p-0 md:bg-transparent md:backdrop-blur-none border border-black/[0.06] dark:border-white/[0.08] md:border-none shadow-sm md:shadow-none space-y-2 md:space-y-2.5">
               {steps.map((step, idx) => (
                 <div 
                   key={idx} 
-                  className="flex items-center gap-2.5 sm:gap-3 py-0.5 group"
+                  className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0.5 group active:scale-[0.98] transition-transform"
                 >
-                  <span className="bg-[#8da9c4] text-white group-hover:bg-[#ffc971] group-hover:text-neutral-900 text-[10px] md:text-xs font-black tracking-wider uppercase px-2.5 py-1 rounded-md md:rounded-lg shrink-0 shadow-sm transition-colors duration-300 cursor-pointer">
+                  <span className="bg-[#8da9c4] text-white group-hover:bg-[#ffc971] group-hover:text-neutral-900 text-[10px] md:text-xs font-black tracking-wider uppercase px-2.5 py-1 rounded-lg shrink-0 shadow-sm transition-colors duration-300">
                     {step.num}
                   </span>
-                  <p className="text-[#1d1d1f] font-bold text-xs sm:text-xs md:text-sm lg:text-base leading-snug">
+                  <p className="text-[#1d1d1f] dark:text-white font-bold text-xs sm:text-xs md:text-sm lg:text-base leading-snug">
                     {step.text}
                   </p>
                 </div>

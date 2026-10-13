@@ -47,6 +47,8 @@ const cards = [
 export function PhoneMarqueeSlider() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const touchStartX = React.useRef(0)
+  const touchEndX = React.useRef(0)
 
   const totalCards = cards.length
 
@@ -65,6 +67,26 @@ export function PhoneMarqueeSlider() {
     return () => clearInterval(interval)
   }, [isPaused, handleNext])
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX
+    touchEndX.current = e.targetTouches[0].clientX
+    setIsPaused(true)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    setIsPaused(false)
+    const deltaX = touchStartX.current - touchEndX.current
+    if (deltaX > 45) {
+      handleNext()
+    } else if (deltaX < -45) {
+      handlePrev()
+    }
+  }
+
   const handleScrollToBooking = (e: React.MouseEvent) => {
     if (window.location.pathname === "/") {
       e.preventDefault()
@@ -75,27 +97,30 @@ export function PhoneMarqueeSlider() {
   return (
     <div
       id="soulmar-brand"
-      className="w-full relative pt-32 sm:pt-40 lg:pt-48 pb-12 overflow-hidden scroll-mt-32 select-none bg-white dark:bg-[#0b0b0c]"
+      className="w-full relative pt-20 sm:pt-40 lg:pt-48 pb-12 overflow-hidden scroll-mt-32 select-none bg-white dark:bg-[#0b0b0c]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* 3D Coverflow Stage Container */}
-      <div className="max-w-6xl mx-auto px-4 relative flex items-center justify-center min-h-[520px] sm:min-h-[680px] lg:min-h-[750px]">
+      <div className="max-w-6xl mx-auto px-4 relative flex items-center justify-center min-h-[460px] sm:min-h-[680px] lg:min-h-[750px]">
         
-        {/* Previous Button */}
+        {/* Previous Button (Desktop only on side to avoid obstructing phone in mobile) */}
         <button
           onClick={handlePrev}
           aria-label="Anterior"
-          className="absolute left-2 sm:left-6 z-40 p-3 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
+          className="hidden sm:flex absolute left-4 sm:left-6 z-40 p-3 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
         >
           <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
         </button>
 
-        {/* Next Button */}
+        {/* Next Button (Desktop only on side) */}
         <button
           onClick={handleNext}
           aria-label="Siguiente"
-          className="absolute right-2 sm:right-6 z-40 p-3 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
+          className="hidden sm:flex absolute right-4 sm:right-6 z-40 p-3 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md text-[#1d1d1f] dark:text-white hover:scale-110 active:scale-95 transition-all duration-300 group"
         >
           <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
         </button>
@@ -189,23 +214,43 @@ export function PhoneMarqueeSlider() {
         </div>
       </div>
 
-      {/* Pagination Dots (Seamless on pure white background) */}
-      <div className="flex items-center justify-center gap-2.5 mt-12 sm:mt-16 z-30 relative">
-        {cards.map((_, idx) => {
-          const isActive = activeIndex === idx
-          return (
-            <button
-              key={idx}
-              onClick={() => setActiveIndex(idx)}
-              aria-label={`Ir al slide ${idx + 1}`}
-              className={`h-2.5 rounded-full transition-all duration-500 ${
-                isActive
-                  ? "w-8 bg-[#1d1d1f] dark:bg-white"
-                  : "w-2.5 bg-[#1d1d1f]/20 dark:bg-white/20 hover:bg-[#1d1d1f]/40"
-              }`}
-            />
-          )
-        })}
+      {/* Controls: Pagination Dots + Mobile Quick Arrows */}
+      <div className="flex items-center justify-center gap-3 mt-8 sm:mt-16 z-30 relative px-4">
+        {/* Mobile Left Arrow */}
+        <button
+          onClick={handlePrev}
+          aria-label="Anterior"
+          className="sm:hidden w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-[#1d1d1f] dark:text-white active:scale-90 transition-all"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
+        <div className="flex items-center gap-2">
+          {cards.map((_, idx) => {
+            const isActive = activeIndex === idx
+            return (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`Ir al slide ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  isActive
+                    ? "w-7 bg-[#1d1d1f] dark:bg-white"
+                    : "w-2 bg-[#1d1d1f]/20 dark:bg-white/20 hover:bg-[#1d1d1f]/40"
+                }`}
+              />
+            )
+          })}
+        </div>
+
+        {/* Mobile Right Arrow */}
+        <button
+          onClick={handleNext}
+          aria-label="Siguiente"
+          className="sm:hidden w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-[#1d1d1f] dark:text-white active:scale-90 transition-all"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
       </div>
     </div>
   )

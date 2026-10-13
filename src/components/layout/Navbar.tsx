@@ -1,14 +1,15 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "./ThemeToggle"
 import { Button } from "@/components/ui/Button"
-import { Menu, X } from "lucide-react"
+import { MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTranslation } from "@/context/LanguageContext"
+import { WHATSAPP_LINK } from "@/lib/constants"
 
 const navLinks = [
   { key: "therapies", href: "/#agendamiento" },
@@ -17,7 +18,6 @@ const navLinks = [
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const { language, setLanguage, t } = useTranslation()
 
@@ -26,17 +26,15 @@ export function Navbar() {
   }
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (pathname !== "/") return // Only intercept if we are already on the home page
+    if (pathname !== "/") return
 
     if (href === "/") {
       e.preventDefault()
       window.scrollTo({ top: 0, behavior: "smooth" })
-      setMobileMenuOpen(false)
     } else if (href.startsWith("/#")) {
       e.preventDefault()
       const id = href.replace("/#", "")
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
-      setMobileMenuOpen(false)
     }
   }
 
@@ -45,9 +43,7 @@ export function Navbar() {
       setIsScrolled(window.scrollY > 20)
     }
     
-    // Check initial scroll position on mount (fixes transparent background after refresh)
     handleScroll()
-    
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -80,6 +76,7 @@ export function Navbar() {
           </Link>
         </div>
 
+        {/* CENTER: Navigation Links (Desktop) */}
         <nav className="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
           <Link
             href="/"
@@ -108,8 +105,8 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* RIGHT: Actions */}
-        <div className="flex-1 hidden md:flex items-center justify-end gap-4">
+        {/* RIGHT: Actions (Desktop & iPad) */}
+        <div className="flex-1 hidden md:flex items-center justify-end gap-3.5">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -120,6 +117,7 @@ export function Navbar() {
           </Button>
 
           <ThemeToggle />
+
           <Button asChild className="rounded-full shadow-lg hover:-translate-y-0.5 transition-transform" size="default">
             <Link 
               href="/#agendamiento"
@@ -130,71 +128,28 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center gap-2 ml-auto">
-          <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        {/* RIGHT: Mobile Actions (WhatsApp button + Language button) */}
+        <div className="md:hidden flex items-center gap-1.5 ml-auto">
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative flex items-center justify-center w-10 h-10 rounded-full text-neutral-500/80 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-transform active:scale-90 select-none cursor-pointer"
+            aria-label="WhatsApp"
+            title="Chat en WhatsApp"
           >
-            <span className="sr-only">Open main menu</span>
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+            <MessageCircle className="w-[18px] h-[18px] stroke-[2.2]" />
+          </a>
+          <button
+            type="button"
+            className="h-9 px-3 rounded-full font-bold text-xs tracking-wider bg-black/[0.05] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] text-foreground/80 flex items-center justify-center active:scale-90 transition-all border border-black/[0.06] dark:border-white/10"
+            onClick={() => setLanguage(language === "es" ? "en" : "es")}
+            aria-label="Cambiar idioma"
+          >
+            {language === "es" ? "ES / EN" : "EN / ES"}
+          </button>
         </div>
       </div>
-
-      {/* Mobile Nav */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border shadow-lg py-4 px-6 flex flex-col gap-4 animate-in slide-in-from-top-2">
-          <Link 
-            href="/" 
-            onClick={(e) => handleNavClick(e, "/")} 
-            className="py-2 text-lg font-medium"
-          >
-            {t('common.home')}
-          </Link>
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={(e) => {
-                if (pathname === "/") {
-                  handleNavClick(e, link.href);
-                } else {
-                  setMobileMenuOpen(false);
-                }
-              }}
-              className="py-2 text-lg font-medium"
-            >
-              {t(`common.${link.key}`)}
-            </Link>
-          ))}
-          <div className="h-px bg-border my-2" />
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="font-bold text-xs tracking-[0.05em] justify-start px-0"
-            onClick={() => {
-              setLanguage(language === "es" ? "en" : "es")
-              setMobileMenuOpen(false)
-            }}
-          >
-            {language === "es" ? t('navbar.switch_to_en') : t('navbar.switch_to_es')}
-          </Button>
-          <Button asChild size="lg" className="w-full">
-            <Link 
-              href="/#agendamiento" 
-              onClick={(e) => {
-                handleNavClick(e, "/#agendamiento")
-                setMobileMenuOpen(false)
-              }}
-            >
-              {t('common.book_now')}
-            </Link>
-          </Button>
-        </div>
-      )}
     </header>
   )
 }

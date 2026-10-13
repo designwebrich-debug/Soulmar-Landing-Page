@@ -15,21 +15,24 @@ export function TestimonialsSection() {
           title={t('home.testimonials_title') as string} 
           subtitle={t('home.testimonials_subtitle') as string}
           align="center"
-          className="mb-24"
+          className="mb-10 md:mb-24"
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 no-scrollbar touch-momentum -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-10 md:pb-0">
           {(() => {
             const safeList = t<Array<{ author: string; text: string; image: string }>>('home.testimonials', { returnObjects: true }) || [];
             return Array.isArray(safeList) ? safeList.map((testimonial, i) => (
-              <div key={i} className="bg-white/40 dark:bg-white/[0.02] backdrop-blur-xl rounded-[2.5rem] p-12 flex flex-col items-start border border-white/40 dark:border-white/10 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group">
-                <div className="flex gap-1 mb-8">
+              <div 
+                key={i} 
+                className="snap-center shrink-0 w-[84vw] sm:w-[360px] md:w-auto bg-white/40 dark:bg-white/[0.02] backdrop-blur-xl rounded-[2rem] md:rounded-[2.5rem] p-7 md:p-12 flex flex-col items-start border border-white/40 dark:border-white/10 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group"
+              >
+                <div className="flex gap-1 mb-5 md:mb-8">
                   {[...Array(5)].map((_, starI) => (
                     <Star key={starI} className="w-4 h-4 fill-[#ffc971] text-[#ffc971]" />
                   ))}
                 </div>
-                <p className="text-xl font-bold text-[#1d1d1f] dark:text-white/90 mb-10 leading-[1.1] tracking-tight">&quot;{testimonial.text}&quot;</p>
+                <p className="text-base sm:text-lg md:text-xl font-bold text-[#1d1d1f] dark:text-white/90 mb-6 md:mb-10 leading-snug tracking-tight">&quot;{testimonial.text}&quot;</p>
                 <div className="flex items-center gap-4 mt-auto">
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-[#8da9c4]/20 border border-white/20">
+                    <div className="w-11 h-11 md:w-12 md:h-12 rounded-full overflow-hidden bg-[#8da9c4]/20 border border-white/20 shrink-0">
                         <Image 
                           src={`https://i.pravatar.cc/150?img=${testimonial.image}`} 
                           alt={testimonial.author}

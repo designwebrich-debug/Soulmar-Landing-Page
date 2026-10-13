@@ -609,7 +609,7 @@ export function AgendamientoSection() {
                               if (validationError) setValidationError(null)
                             }}
                             placeholder={language === "es" ? "Cuéntame sobre que deseas hablar" : "Tell me what you'd like to talk about"}
-                            className="h-10 text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full"
+                            className="h-11 text-base md:text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full"
                           />
                         </div>
                       </div>
@@ -700,13 +700,14 @@ export function AgendamientoSection() {
                                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35" />
                                 <Input 
                                   type="text"
+                                  autoComplete="name"
                                   value={fullName}
                                   onChange={(e) => {
                                     setFullName(e.target.value)
                                     if (validationError) setValidationError(null)
                                   }}
                                   placeholder={t("booking.name_placeholder")}
-                                  className="h-10 text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full pl-10"
+                                  className="h-11 text-base md:text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full pl-10"
                                 />
                               </div>
                             </div>
@@ -720,13 +721,15 @@ export function AgendamientoSection() {
                                 <MessageSquare className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35" />
                                 <Input 
                                   type="tel"
+                                  autoComplete="tel"
+                                  inputMode="tel"
                                   value={phone}
                                   onChange={(e) => {
                                     setPhone(e.target.value)
                                     if (validationError) setValidationError(null)
                                   }}
                                   placeholder="+57 302 459 4428"
-                                  className="h-10 text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full pl-10"
+                                  className="h-11 text-base md:text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full pl-10"
                                 />
                               </div>
                             </div>
@@ -740,13 +743,15 @@ export function AgendamientoSection() {
                                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/35" />
                                 <Input 
                                   type="email"
+                                  autoComplete="email"
+                                  inputMode="email"
                                   value={email}
                                   onChange={(e) => {
                                     setEmail(e.target.value)
                                     if (validationError) setValidationError(null)
                                   }}
                                   placeholder={t("booking.email_placeholder")}
-                                  className="h-10 text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full pl-10"
+                                  className="h-11 text-base md:text-xs font-semibold bg-background border-border/80 text-foreground focus-visible:ring-primary/30 w-full pl-10"
                                 />
                               </div>
                             </div>
@@ -1025,6 +1030,33 @@ export function AgendamientoSection() {
           <div className="flex items-center justify-center gap-2.5 mt-6 text-foreground/30 dark:text-foreground/20 text-[10px] uppercase font-extrabold tracking-wider leading-none">
             <ShieldCheck className="w-4 h-4 text-emerald-500/60 dark:text-emerald-500/40" />
             <span>{language === "es" ? "Tu información está protegida en todo momento" : "Your information is protected at all times"}</span>
+          </div>
+        )}
+
+        {/* Mobile Sticky Action Dock (Floating bottom bar for high-conversion on smartphones) */}
+        {!isSuccess && selectedDate && selectedTime && (
+          <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-background/90 dark:bg-[#111112]/90 backdrop-blur-2xl border-t border-border/80 p-3.5 pb-safe shadow-2xl animate-in slide-in-from-bottom duration-300">
+            <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
+              <div className="flex flex-col min-w-0">
+                <span className="text-[9px] font-extrabold uppercase tracking-widest text-primary truncate">
+                  {selectedTime} • {selectedDate.getDate()} {selectedDate.toLocaleDateString(language === "es" ? "es-ES" : "en-US", { month: "short" })}
+                </span>
+                <span className="text-[11px] font-bold text-foreground/80 truncate">
+                  {step === 1 ? (language === "es" ? "Paso 1: Fecha lista" : "Step 1: Time ready") : (language === "es" ? "Paso 2: Confirmar datos" : "Step 2: Confirm info")}
+                </span>
+              </div>
+              <Button
+                onClick={step === 1 ? handleStep1Next : handleStep2Submit}
+                disabled={isLoading}
+                className="h-11 px-5 rounded-full font-bold text-xs uppercase tracking-wider bg-primary text-white hover:bg-secondary-yellow hover:text-black shadow-lg shadow-primary/20 shrink-0 flex items-center gap-1.5 active:scale-95"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <span>{step === 1 ? (language === "es" ? "Continuar ➔" : "Continue ➔") : t("booking.step3_confirm")}</span>
+                )}
+              </Button>
+            </div>
           </div>
         )}
 

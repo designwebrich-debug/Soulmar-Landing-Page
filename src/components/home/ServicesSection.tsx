@@ -71,9 +71,9 @@ export function ServicesSection() {
         </p>
       </div>
 
-      {/* 3×2 Grid */}
-      <div className="max-w-5xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* 3×2 Grid / iOS 2-Column Widgets on Mobile */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           {serviceConfigs.map((cfg, index) => {
             const Icon = cfg.icon
             const item = items[index] || { title: "", desc: "" }
@@ -81,7 +81,7 @@ export function ServicesSection() {
               <Link
                 key={index}
                 href="/#agendamiento"
-                className="group relative block"
+                className="group relative block active:scale-[0.97] transition-transform duration-200"
                 onClick={(e) => {
                   if (window.location.pathname === "/") {
                     e.preventDefault()
@@ -89,38 +89,38 @@ export function ServicesSection() {
                   }
                 }}
               >
-                {/* Hover glow */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${cfg.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                {/* Hover/Tap glow */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${cfg.glow} to-transparent rounded-2xl sm:rounded-[2rem] blur-xl sm:blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
-                {/* Card body */}
-                <div className={`relative bg-white/50 dark:bg-white/[0.03] backdrop-blur-2xl rounded-[2rem] p-9 flex flex-col items-center text-center border border-white/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${cfg.hover} transition-all duration-500 hover:-translate-y-1.5 cursor-pointer h-full`}>
+                {/* Card body - iOS Health Widget Style */}
+                <div className={`relative bg-white/70 dark:bg-white/[0.04] backdrop-blur-2xl rounded-2xl sm:rounded-[2rem] p-4 sm:p-7 md:p-9 flex flex-col items-center text-center border border-white/80 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.03)] sm:shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${cfg.hover} transition-all duration-300 sm:duration-500 hover:-translate-y-1.5 cursor-pointer h-full`}>
 
-                  {/* Icon pill */}
+                  {/* Squircle Icon */}
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg ${cfg.shadow} transform group-hover:rotate-6 transition-transform duration-500 ${cfg.color === "#1d1d1f" ? "bg-[#1d1d1f] dark:bg-white" : ""}`}
+                    className={`w-11 h-11 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-6 shadow-md sm:shadow-lg ${cfg.shadow} transform group-hover:rotate-6 transition-transform duration-500 ${cfg.color === "#1d1d1f" ? "bg-[#1d1d1f] dark:bg-white" : ""}`}
                     style={cfg.color !== "#1d1d1f" ? { backgroundColor: cfg.color } : undefined}
                   >
                     <Icon
-                      className={`w-8 h-8 ${cfg.color === "#1d1d1f" ? "text-white dark:text-[#1d1d1f]" : "text-white"}`}
+                      className={`w-5 h-5 sm:w-8 sm:h-8 ${cfg.color === "#1d1d1f" ? "text-white dark:text-[#1d1d1f]" : "text-white"}`}
                     />
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg font-bold mb-3 text-[#1d1d1f] dark:text-white leading-tight">
+                  <h3 className="text-sm sm:text-lg font-bold mb-1.5 sm:mb-3 text-[#1d1d1f] dark:text-white leading-tight line-clamp-2">
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[#1d1d1f]/50 dark:text-white/40 text-base leading-snug mb-6 flex-1 font-medium">
+                  <p className="text-[#1d1d1f]/60 dark:text-white/50 text-xs sm:text-base leading-snug mb-3 sm:mb-6 flex-1 font-medium line-clamp-3 sm:line-clamp-none">
                     {item.desc}
                   </p>
 
                   {/* CTA link */}
                   <div
-                    className={`text-sm font-bold flex items-center gap-2 group-hover:gap-3 transition-all tracking-[0.05em] uppercase ${cfg.color === "#1d1d1f" ? "text-[#1d1d1f] dark:text-white" : ""}`}
+                    className={`text-[11px] sm:text-sm font-bold flex items-center gap-1 sm:gap-2 group-hover:gap-3 transition-all tracking-wider uppercase ${cfg.color === "#1d1d1f" ? "text-[#1d1d1f] dark:text-white" : ""}`}
                     style={cfg.color !== "#1d1d1f" ? { color: cfg.color } : undefined}
                   >
-                    {t('common.details')} <ArrowRight className="w-4 h-4" />
+                    {t('common.details')} <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                 </div>
               </Link>

@@ -27,7 +27,7 @@ export const WhatsAppButton = () => {
       id="whatsapp-floating-button"
       className={cn(
         "fixed bottom-6 right-6 z-[9999]",
-        "flex items-center justify-center",
+        "hidden md:flex items-center justify-center",
         "w-16 h-16 rounded-full bg-[#25D366]",
         "text-white shadow-[0_4px_15px_rgba(0,0,0,0.3)]",
         "transition-all duration-300 ease-in-out",

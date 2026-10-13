@@ -167,15 +167,25 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
+    -webkit-tap-highlight-color: transparent;
   }
   * {
     border-color: var(--border);
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     background-color: var(--background);
     color: var(--foreground);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+  }
+
+  /* Prevent iOS Safari auto-zoom on form inputs by guaranteeing 16px font-size minimum */
+  @media (max-width: 767px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
   }
 }
 
@@ -186,6 +196,15 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
+  }
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top, 0px), 1rem);
+  }
+  .touch-momentum {
+    -webkit-overflow-scrolling: touch;
   }
   @media (max-width: 767px) {
     .laptop-mockup-mobile-centered {

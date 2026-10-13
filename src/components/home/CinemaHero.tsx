@@ -23,7 +23,7 @@ export function CinemaHero() {
       titlePart2: t('hero.slide1_title_part2') || t('hero.title_part2'),
       subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
       color: "text-neutral-900", // User requested black titles for all
-      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent",
+      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent dark:from-[#0b0b0c]/95 dark:via-[#0b0b0c]/70 dark:to-transparent",
       buttonClass: "bg-[#8da9c4] hover:bg-[#ffc971] text-white hover:text-neutral-900 border-[#8da9c4]/20 hover:border-[#ffc971]/20",
       buttonIconClass: "bg-white text-[#8da9c4] group-hover:text-[#ffc971]"
     },
@@ -34,7 +34,7 @@ export function CinemaHero() {
       titlePart2: t('hero.slide2_title_part2'),
       subtitle: t('hero.slide2_subtitle'),
       color: "text-neutral-900",
-      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent",
+      gradient: "from-[#f0f7fc]/95 via-[#f0f7fc]/70 to-transparent dark:from-[#0b0b0c]/95 dark:via-[#0b0b0c]/70 dark:to-transparent",
       buttonClass: "bg-[#ffc971] hover:bg-neutral-900 text-neutral-900 hover:text-white border-[#ffc971]/20 hover:border-neutral-900/20",
       buttonIconClass: "bg-neutral-900 text-[#ffc971] group-hover:bg-white group-hover:text-neutral-900"
     },
@@ -431,8 +431,7 @@ export function CinemaHero() {
                   className="space-y-4"
                 >
                   <h1 
-                    className="text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0"
-                    style={{ lineHeight: '0.75' }}
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-black tracking-tighter text-neutral-900 font-sans m-0 p-0 leading-[0.95] sm:leading-[0.85] lg:leading-[0.75]"
                   >
                     {activeSlide.titlePart1}
                     <br />
@@ -487,18 +486,25 @@ export function CinemaHero() {
         </div>
       </div>
 
-      {/* BOTTOM LAYOUT CONTENT: 5 DYNAMIC CARDS IN INFINITE HORIZONTAL MARQUEE */}
+      {/* BOTTOM LAYOUT CONTENT: 5 DYNAMIC CARDS */}
       <div className="relative z-10 w-full overflow-hidden py-2">
-        <div className="mask-gradient-edges w-full overflow-hidden py-3">
-          {/* Flex container that moves infinitely from left to right (using double set of cards) */}
+        {/* Mobile: Touch-Swipeable horizontal snap container */}
+        <div className="md:hidden flex gap-3 overflow-x-auto px-4 py-2 no-scrollbar touch-momentum snap-x snap-mandatory">
+          {cards.map((card, idx) => (
+            <div key={`mob-card-${idx}`} className="snap-center shrink-0">
+              {card}
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: Seamless infinite GPU-accelerated marquee */}
+        <div className="hidden md:block mask-gradient-edges w-full overflow-hidden py-3">
           <div className="flex gap-4 w-max animate-marquee-right">
-            
             {/* First Set of 5 Cards */}
             {cards}
             
             {/* Second Set of 5 Cards (for seamless infinite wrapper loop) */}
             {cards}
-            
           </div>
         </div>
       </div>

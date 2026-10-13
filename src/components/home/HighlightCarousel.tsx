@@ -61,8 +61,8 @@ export function HighlightCarousel() {
       <div 
         className={cn(
           "relative w-full overflow-hidden rounded-3xl md:rounded-[3rem] group border border-black/5 dark:border-white/5",
-          "aspect-[1928/625]",
-          "shadow-[0_8px_40px_rgba(0,0,0,0.12)]"
+          "aspect-[16/10] sm:aspect-[21/9] md:aspect-[1928/625]",
+          "shadow-[0_8px_40px_rgba(0,0,0,0.12)] cursor-grab active:cursor-grabbing"
         )}
       >
         <AnimatePresence initial={false} custom={direction}>
@@ -73,9 +73,19 @@ export function HighlightCarousel() {
             initial="enter"
             animate="center"
             exit="exit"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, { offset, velocity }) => {
+              if (offset.x < -40 || velocity.x < -300) {
+                slideNext()
+              } else if (offset.x > 40 || velocity.x > 300) {
+                slidePrev()
+              }
+            }}
             transition={{
-              x: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
-              opacity: { duration: 0.4 }
+              x: { duration: 0.6, ease: [0.32, 0.72, 0, 1] },
+              opacity: { duration: 0.3 }
             }}
             className="absolute inset-0"
           >
@@ -98,32 +108,32 @@ export function HighlightCarousel() {
           ))}
         </div>
 
-        {/* Navigation Arrows (Apple Style) */}
-        <div className="absolute inset-0 flex items-center justify-between px-4 md:px-8 z-10 pointer-events-none">
+        {/* Navigation Arrows (Apple Style - subtle on mobile, expands on desktop hover) */}
+        <div className="absolute inset-0 flex items-center justify-between px-2.5 sm:px-4 md:px-8 z-10 pointer-events-none">
           <button
             onClick={(e) => {
               e.preventDefault()
               slidePrev()
             }}
-            className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/20 dark:bg-black/20 backdrop-blur-xl border border-white/30 dark:border-white/10 flex items-center justify-center text-white md:text-black dark:md:text-white hover:bg-white/40 dark:hover:bg-black/40 transition-all pointer-events-auto opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0"
+            className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 rounded-full bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/10 flex items-center justify-center text-white md:text-black dark:md:text-white hover:bg-white/70 dark:hover:bg-black/70 transition-all pointer-events-auto opacity-70 md:opacity-0 md:group-hover:opacity-100 transform active:scale-90"
             aria-label="Anterior"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
           </button>
           <button
             onClick={(e) => {
               e.preventDefault()
               slideNext()
             }}
-            className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/20 dark:bg-black/20 backdrop-blur-xl border border-white/30 dark:border-white/10 flex items-center justify-center text-white md:text-black dark:md:text-white hover:bg-white/40 dark:hover:bg-black/40 transition-all pointer-events-auto opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0"
+            className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 rounded-full bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/10 flex items-center justify-center text-white md:text-black dark:md:text-white hover:bg-white/70 dark:hover:bg-black/70 transition-all pointer-events-auto opacity-70 md:opacity-0 md:group-hover:opacity-100 transform active:scale-90"
             aria-label="Siguiente"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
         {/* Pagination Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-10">
+        <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-2.5 z-10">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -134,8 +144,8 @@ export function HighlightCarousel() {
               className={cn(
                 "h-1.5 transition-all duration-500 rounded-full",
                 currentIndex === i 
-                  ? "w-8 bg-white" 
-                  : "w-2.5 bg-white/40 hover:bg-white/60"
+                  ? "w-6 sm:w-8 bg-white shadow-sm" 
+                  : "w-2 sm:w-2.5 bg-white/40 hover:bg-white/60"
               )}
               aria-label={`Ir al slide ${i + 1}`}
             />
