@@ -83,33 +83,6 @@ export function CinemaHero() {
     },
   ], [language])
 
-  const threeTopicButtons = React.useMemo(() => [
-    {
-      id: "ansiedad",
-      label: language === "es" ? "Ansiedad" : "Anxiety",
-      icon: Sparkles,
-      iconColor: "text-[#c9cba3]",
-      color: "#c9cba3", // Verde Soulmar
-      href: "/#servicios",
-    },
-    {
-      id: "depresion",
-      label: language === "es" ? "Depresión" : "Depression",
-      icon: Brain,
-      iconColor: "text-[#8da9c4]",
-      color: "#8da9c4", // Azul Soulmar
-      href: "/#servicios",
-    },
-    {
-      id: "emociones",
-      label: language === "es" ? "Emociones" : "Emotions",
-      icon: Heart,
-      iconColor: "text-rose-500 dark:text-rose-400",
-      color: "#f43f5e",
-      href: "/#servicios",
-    },
-  ], [language])
-
   const handleMobileSearch = (e: React.FormEvent) => {
     e.preventDefault()
     const q = mobileSearchQuery.toLowerCase().trim()
@@ -558,31 +531,8 @@ export function CinemaHero() {
           </div>
         </div>
 
-        {/* BOTONES DEBAJO DEL BANNER: ANSIEDAD, DEPRESIÓN, EMOCIONES (CRISTAL LÍQUIDO) */}
-        <div className="w-full mt-6 mb-7 pt-1">
-          <div className="grid grid-cols-3 gap-2.5 w-full">
-            {threeTopicButtons.map((btn) => {
-              const Icon = btn.icon
-              return (
-                <Link
-                  key={btn.id}
-                  href={btn.href}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    document.getElementById("servicios")?.scrollIntoView({ behavior: "smooth" })
-                  }}
-                  className="liquid-glass rounded-full py-3 px-2 flex items-center justify-center gap-1.5 text-[12.5px] font-bold text-neutral-800 dark:text-white shadow-md active:scale-95 transition-transform cursor-pointer select-none text-center min-h-[46px]"
-                >
-                  <Icon className="w-[15px] h-[15px] shrink-0 stroke-[2.4]" style={{ color: btn.color }} />
-                  <span className="truncate">{btn.label}</span>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-
         {/* MÓDULOS QUE LE SIGUEN: GRID 2 COLUMNAS DE CAJAS CON FOTO COMPLETA (FULL BLEED) */}
-        <div className="grid grid-cols-2 gap-3 pt-1">
+        <div className="grid grid-cols-2 gap-3 pt-5">
           {mobileModules.map((mod) => (
             <Link
               key={mod.id}
