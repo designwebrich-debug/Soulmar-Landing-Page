@@ -22,44 +22,46 @@ export function HowToStartSection() {
 
   return (
     <section id="como-empezar" className="w-full relative overflow-hidden bg-[#f5f4f0]">
-      {/* Master Relative Container */}
-      <div className="w-full relative">
+      {/* Master Container: Stacks vertically on mobile (video on top, steps below), absolute overlay on desktop */}
+      <div className="w-full relative flex flex-col md:block">
         
-        {/* Uncropped Edge-to-Edge Video Background */}
-        <video 
-          src="/videos/video-mockup.mp4" 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="w-full h-auto block"
-        />
+        {/* Laptop Video Mockup - Positioned at top on mobile, full-width background on desktop */}
+        <div className="w-full relative overflow-hidden">
+          <video 
+            src="/videos/video-mockup.mp4" 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-auto h-auto block object-cover object-[69%_center] md:object-fill"
+          />
+        </div>
 
-        {/* Floating Text Overlay - Shifted slightly right towards the laptop */}
-        <div className="absolute inset-0 flex items-center justify-start z-10 pointer-events-none pl-10 sm:pl-16 md:pl-24 lg:pl-32 xl:pl-44 pr-6">
+        {/* Text & Steps: Below the laptop on mobile, Floating overlay on desktop */}
+        <div className="w-full px-6 pt-6 pb-12 md:p-0 md:absolute md:inset-0 md:flex md:items-center md:justify-start md:z-10 md:pointer-events-none md:pl-24 lg:pl-32 xl:pl-44 md:pr-6">
           <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl pointer-events-auto">
             
-            {/* Titles with exact Laptop Display proportionality & 2pt bottom gap */}
-            <div className="space-y-0.5 sm:space-y-1 mb-3 sm:mb-4 md:mb-5">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[34px] xl:text-[40px] font-black tracking-tighter text-[#8da9c4] leading-none uppercase">
+            {/* Titles with exact Laptop Display proportionality */}
+            <div className="space-y-0.5 sm:space-y-1 mb-4 md:mb-5">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[34px] xl:text-[40px] font-black tracking-tighter text-[#8da9c4] leading-tight md:leading-none uppercase">
                 {title1}
               </h2>
-              <h3 className="text-base sm:text-xl md:text-2xl lg:text-[24px] xl:text-[28px] font-black tracking-tighter text-[#1d1d1f] leading-none uppercase">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[24px] xl:text-[28px] font-black tracking-tighter text-[#1d1d1f] leading-tight md:leading-none uppercase">
                 {title2}
               </h3>
             </div>
 
-            {/* Step Items - Clean without trailing periods */}
-            <div className="space-y-1.5 sm:space-y-2 md:space-y-2.5">
+            {/* Step Items - Clean and readable */}
+            <div className="space-y-2 md:space-y-2.5">
               {steps.map((step, idx) => (
                 <div 
                   key={idx} 
                   className="flex items-center gap-2.5 sm:gap-3 py-0.5 group"
                 >
-                  <span className="bg-[#8da9c4] text-white group-hover:bg-[#ffc971] group-hover:text-neutral-900 text-[9px] sm:text-[10px] md:text-xs font-black tracking-wider uppercase px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md md:rounded-lg shrink-0 shadow-sm transition-colors duration-300 cursor-pointer">
+                  <span className="bg-[#8da9c4] text-white group-hover:bg-[#ffc971] group-hover:text-neutral-900 text-[10px] md:text-xs font-black tracking-wider uppercase px-2.5 py-1 rounded-md md:rounded-lg shrink-0 shadow-sm transition-colors duration-300 cursor-pointer">
                     {step.num}
                   </span>
-                  <p className="text-[#1d1d1f] font-bold text-[11px] sm:text-xs md:text-sm lg:text-base leading-snug">
+                  <p className="text-[#1d1d1f] font-bold text-xs sm:text-xs md:text-sm lg:text-base leading-snug">
                     {step.text}
                   </p>
                 </div>
