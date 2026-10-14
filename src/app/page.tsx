@@ -12,7 +12,7 @@ const ServicesSection = dynamic(() => import("@/components/home/ServicesSection"
 const HowToStartSection = dynamic(() => import("@/components/home/HowToStartSection").then(mod => mod.HowToStartSection))
 const PhoneMarqueeSlider = dynamic(() => import("@/components/home/PhoneMarqueeSlider").then(mod => mod.PhoneMarqueeSlider))
 const AgendamientoSection = dynamic(() => import("@/components/home/AgendamientoSection").then(mod => mod.AgendamientoSection))
-const TestimonialsSection = dynamic(() => import("@/components/home/TestimonialsSection").then(mod => mod.TestimonialsSection))
+const SocialCommunitySection = dynamic(() => import("@/components/home/SocialCommunitySection").then(mod => mod.SocialCommunitySection))
 const EbookSection = dynamic(() => import("@/components/home/EbookSection").then(mod => mod.EbookSection))
 const NewsletterSection = dynamic(() => import("@/components/home/NewsletterSection").then(mod => mod.NewsletterSection))
 const FooterSection = dynamic(() => import("@/components/home/FooterSection").then(mod => mod.FooterSection))
@@ -35,8 +35,8 @@ export default function Home() {
       {/* SECTION 3: INTEGRATED PREMIUM BOOKING SECTION (In-Situ) */}
       <AgendamientoSection />
 
-      {/* SECTION 5: TESTIMONIALS (Apple Music Style Highlights) */}
-      <TestimonialsSection />
+      {/* SECTION 5: SOULMAR COMMUNITY (Apple iOS Widgets + Cinematic Reels Feed) */}
+      <SocialCommunitySection />
 
       {/* SECTION 5.5: EBOOKS (Soulmar Free Resources) */}
       <EbookSection />
