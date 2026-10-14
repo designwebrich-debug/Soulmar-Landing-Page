@@ -1,7 +1,8 @@
 "use client"
 
+import React, { useRef, useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowRight, Heart, Users, Sparkles, ClipboardList, Brain, CloudRain } from "lucide-react"
+import { ArrowRight, Heart, Users, Sparkles, ClipboardList, Brain, CloudRain, ChevronLeft, ChevronRight } from "lucide-react"
 import { Section } from "@/components/layout/Section"
 import { HighlightCarousel } from "./HighlightCarousel"
 import { useTranslation } from "@/context/LanguageContext"
@@ -52,8 +53,37 @@ const serviceConfigs = [
 ]
 
 export function ServicesSection() {
-  const { t } = useTranslation()
+  const { t, language } = useTranslation()
   const items = t<Array<{ title: string; desc: string }>>('services.items', { returnObjects: true }) || []
+  
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  // Track active slide based on scroll position in mobile
+  useEffect(() => {
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    const handleScroll = () => {
+      const scrollLeft = el.scrollLeft
+      const itemWidth = el.firstElementChild ? (el.firstElementChild as HTMLElement).offsetWidth + 16 : 280
+      const index = Math.round(scrollLeft / itemWidth)
+      setActiveIndex(Math.max(0, Math.min(serviceConfigs.length - 1, index)))
+    }
+
+    el.addEventListener("scroll", handleScroll, { passive: true })
+    return () => el.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollContainerRef.current
+    if (!el || !el.children[index]) return
+    const target = el.children[index] as HTMLElement
+    el.scrollTo({
+      left: target.offsetLeft - 24,
+      behavior: "smooth"
+    })
+  }
 
   return (
     <Section id="servicios" className="bg-background dark:bg-[#0b0b0c] pt-20 md:pt-28 pb-16 md:pb-20 transition-colors duration-500 relative overflow-hidden scroll-mt-24 md:scroll-mt-28">
@@ -62,19 +92,28 @@ export function ServicesSection() {
       <div className="absolute bottom-0 left-0 w-[30%] h-[30%] bg-[#c9cba3]/5 blur-[100px] rounded-full -ml-20 -mb-20" />
 
       {/* Heading */}
-      <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-3 px-6 relative z-10">
+      <div className="max-w-3xl mx-auto text-center mb-8 md:mb-14 space-y-3 px-6 relative z-10">
         <h2 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
           {t('services.title')}
         </h2>
         <p className="text-lg text-[#1d1d1f]/50 dark:text-white/40 font-medium">
           {t('services.subtitle')}
         </p>
+
+        {/* Micro-hint solo visible en móvil estilo iOS con animación suave */}
+        <div className="md:hidden inline-flex items-center gap-1.5 pt-1 text-[11.5px] font-semibold text-[#8da9c4] dark:text-[#8da9c4] animate-pulse">
+          <span>{language === "es" ? "Desliza para explorar" : "Swipe to explore"}</span>
+          <ArrowRight className="w-3 h-3" />
+        </div>
       </div>
 
-      {/* Mobile: Swipeable large proportional cards (deslice de derecha a izquierda)
+      {/* Mobile: Apple-style Peek & Overlap Carousel (76vw width, next card peeking at right edge)
           Desktop: 3×2 Grid */}
       <div className="max-w-5xl mx-auto px-6 relative z-10">
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 pt-2 no-scrollbar touch-momentum -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5 md:overflow-visible md:snap-none md:pb-0">
+        <div 
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-2 no-scrollbar touch-momentum -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5 md:overflow-visible md:snap-none md:pb-0"
+        >
           {serviceConfigs.map((cfg, index) => {
             const Icon = cfg.icon
             const item = items[index] || { title: "", desc: "" }
@@ -82,7 +121,7 @@ export function ServicesSection() {
               <Link
                 key={index}
                 href="/#agendamiento"
-                className="snap-center shrink-0 w-[84vw] sm:w-[360px] md:w-auto group relative block active:scale-[0.98] transition-transform duration-200"
+                className="snap-start shrink-0 w-[76vw] sm:w-[320px] md:w-auto group relative block active:scale-[0.98] transition-transform duration-200"
                 onClick={(e) => {
                   if (window.location.pathname === "/") {
                     e.preventDefault()
@@ -94,7 +133,7 @@ export function ServicesSection() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${cfg.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
                 {/* Card body - Proporcionada, caja grande, texto e icono en armonía */}
-                <div className={`relative bg-white/80 dark:bg-white/[0.04] backdrop-blur-2xl rounded-[2rem] p-8 md:p-9 flex flex-col items-center text-center border border-white/80 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${cfg.hover} transition-all duration-300 sm:duration-500 hover:-translate-y-1.5 cursor-pointer h-full min-h-[350px] md:min-h-0`}>
+                <div className={`relative bg-white/80 dark:bg-white/[0.04] backdrop-blur-2xl rounded-[2rem] p-7 sm:p-8 md:p-9 flex flex-col items-center text-center border border-white/80 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ${cfg.hover} transition-all duration-300 sm:duration-500 hover:-translate-y-1.5 cursor-pointer h-full min-h-[350px] md:min-h-0`}>
 
                   {/* Icon squircle grande */}
                   <div
@@ -112,7 +151,7 @@ export function ServicesSection() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[#1d1d1f]/70 dark:text-white/60 text-[16.5px] md:text-base leading-[1.65] mb-6 flex-1 font-medium">
+                  <p className="text-[#1d1d1f]/70 dark:text-white/60 text-[15px] sm:text-[16px] md:text-base leading-[1.6] mb-6 flex-1 font-medium">
                     {item.desc}
                   </p>
 
@@ -127,6 +166,24 @@ export function ServicesSection() {
               </Link>
             )
           })}
+        </div>
+
+        {/* INDICADOR DE PUNTOS INTERACTIVOS (APPLE HIG PAGINATION) - SOLO MÓVIL */}
+        <div className="md:hidden flex items-center justify-center gap-2 pt-3">
+          <div className="flex items-center gap-1.5 bg-neutral-900/5 dark:bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-black/5 dark:border-white/10">
+            {serviceConfigs.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => scrollToIndex(idx)}
+                className={`transition-all duration-300 rounded-full cursor-pointer ${
+                  activeIndex === idx
+                    ? "w-6 h-1.5 bg-[#8da9c4]"
+                    : "w-1.5 h-1.5 bg-neutral-400/50 dark:bg-white/30 hover:bg-neutral-500"
+                }`}
+                aria-label={`Servicio ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
