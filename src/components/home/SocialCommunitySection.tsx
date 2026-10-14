@@ -141,14 +141,11 @@ export function SocialCommunitySection() {
             href="https://www.instagram.com/soulmar.org_/?hl=es"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-6 sm:p-7 liquid-glass overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-lg flex flex-col justify-between min-h-[190px] border border-white/40 dark:border-white/10"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-lg flex flex-col justify-between min-h-[190px] border border-white/40 dark:border-white/10"
           >
-            {/* Ambient Instagram subtle glow */}
-            <div className="absolute top-0 right-0 w-44 h-44 bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-amber-500/15 blur-2xl rounded-full -mr-10 -mt-10 pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-
-            <div className="relative z-10 flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3.5">
-                <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-[#8da9c4]/30 via-white/50 to-[#8da9c4]/20 dark:from-white/10 dark:to-white/5 shrink-0 shadow-md border border-white/60 dark:border-white/15">
+            <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-[#8da9c4]/30 via-white/50 to-[#8da9c4]/20 dark:from-white/10 dark:to-white/5 shrink-0 shadow-md border border-white/60 dark:border-white/15">
                   <div className="w-full h-full rounded-[14px] overflow-hidden bg-white/90 dark:bg-neutral-900/90 relative flex items-center justify-center p-1.5">
                     <Image
                       src="/images/logo-soulmar-blue.png"
@@ -158,9 +155,9 @@ export function SocialCommunitySection() {
                     />
                   </div>
                 </div>
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="font-extrabold text-base sm:text-lg text-[#1d1d1f] dark:text-white tracking-tight">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <h3 className="font-extrabold text-[15px] sm:text-base md:text-lg text-[#1d1d1f] dark:text-white tracking-tight truncate">
                       @soulmar.org_
                     </h3>
                     <div className="relative w-4 h-4 shrink-0">
@@ -172,13 +169,13 @@ export function SocialCommunitySection() {
                       />
                     </div>
                   </div>
-                  <p className="text-xs text-[#1d1d1f]/60 dark:text-white/50 font-medium">
+                  <p className="text-xs text-[#1d1d1f]/60 dark:text-white/50 font-medium truncate">
                     Instagram • Dra. Mariana Caicedo
                   </p>
                 </div>
               </div>
 
-              <div className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-sm">
+              <div className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-sm ml-2">
                 <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </div>
@@ -200,14 +197,11 @@ export function SocialCommunitySection() {
             href="https://www.tiktok.com/@soulmar.psicologia?_r=1&_t=ZS-9AYEqfc2W28"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-6 sm:p-7 liquid-glass overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-lg flex flex-col justify-between min-h-[190px] border border-white/40 dark:border-white/10"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-lg flex flex-col justify-between min-h-[190px] border border-white/40 dark:border-white/10"
           >
-            {/* Ambient TikTok subtle neon glow */}
-            <div className="absolute top-0 right-0 w-44 h-44 bg-gradient-to-br from-cyan-400/20 via-pink-500/15 to-transparent blur-2xl rounded-full -mr-10 -mt-10 pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-
-            <div className="relative z-10 flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3.5">
-                <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-black/20 via-neutral-400 to-black/30 dark:from-white/20 dark:to-neutral-500 shrink-0 shadow-md border border-white/60 dark:border-white/15">
+            <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-black/20 via-neutral-400 to-black/30 dark:from-white/20 dark:to-neutral-500 shrink-0 shadow-md border border-white/60 dark:border-white/15">
                   <div className="w-full h-full rounded-[14px] overflow-hidden bg-white/90 dark:bg-neutral-900/90 relative flex items-center justify-center p-1.5">
                     <Image
                       src="/images/logo-soulmar-black.png"
@@ -217,9 +211,9 @@ export function SocialCommunitySection() {
                     />
                   </div>
                 </div>
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="font-extrabold text-base sm:text-lg text-[#1d1d1f] dark:text-white tracking-tight">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <h3 className="font-extrabold text-[15px] sm:text-base md:text-lg text-[#1d1d1f] dark:text-white tracking-tight truncate">
                       @soulmar.psicologia
                     </h3>
                     <div className="relative w-4 h-4 shrink-0">
@@ -231,13 +225,13 @@ export function SocialCommunitySection() {
                       />
                     </div>
                   </div>
-                  <p className="text-xs text-[#1d1d1f]/60 dark:text-white/50 font-medium">
+                  <p className="text-xs text-[#1d1d1f]/60 dark:text-white/50 font-medium truncate">
                     TikTok • Salud Mental en 60s
                   </p>
                 </div>
               </div>
 
-              <div className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-sm">
+              <div className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-sm ml-2">
                 <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </div>
@@ -261,10 +255,10 @@ export function SocialCommunitySection() {
         <div className="relative">
           <div className="flex items-center justify-between mb-4 px-1">
             <h4 className="text-sm sm:text-base font-extrabold text-[#1d1d1f] dark:text-white tracking-tight uppercase">
-              {isEn ? "Latest on Instagram" : "Últimas publicaciones en Instagram"}
+              {isEn ? "Selected Instagram posts" : "Algunas publicaciones en instagram"}
             </h4>
-            <span className="text-xs text-[#8da9c4] font-semibold">
-              {isEn ? "Tap to open" : "Toca para ver"}
+            <span className="text-xs text-[#8da9c4] font-bold tracking-wider uppercase">
+              {isEn ? "SEE MORE" : "VER MÁS"}
             </span>
           </div>
 
