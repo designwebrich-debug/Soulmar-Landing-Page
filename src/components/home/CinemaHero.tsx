@@ -524,14 +524,14 @@ export function CinemaHero() {
         </div>
 
         {/* SLOGAN SOULMAR: "Tu alma, tu historia, tu momento" */}
-        <div className="w-full pt-6 pb-2 text-center px-2">
+        <div className="w-full pt-9 pb-7 text-center px-4">
           <h2 className="text-2xl sm:text-[26px] font-bold tracking-tight text-[#1d1d1f] dark:text-white leading-tight font-sans">
             {language === "es" ? "Tu alma, tu historia, tu momento" : "Your soul, your story, your moment"}
           </h2>
         </div>
 
         {/* MÓDULOS QUE LE SIGUEN: GRID 2 COLUMNAS DE CAJAS CON FOTO COMPLETA (FULL BLEED) */}
-        <div className="grid grid-cols-2 gap-3 pt-1">
+        <div className="grid grid-cols-2 gap-3 pt-2">
           {mobileModules.map((mod) => (
             <Link
               key={mod.id}
