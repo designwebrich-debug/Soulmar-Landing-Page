@@ -75,7 +75,7 @@ export function CinemaHero() {
     {
       id: 3,
       tag: language === "es" ? "PSICOLOGÍA CLÍNICA • BIENESTAR" : "CLINICAL PSYCHOLOGY • WELLNESS",
-      title: language === "es" ? "SANAR ES VOLVER A TI" : "HEALING IS RETURNING TO YOU",
+      title: "",
       image: "/images/mobile-hero/slide-3.jpg",
       bottomTitle: language === "es" ? "Terapia Online 1 a 1" : "Online Therapy 1 on 1",
       bottomSubtitle: language === "es" ? "Acompañamiento personalizado" : "Personalized guidance",
@@ -479,12 +479,8 @@ export function CinemaHero() {
             </motion.div>
           </AnimatePresence>
 
-          {/* ARRIBA DE LA TARJETA: BADGE + INDICADORES DE CARRUSEL (3 PUNTOS) */}
-          <div className="relative z-10 flex items-center justify-between w-full">
-            <span className="bg-black/40 backdrop-blur-md border border-white/25 text-white text-[9.5px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md">
-              {mobileSlides[currentMobileSlide].tag}
-            </span>
-
+          {/* ARRIBA DE LA TARJETA: SOLO INDICADORES DE CARRUSEL (3 PUNTOS) */}
+          <div className="relative z-10 flex items-center justify-end w-full">
             {/* INDICADOR DE 3 FOTOS */}
             <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md border border-white/20 px-2.5 py-1.5 rounded-full shadow-md">
               {mobileSlides.map((_, idx) => (
@@ -500,15 +496,6 @@ export function CinemaHero() {
                 />
               ))}
             </div>
-          </div>
-
-          {/* EN MEDIO: TITULAR GRANDE SOLO SI ESTÁ PRESENTE */}
-          <div className="relative z-10 mt-auto mb-3 text-left pr-2 pointer-events-none">
-            {mobileSlides[currentMobileSlide].title ? (
-              <h2 className="text-[32px] sm:text-[36px] font-black uppercase tracking-tight text-white leading-[0.94] drop-shadow-2xl font-sans">
-                {mobileSlides[currentMobileSlide].title}
-              </h2>
-            ) : null}
           </div>
 
           {/* ABAJO: BARRA DE BÚSQUEDA CON EFECTO DE CRISTAL LÍQUIDO (liquid-glass) */}
