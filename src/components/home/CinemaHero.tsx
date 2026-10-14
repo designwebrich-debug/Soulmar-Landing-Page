@@ -511,7 +511,7 @@ export function CinemaHero() {
               <button
                 type="submit"
                 aria-label="Buscar"
-                className="w-10 h-10 rounded-full bg-[#8da9c4] text-white flex items-center justify-center shrink-0 cursor-pointer active:scale-90 transition-transform shadow-md"
+                className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center shrink-0 text-white cursor-pointer active:scale-90 transition-transform"
               >
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
