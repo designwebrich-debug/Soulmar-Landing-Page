@@ -4,7 +4,7 @@ import React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, Calendar, ShieldCheck, Clock, Plus, ArrowUpRight, ArrowRight, Heart, Users, Brain, BookOpen, Flame, Sparkles, Search } from "lucide-react"
+import { ChevronDown, Calendar, ShieldCheck, Clock, Plus, ArrowUpRight, ArrowRight, Heart, Users, Brain, BookOpen, Flame, Sparkles, Search, Download } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from "@/context/LanguageContext"
 import { format, addDays } from "date-fns"
@@ -104,38 +104,26 @@ export function CinemaHero() {
 
   const mobileModules = React.useMemo(() => [
     {
-      id: "individual",
-      tag: "1 A 1",
-      title: language === "es" ? "Terapia Individual" : "Individual Therapy",
-      desc: language === "es" ? "Acompañamiento clínico" : "Clinical guidance",
-      image: "/images/BannerHero01.jpg",
-      href: "/#agendamiento",
-    },
-    {
-      id: "pareja",
-      tag: language === "es" ? "PAREJAS" : "COUPLES",
-      title: language === "es" ? "Terapia Pareja" : "Couples Therapy",
-      desc: language === "es" ? "Vínculos y acuerdos" : "Bonds & agreements",
-      image: "/images/BannerHero03.jpg",
-      href: "/#agendamiento",
-    },
-    {
-      id: "familiar",
-      tag: language === "es" ? "FAMILIAS" : "FAMILIES",
-      title: language === "es" ? "Orientación Familiar" : "Family Guidance",
-      desc: language === "es" ? "Dinámicas afectivas" : "Emotional dynamics",
-      image: "/images/hero-soulmar-cozy.jpg",
-      href: "/#agendamiento",
-    },
-    {
-      id: "ebooks",
-      tag: language === "es" ? "GRATIS" : "FREE",
-      title: language === "es" ? "Libros & PDFs" : "Books & PDFs",
-      desc: language === "es" ? "Guías descargables" : "Downloadable guides",
-      image: "/images/BannerHero02.jpg",
+      id: "ansiedad",
+      image: "/images/mobile-modules/ansiedad.jpg",
       href: "/#ebooks",
     },
-  ], [language])
+    {
+      id: "depresion",
+      image: "/images/mobile-modules/depresion.png",
+      href: "/#ebooks",
+    },
+    {
+      id: "emuna",
+      image: "/images/mobile-modules/emuna.png",
+      href: "/#ebooks",
+    },
+    {
+      id: "mindset",
+      image: "/images/mobile-modules/mindset.png",
+      href: "/#ebooks",
+    },
+  ], [])
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -556,38 +544,22 @@ export function CinemaHero() {
                   el.scrollIntoView({ behavior: "smooth" })
                 }
               }}
-              className="relative w-full h-[200px] sm:h-[220px] rounded-[28px] overflow-hidden shadow-lg border border-white/20 dark:border-white/10 flex flex-col justify-between p-3.5 select-none active:scale-[0.98] transition-transform group"
+              className="relative w-full aspect-[6/7] rounded-[28px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-end p-3 select-none active:scale-[0.98] transition-transform group"
             >
-              {/* Foto que abarca la totalidad del espacio de la caja */}
+              {/* Foto en máxima calidad existente full-bleed */}
               <Image
                 src={mod.image}
-                alt={mod.title}
+                alt={mod.id}
                 fill
-                quality={95}
+                quality={100}
                 unoptimized
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
 
-              {/* Degradado cinemático para legibilidad perfecta de los textos */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35 pointer-events-none" />
-
-              {/* Tag / Badge por encima de la foto (Arriba a la izquierda) */}
-              <span className="relative z-10 self-start text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/25 backdrop-blur-md border border-white/30 text-white shadow-sm">
-                {mod.tag}
-              </span>
-
-              {/* Textos y botón (+) por encima de la foto (Abajo) */}
-              <div className="relative z-10 flex items-end justify-between gap-1 mt-auto">
-                <div className="min-w-0 pr-1 text-left">
-                  <h3 className="text-[13.5px] font-black text-white leading-tight drop-shadow-md truncate">
-                    {mod.title}
-                  </h3>
-                  <p className="text-[10px] text-white/80 font-medium leading-tight drop-shadow-sm truncate mt-0.5">
-                    {mod.desc}
-                  </p>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-white text-neutral-900 flex items-center justify-center shrink-0 shadow-lg group-hover:bg-[#8da9c4] group-hover:text-white transition-colors duration-200">
-                  <Plus className="w-4 h-4 stroke-[2.5]" />
+              {/* Botón único de descarga en la esquina inferior */}
+              <div className="relative z-10 flex justify-end w-full">
+                <div className="w-8 h-8 rounded-full bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md text-neutral-900 dark:text-white flex items-center justify-center shrink-0 shadow-lg group-hover:bg-[#8da9c4] group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                  <Download className="w-4 h-4 stroke-[2.5]" />
                 </div>
               </div>
             </Link>
