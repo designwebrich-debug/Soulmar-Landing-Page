@@ -57,29 +57,29 @@ export function CinemaHero() {
     {
       id: 1,
       tag: language === "es" ? "★ DESTACADO • DRA. MARIANA CAICEDO" : "★ FEATURED • DR. MARIANA CAICEDO",
-      title: language === "es" ? "SANAR ES VOLVER A TI" : "HEALING IS RETURNING TO YOU",
-      image: "/images/BannerHero01.jpg",
-      bottomTitle: language === "es" ? "Psicoterapia Individual" : "Individual Psychotherapy",
-      bottomSubtitle: language === "es" ? "Online • 1 a 1 personalizada" : "Online • 1 on 1 personalized",
+      title: "",
+      image: "/images/mobile-hero/slide-1.jpg",
+      bottomTitle: language === "es" ? "Mi Herida, Mi Reacción" : "My Wound, My Reaction",
+      bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#agendamiento",
     },
     {
       id: 2,
-      tag: language === "es" ? "VÍNCULOS • PSICOLOGÍA CLÍNICA" : "RELATIONSHIPS • CLINICAL PSYCHOLOGY",
-      title: language === "es" ? "TERAPIA DE PAREJA" : "COUPLES THERAPY",
-      image: "/images/BannerHero03.jpg",
-      bottomTitle: language === "es" ? "Sesión para Parejas" : "Couples Session",
-      bottomSubtitle: language === "es" ? "Comunicación y acuerdos afectivos" : "Communication and emotional bonds",
-      href: "/#agendamiento",
+      tag: language === "es" ? "★ DESTACADO • SOULMAR" : "★ FEATURED • SOULMAR",
+      title: "",
+      image: "/images/mobile-hero/slide-2.png",
+      bottomTitle: language === "es" ? "¿Por qué sobrepienso todo?" : "Why do I overthink everything?",
+      bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
+      href: "/#ebooks",
     },
     {
       id: 3,
-      tag: language === "es" ? "RECURSOS GRATUITOS • SOULMAR" : "FREE RESOURCES • SOULMAR",
-      title: language === "es" ? "GUÍAS Y EBOOKS" : "GUIDES & EBOOKS",
-      image: "/images/BannerHero02.jpg",
-      bottomTitle: language === "es" ? "Libros & Cuadernos" : "Books & Workbooks",
-      bottomSubtitle: language === "es" ? "Descarga 100% gratuita" : "100% free download",
-      href: "/#ebooks",
+      tag: language === "es" ? "PSICOLOGÍA CLÍNICA • BIENESTAR" : "CLINICAL PSYCHOLOGY • WELLNESS",
+      title: language === "es" ? "SANAR ES VOLVER A TI" : "HEALING IS RETURNING TO YOU",
+      image: "/images/mobile-hero/slide-3.jpg",
+      bottomTitle: language === "es" ? "Terapia Online 1 a 1" : "Online Therapy 1 on 1",
+      bottomSubtitle: language === "es" ? "Acompañamiento personalizado" : "Personalized guidance",
+      href: "/#agendamiento",
     },
   ], [language])
 
@@ -446,10 +446,10 @@ export function CinemaHero() {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentMobileSlide}
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: 1.02 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
@@ -464,26 +464,29 @@ export function CinemaHero() {
             >
               <Image
                 src={mobileSlides[currentMobileSlide].image}
-                alt={mobileSlides[currentMobileSlide].title}
+                alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
                 fill
                 quality={100}
                 priority
                 unoptimized
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 420px"
+                className="object-cover object-center select-none"
               />
-              {/* Degradados cinemáticos para legibilidad perfecta */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/85" />
+              {/* Degradado sutil solo en la parte inferior para que la barra de búsqueda resalte sin oscurecer la foto */}
+              <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/80 via-black/35 to-transparent pointer-events-none" />
+              {/* Degradado superior muy suave para los botones superiores */}
+              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 via-black/15 to-transparent pointer-events-none" />
             </motion.div>
           </AnimatePresence>
 
           {/* ARRIBA DE LA TARJETA: BADGE + INDICADORES DE CARRUSEL (3 PUNTOS) */}
           <div className="relative z-10 flex items-center justify-between w-full">
-            <span className="bg-white/25 backdrop-blur-md border border-white/30 text-white text-[9.5px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-sm">
+            <span className="bg-black/40 backdrop-blur-md border border-white/25 text-white text-[9.5px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md">
               {mobileSlides[currentMobileSlide].tag}
             </span>
 
             {/* INDICADOR DE 3 FOTOS */}
-            <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md border border-white/20 px-2.5 py-1.5 rounded-full">
+            <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md border border-white/20 px-2.5 py-1.5 rounded-full shadow-md">
               {mobileSlides.map((_, idx) => (
                 <button
                   key={idx}
@@ -499,11 +502,13 @@ export function CinemaHero() {
             </div>
           </div>
 
-          {/* EN MEDIO: TITULAR GRANDE EN TODA LA CAJA (ESTILO FRENCH ROAST) */}
-          <div className="relative z-10 mt-6 mb-auto text-left pr-2 pointer-events-none">
-            <h2 className="text-[34px] sm:text-[38px] font-black uppercase tracking-tight text-white leading-[0.92] drop-shadow-xl font-sans">
-              {mobileSlides[currentMobileSlide].title}
-            </h2>
+          {/* EN MEDIO: TITULAR GRANDE SOLO SI ESTÁ PRESENTE */}
+          <div className="relative z-10 mt-auto mb-3 text-left pr-2 pointer-events-none">
+            {mobileSlides[currentMobileSlide].title ? (
+              <h2 className="text-[32px] sm:text-[36px] font-black uppercase tracking-tight text-white leading-[0.94] drop-shadow-2xl font-sans">
+                {mobileSlides[currentMobileSlide].title}
+              </h2>
+            ) : null}
           </div>
 
           {/* ABAJO: BARRA DE BÚSQUEDA CON EFECTO DE CRISTAL LÍQUIDO (liquid-glass) */}
