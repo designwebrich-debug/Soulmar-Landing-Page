@@ -441,8 +441,8 @@ export function CinemaHero() {
           ========================================================================= */}
       <div className="md:hidden flex flex-col w-full pt-1 pb-8 px-3.5 space-y-3 relative z-10">
         
-        {/* CAJA GRANDE EN TODO EL HOME (CARRUSEL DE 3 FOTOS) */}
-        <div className="relative w-full h-[510px] rounded-[36px] overflow-hidden shadow-2xl flex flex-col justify-between p-5 select-none bg-neutral-900 border border-white/10">
+        {/* CAJA GRANDE EN TODO EL HOME (CARRUSEL DE 3 FOTOS) - Ratio 3:4 exacto al de las fotos (768x1024) */}
+        <div className="relative w-full aspect-[3/4] rounded-[36px] overflow-hidden shadow-2xl flex flex-col justify-between p-5 select-none bg-neutral-900 border border-white/10">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentMobileSlide}
