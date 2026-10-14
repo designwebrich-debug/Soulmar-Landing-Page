@@ -526,7 +526,19 @@ export function CinemaHero() {
         {/* SLOGAN SOULMAR: "Tu alma, tu historia, tu momento" */}
         <div className="w-full pt-9 pb-7 text-center px-4">
           <h2 className="text-2xl sm:text-[26px] font-bold tracking-tight text-[#1d1d1f] dark:text-white leading-tight font-sans">
-            {language === "es" ? "Tu alma, tu historia, tu momento" : "Your soul, your story, your moment"}
+            {language === "es" ? (
+              <>
+                <span>Tu alma</span>,{" "}
+                <span className="text-[#8da9c4]">tu historia</span>,{" "}
+                <span className="text-[#c9cba3]">tu momento</span>
+              </>
+            ) : (
+              <>
+                <span>Your soul</span>,{" "}
+                <span className="text-[#8da9c4]">your story</span>,{" "}
+                <span className="text-[#c9cba3]">your moment</span>
+              </>
+            )}
           </h2>
         </div>
 
