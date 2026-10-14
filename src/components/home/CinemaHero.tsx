@@ -77,8 +77,8 @@ export function CinemaHero() {
       tag: language === "es" ? "PSICOLOGÍA CLÍNICA • BIENESTAR" : "CLINICAL PSYCHOLOGY • WELLNESS",
       title: "",
       image: "/images/mobile-hero/slide-3.jpg",
-      bottomTitle: language === "es" ? "Terapia Online 1 a 1" : "Online Therapy 1 on 1",
-      bottomSubtitle: language === "es" ? "Acompañamiento personalizado" : "Personalized guidance",
+      bottomTitle: language === "es" ? "Tu sesión psicológica a un clic" : "Your psychological session in one click",
+      bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#agendamiento",
     },
   ], [language])
