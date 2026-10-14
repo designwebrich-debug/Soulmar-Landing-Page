@@ -529,13 +529,13 @@ export function CinemaHero() {
             {language === "es" ? (
               <>
                 <span>Tu alma</span>,{" "}
-                <span className="text-[#8da9c4]">tu historia</span>,{" "}
+                <span className="text-[#8da9c4]">tu historia,</span>{" "}
                 <span className="text-[#c9cba3]">tu momento</span>
               </>
             ) : (
               <>
                 <span>Your soul</span>,{" "}
-                <span className="text-[#8da9c4]">your story</span>,{" "}
+                <span className="text-[#8da9c4]">your story,</span>{" "}
                 <span className="text-[#c9cba3]">your moment</span>
               </>
             )}
