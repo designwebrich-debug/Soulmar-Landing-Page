@@ -442,7 +442,7 @@ export function CinemaHero() {
       <div className="md:hidden flex flex-col w-full pt-4 pb-8 px-3.5 space-y-3 relative z-10">
         
         {/* CAJA GRANDE EN TODO EL HOME (CARRUSEL DE 3 FOTOS) - Ratio 3:4 exacto al de las fotos (768x1024) */}
-        <div className="relative w-full aspect-[3/4] rounded-[36px] overflow-hidden shadow-2xl flex flex-col justify-between p-5 select-none bg-neutral-900 border border-white/10">
+        <div className="relative w-full aspect-[3/4] rounded-[36px] overflow-hidden shadow-2xl flex flex-col justify-between p-5 select-none bg-transparent">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentMobileSlide}
@@ -472,10 +472,6 @@ export function CinemaHero() {
                 sizes="(max-width: 768px) 100vw, 420px"
                 className="object-cover object-center select-none"
               />
-              {/* Degradado sutil solo en la parte inferior para que la barra de búsqueda resalte sin oscurecer la foto */}
-              <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/80 via-black/35 to-transparent pointer-events-none" />
-              {/* Degradado superior muy suave para los botones superiores */}
-              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/50 via-black/15 to-transparent pointer-events-none" />
             </motion.div>
           </AnimatePresence>
 
