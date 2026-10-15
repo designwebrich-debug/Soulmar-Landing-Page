@@ -258,21 +258,25 @@ export function CinemaHero() {
     {
       id: "ansiedad",
       image: "/images/mobile-modules/ansiedad.jpg",
+      desktopImage: "/images/desktop-modules/ansiedad.jpg",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "depresion",
       image: "/images/mobile-modules/depresion.png",
+      desktopImage: "/images/desktop-modules/tristeza.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "emuna",
       image: "/images/mobile-modules/emuna.png",
+      desktopImage: "/images/desktop-modules/emuna.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "mindset",
       image: "/images/mobile-modules/mindset.png",
+      desktopImage: "/images/desktop-modules/mindset.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
   ], [])
@@ -1005,14 +1009,25 @@ export function CinemaHero() {
               rel="noopener noreferrer"
               className="relative w-full aspect-[6/7] md:aspect-[3/4] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-start p-3 md:p-4 select-none active:scale-[0.98] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group"
             >
-              {/* Foto en máxima calidad existente full-bleed */}
+              {/* Foto para versión móvil (intacta) */}
               <Image
                 src={mod.image}
                 alt={mod.id}
                 fill
                 quality={100}
                 unoptimized
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                className="md:hidden object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              />
+
+              {/* Foto exclusiva para versión de computador (PC) en máxima calidad */}
+              <Image
+                src={mod.desktopImage}
+                alt={mod.id}
+                fill
+                quality={100}
+                unoptimized
+                priority
+                className="hidden md:block object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
 
               {/* Botón único de reproducir en la esquina superior derecha */}
