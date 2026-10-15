@@ -95,9 +95,9 @@ export function SocialCommunitySection() {
   }
 
   return (
-    <Section id="comunidad" className="pt-20 pb-20 bg-surface dark:bg-[#0b0b0c] transition-colors duration-500 relative overflow-hidden">
+    <Section id="comunidad" className="pt-10 md:pt-14 pb-20 bg-surface dark:bg-[#0b0b0c] transition-colors duration-500 relative overflow-hidden">
       {/* Background ambient lighting with soft Soulmar tones to empower liquid glass refraction */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[85%] max-w-4xl h-[420px] bg-gradient-to-r from-[#8da9c4]/25 via-[#c9cba3]/20 to-[#8da9c4]/25 blur-[110px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[70%] max-w-3xl h-[280px] bg-gradient-to-r from-[#8da9c4]/10 via-[#c9cba3]/10 to-[#8da9c4]/10 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
@@ -132,19 +132,19 @@ export function SocialCommunitySection() {
         </div>
 
         {/* =========================================================================
-            2. WIDGETS GEMELOS APPLE iOS (INSTAGRAM & TIKTOK)
+            2. WIDGETS GEMELOS APPLE iOS (INSTAGRAM & TIKTOK) - REDUCIDOS 20% EN PC
             ========================================================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12 max-w-full md:max-w-[80%] lg:max-w-[78%] mx-auto">
           
           {/* WIDGET 1: INSTAGRAM */}
           <Link
             href="https://www.instagram.com/soulmar.org_/?hl=es"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/65 dark:bg-white/[0.06] backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_16px_40px_-12px_rgba(141,169,196,0.3),0_2px_8px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-2px_0_rgba(141,169,196,0.3),inset_0_0_24px_rgba(255,255,255,0.7)]"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/70 dark:bg-white/[0.04] backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.03),inset_0_1px_0_rgba(255,255,255,0.6)] dark:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)]"
           >
-            {/* Capa de lente convexa y bisel de cristal líquido */}
-            <div className="absolute top-0 left-4 right-4 h-24 rounded-full bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none" />
+            {/* Capa de lente convexa y bisel suave de cristal */}
+            <div className="absolute top-0 left-6 right-6 h-16 rounded-full bg-gradient-to-b from-white/25 dark:from-white/10 via-white/5 to-transparent pointer-events-none" />
 
             <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -200,10 +200,10 @@ export function SocialCommunitySection() {
             href="https://www.tiktok.com/@soulmar.psicologia?_r=1&_t=ZS-9AYEqfc2W28"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/65 dark:bg-white/[0.06] backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_16px_40px_-12px_rgba(141,169,196,0.3),0_2px_8px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-2px_0_rgba(141,169,196,0.3),inset_0_0_24px_rgba(255,255,255,0.7)]"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/70 dark:bg-white/[0.04] backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.03),inset_0_1px_0_rgba(255,255,255,0.6)] dark:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)]"
           >
-            {/* Capa de lente convexa y bisel de cristal líquido */}
-            <div className="absolute top-0 left-4 right-4 h-24 rounded-full bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none" />
+            {/* Capa de lente convexa y bisel suave de cristal */}
+            <div className="absolute top-0 left-6 right-6 h-16 rounded-full bg-gradient-to-b from-white/25 dark:from-white/10 via-white/5 to-transparent pointer-events-none" />
 
             <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">

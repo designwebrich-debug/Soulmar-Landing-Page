@@ -45,41 +45,8 @@ const EBOOKS = [
 ]
 
 export function EbookSection() {
-  const { t } = useTranslation()
-  return (
-    <section id="ebooks" className="hidden md:block py-16 md:py-32 bg-[#8da9c4] dark:bg-[#8da9c4] transition-colors duration-500 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-6">
-        {/* Header */}
-        <div className="flex flex-col items-start mb-10 md:mb-20 space-y-3 md:space-y-4">
-          <motion.h2
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold text-white tracking-tight flex items-center gap-3 md:gap-4"
-          >
-            {t<string>('home.ebooks_title')}
-            <BookOpen className="w-7 h-7 md:w-10 md:h-10 text-white" />
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-lg md:text-2xl font-medium text-white/80"
-          >
-            {t<string>('home.ebooks_subtitle')}
-          </motion.p>
-        </div>
-
-        {/* Grid: Swipeable on mobile, Grid on desktop */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 no-scrollbar touch-momentum -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 md:pb-0">
-          {EBOOKS.map((ebook) => (
-            <EbookCard key={ebook.id} ebook={ebook} t={t} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+  // Sección "Pensamos en ti" (Ebooks) oculta según solicitud del usuario
+  return null
 }
 
 function EbookCard({ ebook, t }: { 

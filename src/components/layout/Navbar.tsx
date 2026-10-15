@@ -13,7 +13,6 @@ import { WHATSAPP_LINK } from "@/lib/constants"
 
 const navLinks = [
   { key: "therapies", href: "/#agendamiento" },
-  { key: "ebooks", href: "/#ebooks" },
 ]
 
 export function Navbar() {

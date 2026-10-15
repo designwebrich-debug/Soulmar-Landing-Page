@@ -46,13 +46,13 @@ export function HowToStartSection() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[34px] xl:text-[40px] font-black tracking-tighter text-[#8da9c4] leading-tight md:leading-none uppercase">
                 {title1}
               </h2>
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[24px] xl:text-[28px] font-black tracking-tighter text-[#1d1d1f] dark:text-white leading-tight md:leading-none uppercase">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-[24px] xl:text-[28px] font-black tracking-tighter text-[#1d1d1f] dark:text-white md:dark:text-[#1d1d1f] leading-tight md:leading-none uppercase">
                 {title2}
               </h3>
             </div>
 
-            {/* Step Items - iOS Inset Grouped Card on mobile, clean list on desktop */}
-            <div className="bg-white/90 dark:bg-[#1c1c1e]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-5 md:p-0 md:bg-transparent md:backdrop-blur-none border border-black/[0.06] dark:border-white/[0.08] md:border-none shadow-sm md:shadow-none space-y-2 md:space-y-2.5">
+            {/* Step Items - iOS Inset Grouped Card on mobile, clean list on desktop without background box */}
+            <div className="bg-white/90 dark:bg-[#1c1c1e]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-5 md:p-0 md:bg-transparent md:dark:bg-transparent md:backdrop-blur-none border border-black/[0.06] dark:border-white/[0.08] md:border-none md:dark:border-none shadow-sm md:shadow-none space-y-2 md:space-y-2.5">
               {steps.map((step, idx) => (
                 <div 
                   key={idx} 
@@ -61,7 +61,7 @@ export function HowToStartSection() {
                   <span className="bg-[#8da9c4] text-white group-hover:bg-[#ffc971] group-hover:text-neutral-900 text-[10px] md:text-xs font-black tracking-wider uppercase px-2.5 py-1 rounded-lg shrink-0 shadow-sm transition-colors duration-300">
                     {step.num}
                   </span>
-                  <p className="text-[#1d1d1f] dark:text-white font-bold text-xs sm:text-xs md:text-sm lg:text-base leading-snug">
+                  <p className="text-[#1d1d1f] dark:text-white md:dark:text-[#1d1d1f] font-bold text-xs sm:text-xs md:text-sm lg:text-base leading-snug">
                     {step.text}
                   </p>
                 </div>
