@@ -96,8 +96,8 @@ export function SocialCommunitySection() {
 
   return (
     <Section id="comunidad" className="pt-20 pb-20 bg-surface dark:bg-[#0b0b0c] transition-colors duration-500 relative overflow-hidden">
-      {/* Background ambient lighting for physical liquid glass refraction */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl h-[420px] bg-gradient-to-r from-[#8da9c4]/25 via-[#c9cba3]/20 to-[#8da9c4]/20 blur-[130px] pointer-events-none rounded-full" />
+      {/* Background ambient lighting with soft Soulmar tones to empower liquid glass refraction */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[85%] max-w-4xl h-[420px] bg-gradient-to-r from-[#8da9c4]/25 via-[#c9cba3]/20 to-[#8da9c4]/25 blur-[110px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
@@ -141,10 +141,10 @@ export function SocialCommunitySection() {
             href="https://www.instagram.com/soulmar.org_/?hl=es"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass liquid-glass-light-bg bg-white/70 dark:bg-neutral-900/40 backdrop-blur-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-[0_12px_36px_-6px_rgba(0,0,0,0.1),0_4px_16px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-1px_1px_rgba(0,0,0,0.06),inset_0_0_20px_rgba(255,255,255,0.7)] dark:shadow-[0_12px_36px_-6px_rgba(0,0,0,0.6),inset_0_1.5px_0_rgba(255,255,255,0.2)] border border-white/90 dark:border-white/15 flex flex-col justify-between min-h-[190px]"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/65 dark:bg-white/[0.06] backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_16px_40px_-12px_rgba(141,169,196,0.3),0_2px_8px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-2px_0_rgba(141,169,196,0.3),inset_0_0_24px_rgba(255,255,255,0.7)]"
           >
-            {/* Apple Liquid Glass upper specular convex highlight */}
-            <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/70 via-white/25 to-transparent dark:from-white/10 dark:to-transparent pointer-events-none rounded-t-[28px] md:rounded-t-[32px]" />
+            {/* Capa de lente convexa y bisel de cristal líquido */}
+            <div className="absolute top-0 left-4 right-4 h-24 rounded-full bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none" />
 
             <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -178,7 +178,7 @@ export function SocialCommunitySection() {
                 </div>
               </div>
 
-              <div className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-sm ml-2">
+              <div className="w-9 h-9 rounded-full bg-white/90 dark:bg-white/10 backdrop-blur-md border border-white/90 dark:border-white/15 flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-[0_2px_8px_rgba(141,169,196,0.2),inset_0_1px_0_rgba(255,255,255,1)] ml-2">
                 <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </div>
@@ -200,10 +200,10 @@ export function SocialCommunitySection() {
             href="https://www.tiktok.com/@soulmar.psicologia?_r=1&_t=ZS-9AYEqfc2W28"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass liquid-glass-light-bg bg-white/70 dark:bg-neutral-900/40 backdrop-blur-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-[0_12px_36px_-6px_rgba(0,0,0,0.1),0_4px_16px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-1px_1px_rgba(0,0,0,0.06),inset_0_0_20px_rgba(255,255,255,0.7)] dark:shadow-[0_12px_36px_-6px_rgba(0,0,0,0.6),inset_0_1.5px_0_rgba(255,255,255,0.2)] border border-white/90 dark:border-white/15 flex flex-col justify-between min-h-[190px]"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/65 dark:bg-white/[0.06] backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_16px_40px_-12px_rgba(141,169,196,0.3),0_2px_8px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-2px_0_rgba(141,169,196,0.3),inset_0_0_24px_rgba(255,255,255,0.7)]"
           >
-            {/* Apple Liquid Glass upper specular convex highlight */}
-            <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/70 via-white/25 to-transparent dark:from-white/10 dark:to-transparent pointer-events-none rounded-t-[28px] md:rounded-t-[32px]" />
+            {/* Capa de lente convexa y bisel de cristal líquido */}
+            <div className="absolute top-0 left-4 right-4 h-24 rounded-full bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none" />
 
             <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -237,7 +237,7 @@ export function SocialCommunitySection() {
                 </div>
               </div>
 
-              <div className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-sm ml-2">
+              <div className="w-9 h-9 rounded-full bg-white/90 dark:bg-white/10 backdrop-blur-md border border-white/90 dark:border-white/15 flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:scale-110 transition-transform shrink-0 shadow-[0_2px_8px_rgba(141,169,196,0.2),inset_0_1px_0_rgba(255,255,255,1)] ml-2">
                 <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </div>
@@ -263,13 +263,13 @@ export function SocialCommunitySection() {
             <h4 className="text-sm sm:text-base font-extrabold text-[#1d1d1f] dark:text-white tracking-tight uppercase leading-tight">
               {isEn ? (
                 <>
-                  <span className="block">Selected publications</span>
-                  <span className="block text-[#8da9c4]">on Instagram</span>
+                  <span className="block">Featured Posts</span>
+                  <span className="block text-[#8da9c4]">On Instagram</span>
                 </>
               ) : (
                 <>
                   <span className="block">Algunas publicaciones</span>
-                  <span className="block text-[#8da9c4]">en Instagram</span>
+                  <span className="block text-[#8da9c4]">En Instagram</span>
                 </>
               )}
             </h4>
@@ -277,8 +277,8 @@ export function SocialCommunitySection() {
               href="https://www.instagram.com/soulmar.org_/?hl=es"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={isEn ? "See more on Instagram" : "Ver más en Instagram"}
-              className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white hover:bg-[#8da9c4] hover:text-white active:scale-90 transition-all duration-300 shadow-sm shrink-0"
+              aria-label="Ver en Instagram"
+              className="w-9 h-9 rounded-full bg-white/80 dark:bg-white/10 backdrop-blur-md border border-white/90 dark:border-white/15 flex items-center justify-center text-[#8da9c4] hover:text-[#1d1d1f] dark:hover:text-white group hover:scale-110 active:scale-95 transition-all shadow-[0_4px_12px_rgba(141,169,196,0.2),inset_0_1px_0_rgba(255,255,255,1)]"
             >
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </Link>
