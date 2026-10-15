@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, ArrowRight } from "lucide-react"
 import { Section } from "@/components/layout/Section"
 import { useTranslation } from "@/context/LanguageContext"
 
@@ -96,8 +96,8 @@ export function SocialCommunitySection() {
 
   return (
     <Section id="comunidad" className="pt-20 pb-20 bg-surface dark:bg-[#0b0b0c] transition-colors duration-500 relative overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[70%] h-[350px] bg-gradient-to-r from-[#8da9c4]/10 via-[#c9cba3]/10 to-rose-500/10 blur-[140px] pointer-events-none rounded-full" />
+      {/* Background ambient lighting for physical liquid glass refraction */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl h-[420px] bg-gradient-to-r from-[#8da9c4]/25 via-[#c9cba3]/20 to-[#8da9c4]/20 blur-[130px] pointer-events-none rounded-full" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
 
@@ -141,8 +141,11 @@ export function SocialCommunitySection() {
             href="https://www.instagram.com/soulmar.org_/?hl=es"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-lg flex flex-col justify-between min-h-[190px] border border-white/40 dark:border-white/10"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass liquid-glass-light-bg bg-white/70 dark:bg-neutral-900/40 backdrop-blur-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-[0_12px_36px_-6px_rgba(0,0,0,0.1),0_4px_16px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-1px_1px_rgba(0,0,0,0.06),inset_0_0_20px_rgba(255,255,255,0.7)] dark:shadow-[0_12px_36px_-6px_rgba(0,0,0,0.6),inset_0_1.5px_0_rgba(255,255,255,0.2)] border border-white/90 dark:border-white/15 flex flex-col justify-between min-h-[190px]"
           >
+            {/* Apple Liquid Glass upper specular convex highlight */}
+            <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/70 via-white/25 to-transparent dark:from-white/10 dark:to-transparent pointer-events-none rounded-t-[28px] md:rounded-t-[32px]" />
+
             <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-[#8da9c4]/30 via-white/50 to-[#8da9c4]/20 dark:from-white/10 dark:to-white/5 shrink-0 shadow-md border border-white/60 dark:border-white/15">
@@ -197,8 +200,11 @@ export function SocialCommunitySection() {
             href="https://www.tiktok.com/@soulmar.psicologia?_r=1&_t=ZS-9AYEqfc2W28"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-lg flex flex-col justify-between min-h-[190px] border border-white/40 dark:border-white/10"
+            className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 liquid-glass liquid-glass-light-bg bg-white/70 dark:bg-neutral-900/40 backdrop-blur-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] shadow-[0_12px_36px_-6px_rgba(0,0,0,0.1),0_4px_16px_rgba(0,0,0,0.04),inset_0_2px_0_rgba(255,255,255,1),inset_0_-1px_1px_rgba(0,0,0,0.06),inset_0_0_20px_rgba(255,255,255,0.7)] dark:shadow-[0_12px_36px_-6px_rgba(0,0,0,0.6),inset_0_1.5px_0_rgba(255,255,255,0.2)] border border-white/90 dark:border-white/15 flex flex-col justify-between min-h-[190px]"
           >
+            {/* Apple Liquid Glass upper specular convex highlight */}
+            <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-white/70 via-white/25 to-transparent dark:from-white/10 dark:to-transparent pointer-events-none rounded-t-[28px] md:rounded-t-[32px]" />
+
             <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl p-[2px] bg-gradient-to-tr from-black/20 via-neutral-400 to-black/30 dark:from-white/20 dark:to-neutral-500 shrink-0 shadow-md border border-white/60 dark:border-white/15">
@@ -254,12 +260,28 @@ export function SocialCommunitySection() {
             ========================================================================= */}
         <div className="relative">
           <div className="flex items-center justify-between mb-4 px-1">
-            <h4 className="text-sm sm:text-base font-extrabold text-[#1d1d1f] dark:text-white tracking-tight uppercase">
-              {isEn ? "Selected Instagram posts" : "Algunas publicaciones en instagram"}
+            <h4 className="text-sm sm:text-base font-extrabold text-[#1d1d1f] dark:text-white tracking-tight uppercase leading-tight">
+              {isEn ? (
+                <>
+                  <span className="block">Selected publications</span>
+                  <span className="block text-[#8da9c4]">on Instagram</span>
+                </>
+              ) : (
+                <>
+                  <span className="block">Algunas publicaciones</span>
+                  <span className="block text-[#8da9c4]">en Instagram</span>
+                </>
+              )}
             </h4>
-            <span className="text-xs text-[#8da9c4] font-bold tracking-wider uppercase">
-              {isEn ? "SEE MORE" : "VER MÁS"}
-            </span>
+            <Link
+              href="https://www.instagram.com/soulmar.org_/?hl=es"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={isEn ? "See more on Instagram" : "Ver más en Instagram"}
+              className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[#1d1d1f] dark:text-white hover:bg-[#8da9c4] hover:text-white active:scale-90 transition-all duration-300 shadow-sm shrink-0"
+            >
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+            </Link>
           </div>
 
           <div
