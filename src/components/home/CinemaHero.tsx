@@ -127,9 +127,10 @@ export function CinemaHero() {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
 
     if (!SpeechRecognition) {
-      alert(language === "es" 
-        ? "Tu navegador actual no tiene activado el reconocimiento de voz. Te recomendamos usar Google Chrome, Safari o Microsoft Edge para buscar por voz."
-        : "Your current browser does not support speech recognition. We recommend Google Chrome, Safari, or Microsoft Edge.")
+      setVoiceError(language === "es"
+        ? "Reconocimiento de voz no soportado. Usa Chrome o Safari."
+        : "Voice recognition not supported. Please use Chrome or Safari.")
+      setTimeout(() => setVoiceError(null), 4000)
       return
     }
 
@@ -137,7 +138,7 @@ export function CinemaHero() {
       const recognition = new SpeechRecognition()
       recognition.continuous = false
       recognition.interimResults = true
-      recognition.lang = language === "en" ? "en-US" : "es-CO"
+      recognition.lang = language === "en" ? "en-US" : (typeof navigator !== "undefined" && navigator.language?.startsWith("es") ? navigator.language : "es-CO")
       recognition.maxAlternatives = 1
 
       recognition.onstart = () => {
@@ -167,10 +168,17 @@ export function CinemaHero() {
         console.warn("Speech recognition error:", event.error)
         setIsListening(false)
         recognitionInstanceRef.current = null
-        if (event.error === "not-allowed" || event.error === "permission-denied") {
-          alert(language === "es"
-            ? "Para buscar por voz, permite el acceso al micrófono en los permisos de tu navegador."
-            : "To search by voice, please allow microphone access in your browser settings.")
+
+        // Silently ignore normal dismissals/timeouts
+        if (event.error === "no-speech" || event.error === "aborted") {
+          return
+        }
+
+        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+          setVoiceError(language === "es"
+            ? "Permite el micrófono en los ajustes de tu navegador."
+            : "Please allow microphone access in your browser.")
+          setTimeout(() => setVoiceError(null), 4000)
         }
       }
 
@@ -185,6 +193,10 @@ export function CinemaHero() {
       console.error("Speech recognition error on start:", err)
       setIsListening(false)
       recognitionInstanceRef.current = null
+      setVoiceError(language === "es"
+        ? "No se pudo iniciar el micrófono. Revisa los permisos."
+        : "Could not start microphone. Check permissions.")
+      setTimeout(() => setVoiceError(null), 4000)
     }
   }
 
@@ -652,11 +664,15 @@ export function CinemaHero() {
                       setIsSearchFocused(true)
                     }}
                     placeholder={
-                      isListening
+                      voiceError
+                        ? voiceError
+                        : isListening
                         ? (language === "es" ? "Escuchando... Di lo que necesitas" : "Listening... Say what you need")
                         : (language === "es" ? "¿Qué necesitas hoy? (Ej: depresión, cita, ansiedad, libros)..." : "What do you need today? (e.g. depression, booking, anxiety)...")
                     }
-                    className="flex-1 min-w-0 bg-transparent text-[13.5px] md:text-[15px] font-medium text-white placeholder:text-white/70 outline-none border-none p-0"
+                    className={`flex-1 min-w-0 bg-transparent text-[13.5px] md:text-[15px] font-medium text-white outline-none border-none p-0 ${
+                      voiceError ? "placeholder:text-amber-200" : "placeholder:text-white/70"
+                    }`}
                   />
                   {mobileSearchQuery && (
                     <button
