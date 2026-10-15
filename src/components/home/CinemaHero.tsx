@@ -4,7 +4,7 @@ import React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, Calendar, ShieldCheck, Clock, Plus, ArrowUpRight, ArrowRight, Heart, Users, Brain, BookOpen, Flame, Sparkles, Search, Download } from "lucide-react"
+import { ChevronDown, Calendar, ShieldCheck, Clock, Plus, ArrowUpRight, ArrowRight, Heart, Users, Brain, BookOpen, Flame, Sparkles, Search, Download, Play } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from "@/context/LanguageContext"
 import { format, addDays } from "date-fns"
@@ -106,22 +106,22 @@ export function CinemaHero() {
     {
       id: "ansiedad",
       image: "/images/mobile-modules/ansiedad.jpg",
-      href: "/#ebooks",
+      href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "depresion",
       image: "/images/mobile-modules/depresion.png",
-      href: "/#ebooks",
+      href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "emuna",
       image: "/images/mobile-modules/emuna.png",
-      href: "/#ebooks",
+      href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "mindset",
       image: "/images/mobile-modules/mindset.png",
-      href: "/#ebooks",
+      href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
   ], [])
 
@@ -507,23 +507,27 @@ export function CinemaHero() {
           </div>
         </div>
 
-        {/* SLOGAN SOULMAR: "Tu alma, tu historia, tu momento" */}
+        {/* SLOGAN SOULMAR: "Tu alma, Tu historia, Tu momento" */}
         <div className="w-full pt-8 pb-6 text-center px-4">
           <h2 className="text-[22px] sm:text-[26px] font-bold tracking-tight text-[#1d1d1f] dark:text-white leading-[1.12] font-sans">
             {language === "es" ? (
               <>
-                <span className="block">Tu alma,</span>
                 <span className="block whitespace-nowrap">
-                  <span className="text-[#8da9c4]">tu historia,</span>{" "}
-                  <span className="text-[#c9cba3]">tu momento</span>
+                  <span>Tu alma</span>,{" "}
+                  <span className="text-[#8da9c4]">Tu historia,</span>
+                </span>
+                <span className="block text-[#c9cba3] whitespace-nowrap">
+                  Tu momento
                 </span>
               </>
             ) : (
               <>
-                <span className="block">Your soul,</span>
                 <span className="block whitespace-nowrap">
-                  <span className="text-[#8da9c4]">your story,</span>{" "}
-                  <span className="text-[#c9cba3]">your moment</span>
+                  <span>Your soul</span>,{" "}
+                  <span className="text-[#8da9c4]">Your story,</span>
+                </span>
+                <span className="block text-[#c9cba3] whitespace-nowrap">
+                  Your moment
                 </span>
               </>
             )}
@@ -536,15 +540,9 @@ export function CinemaHero() {
             <Link
               key={mod.id}
               href={mod.href}
-              onClick={(e) => {
-                const target = mod.href.replace("/#", "")
-                const el = document.getElementById(target)
-                if (el) {
-                  e.preventDefault()
-                  el.scrollIntoView({ behavior: "smooth" })
-                }
-              }}
-              className="relative w-full aspect-[6/7] rounded-[28px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-end p-3 select-none active:scale-[0.98] transition-transform group"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative w-full aspect-[6/7] rounded-[28px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-start p-3 select-none active:scale-[0.98] transition-transform group"
             >
               {/* Foto en máxima calidad existente full-bleed */}
               <Image
@@ -556,10 +554,10 @@ export function CinemaHero() {
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
 
-              {/* Botón único de descarga en la esquina inferior */}
+              {/* Botón único de reproducir en la esquina superior derecha */}
               <div className="relative z-10 flex justify-end w-full">
                 <div className="w-8 h-8 rounded-full bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md text-neutral-900 dark:text-white flex items-center justify-center shrink-0 shadow-lg group-hover:bg-[#8da9c4] group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                  <Download className="w-4 h-4 stroke-[2.5]" />
+                  <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
                 </div>
               </div>
             </Link>
