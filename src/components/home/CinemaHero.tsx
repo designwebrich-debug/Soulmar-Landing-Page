@@ -74,12 +74,12 @@ export function CinemaHero() {
     },
     {
       id: 3,
-      tag: language === "es" ? "PSICOLOGÍA CLÍNICA • BIENESTAR" : "CLINICAL PSYCHOLOGY • WELLNESS",
+      tag: language === "es" ? "PODCAST • DRA. MARIANA CAICEDO" : "PODCAST • DR. MARIANA CAICEDO",
       title: "",
-      image: "/images/mobile-hero/slide-3.png",
-      bottomTitle: language === "es" ? "Tu sesión psicológica a un clic" : "Your psychological session in one click",
-      bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
-      href: "/#agendamiento",
+      image: "/images/mobile-hero/slide-podcast.png",
+      bottomTitle: language === "es" ? "Podcast Soulmar" : "Soulmar Podcast",
+      bottomSubtitle: language === "es" ? "Con la Dra. Mariana Caicedo" : "With Dr. Mariana Caicedo",
+      href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
   ], [language])
 
