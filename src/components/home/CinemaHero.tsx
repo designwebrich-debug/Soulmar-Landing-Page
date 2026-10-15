@@ -74,11 +74,11 @@ export function CinemaHero() {
     },
     {
       id: 3,
-      tag: language === "es" ? "PODCAST • DRA. MARIANA CAICEDO" : "PODCAST • DR. MARIANA CAICEDO",
+      tag: "PODCAST • SOULMAR",
       title: "",
-      image: "/images/mobile-hero/slide-podcast.png",
-      bottomTitle: language === "es" ? "Podcast Soulmar" : "Soulmar Podcast",
-      bottomSubtitle: language === "es" ? "Con la Dra. Mariana Caicedo" : "With Dr. Mariana Caicedo",
+      image: "/images/mobile-hero/podcast.png",
+      bottomTitle: "Soulmar Podcast",
+      bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
   ], [language])
