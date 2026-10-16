@@ -68,6 +68,7 @@ export function CinemaHero() {
       tag: language === "es" ? "★ DESTACADO • DRA. MARIANA CAICEDO" : "★ FEATURED • DR. MARIANA CAICEDO",
       title: "",
       image: "/images/mobile-hero/slide-1.jpg",
+      desktopImage: "/images/desktop-hero/slide-1.png",
       bottomTitle: language === "es" ? "Mi Herida, Mi Reacción" : "My Wound, My Reaction",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#agendamiento",
