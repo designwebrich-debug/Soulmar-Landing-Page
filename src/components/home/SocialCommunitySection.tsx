@@ -301,8 +301,8 @@ export function SocialCommunitySection() {
                   src={post.image}
                   alt={post.title}
                   fill
-                  quality={95}
-                  unoptimized
+                  quality={85}
+                  sizes="(max-width: 768px) 85vw, 400px"
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
               </Link>

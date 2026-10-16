@@ -202,8 +202,7 @@ export function PhoneMarqueeSlider() {
                     alt={card.alt}
                     width={576}
                     height={1024}
-                    quality={100}
-                    unoptimized={true}
+                    quality={85}
                     className="w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
                     priority={isCenter}
                   />

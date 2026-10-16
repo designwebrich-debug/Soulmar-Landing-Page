@@ -621,9 +621,8 @@ export function CinemaHero() {
                       src={mobileSlides[currentMobileSlide].image}
                       alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
                       fill
-                      quality={100}
-                      priority
-                      unoptimized
+                      quality={90}
+                      priority={currentMobileSlide === 0}
                       sizes="(max-width: 768px) 100vw, 800px"
                       className={`object-cover object-center select-none ${
                         (mobileSlides[currentMobileSlide] as any).desktopImage ? "md:hidden" : ""
@@ -635,9 +634,8 @@ export function CinemaHero() {
                         src={(mobileSlides[currentMobileSlide] as any).desktopImage}
                         alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
                         fill
-                        quality={100}
-                        priority
-                        unoptimized
+                        quality={90}
+                        priority={currentMobileSlide === 0}
                         sizes="800px"
                         className="hidden md:block object-cover object-center select-none"
                       />
@@ -1029,8 +1027,7 @@ export function CinemaHero() {
                 src={mod.image}
                 alt={mod.id}
                 fill
-                quality={100}
-                unoptimized
+                quality={90}
                 className="md:hidden object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
 
@@ -1039,9 +1036,7 @@ export function CinemaHero() {
                 src={mod.desktopImage}
                 alt={mod.id}
                 fill
-                quality={100}
-                unoptimized
-                priority
+                quality={90}
                 className="hidden md:block object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
 
