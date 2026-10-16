@@ -115,7 +115,7 @@ export function SocialFloatingMenu() {
         aria-expanded={isOpen}
         whileHover={{ scale: 1.05, y: -1 }}
         whileTap={{ scale: 0.94 }}
-        className={`relative flex items-center justify-center w-14 h-14 rounded-full bg-black text-white cursor-pointer overflow-hidden transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.35)] ${
+        className={`relative flex items-center justify-center w-16 h-16 rounded-full bg-black text-white cursor-pointer overflow-hidden transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.35)] ${
           isOpen
             ? "ring-2 ring-blue-500/80 ring-offset-2 ring-offset-background"
             : "border border-white/20 hover:border-white/35"
