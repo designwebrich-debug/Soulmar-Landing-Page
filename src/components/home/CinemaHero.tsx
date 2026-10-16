@@ -245,7 +245,7 @@ export function CinemaHero() {
   const mobileModules = React.useMemo(() => [
     {
       id: "ansiedad",
-      image: "/images/mobile-modules/ansiedad.jpg",
+      image: "/images/mobile-modules/ansiedad.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
@@ -987,7 +987,7 @@ export function CinemaHero() {
               href={mod.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative w-full aspect-[6/7] md:aspect-[3/4] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-start p-3 md:p-4 select-none active:scale-[0.98] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group"
+              className="relative w-full aspect-[3/4] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-start p-3 md:p-4 select-none active:scale-[0.98] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group"
             >
               {/* Foto en máxima calidad existente full-bleed */}
               <Image
