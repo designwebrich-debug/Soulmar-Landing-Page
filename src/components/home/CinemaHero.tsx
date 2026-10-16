@@ -86,6 +86,7 @@ export function CinemaHero() {
       tag: "PODCAST • SOULMAR",
       title: "",
       image: "/images/mobile-hero/podcast.png",
+      desktopImage: "/images/desktop-hero/podcast.png",
       bottomTitle: "Soulmar Podcast",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
@@ -613,6 +614,7 @@ export function CinemaHero() {
                     }}
                     className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
                   >
+                    {/* Versión Móvil */}
                     <Image
                       src={mobileSlides[currentMobileSlide].image}
                       alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
@@ -620,9 +622,24 @@ export function CinemaHero() {
                       quality={100}
                       priority
                       unoptimized
-                      sizes="(max-width: 1024px) 100vw, 800px"
-                      className="object-cover object-center select-none"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      className={`object-cover object-center select-none ${
+                        (mobileSlides[currentMobileSlide] as any).desktopImage ? "md:hidden" : ""
+                      }`}
                     />
+                    {/* Versión PC exclusiva en ultra alta calidad */}
+                    {(mobileSlides[currentMobileSlide] as any).desktopImage && (
+                      <Image
+                        src={(mobileSlides[currentMobileSlide] as any).desktopImage}
+                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                        fill
+                        quality={100}
+                        priority
+                        unoptimized
+                        sizes="800px"
+                        className="hidden md:block object-cover object-center select-none"
+                      />
+                    )}
                     {/* Sutil viñeta para legibilidad y elegancia visual */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />
                   </motion.div>
