@@ -10,55 +10,30 @@ import { useTranslation } from "@/context/LanguageContext"
 interface Slide {
   id: number
   image: string
-  desktopImage?: string
 }
 
-const mobileSlides: Slide[] = [
+const slides: Slide[] = [
   { id: 1, image: "/images/highlights/SLIDER01.png" },
   { id: 2, image: "/images/highlights/SLIDER02.png" },
   { id: 3, image: "/images/highlights/SLIDER03.png" },
 ]
 
-const desktopSlides: Slide[] = [
-  { id: 1, image: "/images/highlights/desktop/banner-gestion-emocional.png" },
-  { id: 2, image: "/images/highlights/desktop/banner-sanar-vinculos.png" },
-]
-
 export function HighlightCarousel() {
-  const [isDesktop, setIsDesktop] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const { t } = useTranslation()
 
-  useEffect(() => {
-    const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768)
-    }
-    checkIsDesktop()
-    window.addEventListener("resize", checkIsDesktop)
-    return () => window.removeEventListener("resize", checkIsDesktop)
-  }, [])
-
-  const activeSlides = isDesktop ? desktopSlides : mobileSlides
-
-  // Reset index if switching viewport causes out-of-range index
-  useEffect(() => {
-    if (currentIndex >= activeSlides.length) {
-      setCurrentIndex(0)
-    }
-  }, [activeSlides.length, currentIndex])
-
   const slideNext = useCallback(() => {
     setDirection(1)
-    setCurrentIndex((prev) => (prev + 1) % activeSlides.length)
-  }, [activeSlides.length])
+    setCurrentIndex((prev) => (prev + 1) % slides.length)
+  }, [])
 
   const slidePrev = useCallback(() => {
     setDirection(-1)
-    setCurrentIndex((prev) => (prev - 1 + activeSlides.length) % activeSlides.length)
-  }, [activeSlides.length])
+    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length)
+  }, [])
 
-  // Auto-play with moderated interval (7 seconds)
+  // Auto-play with moderated interval (7 seconds as requested)
   useEffect(() => {
     const timer = setInterval(slideNext, 7000)
     return () => clearInterval(timer)
@@ -116,7 +91,7 @@ export function HighlightCarousel() {
           >
             <div className="block w-full h-full pointer-events-none select-none">
               <img 
-                src={activeSlides[currentIndex]?.image} 
+                src={slides[currentIndex].image} 
                 alt={`Slide ${currentIndex + 1}`}
                 className="w-full h-full object-cover pointer-events-none"
                 loading="eager"
@@ -128,7 +103,7 @@ export function HighlightCarousel() {
 
         {/* Preload all slides in hidden container for zero-delay display */}
         <div className="hidden" aria-hidden="true">
-          {activeSlides.map((s) => (
+          {slides.map((s) => (
             <img key={s.id} src={s.image} alt="" />
           ))}
         </div>
@@ -159,7 +134,7 @@ export function HighlightCarousel() {
 
         {/* Pagination Dots */}
         <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-2.5 z-10">
-          {activeSlides.map((_, i) => (
+          {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => {
