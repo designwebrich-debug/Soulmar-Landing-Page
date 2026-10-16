@@ -59,9 +59,9 @@ export function SocialFloatingMenu() {
   return (
     <div
       ref={menuRef}
-      className="hidden md:flex items-center justify-end relative"
+      className="hidden md:flex items-center justify-end relative select-none"
     >
-      {/* White Apple Premium pill bar without internal sub-circles */}
+      {/* Liquid Glass Apple Premium Pill Bar adapting to Dark/Light theme */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -73,8 +73,11 @@ export function SocialFloatingMenu() {
               stiffness: 420,
               damping: 30,
             }}
-            className="flex items-center gap-4 mr-3 px-4 py-2.5 rounded-full bg-white/95 backdrop-blur-2xl border border-black/[0.08] shadow-[0_12px_36px_rgba(0,0,0,0.18),0_3px_10px_rgba(0,0,0,0.08)]"
+            className="liquid-glass flex items-center gap-4 mr-3.5 px-4 py-2.5 rounded-full bg-white/85 dark:bg-black/80 backdrop-blur-2xl border border-white/60 dark:border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.8)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] overflow-hidden"
           >
+            {/* Apple Specular Lens Glare Reflection */}
+            <div className="absolute -top-3 left-6 right-6 h-8 rounded-full bg-gradient-to-b from-white/40 dark:from-white/15 to-transparent pointer-events-none" />
+
             {socialLinks.map((item, index) => (
               <motion.a
                 key={item.name}
@@ -93,12 +96,12 @@ export function SocialFloatingMenu() {
                 }}
                 whileHover={{ scale: 1.18, y: -2 }}
                 whileTap={{ scale: 0.92 }}
-                className="relative flex items-center justify-center p-1.5 transition-transform duration-200 group"
+                className="relative z-10 flex items-center justify-center p-1.5 transition-transform duration-200 group"
               >
                 {item.icon}
 
-                {/* Apple minimalist tooltip on hover */}
-                <span className="absolute -top-8 px-2.5 py-0.5 text-[11px] font-semibold tracking-tight text-neutral-800 bg-white/95 backdrop-blur-md rounded-md border border-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.12)]">
+                {/* Minimalist Apple tooltip matching theme */}
+                <span className="absolute -top-8 px-2.5 py-0.5 text-[11px] font-semibold tracking-tight text-neutral-800 dark:text-neutral-100 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-md border border-black/10 dark:border-white/15 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.12)]">
                   {item.name}
                 </span>
               </motion.a>
@@ -107,7 +110,7 @@ export function SocialFloatingMenu() {
         )}
       </AnimatePresence>
 
-      {/* Main Apple Premium Button (+) */}
+      {/* Main Apple Liquid Glass Button (+) / (×) adapting to Dark & Light modes */}
       <motion.button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
@@ -115,14 +118,14 @@ export function SocialFloatingMenu() {
         aria-expanded={isOpen}
         whileHover={{ scale: 1.05, y: -1 }}
         whileTap={{ scale: 0.94 }}
-        className={`relative flex items-center justify-center w-16 h-16 rounded-full bg-black text-white cursor-pointer overflow-hidden transition-all duration-300 shadow-[0_8px_25px_rgba(0,0,0,0.35)] ${
+        className={`liquid-glass relative flex items-center justify-center w-16 h-16 rounded-full cursor-pointer overflow-hidden transition-all duration-300 ${
           isOpen
             ? "ring-2 ring-blue-500/80 ring-offset-2 ring-offset-background"
-            : "border border-white/20 hover:border-white/35"
-        }`}
+            : ""
+        } bg-white/90 text-neutral-900 border border-white/80 shadow-[0_10px_30px_rgba(0,0,0,0.15),inset_0_1.5px_1px_rgba(255,255,255,0.95)] dark:bg-black/85 dark:text-white dark:border-white/20 dark:shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1.5px_1px_rgba(255,255,255,0.2)]`}
       >
-        {/* Apple subtle top glass gradient reflection */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 via-transparent to-black/20 pointer-events-none" />
+        {/* Apple liquid glass convex specular highlight */}
+        <div className="absolute top-0 left-2 right-2 h-7 rounded-full bg-gradient-to-b from-white/60 dark:from-white/25 via-white/10 dark:via-white/5 to-transparent pointer-events-none" />
 
         {/* Smooth rotatable + icon */}
         <motion.div
@@ -132,7 +135,7 @@ export function SocialFloatingMenu() {
             stiffness: 380,
             damping: 22,
           }}
-          className="relative z-10 flex items-center justify-center"
+          className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white"
         >
           <Plus className="w-6 h-6 stroke-[2.6]" />
         </motion.div>
