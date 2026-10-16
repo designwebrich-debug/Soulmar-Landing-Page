@@ -78,6 +78,7 @@ export function CinemaHero() {
       tag: language === "es" ? "★ DESTACADO • SOULMAR" : "★ FEATURED • SOULMAR",
       title: "",
       image: "/images/mobile-hero/slide-2.png",
+      desktopImage: "/images/desktop-hero/slide-2.jpg",
       bottomTitle: language === "es" ? "¿Por qué sobrepienso todo?" : "Why do I overthink everything?",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#ebooks",
@@ -648,11 +649,7 @@ export function CinemaHero() {
               </div>
 
               {/* ARRIBA DE LA TARJETA: INDICADORES DE CARRUSEL (PUNTOS INTERACTIVOS) */}
-              <div className="relative z-10 flex items-center justify-between w-full">
-                <div className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold tracking-wider uppercase">
-                  {mobileSlides[currentMobileSlide].tag}
-                </div>
-                
+              <div className="relative z-10 flex items-center justify-end w-full">
                 {/* INDICADOR DE FOTOS */}
                 <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full shadow-md">
                   {mobileSlides.map((_, idx) => (
