@@ -987,26 +987,26 @@ export function CinemaHero() {
           </div>
         </div>
 
-        {/* SLOGAN SOULMAR: "Tu alma, Tu historia, Tu momento" (Mismo puntaje exacto que "Agenda tu Sesión", interlineado más compacto) */}
-        <div className="w-full pt-8 md:pt-14 pb-6 md:pb-10 text-center px-4">
-          <h2 className="text-5xl md:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[0.98] md:leading-[0.96] font-sans">
+        {/* SLOGAN SOULMAR: "Tu alma, Tu historia, Tu momento" (Centrado al 100%, responsive fluido en móviles para no cortarse) */}
+        <div className="w-full pt-8 md:pt-14 pb-6 md:pb-10 text-center px-4 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.08] sm:leading-[1.02] md:leading-[0.96] font-sans text-center max-w-full">
             {language === "es" ? (
               <>
-                <span className="block whitespace-nowrap">
+                <span className="block text-center">
                   <span>Tu alma</span>,{" "}
                   <span className="text-[#8da9c4]">Tu historia,</span>
                 </span>
-                <span className="block text-[#c9cba3] whitespace-nowrap -mt-1 md:-mt-1.5">
+                <span className="block text-[#c9cba3] text-center -mt-0.5 sm:-mt-1 md:-mt-1.5">
                   Tu momento
                 </span>
               </>
             ) : (
               <>
-                <span className="block whitespace-nowrap">
+                <span className="block text-center">
                   <span>Your soul</span>,{" "}
                   <span className="text-[#8da9c4]">Your story,</span>
                 </span>
-                <span className="block text-[#c9cba3] whitespace-nowrap -mt-1 md:-mt-1.5">
+                <span className="block text-[#c9cba3] text-center -mt-0.5 sm:-mt-1 md:-mt-1.5">
                   Your moment
                 </span>
               </>
