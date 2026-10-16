@@ -260,7 +260,7 @@ export function CinemaHero() {
   const mobileModules = React.useMemo(() => [
     {
       id: "ansiedad",
-      image: "/images/mobile-modules/ansiedad.png",
+      image: "/images/mobile-modules/ansiedad.jpg",
       desktopImage: "/images/desktop-modules/ansiedad.jpg",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
