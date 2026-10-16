@@ -96,14 +96,9 @@ export function SocialFloatingMenu() {
                 }}
                 whileHover={{ scale: 1.18, y: -2 }}
                 whileTap={{ scale: 0.92 }}
-                className="relative z-10 flex items-center justify-center p-1.5 transition-transform duration-200 group"
+                className="relative z-10 flex items-center justify-center p-1.5 transition-transform duration-200"
               >
                 {item.icon}
-
-                {/* Minimalist Apple tooltip matching theme */}
-                <span className="absolute -top-8 px-2.5 py-0.5 text-[11px] font-semibold tracking-tight text-neutral-800 dark:text-neutral-100 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-md border border-black/10 dark:border-white/15 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.12)]">
-                  {item.name}
-                </span>
               </motion.a>
             ))}
           </motion.div>
