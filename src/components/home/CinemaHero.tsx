@@ -68,6 +68,7 @@ export function CinemaHero() {
       tag: language === "es" ? "★ DESTACADO • DRA. MARIANA CAICEDO" : "★ FEATURED • DR. MARIANA CAICEDO",
       title: "",
       image: "/images/mobile-hero/slide-1.jpg",
+      desktopImage: "/images/desktop-hero/slide-1.png",
       bottomTitle: language === "es" ? "Mi Herida, Mi Reacción" : "My Wound, My Reaction",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#agendamiento",
@@ -77,6 +78,7 @@ export function CinemaHero() {
       tag: language === "es" ? "★ DESTACADO • SOULMAR" : "★ FEATURED • SOULMAR",
       title: "",
       image: "/images/mobile-hero/slide-2.png",
+      desktopImage: "/images/desktop-hero/slide-2.jpg",
       bottomTitle: language === "es" ? "¿Por qué sobrepienso todo?" : "Why do I overthink everything?",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#ebooks",
@@ -86,6 +88,7 @@ export function CinemaHero() {
       tag: "PODCAST • SOULMAR",
       title: "",
       image: "/images/mobile-hero/podcast.png",
+      desktopImage: "/images/desktop-hero/podcast.png",
       bottomTitle: "Soulmar Podcast",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
@@ -127,9 +130,10 @@ export function CinemaHero() {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
 
     if (!SpeechRecognition) {
-      alert(language === "es" 
-        ? "Tu navegador actual no tiene activado el reconocimiento de voz. Te recomendamos usar Google Chrome, Safari o Microsoft Edge para buscar por voz."
-        : "Your current browser does not support speech recognition. We recommend Google Chrome, Safari, or Microsoft Edge.")
+      setVoiceError(language === "es"
+        ? "Reconocimiento de voz no soportado. Usa Chrome o Safari."
+        : "Voice recognition not supported. Please use Chrome or Safari.")
+      setTimeout(() => setVoiceError(null), 4000)
       return
     }
 
@@ -137,7 +141,7 @@ export function CinemaHero() {
       const recognition = new SpeechRecognition()
       recognition.continuous = false
       recognition.interimResults = true
-      recognition.lang = language === "en" ? "en-US" : "es-CO"
+      recognition.lang = language === "en" ? "en-US" : (typeof navigator !== "undefined" && navigator.language?.startsWith("es") ? navigator.language : "es-CO")
       recognition.maxAlternatives = 1
 
       recognition.onstart = () => {
@@ -167,10 +171,17 @@ export function CinemaHero() {
         console.warn("Speech recognition error:", event.error)
         setIsListening(false)
         recognitionInstanceRef.current = null
-        if (event.error === "not-allowed" || event.error === "permission-denied") {
-          alert(language === "es"
-            ? "Para buscar por voz, permite el acceso al micrófono en los permisos de tu navegador."
-            : "To search by voice, please allow microphone access in your browser settings.")
+
+        // Silently ignore normal dismissals/timeouts
+        if (event.error === "no-speech" || event.error === "aborted") {
+          return
+        }
+
+        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+          setVoiceError(language === "es"
+            ? "Permite el micrófono en los ajustes de tu navegador."
+            : "Please allow microphone access in your browser.")
+          setTimeout(() => setVoiceError(null), 4000)
         }
       }
 
@@ -185,6 +196,10 @@ export function CinemaHero() {
       console.error("Speech recognition error on start:", err)
       setIsListening(false)
       recognitionInstanceRef.current = null
+      setVoiceError(language === "es"
+        ? "No se pudo iniciar el micrófono. Revisa los permisos."
+        : "Could not start microphone. Check permissions.")
+      setTimeout(() => setVoiceError(null), 4000)
     }
   }
 
@@ -246,21 +261,25 @@ export function CinemaHero() {
     {
       id: "ansiedad",
       image: "/images/mobile-modules/ansiedad.png",
+      desktopImage: "/images/desktop-modules/ansiedad.jpg",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "depresion",
       image: "/images/mobile-modules/depresion.png",
+      desktopImage: "/images/desktop-modules/tristeza.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "emuna",
       image: "/images/mobile-modules/emuna.png",
+      desktopImage: "/images/desktop-modules/emuna.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "mindset",
       image: "/images/mobile-modules/mindset.png",
+      desktopImage: "/images/desktop-modules/mindset.png",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
   ], [])
@@ -597,6 +616,7 @@ export function CinemaHero() {
                     }}
                     className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
                   >
+                    {/* Versión Móvil */}
                     <Image
                       src={mobileSlides[currentMobileSlide].image}
                       alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
@@ -604,9 +624,24 @@ export function CinemaHero() {
                       quality={100}
                       priority
                       unoptimized
-                      sizes="(max-width: 1024px) 100vw, 800px"
-                      className="object-cover object-center select-none"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      className={`object-cover object-center select-none ${
+                        (mobileSlides[currentMobileSlide] as any).desktopImage ? "md:hidden" : ""
+                      }`}
                     />
+                    {/* Versión PC exclusiva en ultra alta calidad */}
+                    {(mobileSlides[currentMobileSlide] as any).desktopImage && (
+                      <Image
+                        src={(mobileSlides[currentMobileSlide] as any).desktopImage}
+                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                        fill
+                        quality={100}
+                        priority
+                        unoptimized
+                        sizes="800px"
+                        className="hidden md:block object-cover object-center select-none"
+                      />
+                    )}
                     {/* Sutil viñeta para legibilidad y elegancia visual */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />
                   </motion.div>
@@ -614,11 +649,7 @@ export function CinemaHero() {
               </div>
 
               {/* ARRIBA DE LA TARJETA: INDICADORES DE CARRUSEL (PUNTOS INTERACTIVOS) */}
-              <div className="relative z-10 flex items-center justify-between w-full">
-                <div className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold tracking-wider uppercase">
-                  {mobileSlides[currentMobileSlide].tag}
-                </div>
-                
+              <div className="relative z-10 flex items-center justify-end w-full">
                 {/* INDICADOR DE FOTOS */}
                 <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full shadow-md">
                   {mobileSlides.map((_, idx) => (
@@ -652,11 +683,15 @@ export function CinemaHero() {
                       setIsSearchFocused(true)
                     }}
                     placeholder={
-                      isListening
+                      voiceError
+                        ? voiceError
+                        : isListening
                         ? (language === "es" ? "Escuchando... Di lo que necesitas" : "Listening... Say what you need")
                         : (language === "es" ? "¿Qué necesitas hoy? (Ej: depresión, cita, ansiedad, libros)..." : "What do you need today? (e.g. depression, booking, anxiety)...")
                     }
-                    className="flex-1 min-w-0 bg-transparent text-[13.5px] md:text-[15px] font-medium text-white placeholder:text-white/70 outline-none border-none p-0"
+                    className={`flex-1 min-w-0 bg-transparent text-[13.5px] md:text-[15px] font-medium text-white outline-none border-none p-0 ${
+                      voiceError ? "placeholder:text-amber-200" : "placeholder:text-white/70"
+                    }`}
                   />
                   {mobileSearchQuery && (
                     <button
@@ -989,14 +1024,25 @@ export function CinemaHero() {
               rel="noopener noreferrer"
               className="relative w-full aspect-[3/4] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-start p-3 md:p-4 select-none active:scale-[0.98] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group"
             >
-              {/* Foto en máxima calidad existente full-bleed */}
+              {/* Foto para versión móvil (intacta) */}
               <Image
                 src={mod.image}
                 alt={mod.id}
                 fill
                 quality={100}
                 unoptimized
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                className="md:hidden object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              />
+
+              {/* Foto exclusiva para versión de computador (PC) en máxima calidad */}
+              <Image
+                src={mod.desktopImage}
+                alt={mod.id}
+                fill
+                quality={100}
+                unoptimized
+                priority
+                className="hidden md:block object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
 
               {/* Botón único de reproducir en la esquina superior derecha */}
