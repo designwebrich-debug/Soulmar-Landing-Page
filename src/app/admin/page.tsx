@@ -534,6 +534,11 @@ export default function AdminPage() {
     if (adminEmail) {
       fetchAppointments()
 
+      // Polling cada 15s para garantizar actualización en tiempo real incluso sin WebSockets
+      const pollTimer = setInterval(() => {
+        fetchAppointments()
+      }, 15000)
+
       // Cargar configuraciones de horarios
       fetch("/api/settings")
         .then(res => res.json())
@@ -547,6 +552,8 @@ export default function AdminPage() {
           }
         })
         .catch(err => console.error("Error loading settings:", err))
+
+      return () => clearInterval(pollTimer)
     }
   }, [adminEmail])
 

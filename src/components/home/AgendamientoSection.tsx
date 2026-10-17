@@ -16,7 +16,10 @@ import {
   X,
   User,
   MessageSquare,
-  Mail
+  Mail,
+  Phone,
+  Copy,
+  Check
 } from "lucide-react"
 import { useTranslation } from "@/context/LanguageContext"
 import { Button } from "@/components/ui/Button"
@@ -48,6 +51,16 @@ export function AgendamientoSection() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
+  const [confirmedBooking, setConfirmedBooking] = useState<{
+    fullName: string
+    phone: string
+    email: string
+    dateStr: string
+    timeStr: string
+    reason: string
+    whatsappUrl: string
+  } | null>(null)
+  const [isCopied, setIsCopied] = useState(false)
 
   // Cargar configuraciones de horarios guardados por el admin
   const [schedules, setSchedules] = useState<any>({
@@ -280,6 +293,8 @@ export function AgendamientoSection() {
     setIsIntroChat(false)
     setStep(1)
     setValidationError(null)
+    setConfirmedBooking(null)
+    setIsCopied(false)
   }
 
   const handleStep1Next = () => {
@@ -311,25 +326,76 @@ export function AgendamientoSection() {
     }
     setValidationError(null)
     setIsLoading(true)
-    
+
+    const cleanPhone = phone.trim()
+    const cleanName = fullName.trim()
+    const cleanEmail = email.trim()
+    const dateFormatted = dateFormattedOnly || formattedSelectedDate
+
+    // Build the direct WhatsApp notification message for Dra. Mariana (+57 301 303 5158)
+    const whatsappMsg = `🌊 *NUEVA RESERVA DE CITA EN SOULMAR.ORG* 🌊\n\n` +
+      `👤 *Paciente:* ${cleanName}\n` +
+      `📱 *WhatsApp:* ${cleanPhone}\n` +
+      `✉️ *Correo:* ${cleanEmail}\n` +
+      `📅 *Fecha:* ${dateFormatted}\n` +
+      `⏰ *Hora:* ${selectedTime}\n` +
+      `💬 *Motivo:* ${reason.trim()}\n` +
+      `💻 *Modalidad:* Sesión Online (Google Meet)\n\n` +
+      `Hola Dra. Mariana, acabo de agendar mi cita en soulmar.org y te comparto mi confirmación para coordinar los detalles. ¡Muchas gracias!`
+
+    const directWhatsappUrl = `https://api.whatsapp.com/send?phone=573013035158&text=${encodeURIComponent(whatsappMsg)}`
+
+    setConfirmedBooking({
+      fullName: cleanName,
+      phone: cleanPhone,
+      email: cleanEmail,
+      dateStr: dateFormatted,
+      timeStr: selectedTime,
+      reason: reason.trim(),
+      whatsappUrl: directWhatsappUrl
+    })
+
+    // Auto-dispatch: Abrir WhatsApp directamente para notificar a la Dra. Mariana sin fricción
+    try {
+      window.open(directWhatsappUrl, "_blank", "noopener,noreferrer")
+    } catch (popupErr) {
+      console.warn("Popup blocked or not allowed, fallback button available on success screen:", popupErr)
+    }
+
     try {
       // 1. Post to API
-      const res = await fetch("/api/appointments", {
+      await fetch("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullName,
-          phone,
-          email,
+          fullName: cleanName,
+          phone: cleanPhone,
+          email: cleanEmail,
           date: formattedSelectedDate,
           time: selectedTime,
-          reason
+          reason: reason.trim()
         })
       })
 
-      // Removed local storage save to prevent UI duplication. Database is the single source of truth.
+      // 2. Persistir localmente en el dispositivo para garantía absoluta
+      try {
+        const localBooking = {
+          fullName: cleanName,
+          phone: cleanPhone,
+          email: cleanEmail,
+          date: formattedSelectedDate,
+          dateFormatted,
+          time: selectedTime,
+          reason: reason.trim(),
+          timestamp: new Date().toISOString()
+        }
+        const existing = JSON.parse(localStorage.getItem("soulmar_confirmed_appointments") || "[]")
+        localStorage.setItem("soulmar_confirmed_appointments", JSON.stringify([localBooking, ...existing]))
+      } catch (lsErr) {
+        console.warn("Could not save to localStorage", lsErr)
+      }
     } catch (err) {
-      console.error("Booking error:", err)
+      console.error("Booking API error:", err)
     } finally {
       setIsLoading(false)
       setIsSuccess(true)
@@ -955,71 +1021,151 @@ export function AgendamientoSection() {
                 ref={successContainerRef}
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="p-8 md:p-12 text-center flex flex-col items-center justify-center space-y-6 max-w-lg mx-auto"
+                className="p-6 md:p-10 text-center flex flex-col items-center justify-center space-y-6 max-w-xl mx-auto"
               >
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 animate-bounce">
-                  <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+                <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-lg shadow-emerald-500/10">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-500 animate-in zoom-in duration-300" />
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3.5 py-1 rounded-full border border-emerald-500/15">
-                    {t("booking.success.badge")}
+                  <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-4 py-1.5 rounded-full border border-emerald-500/20">
+                    {language === "es" ? "¡Cita Registrada con Éxito!" : "Appointment Successfully Registered!"}
                   </span>
                   <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
-                    {t("booking.success.title")}
+                    {language === "es" ? "¡Excelente! Ya casi estamos listos" : "Almost Done! Confirm on WhatsApp"}
                   </h3>
-                  <p className="text-xs text-foreground/50 leading-relaxed max-w-sm mx-auto">
+                  <p className="text-xs text-foreground/60 leading-relaxed max-w-md mx-auto">
                     {language === "es" 
-                      ? "Te hemos enviado los detalles de tu cita a tu WhatsApp y correo electrónico de forma segura."
-                      : "We have sent all the details of your appointment to your WhatsApp and email."}
+                      ? "Tu información ha sido registrada de forma segura. Para coordinar tu enlace de Google Meet y confirmar tu espacio con la Dra. Mariana, envía tu mensaje de confirmación por WhatsApp ahora:"
+                      : "Your booking details are safely registered. To coordinate your Google Meet link and confirm your session with Dr. Mariana, send your confirmation on WhatsApp now:"}
                   </p>
                 </div>
 
-                <div className="w-full bg-surface/40 dark:bg-surface/5 rounded-xl border border-border/20 p-5 space-y-3.5 text-left">
-                  <div className="grid grid-cols-1 gap-2.5">
-                    <div className="flex items-center gap-2.5 text-xs text-foreground/75 font-semibold">
-                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm">
+                {/* HIGH-IMPACT WHATSAPP CONFIRMATION CARD (MODO DIOS) */}
+                <div className="w-full bg-emerald-500/10 dark:bg-emerald-500/15 border-2 border-emerald-500/40 rounded-2xl p-5 md:p-6 space-y-3.5 shadow-xl shadow-emerald-500/10 text-center transition-all">
+                  <div className="flex items-center justify-center gap-2 text-emerald-700 dark:text-emerald-300 font-extrabold text-[11px] uppercase tracking-wider">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping inline-block" />
+                    <span>{language === "es" ? "Paso Final: Enviar Notificación al Consultorio" : "Final Step: Notify Clinic via WhatsApp"}</span>
+                  </div>
+
+                  <a
+                    href={confirmedBooking?.whatsappUrl || "https://api.whatsapp.com/send?phone=573013035158"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 px-6 rounded-full font-black text-xs md:text-sm uppercase tracking-wider bg-[#25D366] hover:bg-[#20ba59] text-white shadow-xl shadow-[#25D366]/30 hover:shadow-[#25D366]/50 transition-all flex items-center justify-center gap-3 transform active:scale-95 group cursor-pointer"
+                  >
+                    <svg className="w-5 h-5 fill-current shrink-0 transition-transform group-hover:scale-110" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.697c1.002.596 1.838.884 2.806.884 3.182 0 5.768-2.587 5.768-5.766.001-3.182-2.585-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.824 0-3.535-.49-5.019-1.343l-6.981 1.833 1.865-6.804c-.933-1.536-1.465-3.336-1.465-5.263 0-5.514 4.486-10 10-10s10 4.486 10 10z"/>
+                    </svg>
+                    <span>{language === "es" ? "Confirmar Cita por WhatsApp con Dra. Mariana" : "Confirm with Dr. Mariana via WhatsApp"}</span>
+                  </a>
+
+                  <p className="text-[10px] text-foreground/50 tracking-tight">
+                    {language === "es"
+                      ? "Línea Directa: +57 301 303 5158 • Dra. Mariana Caicedo"
+                      : "Direct Line: +57 301 303 5158 • Dr. Mariana Caicedo"}
+                  </p>
+                </div>
+
+                {/* DETAILED APPOINTMENT SUMMARY CARD */}
+                <div className="w-full bg-surface/40 dark:bg-surface/5 rounded-2xl border border-border/20 p-5 space-y-3.5 text-left shadow-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    {/* Paciente */}
+                    <div className="flex items-center gap-2.5 text-xs text-foreground/80 font-semibold">
+                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm shrink-0">
+                        <User className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[8px] uppercase font-bold text-foreground/40 leading-none mb-0.5">{language === "es" ? "Paciente" : "Patient"}</p>
+                        <span className="truncate block font-bold text-foreground">{confirmedBooking?.fullName || fullName || "Paciente Soulmar"}</span>
+                      </div>
+                    </div>
+
+                    {/* WhatsApp */}
+                    <div className="flex items-center gap-2.5 text-xs text-foreground/80 font-semibold">
+                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-emerald-500 border border-border/10 shadow-sm shrink-0">
+                        <Phone className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[8px] uppercase font-bold text-foreground/40 leading-none mb-0.5">WhatsApp</p>
+                        <span className="truncate block font-bold text-foreground">{confirmedBooking?.phone || phone}</span>
+                      </div>
+                    </div>
+
+                    {/* Fecha */}
+                    <div className="flex items-center gap-2.5 text-xs text-foreground/80 font-semibold">
+                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm shrink-0">
                         <CalendarIcon className="w-3.5 h-3.5" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-[8px] uppercase font-bold text-foreground/40 leading-none mb-0.5">{t("booking.success.date")}</p>
-                        <span>
-                          {selectedDate?.toLocaleDateString(language === "es" ? "es-ES" : "en-US", { day: "numeric", month: "long", year: "numeric" })}
+                        <span className="truncate block">
+                          {confirmedBooking?.dateStr || (selectedDate?.toLocaleDateString(language === "es" ? "es-ES" : "en-US", { day: "numeric", month: "long", year: "numeric" }))}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2.5 text-xs text-foreground/75 font-semibold">
-                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm">
+                    {/* Hora */}
+                    <div className="flex items-center gap-2.5 text-xs text-foreground/80 font-semibold">
+                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm shrink-0">
                         <Clock className="w-3.5 h-3.5" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-[8px] uppercase font-bold text-foreground/40 leading-none mb-0.5">{t("booking.success.time")}</p>
-                        <span>{selectedTime}</span>
+                        <span className="truncate block">{confirmedBooking?.timeStr || selectedTime}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2.5 text-xs text-foreground/75 font-semibold">
-                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm">
+                    {/* Modalidad */}
+                    <div className="flex items-center gap-2.5 text-xs text-foreground/80 font-semibold sm:col-span-2">
+                      <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center text-primary border border-border/10 shadow-sm shrink-0">
                         <Video className="w-3.5 h-3.5" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-[8px] uppercase font-bold text-foreground/40 leading-none mb-0.5">{t("booking.success.link")}</p>
-                        <span>Sesión Online (Google Meet)</span>
+                        <span className="truncate block font-medium">Sesión Online (Google Meet privado)</span>
                       </div>
                     </div>
                   </div>
+
+                  {/* Copy details action */}
+                  <div className="pt-2 border-t border-border/10 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const summaryText = `Reserva Soulmar:\nPaciente: ${confirmedBooking?.fullName || fullName}\nFecha: ${confirmedBooking?.dateStr || formattedSelectedDate}\nHora: ${confirmedBooking?.timeStr || selectedTime}\nMotivo: ${confirmedBooking?.reason || reason}\nWhatsApp Consultorio: +57 301 303 5158`
+                        navigator.clipboard.writeText(summaryText)
+                        setIsCopied(true)
+                        setTimeout(() => setIsCopied(false), 3000)
+                      }}
+                      className="text-[11px] font-semibold text-foreground/60 hover:text-primary transition-colors flex items-center gap-1.5 cursor-pointer py-1 px-2 rounded-md hover:bg-surface/60"
+                    >
+                      {isCopied ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-500" />
+                          <span className="text-emerald-500 font-bold">{language === "es" ? "¡Resumen copiado!" : "Copied!"}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          <span>{language === "es" ? "Copiar resumen de mi cita" : "Copy details"}</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
+                {/* Secondary action: Schedule another */}
                 <div className="pt-2 flex justify-center w-full">
                   <Button 
                     onClick={() => {
                       setIsSuccess(false)
                       handleCancel()
                     }}
-                    className="h-12 px-8 rounded-full font-bold text-xs uppercase tracking-wider bg-primary text-white hover:bg-secondary-yellow hover:text-[#0b0b0c] dark:hover:bg-secondary-yellow shadow-lg shadow-primary/20 transition-all w-full max-w-xs flex items-center justify-center transform active:scale-98"
+                    variant="outline"
+                    className="h-11 px-7 rounded-full font-bold text-xs uppercase tracking-wider border-border/40 hover:bg-surface text-foreground/75 hover:text-foreground transition-all w-full max-w-xs flex items-center justify-center transform active:scale-98"
                   >
-                    {language === "es" ? "¿Agendamos otra cita juntos?" : "Shall we schedule another session?"}
+                    {language === "es" ? "¿Agendar otra cita?" : "Schedule another session"}
                   </Button>
                 </div>
               </motion.div>
