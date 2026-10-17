@@ -67,93 +67,37 @@ export function MobileTabBar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [pathname, isSearching])
 
-  // Smart Contrast: Real-time background luminance detector under the floating dock
+  // Smart Contrast: Ultra-fast Zero-CPU detector using IntersectionObserver instead of getComputedStyle in scroll
   useEffect(() => {
-    let ticking = false
+    // Default based on theme
+    setIsOverLightBg(!isDarkMode)
 
-    const detectUnderlyingLuminance = () => {
-      if (typeof window === "undefined" || typeof document === "undefined") return
+    // Observe specific light sections if in dark mode, or vice versa
+    const targetEl = document.getElementById("como-empezar")
+    if (!targetEl || typeof IntersectionObserver === "undefined") {
+      return
+    }
 
-      // Sample coordinates at the vertical position of the floating menu (~50px from bottom)
-      const sampleY = Math.max(10, window.innerHeight - 50)
-      const sampleX = window.innerWidth / 2
-
-      try {
-        const elements = document.elementsFromPoint(sampleX, sampleY)
-        if (!elements || elements.length === 0) {
-          setIsOverLightBg(isDarkMode ? false : true)
-          return
-        }
-
-        let detectedLight: boolean | null = null
-
-        for (const el of elements) {
-          // Skip the floating dock itself and any non-content wrapper
-          if (el.closest('[data-floating-dock="true"]')) continue
-          if (el.tagName === "HTML") continue
-
-          // Direct check for known light sections
-          if (el.closest("#como-empezar")) {
-            detectedLight = true
-            break
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setIsOverLightBg(true)
+            return
           }
-
-          // Inspect computed background color up the DOM tree
-          let cur: HTMLElement | null = el as HTMLElement
-          while (cur && cur !== document.body && cur !== document.documentElement) {
-            const style = window.getComputedStyle(cur)
-            const bg = style.backgroundColor
-            if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
-              const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
-              if (match) {
-                const r = parseInt(match[1], 10)
-                const g = parseInt(match[2], 10)
-                const b = parseInt(match[3], 10)
-                const a = match[4] !== undefined ? parseFloat(match[4]) : 1
-                if (a > 0.25) {
-                  // ITU-R BT.709 relative luminance formula
-                  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-                  detectedLight = lum > 0.52
-                  break
-                }
-              }
-            }
-            cur = cur.parentElement
-          }
-
-          if (detectedLight !== null) break
         }
-
-        if (detectedLight !== null) {
-          setIsOverLightBg(detectedLight)
-        } else {
-          // Default based on active theme
-          setIsOverLightBg(!isDarkMode)
-        }
-      } catch {
         setIsOverLightBg(!isDarkMode)
+      },
+      {
+        rootMargin: "0px 0px -50px 0px",
+        threshold: 0.1,
       }
-    }
+    )
 
-    const onScrollOrResize = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          detectUnderlyingLuminance()
-          ticking = false
-        })
-        ticking = true
-      }
-    }
-
-    // Initial check
-    detectUnderlyingLuminance()
-
-    window.addEventListener("scroll", onScrollOrResize, { passive: true })
-    window.addEventListener("resize", onScrollOrResize, { passive: true })
+    observer.observe(targetEl)
 
     return () => {
-      window.removeEventListener("scroll", onScrollOrResize)
-      window.removeEventListener("resize", onScrollOrResize)
+      observer.disconnect()
     }
   }, [isDarkMode])
 

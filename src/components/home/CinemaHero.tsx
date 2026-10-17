@@ -301,20 +301,29 @@ export function CinemaHero() {
   const activeSlide = slides[currentSlide]
 
   React.useEffect(() => {
-    // 1. Fetch settings and appointments safely
-    const safeFetch = async (url: string) => {
-      try {
-        const res = await fetch(url)
-        return await res.json()
-      } catch (e) {
-        return {}
+    // 1. Defer fetch to idle time to guarantee 100% smooth First Input and initial render
+    const executeWhenIdle = (cb: () => void) => {
+      if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+        ;(window as any).requestIdleCallback(cb, { timeout: 2000 })
+      } else {
+        setTimeout(cb, 350)
       }
     }
-    
-    Promise.all([
-      safeFetch("/api/settings"),
-      safeFetch("/api/appointments")
-    ]).then(([settingsData, appointmentsData]) => {
+
+    executeWhenIdle(() => {
+      const safeFetch = async (url: string) => {
+        try {
+          const res = await fetch(url)
+          return await res.json()
+        } catch (e) {
+          return {}
+        }
+      }
+      
+      Promise.all([
+        safeFetch("/api/settings"),
+        safeFetch("/api/appointments")
+      ]).then(([settingsData, appointmentsData]) => {
       const settings = settingsData.settings || {}
       let schedules = settings.schedules || {}
       
@@ -479,6 +488,7 @@ export function CinemaHero() {
       console.error("Error calculating next slot:", err)
       setNextSlot(language === "es" ? "Hoy, 4:00 PM" : "Today, 4:00 PM") // Fallback
     })
+    }) // end executeWhenIdle
   }, [language])
 
   const displaySlot = nextSlot || (language === "es" ? "Agenda cuando estés lista o listo" : "Book when you are ready")

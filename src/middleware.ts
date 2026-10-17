@@ -32,6 +32,17 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // --- FAST-PATH FOR PUBLIC ROUTES (0ms TTFB overhead) ---
+  const isAuthOrPanelRoute = 
+    PROTECTED_ROUTES.some(r => pathname.startsWith(r)) ||
+    ADMIN_ROUTES.some(r => pathname.startsWith(r)) ||
+    AUTH_ROUTES.some(r => pathname.startsWith(r))
+
+  // If public landing page or public asset, return immediately without initializing Supabase auth network calls
+  if (!isAuthOrPanelRoute) {
+    return NextResponse.next({ request })
+  }
+
   // --- AUTH: Supabase session management ---
   let supabaseResponse = NextResponse.next({ request })
 

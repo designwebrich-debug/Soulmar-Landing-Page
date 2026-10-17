@@ -101,13 +101,6 @@ export function HighlightCarousel() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Preload all slides in hidden container for zero-delay display */}
-        <div className="hidden" aria-hidden="true">
-          {slides.map((s) => (
-            <img key={s.id} src={s.image} alt="" />
-          ))}
-        </div>
-
         {/* Navigation Arrows (Apple Style - subtle on mobile, expands on desktop hover) */}
         <div className="absolute inset-0 flex items-center justify-between px-2.5 sm:px-4 md:px-8 z-10 pointer-events-none">
           <button
