@@ -12,7 +12,10 @@ import { useTranslation } from "@/context/LanguageContext"
 import { WHATSAPP_LINK } from "@/lib/constants"
 
 const navLinks = [
-  { key: "therapies", href: "/#agendamiento" },
+  { key: "therapies", href: "/#servicios" },
+  { key: "tutorial", href: "/#como-empezar" },
+  { key: "agendar", href: "/#agendamiento" },
+  { key: "follow_us", href: "/#comunidad" },
 ]
 
 export function Navbar() {
@@ -74,8 +77,8 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* CENTER: Navigation Links (Desktop) */}
-        <nav className="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
+        {/* CENTER: Navigation Links (Desktop & iPad) 100% Centered */}
+        <nav className="hidden md:flex items-center gap-6 lg:gap-10 absolute left-1/2 -translate-x-1/2 pointer-events-auto">
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
@@ -92,10 +95,7 @@ export function Navbar() {
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               className={cn(
-                "text-sm font-medium transition-all duration-300 hover:text-primary whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-md px-2 py-1",
-                pathname.startsWith(link.href)
-                  ? "text-primary"
-                  : "text-foreground/80"
+                "text-sm font-medium transition-all duration-300 hover:text-primary whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-md px-2 py-1 text-foreground/80 hover:text-primary"
               )}
             >
               {t(`common.${link.key}`)}
