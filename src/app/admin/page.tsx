@@ -2081,16 +2081,6 @@ export default function AdminPage() {
                     >
                       <Folder className="w-5 h-5" />
                     </a>
-
-                    {/* Botón para purgar historial a petición del administrador */}
-                    <button
-                      onClick={() => setShowPurgeHistoryModal(true)}
-                      className="h-11 px-4 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-600 hover:text-red-600 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-wider shadow-sm shrink-0 cursor-pointer"
-                      title="Administrar o purgar historial de citas antiguas"
-                    >
-                      <Trash2 className="w-4 h-4 text-neutral-400 group-hover:text-red-500" />
-                      <span>Limpiar Historial</span>
-                    </button>
                   </div>
                 </div>
 
@@ -2336,6 +2326,18 @@ export default function AdminPage() {
                     ))}
                   </div>
                 )}
+
+                  {/* Barra inferior de la caja alineada a la derecha con el botón Limpiar Historial */}
+                  <div className="pt-6 border-t border-neutral-100 flex items-center justify-end">
+                    <button
+                      onClick={() => setShowPurgeHistoryModal(true)}
+                      className="h-10 px-5 rounded-full border border-neutral-200 bg-[#F8F8FA] hover:bg-neutral-100 text-neutral-600 hover:text-red-600 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-wider cursor-pointer shadow-sm active:scale-98"
+                      title="Administrar o purgar historial de citas antiguas"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-neutral-400 group-hover:text-red-500" />
+                      <span>Limpiar Historial</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
