@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic"
 import type { Metadata } from "next"
 import { CinemaHero } from "@/components/home/CinemaHero"
 
@@ -7,15 +6,14 @@ export const metadata: Metadata = {
   description: "Terapia online con la Dra. Mariana Caicedo, psicóloga clínica. Un espacio cálido y confidencial para acompañarte en tu proceso de bienestar emocional. Agenda tu sesión.",
 }
 
-// Dynamic imports for below-the-fold or heavy components
-const ServicesSection = dynamic(() => import("@/components/home/ServicesSection").then(mod => mod.ServicesSection))
-const HowToStartSection = dynamic(() => import("@/components/home/HowToStartSection").then(mod => mod.HowToStartSection))
-const PhoneMarqueeSlider = dynamic(() => import("@/components/home/PhoneMarqueeSlider").then(mod => mod.PhoneMarqueeSlider))
-const AgendamientoSection = dynamic(() => import("@/components/home/AgendamientoSection").then(mod => mod.AgendamientoSection))
-const SocialCommunitySection = dynamic(() => import("@/components/home/SocialCommunitySection").then(mod => mod.SocialCommunitySection))
-const EbookSection = dynamic(() => import("@/components/home/EbookSection").then(mod => mod.EbookSection))
-const NewsletterSection = dynamic(() => import("@/components/home/NewsletterSection").then(mod => mod.NewsletterSection))
-const FooterSection = dynamic(() => import("@/components/home/FooterSection").then(mod => mod.FooterSection))
+import { ServicesSection } from "@/components/home/ServicesSection"
+import { HowToStartSection } from "@/components/home/HowToStartSection"
+import { PhoneMarqueeSlider } from "@/components/home/PhoneMarqueeSlider"
+import { AgendamientoSection } from "@/components/home/AgendamientoSection"
+import { SocialCommunitySection } from "@/components/home/SocialCommunitySection"
+import { EbookSection } from "@/components/home/EbookSection"
+import { NewsletterSection } from "@/components/home/NewsletterSection"
+import { FooterSection } from "@/components/home/FooterSection"
 
 export default function Home() {
   return (
