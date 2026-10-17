@@ -109,7 +109,10 @@ export function ServicesSection() {
 
       {/* Mobile: Apple-style Peek & Overlap Carousel (76vw width, next card peeking at right edge)
           Desktop: 3×2 Grid */}
-      <div className="max-w-5xl mx-auto px-6 relative z-10">
+      <div 
+        id="caja-terapias" 
+        className="max-w-5xl mx-auto px-6 relative z-10 scroll-mt-24 md:scroll-mt-28"
+      >
         <div 
           ref={scrollContainerRef}
           className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-2 no-scrollbar touch-momentum -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5 md:overflow-visible md:snap-none md:pb-0"
