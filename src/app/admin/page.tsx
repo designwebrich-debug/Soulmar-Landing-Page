@@ -473,9 +473,10 @@ export default function AdminPage() {
   }, [appointments])
 
   // Helper para generar link de WhatsApp
-  const getWhatsAppLink = (phone: string) => {
-    const cleaned = phone.replace(/\D/g, "")
-    // Por defecto, asumimos indicativo de Colombia (57) si tiene 10 dígitos y no empieza por indicativo
+  const getWhatsAppLink = (phone?: string) => {
+    if (!phone) return "https://wa.me/573013035158"
+    const cleaned = String(phone).replace(/\D/g, "")
+    if (!cleaned) return "https://wa.me/573013035158"
     const phoneWithPrefix = (cleaned.length === 10 && !cleaned.startsWith("57")) ? `57${cleaned}` : cleaned
     return `https://wa.me/${phoneWithPrefix}`
   }
@@ -602,7 +603,17 @@ export default function AdminPage() {
         const data = await res.json()
         if (data.success && data.appointment) {
           setAppointments(prev => 
-            prev.map(app => app.id === id ? data.appointment : app)
+            prev.map(app => {
+              if (app.id !== id) return app
+              return {
+                ...app,
+                ...data.appointment,
+                status: "confirmed",
+                appointment_date: data.appointment.appointment_date || app.appointment_date || "",
+                appointment_time: data.appointment.appointment_time || app.appointment_time || "",
+                patient: data.appointment.patient || app.patient
+              }
+            })
           )
         } else {
           throw new Error(data.error || "Respuesta del servidor inválida")
@@ -639,7 +650,17 @@ export default function AdminPage() {
         const data = await res.json()
         if (data.success && data.appointment) {
           setAppointments(prev => 
-            prev.map(app => app.id === id ? data.appointment : app)
+            prev.map(app => {
+              if (app.id !== id) return app
+              return {
+                ...app,
+                ...data.appointment,
+                status: "cancelled",
+                appointment_date: data.appointment.appointment_date || app.appointment_date || "",
+                appointment_time: data.appointment.appointment_time || app.appointment_time || "",
+                patient: data.appointment.patient || app.patient
+              }
+            })
           )
         } else {
           throw new Error(data.error || "Respuesta del servidor inválida")
@@ -676,7 +697,17 @@ export default function AdminPage() {
         const data = await res.json()
         if (data.success && data.appointment) {
           setAppointments(prev => 
-            prev.map(app => app.id === id ? data.appointment : app)
+            prev.map(app => {
+              if (app.id !== id) return app
+              return {
+                ...app,
+                ...data.appointment,
+                status: "no_show",
+                appointment_date: data.appointment.appointment_date || app.appointment_date || "",
+                appointment_time: data.appointment.appointment_time || app.appointment_time || "",
+                patient: data.appointment.patient || app.patient
+              }
+            })
           )
         } else {
           throw new Error(data.error || "Respuesta del servidor inválida")
@@ -724,7 +755,16 @@ export default function AdminPage() {
       if (res.ok) {
         const data = await res.json()
         setAppointments(prev => 
-          prev.map(app => app.id === appToUpdate.id ? data.appointment : app)
+          prev.map(app => {
+            if (app.id !== appToUpdate.id) return app
+            return {
+              ...app,
+              ...(data?.appointment || {}),
+              appointment_date: data?.appointment?.appointment_date || rescheduleDate || app.appointment_date,
+              appointment_time: data?.appointment?.appointment_time || rescheduleTime || app.appointment_time,
+              patient: data?.appointment?.patient || app.patient
+            }
+          })
         )
       }
     } catch (err) {
@@ -960,7 +1000,7 @@ export default function AdminPage() {
     // 1. Ingresos Mes Presente
     const currentMonthStr = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}`
     const currentMonthApps = appointments.filter(app => {
-      return app.status === "confirmed" && app.appointment_date.startsWith(currentMonthStr)
+      return app?.status === "confirmed" && typeof app?.appointment_date === "string" && app.appointment_date.startsWith(currentMonthStr)
     })
     const currentMonthRevenue = currentMonthApps.length * 120000
 
@@ -976,7 +1016,7 @@ export default function AdminPage() {
       end.setHours(23,59,59,999)
       
       const apps = appointments.filter(app => {
-        if (app.status !== "confirmed") return false
+        if (app?.status !== "confirmed" || typeof app?.appointment_date !== "string") return false
         const parts = app.appointment_date.split("-")
         if (parts.length !== 3) return false
         const appDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 0, 0, 0)
@@ -1006,7 +1046,7 @@ export default function AdminPage() {
       const prefix = `${year}-${String(month + 1).padStart(2, "0")}`
       
       const apps = appointments.filter(app => {
-        return app.status === "confirmed" && app.appointment_date.startsWith(prefix)
+        return app?.status === "confirmed" && typeof app?.appointment_date === "string" && app.appointment_date.startsWith(prefix)
       })
       
       const monthLabel = d.toLocaleDateString("es-ES", { month: "long", year: "numeric" })
@@ -1028,7 +1068,7 @@ export default function AdminPage() {
 
   // --- CÁLCULO DE ESTADÍSTICAS DE DEMANDA ---
   const analyticsStats = useMemo(() => {
-    const activeApps = appointments.filter(app => app.status !== "cancelled")
+    const activeApps = appointments.filter(app => app?.status !== "cancelled")
     if (activeApps.length === 0) {
       return {
         topDay: "Sin Datos",
@@ -1046,6 +1086,7 @@ export default function AdminPage() {
     const weekdays = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
     const dayCounts: { [key: string]: number } = {}
     activeApps.forEach(app => {
+      if (typeof app?.appointment_date !== "string") return
       const parts = app.appointment_date.split("-")
       if (parts.length === 3) {
         const dIndex = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])).getDay()
