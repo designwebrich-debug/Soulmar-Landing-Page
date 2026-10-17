@@ -78,7 +78,7 @@ export function Navbar() {
         </div>
 
         {/* CENTER: Navigation Links (Desktop & iPad) 100% Centered */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-10 absolute left-1/2 -translate-x-1/2 pointer-events-auto">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6 absolute left-1/2 -translate-x-1/2 pointer-events-auto">
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
