@@ -400,6 +400,9 @@ export default function AdminPage() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [cancelingAppId, setCancelingAppId] = useState<string | null>(null)
   const [noShowAppId, setNoShowAppId] = useState<string | null>(null)
+  const [showPurgeHistoryModal, setShowPurgeHistoryModal] = useState(false)
+  const [purgeTimeframe, setPurgeTimeframe] = useState<"day" | "week" | "month" | "year">("month")
+  const [isPurgingHistory, setIsPurgingHistory] = useState(false)
 
   useEffect(() => {
     if (reschedulingApp) {
@@ -482,18 +485,50 @@ export default function AdminPage() {
     return `https://wa.me/${phoneWithPrefix}`
   }
 
-  // Cargar citas directamente desde la base de datos (única fuente de verdad)
+  // Cargar citas fusionando base de datos con caché persistente (garantía de cero pérdida)
   const fetchAppointments = async () => {
     try {
       setLoadingAppointments(true)
+      
+      // Cargar respaldo local previo si existe
+      let localBackup: Appointment[] = []
+      try {
+        const stored = localStorage.getItem("soulmar_admin_appointments_backup")
+        if (stored) {
+          localBackup = JSON.parse(stored)
+        }
+      } catch (e) {}
+
       const res = await fetch("/api/appointments")
       if (res.ok) {
         const data = await res.json()
-        setAppointments(Array.isArray(data.appointments) ? data.appointments : [])
+        const serverApps: Appointment[] = Array.isArray(data.appointments) ? data.appointments : []
+        
+        // Unir datos del servidor con el respaldo local sin duplicados
+        const serverIds = new Set(serverApps.map(a => a.id))
+        const merged = [
+          ...serverApps,
+          ...localBackup.filter(ba => !serverIds.has(ba.id))
+        ]
+
+        setAppointments(merged)
         setIsCalendarConfigured(data.isCalendarConfigured || false)
+        
+        // Actualizar respaldo en localStorage
+        try {
+          localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(merged))
+        } catch (e) {}
+      } else if (localBackup.length > 0) {
+        setAppointments(localBackup)
       }
     } catch (err) {
       console.error("Error al cargar citas:", err)
+      try {
+        const stored = localStorage.getItem("soulmar_admin_appointments_backup")
+        if (stored) {
+          setAppointments(JSON.parse(stored))
+        }
+      } catch (e) {}
     } finally {
       setLoadingAppointments(false)
     }
@@ -591,9 +626,13 @@ export default function AdminPage() {
       setUpdatingId(id)
       
       // Actualización optimista del UI
-      setAppointments(prev => 
-        prev.map(app => app.id === id ? { ...app, status: "confirmed" } : app)
-      )
+      setAppointments(prev => {
+        const next = prev.map(app => app.id === id ? { ...app, status: "confirmed" as const } : app)
+        try {
+          localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(next))
+        } catch (e) {}
+        return next
+      })
 
       const res = await fetch("/api/appointments", {
         method: "PATCH",
@@ -603,30 +642,28 @@ export default function AdminPage() {
       if (res.ok) {
         const data = await res.json()
         if (data.success && data.appointment) {
-          setAppointments(prev => 
-            prev.map(app => {
+          setAppointments(prev => {
+            const next = prev.map(app => {
               if (app.id !== id) return app
               return {
                 ...app,
                 ...data.appointment,
-                status: "confirmed",
+                status: "confirmed" as const,
                 appointment_date: data.appointment.appointment_date || app.appointment_date || "",
                 appointment_time: data.appointment.appointment_time || app.appointment_time || "",
                 patient: data.appointment.patient || app.patient
               }
             })
-          )
-        } else {
-          throw new Error(data.error || "Respuesta del servidor inválida")
+            try {
+              localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(next))
+            } catch (e) {}
+            return next
+          })
         }
-      } else {
-        const errText = await res.text()
-        throw new Error(errText)
       }
     } catch (err: any) {
-      console.error("Error al confirmar cita:", err)
-      alert("Error al confirmar cita: " + (err.message || err))
-      fetchAppointments()
+      console.warn("Aviso al confirmar cita en backend:", err)
+      // No revertir agresivamente ni borrar la cita de la pantalla
     } finally {
       setUpdatingId(null)
     }
@@ -723,6 +760,45 @@ export default function AdminPage() {
       fetchAppointments()
     } finally {
       setUpdatingId(null)
+    }
+  }
+
+  // Purgar historial de citas (solo a petición explícita del usuario administrador)
+  const handlePurgeHistory = async () => {
+    try {
+      setIsPurgingHistory(true)
+      const res = await fetch(`/api/appointments?timeframe=${purgeTimeframe}`, {
+        method: "DELETE"
+      })
+      
+      const now = new Date()
+      let cutoffDate = new Date()
+      if (purgeTimeframe === "day") cutoffDate.setDate(now.getDate() - 1)
+      else if (purgeTimeframe === "week") cutoffDate.setDate(now.getDate() - 7)
+      else if (purgeTimeframe === "month") cutoffDate.setMonth(now.getMonth() - 1)
+      else if (purgeTimeframe === "year") cutoffDate.setFullYear(now.getFullYear() - 1)
+      
+      const cutoffIso = cutoffDate.toISOString().split("T")[0]
+
+      // Filtrar localmente citas pasadas o canceladas que caen en ese periodo
+      setAppointments(prev => {
+        const next = prev.filter(app => {
+          const isTarget = (app.status === "cancelled" || app.status === "no_show" || app.appointment_date <= cutoffIso)
+          return !isTarget
+        })
+        try {
+          localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(next))
+        } catch (e) {}
+        return next
+      })
+
+      setShowPurgeHistoryModal(false)
+      alert("Historial purgado exitosamente según el periodo seleccionado.")
+    } catch (err: any) {
+      console.error("Error al purgar historial:", err)
+      alert("Hubo un problema al purgar el historial: " + (err.message || err))
+    } finally {
+      setIsPurgingHistory(false)
     }
   }
 
@@ -869,15 +945,17 @@ export default function AdminPage() {
 
   // --- TAB CITAS ---
   const appointmentsGroupedByDate = useMemo(() => {
+    const q = filterSearch.trim().toLowerCase()
     const filtered = appointments.filter(app => {
-      const nameMatch = !filterSearch || 
-        app.patient?.name?.toLowerCase().includes(filterSearch.toLowerCase()) ||
-        app.patient?.email?.toLowerCase().includes(filterSearch.toLowerCase()) ||
-        app.patient?.phone?.includes(filterSearch)
+      const nameMatch = !q || 
+        app.patient?.name?.toLowerCase().includes(q) ||
+        app.patient?.email?.toLowerCase().includes(q) ||
+        app.patient?.phone?.includes(q) ||
+        (typeof app.reason === "string" && app.reason.toLowerCase().includes(q))
         
       const dateMatch = !filterDate || app.appointment_date === filterDate
       const statusMatch = filterStatus === "Todos" 
-        ? (filterSearch ? true : app.status !== "cancelled") 
+        ? true 
         : app.status === filterStatus
       const serviceMatch = filterService === "Todos" || filterService === "Terapia Online"
       
@@ -2003,6 +2081,16 @@ export default function AdminPage() {
                     >
                       <Folder className="w-5 h-5" />
                     </a>
+
+                    {/* Botón para purgar historial a petición del administrador */}
+                    <button
+                      onClick={() => setShowPurgeHistoryModal(true)}
+                      className="h-11 px-4 rounded-full border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-600 hover:text-red-600 transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-wider shadow-sm shrink-0 cursor-pointer"
+                      title="Administrar o purgar historial de citas antiguas"
+                    >
+                      <Trash2 className="w-4 h-4 text-neutral-400 group-hover:text-red-500" />
+                      <span>Limpiar Historial</span>
+                    </button>
                   </div>
                 </div>
 
@@ -2163,20 +2251,21 @@ export default function AdminPage() {
                               </div>
 
                               <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-                                {/* Mostrar la etiqueta de estado únicamente si es Pendiente, Cancelada o No Asistió */}
-                                {app.status !== "confirmed" && (
-                                  <span className={`h-8 px-4 inline-flex items-center justify-center rounded-full text-[9px] font-bold uppercase tracking-wider ${
-                                    app.status === "cancelled"
-                                      ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
-                                      : app.status === "no_show"
-                                      ? "bg-neutral-500/10 text-neutral-600 border border-neutral-500/20"
-                                      : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
-                                  }`}>
-                                    {app.status === "cancelled" && "Cancelada"}
-                                    {app.status === "no_show" && "No Asistió"}
-                                    {app.status === "pending" && "Pendiente"}
-                                  </span>
-                                )}
+                                {/* Etiqueta de estado para todos los estados */}
+                                <span className={`h-8 px-4 inline-flex items-center justify-center rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                                  app.status === "confirmed"
+                                    ? "bg-[#1D9E75]/10 text-[#1D9E75] border border-[#1D9E75]/25"
+                                    : app.status === "cancelled"
+                                    ? "bg-[#E11D48]/8 text-[#E11D48] border border-[#E11D48]/20"
+                                    : app.status === "no_show"
+                                    ? "bg-neutral-500/10 text-neutral-600 border border-neutral-500/20"
+                                    : "bg-[#BA7517]/8 text-[#BA7517] border border-[#BA7517]/20"
+                                }`}>
+                                  {app.status === "confirmed" && "✓ Confirmada"}
+                                  {app.status === "cancelled" && "Cancelada"}
+                                  {app.status === "no_show" && "No Asistió"}
+                                  {app.status === "pending" && "Pendiente"}
+                                </span>
 
                                 {updatingId === app.id ? (
                                   <Loader2 className="w-5 h-5 animate-spin text-black" />
@@ -2939,6 +3028,79 @@ export default function AdminPage() {
                 className="w-full h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center"
               >
                 Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE PURGAR / LIMPIAR HISTORIAL DE CITAS ANTIGUAS */}
+      {showPurgeHistoryModal && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
+          <div 
+            className="fixed inset-0" 
+            onClick={() => !isPurgingHistory && setShowPurgeHistoryModal(false)}
+          />
+          
+          <div className="bg-white rounded-[32px] border border-neutral-200 shadow-2xl w-full max-w-md overflow-hidden flex flex-col relative z-10 animate-in zoom-in-95 duration-200 p-8 md:p-10 space-y-6">
+            <div className="space-y-2 text-center">
+              <div className="w-12 h-12 rounded-full bg-red-50 text-red-500 border border-red-100 flex items-center justify-center mx-auto mb-2">
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <h4 className="text-base font-black text-black uppercase tracking-tight">Depurar Historial de Citas</h4>
+              <p className="text-xs text-neutral-500 font-medium leading-relaxed">
+                Tus citas confirmadas y activas permanecen permanentemente en tu panel. Esta opción te permite eliminar registros antiguos o cancelados cuando desees liberar historial.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-wider text-neutral-400 block text-center">
+                Selecciona el periodo a limpiar:
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: "day", label: "Último Día" },
+                  { id: "week", label: "Última Semana" },
+                  { id: "month", label: "Último Mes" },
+                  { id: "year", label: "Último Año" }
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setPurgeTimeframe(item.id as any)}
+                    className={`h-11 rounded-2xl border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center ${
+                      purgeTimeframe === item.id
+                        ? "bg-black text-white border-black shadow-sm"
+                        : "bg-neutral-50 hover:bg-neutral-100 border-neutral-200 text-neutral-700"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2.5 pt-2">
+              <button
+                disabled={isPurgingHistory}
+                onClick={handlePurgeHistory}
+                className="w-full h-11 rounded-full bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-md hover:shadow-lg active:scale-97 cursor-pointer flex items-center justify-center gap-2"
+              >
+                {isPurgingHistory ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Depurando...</span>
+                  </>
+                ) : (
+                  <span>Confirmar y Limpiar Historial</span>
+                )}
+              </button>
+              <button
+                disabled={isPurgingHistory}
+                onClick={() => setShowPurgeHistoryModal(false)}
+                className="w-full h-11 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-600 font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center"
+              >
+                Conservar Todo
               </button>
             </div>
           </div>

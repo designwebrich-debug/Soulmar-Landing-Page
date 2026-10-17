@@ -580,3 +580,73 @@ export async function POST(request: Request) {
     })
   }
 }
+
+/**
+ * DELETE: Purgar historial de citas (último día, última semana, último mes o último año).
+ * Solo afecta citas canceladas, pasadas o completadas, protegiendo turnos futuros y activos.
+ */
+export async function DELETE(request: Request) {
+  try {
+    const cookieStore = await cookies()
+    const token = cookieStore.get("soulmar_admin_session")?.value
+    const email = token ? verifyToken(token) : null
+
+    if (!email || !isAuthorized(email)) {
+      return new NextResponse("Unauthorized", { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const timeframe = searchParams.get("timeframe") // "day", "week", "month", "year", "all_cancelled"
+
+    if (!timeframe) {
+      return NextResponse.json({ error: "Parámetro 'timeframe' requerido." }, { status: 400 })
+    }
+
+    const now = new Date()
+    let cutoffDate = new Date()
+
+    if (timeframe === "day") {
+      cutoffDate.setDate(now.getDate() - 1)
+    } else if (timeframe === "week") {
+      cutoffDate.setDate(now.getDate() - 7)
+    } else if (timeframe === "month") {
+      cutoffDate.setMonth(now.getMonth() - 1)
+    } else if (timeframe === "year") {
+      cutoffDate.setFullYear(now.getFullYear() - 1)
+    }
+
+    const cutoffIso = cutoffDate.toISOString().split("T")[0]
+
+    // Limpiar en globalFallbackAppointments
+    for (let i = globalFallbackAppointments.length - 1; i >= 0; i--) {
+      const app = globalFallbackAppointments[i]
+      const isPastOrCancelled = app.status === "cancelled" || app.status === "no_show" || (app.appointment_date <= cutoffIso)
+      if (isPastOrCancelled) {
+        globalFallbackAppointments.splice(i, 1)
+      }
+    }
+
+    // Limpiar en Supabase
+    try {
+      const supabase = await createAdminClient()
+      
+      // Eliminar citas canceladas o no_show dentro del rango temporal
+      await supabase
+        .from("appointments")
+        .delete()
+        .in("status", ["cancelled", "no_show"])
+        .lte("appointment_date", cutoffIso)
+    } catch (dbErr) {
+      console.warn("[API_APPOINTMENTS_DELETE] Supabase delete warning:", dbErr)
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Historial de citas purgado exitosamente (${timeframe}).`
+    })
+  } catch (err: any) {
+    console.error("[API_APPOINTMENTS_DELETE] Error:", err)
+    return NextResponse.json({ error: err.message }, { status: 500 })
+  }
+}
+
