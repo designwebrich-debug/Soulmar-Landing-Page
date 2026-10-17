@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
+import { normalizeTime } from "@/lib/utils"
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -2770,11 +2771,12 @@ export default function AdminPage() {
                   {["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"].filter((timeStr) => {
                     if (!rescheduleDate) return true
                     
-                    // Verificar si ya está reservado por otra cita activa
+                    // Verificar si ya está reservado por otra cita activa con normalización
+                    const targetTimeNorm = normalizeTime(timeStr)
                     const isBooked = appointments.some(app => 
                       app.appointment_date === rescheduleDate && 
-                      app.appointment_time === timeStr && 
                       app.status !== "cancelled" &&
+                      normalizeTime(app.appointment_time) === targetTimeNorm &&
                       app.id !== reschedulingApp?.id // no bloquear la hora actual de la cita a reprogramar
                     )
                     if (isBooked) return false

@@ -25,7 +25,7 @@ import { useTranslation } from "@/context/LanguageContext"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
-import { cn } from "@/lib/utils"
+import { cn, normalizeTime } from "@/lib/utils"
 
 const AM_SLOTS = [
   "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM"
@@ -76,6 +76,17 @@ export function AgendamientoSection() {
   const [holidays, setHolidays] = useState<any[]>([])
   const [existingAppointments, setExistingAppointments] = useState<any[]>([])
 
+  const fetchBookedSlots = () => {
+    fetch("/api/appointments")
+      .then(res => res.json())
+      .then(data => {
+        if (data && Array.isArray(data.appointments)) {
+          setExistingAppointments(data.appointments)
+        }
+      })
+      .catch(err => console.error("Error fetching appointments:", err))
+  }
+
   useEffect(() => {
     fetch("/api/settings")
       .then(res => res.json())
@@ -91,15 +102,19 @@ export function AgendamientoSection() {
       .catch(err => console.error("Error fetching settings:", err))
 
     // Cargar todas las citas existentes para inhabilitar turnos ya ocupados
-    fetch("/api/appointments")
-      .then(res => res.json())
-      .then(data => {
-        if (data && Array.isArray(data.appointments)) {
-          setExistingAppointments(data.appointments)
-        }
-      })
-      .catch(err => console.error("Error fetching appointments:", err))
+    fetchBookedSlots()
+
+    // Intervalo de actualización periódica para reflejar citas recién tomadas
+    const interval = setInterval(fetchBookedSlots, 20000)
+    return () => clearInterval(interval)
   }, [])
+
+  // Refrescar citas cuando el usuario cambia de fecha
+  useEffect(() => {
+    if (selectedDate) {
+      fetchBookedSlots()
+    }
+  }, [selectedDate])
 
   // Generar horarios de slots dinámicamente según la configuración del administrador
   const generatedSlots = useMemo(() => {
@@ -175,12 +190,13 @@ export function AgendamientoSection() {
   const isSlotDisabled = (timeStr: string): boolean => {
     if (!selectedDate) return true
 
-    // 1. Verificar si el slot ya está reservado (estado != "cancelled")
+    // 1. Verificar si el slot ya está reservado (estado != "cancelled") con normalización rigurosa de hora
+    const targetNorm = normalizeTime(timeStr)
     const hasBooking = existingAppointments.some(app => {
       return (
         app.appointment_date === formattedSelectedDate &&
-        app.appointment_time === timeStr &&
-        app.status !== "cancelled"
+        app.status !== "cancelled" &&
+        normalizeTime(app.appointment_time) === targetNorm
       )
     })
     if (hasBooking) return true
@@ -364,7 +380,7 @@ export function AgendamientoSection() {
 
     try {
       // 1. Post to API
-      await fetch("/api/appointments", {
+      const res = await fetch("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -376,6 +392,19 @@ export function AgendamientoSection() {
           reason: reason.trim()
         })
       })
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}))
+        const errorMsg = errJson.error || (language === "es" 
+          ? "Este turno ya ha sido reservado por otro paciente. Por favor selecciona otro horario." 
+          : "This time slot has already been booked. Please select another time.")
+        setValidationError(errorMsg)
+        setSelectedTime("")
+        setStep(1)
+        fetchBookedSlots()
+        setIsLoading(false)
+        return
+      }
 
       // 2. Persistir localmente en el dispositivo para garantía absoluta
       try {
@@ -394,11 +423,13 @@ export function AgendamientoSection() {
       } catch (lsErr) {
         console.warn("Could not save to localStorage", lsErr)
       }
-    } catch (err) {
-      console.error("Booking API error:", err)
-    } finally {
+
       setIsLoading(false)
       setIsSuccess(true)
+    } catch (err) {
+      console.error("Booking API error:", err)
+      setIsLoading(false)
+      setIsSuccess(true) // Still show confirmation if offline so patient is not left stranded
     }
   }
 

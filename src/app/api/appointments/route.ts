@@ -4,6 +4,7 @@ import { Resend } from "resend"
 import { verifyToken } from "../admin-auth/route"
 import { createAdminClient } from "@/lib/supabase/server"
 import { createCalendarEvent } from "@/lib/googleCalendar"
+import { normalizeTime } from "@/lib/utils"
 
 // Helper para validar si el correo pertenece a la lista blanca
 function isAuthorized(email?: string | null): boolean {
@@ -145,46 +146,58 @@ async function notifyAdminByEmail(data: {
 }
 
 /**
- * GET: Obtener todas las citas (para el panel administrativo).
- * Requiere sesión de administrador autenticado por Google.
+ * GET: Obtener todas las citas.
+ * - Si es Admin autenticado: Retorna todas las citas con datos completos del paciente.
+ * - Si es Usuario Público / Landing: Retorna únicamente los turnos ocupados (fecha, hora, estado)
+ *   de forma anónima para inhabilitar turnos y prevenir sobreposición sin exponer datos privados.
  */
 export async function GET() {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get("soulmar_admin_session")?.value
     const email = token ? verifyToken(token) : null
-
-    if (!email || !isAuthorized(email)) {
-      return new NextResponse("Unauthorized", { status: 401 })
-    }
+    const isAdmin = Boolean(email && isAuthorized(email))
 
     let dbAppointments: any[] = []
 
     try {
       const supabase = await createAdminClient()
-      const { data, error } = await supabase
-        .from("appointments")
-        .select(`
-          *,
-          patient:patient_id (
-            name,
-            email,
-            phone
-          )
-        `)
-        .order("appointment_date", { ascending: false })
 
-      if (!error && Array.isArray(data)) {
-        dbAppointments = data.map(parseAppointmentPatient)
-      } else if (error) {
-        console.warn("[API_APPOINTMENTS_GET] Supabase select error:", error)
-        // Fallback: intentar select sin join
-        const { data: rawApps } = await supabase
+      if (isAdmin) {
+        // Modo Admin: Cargar citas con paciente
+        const { data, error } = await supabase
           .from("appointments")
-          .select("*")
+          .select(`
+            *,
+            patient:patient_id (
+              name,
+              email,
+              phone
+            )
+          `)
           .order("appointment_date", { ascending: false })
-        if (Array.isArray(rawApps)) {
-          dbAppointments = rawApps.map(parseAppointmentPatient)
+
+        if (!error && Array.isArray(data)) {
+          dbAppointments = data.map(parseAppointmentPatient)
+        } else {
+          // Fallback sin join
+          const { data: rawApps } = await supabase
+            .from("appointments")
+            .select("*")
+            .order("appointment_date", { ascending: false })
+          if (Array.isArray(rawApps)) {
+            dbAppointments = rawApps.map(parseAppointmentPatient)
+          }
+        }
+      } else {
+        // Modo Público: Cargar únicamente turnos ocupados (sin datos personales)
+        const { data } = await supabase
+          .from("appointments")
+          .select("appointment_date, appointment_time, status")
+          .neq("status", "cancelled")
+
+        if (Array.isArray(data)) {
+          dbAppointments = data
         }
       }
     } catch (dbErr) {
@@ -199,17 +212,31 @@ export async function GET() {
 
     // Fusionar citas de la BD con citas de la cola en memoria para máxima resiliencia
     const existingDbKeys = new Set(
-      dbAppointments.map((a: any) => `${a.appointment_date}_${a.appointment_time}_${(a.patient?.email || "").toLowerCase()}`)
+      dbAppointments.map((a: any) => `${a.appointment_date}_${normalizeTime(a.appointment_time)}`)
     )
 
     const extraFallback = globalFallbackAppointments
-      .filter((fa) => !existingDbKeys.has(`${fa.appointment_date}_${fa.appointment_time}_${fa.patient.email.toLowerCase()}`))
+      .filter((fa) => !existingDbKeys.has(`${fa.appointment_date}_${normalizeTime(fa.appointment_time)}`))
       .map(parseAppointmentPatient)
 
     const merged = [...extraFallback, ...dbAppointments].sort(
       (a, b) => new Date(b.created_at || b.appointment_date).getTime() - new Date(a.created_at || a.appointment_date).getTime()
     )
 
+    // Si no es admin, entregar únicamente fecha, hora y estado anónimos
+    if (!isAdmin) {
+      const publicSlots = merged
+        .filter((a: any) => a.status !== "cancelled")
+        .map((a: any) => ({
+          appointment_date: a.appointment_date,
+          appointment_time: a.appointment_time,
+          status: a.status
+        }))
+
+      return NextResponse.json({ appointments: publicSlots, isCalendarConfigured: false })
+    }
+
+    // Modo Admin: Datos completos
     return NextResponse.json({ appointments: merged, isCalendarConfigured })
   } catch (err: any) {
     console.error("[API_APPOINTMENTS_GET] Exception:", err)
@@ -235,7 +262,7 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json()
-    const { id, status, date, time } = body // status: 'confirmed', 'cancelled', 'pending'
+    const { id, status, date, time } = body // status: 'confirmed', 'cancelled', 'pending', 'no_show'
 
     if (!id) {
       return NextResponse.json({ error: "Missing ID" }, { status: 400 })
@@ -336,6 +363,7 @@ export async function PATCH(request: Request) {
 
 /**
  * POST: Crear una nueva cita (desde el agendamiento del front).
+ * Incluye validación de concurrencia para evitar doble reserva (sobreposición) de turnos.
  */
 export async function POST(request: Request) {
   try {
@@ -343,10 +371,45 @@ export async function POST(request: Request) {
     const { fullName, phone, email, date, time, reason } = body
 
     if (!fullName || !email || !date || !time) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+      return NextResponse.json({ error: "Faltan campos obligatorios para agendar la cita." }, { status: 400 })
     }
 
-    console.log(`[SOULMAR_BOOKING_POST] Incoming appointment: ${fullName} (${email}, ${phone}) for ${date} at ${time}`)
+    console.log(`[SOULMAR_BOOKING_POST] Intento de reserva: ${fullName} (${email}, ${phone}) para el día ${date} a las ${time}`)
+
+    const targetNormTime = normalizeTime(time)
+
+    // ─── VALIDACIÓN ESTRICTA DE NO-SOBREPOSICIÓN (CONCURRENCY LOCK) ───
+    try {
+      const supabase = await createAdminClient()
+
+      // Verificar si ya existe una cita en esa fecha (que no esté cancelada)
+      const { data: existingSlots } = await supabase
+        .from("appointments")
+        .select("id, appointment_date, appointment_time, status")
+        .eq("appointment_date", date)
+        .neq("status", "cancelled")
+
+      const isConflictInDb = Array.isArray(existingSlots) && existingSlots.some(
+        (slot: any) => normalizeTime(slot.appointment_time) === targetNormTime
+      )
+
+      const isConflictInFallback = globalFallbackAppointments.some(
+        (fa) => fa.appointment_date === date && fa.status !== "cancelled" && normalizeTime(fa.appointment_time) === targetNormTime
+      )
+
+      if (isConflictInDb || isConflictInFallback) {
+        console.warn(`[SOULMAR_BOOKING_CONFLICT] El horario ${date} ${time} (${targetNormTime}) ya se encuentra reservado. Rechazando sobreposición.`)
+        return NextResponse.json(
+          {
+            error: "Este horario ya ha sido reservado por otro paciente. Por favor selecciona otro turno disponible.",
+            code: "SLOT_ALREADY_BOOKED"
+          },
+          { status: 409 }
+        )
+      }
+    } catch (checkErr) {
+      console.warn("[SOULMAR_BOOKING] Conflicto de verificación notice:", checkErr)
+    }
 
     // 1. Guardar de inmediato en la cola de respaldo en memoria (Garantía de cero pérdidas)
     const fallbackId = "app-" + Date.now() + "-" + Math.random().toString(36).substring(2, 6)
@@ -373,7 +436,7 @@ export async function POST(request: Request) {
     // Embeber los datos completos del paciente en reason para tener garantía de persistencia
     const fullReason = `[PACIENTE: ${fullName} | TEL: ${phone || ""} | EMAIL: ${email.trim().toLowerCase()}] ${reason || "Consulta General"}`
 
-    // 2. Intentar inserción en base de datos Supabase
+    // 2. Inserción persistente en base de datos Supabase
     try {
       const supabase = await createAdminClient()
 
@@ -459,7 +522,7 @@ export async function POST(request: Request) {
         console.warn("[SOULMAR_BOOKING] therapist lookup notice:", tErr)
       }
 
-      // C. Insertar cita en appointments (sin joins anidados para evitar errores de schema cache)
+      // C. Insertar cita en appointments
       const { data: newApp, error: appError } = await supabase
         .from("appointments")
         .insert({

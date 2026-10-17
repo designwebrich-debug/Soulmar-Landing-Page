@@ -10,6 +10,7 @@ import { useTranslation } from "@/context/LanguageContext"
 import { format, addDays } from "date-fns"
 import { es, enUS } from "date-fns/locale"
 import { searchSoulmar, type SearchItem } from "@/lib/searchDatabase"
+import { normalizeTime } from "@/lib/utils"
 
 export function CinemaHero() {
   const { t, language } = useTranslation()
@@ -447,11 +448,12 @@ export function CinemaHero() {
           }
 
           // Check if already booked
+          const targetSlotNorm = normalizeTime(slot)
           const isBooked = appointments.some((app: any) => {
             return (
               app.appointment_date === formattedDate &&
-              app.appointment_time === slot &&
-              app.status !== "cancelled"
+              app.status !== "cancelled" &&
+              normalizeTime(app.appointment_time) === targetSlotNorm
             )
           })
 
