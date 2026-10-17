@@ -7,21 +7,24 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTranslation } from "@/context/LanguageContext"
 
+import { useMedia } from "@/context/MediaContext"
+
 interface Slide {
   id: number
   image: string
 }
 
-const slides: Slide[] = [
-  { id: 1, image: "/images/highlights/SLIDER01.png" },
-  { id: 2, image: "/images/highlights/SLIDER02.png" },
-  { id: 3, image: "/images/highlights/SLIDER03.png" },
-]
-
 export function HighlightCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const { t } = useTranslation()
+  const { getMediaUrl } = useMedia()
+
+  const slides: Slide[] = [
+    { id: 1, image: getMediaUrl("highlight_slide_1", "/images/highlights/SLIDER01.png") },
+    { id: 2, image: getMediaUrl("highlight_slide_2", "/images/highlights/SLIDER02.png") },
+    { id: 3, image: getMediaUrl("highlight_slide_3", "/images/highlights/SLIDER03.png") },
+  ]
 
   const slideNext = useCallback(() => {
     setDirection(1)

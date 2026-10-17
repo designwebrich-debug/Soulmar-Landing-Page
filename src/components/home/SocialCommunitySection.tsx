@@ -17,39 +17,42 @@ interface SocialPost {
   href: string
 }
 
-const socialPosts: SocialPost[] = [
-  {
-    id: "post-1",
-    platform: "instagram",
-    tag: "Instagram Reel",
-    title: "Mi herida, mi reacción",
-    views: "48.2K",
-    image: "/images/mobile-hero/slide-1.jpg",
-    href: "https://www.instagram.com/soulmar.org_/?hl=es",
-  },
-  {
-    id: "post-2",
-    platform: "instagram",
-    tag: "Instagram Post",
-    title: "¿Por qué sobrepienso todo?",
-    views: "92.5K",
-    image: "/images/mobile-hero/slide-2.png",
-    href: "https://www.instagram.com/soulmar.org_/?hl=es",
-  },
-  {
-    id: "post-3",
-    platform: "instagram",
-    tag: "Instagram Reel",
-    title: "Tu sesión psicológica a un clic",
-    views: "36.8K",
-    image: "/images/mobile-hero/slide-3.png",
-    href: "https://www.instagram.com/soulmar.org_/?hl=es",
-  },
-]
+import { useMedia } from "@/context/MediaContext"
 
 export function SocialCommunitySection() {
   const { language } = useTranslation()
+  const { getMediaUrl } = useMedia()
   const isEn = language === "en"
+
+  const socialPosts: SocialPost[] = [
+    {
+      id: "post-1",
+      platform: "instagram",
+      tag: "Instagram Reel",
+      title: "Mi herida, mi reacción",
+      views: "48.2K",
+      image: getMediaUrl("social_post_1", "/images/mobile-hero/slide-1.jpg"),
+      href: "https://www.instagram.com/soulmar.org_/?hl=es",
+    },
+    {
+      id: "post-2",
+      platform: "instagram",
+      tag: "Instagram Post",
+      title: "¿Por qué sobrepienso todo?",
+      views: "92.5K",
+      image: getMediaUrl("social_post_2", "/images/mobile-hero/slide-2.png"),
+      href: "https://www.instagram.com/soulmar.org_/?hl=es",
+    },
+    {
+      id: "post-3",
+      platform: "instagram",
+      tag: "Instagram Reel",
+      title: "Tu sesión psicológica a un clic",
+      views: "36.8K",
+      image: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png"),
+      href: "https://www.instagram.com/soulmar.org_/?hl=es",
+    },
+  ]
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [activeDot, setActiveDot] = useState(0)

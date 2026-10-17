@@ -12,8 +12,11 @@ import { es, enUS } from "date-fns/locale"
 import { searchSoulmar, type SearchItem } from "@/lib/searchDatabase"
 import { normalizeTime } from "@/lib/utils"
 
+import { useMedia } from "@/context/MediaContext"
+
 export function CinemaHero() {
   const { t, language } = useTranslation()
+  const { getMediaUrl } = useMedia()
   const [nextSlot, setNextSlot] = React.useState<string>("")
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [currentMobileSlide, setCurrentMobileSlide] = React.useState(0)
@@ -30,7 +33,7 @@ export function CinemaHero() {
   const slides = React.useMemo(() => [
     {
       id: 1,
-      image: "/images/BannerHero01.jpg",
+      image: getMediaUrl("hero_slide_1", "/images/BannerHero01.jpg"),
       titlePart1: t('hero.slide1_title_part1') || t('hero.title_part1'),
       titlePart2: t('hero.slide1_title_part2') || t('hero.title_part2'),
       subtitle: t('hero.slide1_subtitle') || t('hero.subtitle'),
@@ -41,7 +44,7 @@ export function CinemaHero() {
     },
     {
       id: 2,
-      image: "/images/BannerHero03.jpg",
+      image: getMediaUrl("hero_slide_2", "/images/BannerHero03.jpg"),
       titlePart1: t('hero.slide2_title_part1'),
       titlePart2: t('hero.slide2_title_part2'),
       subtitle: t('hero.slide2_subtitle'),
@@ -52,7 +55,7 @@ export function CinemaHero() {
     },
     {
       id: 3,
-      image: "/images/BannerHero02.jpg",
+      image: getMediaUrl("hero_slide_3", "/images/BannerHero02.jpg"),
       titlePart1: t('hero.slide3_title_part1'),
       titlePart2: t('hero.slide3_title_part2'),
       subtitle: t('hero.slide3_subtitle'),
@@ -61,7 +64,7 @@ export function CinemaHero() {
       buttonClass: "bg-[#8da9c4] hover:bg-neutral-900 text-white hover:text-white border-[#8da9c4]/20 hover:border-neutral-900/20",
       buttonIconClass: "bg-white text-[#8da9c4] group-hover:bg-white group-hover:text-neutral-900"
     }
-  ], [t])
+  ], [t, getMediaUrl])
 
   const mobileSlides = React.useMemo(() => [
     {

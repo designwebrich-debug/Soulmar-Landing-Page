@@ -60,6 +60,8 @@ export const viewport = {
   ],
 }
 
+import { MediaProvider } from "@/context/MediaContext"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,7 +80,9 @@ export default function RootLayout({
         >
           <ToastProvider>
             <LanguageProvider>
-              <AppLayoutWrapper>{children}</AppLayoutWrapper>
+              <MediaProvider>
+                <AppLayoutWrapper>{children}</AppLayoutWrapper>
+              </MediaProvider>
             </LanguageProvider>
           </ToastProvider>
         </ThemeProvider>

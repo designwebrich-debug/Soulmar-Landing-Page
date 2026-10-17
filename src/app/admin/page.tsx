@@ -32,8 +32,15 @@ import {
   ChevronDown,
   Folder,
   Star,
-  Monitor
+  Monitor,
+  ImageIcon,
+  UploadCloud,
+  RefreshCw,
+  Sliders,
+  CheckCircle,
+  Smartphone
 } from "lucide-react"
+import { MEDIA_SECTIONS, MEDIA_SLOTS, type MediaSlot } from "@/lib/mediaConfig"
 
 interface Patient {
   name: string
@@ -379,7 +386,7 @@ export default function AdminPage() {
   // ─── AUTH PROPIO (sin NextAuth) ───────────────────────────
   const [adminEmail, setAdminEmail] = useState<string | null>(null)
   const [authChecked, setAuthChecked] = useState(false)
-  const [activeTab, setActiveTab] = useState<"dashboard" | "appointments" | "schedules" | "clients">("dashboard")
+  const [activeTab, setActiveTab] = useState<"dashboard" | "appointments" | "schedules" | "clients" | "multimedia">("dashboard")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
 
@@ -391,6 +398,13 @@ export default function AdminPage() {
   const [copiedToken, setCopiedToken] = useState(false)
   const [selectedClientHistory, setSelectedClientHistory] = useState<any | null>(null)
   const [revenueActiveTab, setRevenueActiveTab] = useState<"current" | "weekly" | "monthly">("current")
+
+  // Estados de Multimedia
+  const [mediaMap, setMediaMap] = useState<Record<string, string>>({})
+  const [uploadingSlotKey, setUploadingSlotKey] = useState<string | null>(null)
+  const [mediaActiveSection, setMediaActiveSection] = useState<string>("all")
+  const [mediaSearchQuery, setMediaSearchQuery] = useState<string>("")
+  const [mediaUploadSuccess, setMediaUploadSuccess] = useState<string | null>(null)
   
   // Estados para reprogramación de citas
   const [reschedulingApp, setReschedulingApp] = useState<any | null>(null)
@@ -590,9 +604,101 @@ export default function AdminPage() {
         })
         .catch(err => console.error("Error loading settings:", err))
 
+      // Cargar multimedia
+      fetchMedia()
+
       return () => clearInterval(pollTimer)
     }
   }, [adminEmail])
+
+  // Cargar registro de multimedia
+  const fetchMedia = async () => {
+    try {
+      const res = await fetch("/api/media", { cache: "no-store" })
+      if (res.ok) {
+        const data = await res.json()
+        if (data.success && data.media) {
+          setMediaMap(data.media)
+        }
+      }
+    } catch (err) {
+      console.warn("Error cargando multimedia:", err)
+    }
+  }
+
+  // Subir o reemplazar imagen
+  const handleUploadMedia = async (slotKey: string, file: File) => {
+    try {
+      setUploadingSlotKey(slotKey)
+      setMediaUploadSuccess(null)
+
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("slotKey", slotKey)
+
+      const res = await fetch("/api/media", {
+        method: "POST",
+        body: formData
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        if (data.success) {
+          setMediaMap(prev => ({ ...prev, [slotKey]: data.url }))
+          try {
+            const stored = localStorage.getItem("soulmar_media_registry")
+            const parsed = stored ? JSON.parse(stored) : {}
+            parsed[slotKey] = data.url
+            localStorage.setItem("soulmar_media_registry", JSON.stringify(parsed))
+          } catch (e) {}
+
+          setMediaUploadSuccess(slotKey)
+          setTimeout(() => setMediaUploadSuccess(null), 3000)
+        } else {
+          alert("Error al subir imagen: " + (data.error || "No se pudo procesar"))
+        }
+      } else {
+        const errText = await res.text()
+        alert("Error al subir imagen: " + errText)
+      }
+    } catch (err: any) {
+      console.error("Error al subir imagen:", err)
+      alert("Error de conexión al subir la imagen: " + err.message)
+    } finally {
+      setUploadingSlotKey(null)
+    }
+  }
+
+  // Restablecer imagen al valor original
+  const handleResetMedia = async (slotKey: string) => {
+    if (!confirm("¿Deseas restablecer esta foto a su diseño original por defecto?")) return
+    try {
+      setUploadingSlotKey(slotKey)
+      const res = await fetch(`/api/media?slotKey=${slotKey}`, {
+        method: "DELETE"
+      })
+      if (res.ok) {
+        setMediaMap(prev => {
+          const next = { ...prev }
+          delete next[slotKey]
+          return next
+        })
+        try {
+          const stored = localStorage.getItem("soulmar_media_registry")
+          if (stored) {
+            const parsed = JSON.parse(stored)
+            delete parsed[slotKey]
+            localStorage.setItem("soulmar_media_registry", JSON.stringify(parsed))
+          }
+        } catch (e) {}
+      }
+    } catch (err: any) {
+      console.error("Error al restablecer imagen:", err)
+      alert("Error al restablecer imagen: " + err.message)
+    } finally {
+      setUploadingSlotKey(null)
+    }
+  }
 
   // Helper para persistir configuraciones en base de datos
   const persistSettings = async (newSchedules: any, newHolidays: Holiday[], newDuration: string) => {
@@ -1513,6 +1619,18 @@ export default function AdminPage() {
               <Users className="w-4 h-4" />
               <span className="text-xs uppercase tracking-wider">Clientes</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab("multimedia")}
+              className={`w-full flex items-center gap-4 px-5 py-3 rounded-xl font-bold transition-all cursor-pointer ${
+                activeTab === "multimedia"
+                  ? "bg-white text-black"
+                  : "hover:bg-neutral-900 text-neutral-400 hover:text-white"
+              }`}
+            >
+              <ImageIcon className="w-4 h-4" />
+              <span className="text-xs uppercase tracking-wider">Multimedia</span>
+            </button>
           </nav>
         </div>
 
@@ -1605,6 +1723,15 @@ export default function AdminPage() {
                 >
                   <Users className="w-4 h-4" />
                   <span className="text-xs uppercase tracking-wider">Clientes</span>
+                </button>
+                <button
+                  onClick={() => { setActiveTab("multimedia"); setMobileMenuOpen(false); }}
+                  className={`w-full flex items-center gap-4 px-5 py-3 rounded-xl font-bold transition-all ${
+                    activeTab === "multimedia" ? "bg-white text-black" : "text-neutral-400 hover:bg-neutral-900"
+                  }`}
+                >
+                  <ImageIcon className="w-4 h-4" />
+                  <span className="text-xs uppercase tracking-wider">Multimedia</span>
                 </button>
               </nav>
             </div>
@@ -2682,6 +2809,231 @@ export default function AdminPage() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            )}
+
+            {/* TAB 5: MULTIMEDIA (GESTIÓN INTEGRAL DE FOTOS DE LA WEB) */}
+            {activeTab === "multimedia" && (
+              <div className="space-y-8 animate-in fade-in duration-300">
+                
+                {/* Header de la Sección */}
+                <div className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="space-y-2">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black text-white text-[9px] font-black uppercase tracking-widest">
+                      <Sparkles className="w-3 h-3 text-[#ffc971]" />
+                      <span>Soulmar Visual Manager</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-black text-black tracking-tight font-sans uppercase">
+                      Gestión Multimedia de la Web
+                    </h3>
+                    <p className="text-xs text-neutral-500 font-medium max-w-2xl leading-relaxed">
+                      Actualiza en máxima calidad las imágenes de los carruseles, banners, tarjetas móviles y equipo clínico. Cada recuadro indica la medida recomendada exacta para mantener un diseño visual impecable.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={fetchMedia}
+                      className="h-11 px-5 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+                    >
+                      <RefreshCw className="w-4 h-4 text-neutral-400" />
+                      <span>Refrescar</span>
+                    </button>
+                    <a
+                      href="https://www.soulmar.org"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-11 px-6 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+                    >
+                      <span>Ver Web en Vivo</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Filtro por Secciones & Buscador */}
+                <div className="bg-white rounded-3xl p-6 border border-neutral-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  {/* Píldoras de Categorías */}
+                  <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 hide-scrollbar">
+                    <button
+                      onClick={() => setMediaActiveSection("all")}
+                      className={`h-9 px-4 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                        mediaActiveSection === "all"
+                          ? "bg-black text-white shadow-sm"
+                          : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
+                      }`}
+                    >
+                      Todas ({MEDIA_SLOTS.length})
+                    </button>
+                    {MEDIA_SECTIONS.map((sec) => {
+                      const count = MEDIA_SLOTS.filter(s => s.section === sec.id).length
+                      return (
+                        <button
+                          key={sec.id}
+                          onClick={() => setMediaActiveSection(sec.id)}
+                          className={`h-9 px-4 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                            mediaActiveSection === sec.id
+                              ? "bg-black text-white shadow-sm"
+                              : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
+                          }`}
+                        >
+                          {sec.title.split("(")[0].trim()} ({count})
+                        </button>
+                      )
+                    })}
+                  </div>
+
+                  {/* Buscador de Slots */}
+                  <div className="relative w-full lg:w-72">
+                    <input
+                      type="text"
+                      placeholder="Buscar por nombre o sección..."
+                      value={mediaSearchQuery}
+                      onChange={(e) => setMediaSearchQuery(e.target.value)}
+                      className="w-full h-10 rounded-full pl-9 pr-4 bg-[#F8F8FA] border border-neutral-200 text-xs font-semibold focus:border-black outline-none transition-all"
+                    />
+                    <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-3.5 top-3" />
+                  </div>
+                </div>
+
+                {/* Grid de Zonas y Fotos */}
+                <div className="space-y-10">
+                  {MEDIA_SECTIONS.filter(sec => mediaActiveSection === "all" || mediaActiveSection === sec.id).map((sec) => {
+                    const sectionSlots = MEDIA_SLOTS.filter(slot => {
+                      if (slot.section !== sec.id) return false
+                      if (!mediaSearchQuery) return true
+                      const q = mediaSearchQuery.toLowerCase()
+                      return slot.title.toLowerCase().includes(q) || slot.description.toLowerCase().includes(q)
+                    })
+
+                    if (sectionSlots.length === 0) return null
+
+                    return (
+                      <div key={sec.id} className="space-y-4">
+                        <div className="border-b border-neutral-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                          <div>
+                            <h4 className="text-sm font-black text-black uppercase tracking-wider font-sans">
+                              {sec.title}
+                            </h4>
+                            <p className="text-[11px] text-neutral-400 font-semibold">{sec.description}</p>
+                          </div>
+                          <span className="text-[10px] font-bold text-neutral-400 font-mono">
+                            {sectionSlots.length} {sectionSlots.length === 1 ? "foto" : "fotos"}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {sectionSlots.map((slot) => {
+                            const currentUrl = mediaMap[slot.key] || slot.defaultUrl
+                            const isCustom = Boolean(mediaMap[slot.key])
+                            const isUploading = uploadingSlotKey === slot.key
+                            const isSuccess = mediaUploadSuccess === slot.key
+
+                            return (
+                              <div
+                                key={slot.key}
+                                className="bg-white rounded-3xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
+                              >
+                                {/* Preview de la Imagen con Badge de Dimensiones */}
+                                <div className="relative w-full aspect-video bg-neutral-100 overflow-hidden group">
+                                  <img
+                                    src={currentUrl}
+                                    alt={slot.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                  />
+                                  
+                                  {/* Badge de Medida Recomendada */}
+                                  <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
+                                    <Sliders className="w-3 h-3 text-[#ffc971]" />
+                                    <span>{slot.dimensions}</span>
+                                  </div>
+
+                                  {/* Badge de Estado: Personalizada o Por Defecto */}
+                                  <div className="absolute top-3 right-3">
+                                    {isCustom ? (
+                                      <span className="bg-[#1D9E75] text-white px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
+                                        <Check className="w-3 h-3" />
+                                        <span>Personalizada</span>
+                                      </span>
+                                    ) : (
+                                      <span className="bg-neutral-800/80 backdrop-blur-md text-neutral-300 px-2.5 py-1 rounded-full text-[8px] font-bold uppercase tracking-wider shadow-sm">
+                                        Original
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  {/* Overlay de Subiendo */}
+                                  {isUploading && (
+                                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-white z-10 animate-in fade-in">
+                                      <Loader2 className="w-6 h-6 animate-spin text-[#ffc971]" />
+                                      <span className="text-[10px] font-black uppercase tracking-widest">Guardando foto...</span>
+                                    </div>
+                                  )}
+
+                                  {/* Feedback de Éxito */}
+                                  {isSuccess && (
+                                    <div className="absolute inset-0 bg-[#1D9E75]/90 backdrop-blur-sm flex flex-col items-center justify-center gap-1 text-white z-10 animate-in zoom-in-95">
+                                      <CheckCircle className="w-8 h-8 text-white" />
+                                      <span className="text-xs font-black uppercase tracking-widest">¡Foto Actualizada!</span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Info y Botones de Acción */}
+                                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                                  <div className="space-y-1.5">
+                                    <h5 className="text-sm font-black text-black leading-tight">
+                                      {slot.title}
+                                    </h5>
+                                    <p className="text-[11px] text-neutral-500 font-medium leading-relaxed">
+                                      {slot.description}
+                                    </p>
+                                    <div className="pt-1 flex items-center gap-3 text-[9px] font-mono text-neutral-400">
+                                      <span>Ratio: <strong className="text-neutral-700">{slot.aspectRatio}</strong></span>
+                                    </div>
+                                  </div>
+
+                                  {/* Botones de Actualizar / Restablecer */}
+                                  <div className="pt-2 flex items-center gap-2 border-t border-neutral-100">
+                                    <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-sm">
+                                      <UploadCloud className="w-3.5 h-3.5" />
+                                      <span>Subir Nueva Foto</span>
+                                      <input
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        disabled={isUploading}
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0]
+                                          if (file) {
+                                            handleUploadMedia(slot.key, file)
+                                            e.target.value = ""
+                                          }
+                                        }}
+                                        className="hidden"
+                                      />
+                                    </label>
+
+                                    {isCustom && (
+                                      <button
+                                        onClick={() => handleResetMedia(slot.key)}
+                                        disabled={isUploading}
+                                        className="h-10 px-3.5 rounded-full border border-neutral-200 bg-white hover:bg-neutral-100 text-neutral-500 hover:text-red-500 transition-all cursor-pointer flex items-center justify-center"
+                                        title="Restablecer foto original por defecto"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
               </div>
             )}
 

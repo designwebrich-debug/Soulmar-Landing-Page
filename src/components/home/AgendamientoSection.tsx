@@ -36,9 +36,11 @@ const PM_SLOTS = [
 ]
 
 import confetti from "canvas-confetti"
+import { useMedia } from "@/context/MediaContext"
 
 export function AgendamientoSection() {
   const { t, language } = useTranslation()
+  const { getMediaUrl } = useMedia()
   const [step, setStep] = useState<number>(1)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string>("")
@@ -925,7 +927,7 @@ export function AgendamientoSection() {
                               <div className="flex items-center gap-3">
                                 <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-surface/50 border border-border/10 flex-shrink-0">
                                   <Image 
-                                    src="/images/therapists/mariana.png" 
+                                    src={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")} 
                                     alt="Dra. Mariana Caicedo" 
                                     fill
                                     quality={100}

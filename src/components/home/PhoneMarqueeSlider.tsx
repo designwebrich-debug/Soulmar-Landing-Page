@@ -5,50 +5,53 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const cards = [
-  {
-    id: "card-1",
-    src: "/images/slider/phone-card-1.png",
-    title: "Relaciones sanas",
-    alt: "Terapia de pareja y relaciones sanas en Soulmar",
-  },
-  {
-    id: "card-2",
-    src: "/images/slider/phone-card-2.png",
-    title: "Tu profesión Ideal",
-    alt: "Orientación vocacional y talento humano en Soulmar",
-  },
-  {
-    id: "card-3",
-    src: "/images/slider/phone-card-3.png",
-    title: "Encuentra tu propósito",
-    alt: "Terapia individual e introspección en Soulmar",
-  },
-  {
-    id: "card-4",
-    src: "/images/slider/phone-card-4.png",
-    title: "Transita la depresión",
-    alt: "Terapia para transitar la depresión en Soulmar",
-  },
-  {
-    id: "card-5",
-    src: "/images/slider/phone-card-5.png",
-    title: "Gobierna la ansiedad",
-    alt: "Terapia para gobernar la ansiedad en Soulmar",
-  },
-  {
-    id: "card-6",
-    src: "/images/slider/phone-card-6.png",
-    title: "Un espacio seguro",
-    alt: "Terapia individual un espacio seguro en Soulmar",
-  },
-]
+import { useMedia } from "@/context/MediaContext"
 
 export function PhoneMarqueeSlider() {
+  const { getMediaUrl } = useMedia()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const touchStartX = React.useRef(0)
   const touchEndX = React.useRef(0)
+
+  const cards = [
+    {
+      id: "card-1",
+      src: getMediaUrl("phone_card_1", "/images/slider/phone-card-1.png"),
+      title: "Relaciones sanas",
+      alt: "Terapia de pareja y relaciones sanas en Soulmar",
+    },
+    {
+      id: "card-2",
+      src: getMediaUrl("phone_card_2", "/images/slider/phone-card-2.png"),
+      title: "Tu profesión Ideal",
+      alt: "Orientación vocacional y talento humano en Soulmar",
+    },
+    {
+      id: "card-3",
+      src: getMediaUrl("phone_card_3", "/images/slider/phone-card-3.png"),
+      title: "Encuentra tu propósito",
+      alt: "Terapia individual e introspección en Soulmar",
+    },
+    {
+      id: "card-4",
+      src: getMediaUrl("phone_card_4", "/images/slider/phone-card-4.png"),
+      title: "Transita la depresión",
+      alt: "Terapia para transitar la depresión en Soulmar",
+    },
+    {
+      id: "card-5",
+      src: getMediaUrl("phone_card_5", "/images/slider/phone-card-5.png"),
+      title: "Gobierna la ansiedad",
+      alt: "Terapia para gobernar la ansiedad en Soulmar",
+    },
+    {
+      id: "card-6",
+      src: getMediaUrl("phone_card_6", "/images/slider/phone-card-6.png"),
+      title: "Un espacio seguro",
+      alt: "Terapia individual un espacio seguro en Soulmar",
+    },
+  ]
 
   const totalCards = cards.length
 
