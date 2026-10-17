@@ -14,7 +14,7 @@ import { WHATSAPP_LINK } from "@/lib/constants"
 const navLinks = [
   { key: "therapies", href: "/#servicios" },
   { key: "tutorial", href: "/#como-empezar" },
-  { key: "agendar", href: "/#agendamiento" },
+  { key: "agendar", href: "/#caja-agendamiento" },
   { key: "follow_us", href: "/#comunidad" },
 ]
 

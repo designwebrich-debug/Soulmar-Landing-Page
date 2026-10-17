@@ -384,7 +384,10 @@ export function AgendamientoSection() {
         </div>
         
         {/* WIDGET CONTAINER - EXACT REFERENCE STYLE */}
-        <div className="bg-white dark:bg-[#111112] rounded-[24px] border border-border/70 dark:border-border/10 shadow-2xl overflow-hidden transition-all duration-500">
+        <div 
+          id="caja-agendamiento"
+          className="scroll-mt-24 md:scroll-mt-28 bg-white dark:bg-[#111112] rounded-[24px] border border-border/70 dark:border-border/10 shadow-2xl overflow-hidden transition-all duration-500"
+        >
           
           <AnimatePresence mode="wait">
             {!isSuccess ? (
