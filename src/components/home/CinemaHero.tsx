@@ -71,8 +71,8 @@ export function CinemaHero() {
       id: 1,
       tag: language === "es" ? "★ DESTACADO • DRA. MARIANA CAICEDO" : "★ FEATURED • DR. MARIANA CAICEDO",
       title: "",
-      image: "/images/mobile-hero/slide-1.jpg",
-      desktopImage: "/images/desktop-hero/slide-1.png",
+      image: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png"),
+      desktopImage: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png"),
       bottomTitle: language === "es" ? "Mi Herida, Mi Reacción" : "My Wound, My Reaction",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#agendamiento",
@@ -81,8 +81,8 @@ export function CinemaHero() {
       id: 2,
       tag: language === "es" ? "★ DESTACADO • SOULMAR" : "★ FEATURED • SOULMAR",
       title: "",
-      image: "/images/mobile-hero/slide-2.png",
-      desktopImage: "/images/desktop-hero/slide-2.jpg",
+      image: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg"),
+      desktopImage: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg"),
       bottomTitle: language === "es" ? "¿Por qué sobrepienso todo?" : "Why do I overthink everything?",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#ebooks",
@@ -91,13 +91,13 @@ export function CinemaHero() {
       id: 3,
       tag: "PODCAST • SOULMAR",
       title: "",
-      image: "/images/mobile-hero/podcast.png",
-      desktopImage: "/images/desktop-hero/podcast.png",
+      image: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png"),
+      desktopImage: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png"),
       bottomTitle: "Soulmar Podcast",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
-  ], [language])
+  ], [language, getMediaUrl])
 
   const [searchResults, setSearchResults] = React.useState<SearchItem[]>([])
   const [isSearchFocused, setIsSearchFocused] = React.useState(false)
@@ -632,20 +632,22 @@ export function CinemaHero() {
                     className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
                   >
                     {/* Versión Móvil */}
-                    <Image
-                      src={mobileSlides[currentMobileSlide].image}
-                      alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
-                      fill
-                      quality={100}
-                      unoptimized
-                      priority={currentMobileSlide === 0}
-                      sizes="(max-width: 768px) 100vw, 1200px"
-                      className={`object-cover object-center select-none ${
-                        (mobileSlides[currentMobileSlide] as any).desktopImage ? "md:hidden" : ""
-                      }`}
-                    />
+                    {Boolean(mobileSlides[currentMobileSlide].image) && (
+                      <Image
+                        src={mobileSlides[currentMobileSlide].image}
+                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                        fill
+                        quality={100}
+                        unoptimized
+                        priority={currentMobileSlide === 0}
+                        sizes="(max-width: 768px) 100vw, 1200px"
+                        className={`object-cover object-center select-none ${
+                          (mobileSlides[currentMobileSlide] as any).desktopImage ? "md:hidden" : ""
+                        }`}
+                      />
+                    )}
                     {/* Versión PC exclusiva en ultra alta calidad */}
-                    {(mobileSlides[currentMobileSlide] as any).desktopImage && (
+                    {Boolean((mobileSlides[currentMobileSlide] as any).desktopImage) && (
                       <Image
                         src={(mobileSlides[currentMobileSlide] as any).desktopImage}
                         alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
@@ -656,6 +658,12 @@ export function CinemaHero() {
                         sizes="(max-width: 1200px) 100vw, 1600px"
                         className="hidden md:block object-cover object-center select-none"
                       />
+                    )}
+                    {/* Placeholder si el espacio está vacío */}
+                    {!mobileSlides[currentMobileSlide].image && !(mobileSlides[currentMobileSlide] as any).desktopImage && (
+                      <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white/50 text-xs font-semibold">
+                        <span>Espacio sin imagen</span>
+                      </div>
                     )}
                     {/* Sutil viñeta para legibilidad y elegancia visual */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />

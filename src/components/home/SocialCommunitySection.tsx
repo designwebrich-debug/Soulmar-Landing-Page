@@ -299,15 +299,21 @@ export function SocialCommunitySection() {
                 rel="noopener noreferrer"
                 className="snap-start shrink-0 w-[68vw] sm:w-[260px] md:w-auto relative aspect-[9/14] rounded-[28px] overflow-hidden group shadow-lg active:scale-[0.98] transition-transform select-none border border-black/5 dark:border-white/10"
               >
-                {/* Full-bleed Photo completely clean */}
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  quality={85}
-                  sizes="(max-width: 768px) 85vw, 400px"
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                />
+                {/* Full-bleed Photo completely clean or Empty State */}
+                {Boolean(post.image) ? (
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    quality={85}
+                    sizes="(max-width: 768px) 85vw, 400px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-400 p-4 text-center">
+                    <span className="text-xs font-bold">Espacio vacío</span>
+                  </div>
+                )}
               </Link>
             ))}
           </div>

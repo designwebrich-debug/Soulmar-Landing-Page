@@ -925,16 +925,20 @@ export function AgendamientoSection() {
                               
                               {/* Specialist Row */}
                               <div className="flex items-center gap-3">
-                                <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-surface/50 border border-border/10 flex-shrink-0">
-                                  <Image 
-                                    src={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")} 
-                                    alt="Dra. Mariana Caicedo" 
-                                    fill
-                                    quality={100}
-                                    unoptimized={true}
-                                    sizes="48px"
-                                    className="object-cover"
-                                  />
+                                <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-surface/50 border border-border/10 flex-shrink-0 flex items-center justify-center">
+                                  {Boolean(getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")) ? (
+                                    <Image 
+                                      src={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")} 
+                                      alt="Dra. Mariana Caicedo" 
+                                      fill
+                                      quality={100}
+                                      unoptimized={true}
+                                      sizes="48px"
+                                      className="object-cover"
+                                    />
+                                  ) : (
+                                    <span className="text-xs font-bold text-foreground/40">Dr</span>
+                                  )}
                                 </div>
                                 <div>
                                   <p className="text-sm font-extrabold text-foreground leading-none mb-1">

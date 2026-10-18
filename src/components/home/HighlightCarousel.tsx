@@ -93,13 +93,19 @@ export function HighlightCarousel() {
             className="absolute inset-0"
           >
             <div className="block w-full h-full pointer-events-none select-none">
-              <img 
-                src={slides[currentIndex].image} 
-                alt={`Slide ${currentIndex + 1}`}
-                className="w-full h-full object-cover pointer-events-none"
-                loading="eager"
-                draggable={false}
-              />
+              {Boolean(slides[currentIndex].image) ? (
+                <img 
+                  src={slides[currentIndex].image} 
+                  alt={`Slide ${currentIndex + 1}`}
+                  className="w-full h-full object-cover pointer-events-none"
+                  loading="eager"
+                  draggable={false}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-neutral-900/40 text-white/50 text-xs font-semibold">
+                  <span>Espacio sin imagen</span>
+                </div>
+              )}
             </div>
           </motion.div>
         </AnimatePresence>

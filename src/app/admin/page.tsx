@@ -669,32 +669,29 @@ export default function AdminPage() {
     }
   }
 
-  // Restablecer imagen al valor original
-  const handleResetMedia = async (slotKey: string) => {
-    if (!confirm("¿Deseas restablecer esta foto a su diseño original por defecto?")) return
+  // Eliminar imagen dejando el espacio vacío (sin fallback a foto vieja)
+  const handleDeleteMedia = async (slotKey: string) => {
+    if (!confirm("¿Deseas eliminar esta foto? El espacio quedará vacío en la web hasta que subas una nueva.")) return
     try {
       setUploadingSlotKey(slotKey)
       const res = await fetch(`/api/media?slotKey=${slotKey}`, {
         method: "DELETE"
       })
       if (res.ok) {
-        setMediaMap(prev => {
-          const next = { ...prev }
-          delete next[slotKey]
-          return next
-        })
+        setMediaMap(prev => ({
+          ...prev,
+          [slotKey]: "__EMPTY__"
+        }))
         try {
           const stored = localStorage.getItem("soulmar_media_registry")
-          if (stored) {
-            const parsed = JSON.parse(stored)
-            delete parsed[slotKey]
-            localStorage.setItem("soulmar_media_registry", JSON.stringify(parsed))
-          }
+          const parsed = stored ? JSON.parse(stored) : {}
+          parsed[slotKey] = "__EMPTY__"
+          localStorage.setItem("soulmar_media_registry", JSON.stringify(parsed))
         } catch (e) {}
       }
     } catch (err: any) {
-      console.error("Error al restablecer imagen:", err)
-      alert("Error al restablecer imagen: " + err.message)
+      console.error("Error al eliminar imagen:", err)
+      alert("Error al eliminar imagen: " + err.message)
     } finally {
       setUploadingSlotKey(null)
     }
@@ -2924,8 +2921,10 @@ export default function AdminPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {sectionSlots.map((slot) => {
-                            const currentUrl = mediaMap[slot.key] || slot.defaultUrl
-                            const isCustom = Boolean(mediaMap[slot.key])
+                            const rawVal = mediaMap[slot.key]
+                            const isEmpty = rawVal === "__EMPTY__"
+                            const currentUrl = isEmpty ? "" : (rawVal || slot.defaultUrl)
+                            const isCustom = Boolean(rawVal && rawVal !== "__EMPTY__")
                             const isUploading = uploadingSlotKey === slot.key
                             const isSuccess = mediaUploadSuccess === slot.key
 
@@ -2936,11 +2935,19 @@ export default function AdminPage() {
                               >
                                 {/* Preview de la Imagen con Badge de Dimensiones */}
                                 <div className="relative w-full aspect-video bg-neutral-100 overflow-hidden group">
-                                  <img
-                                    src={currentUrl}
-                                    alt={slot.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                  />
+                                  {currentUrl ? (
+                                    <img
+                                      src={currentUrl}
+                                      alt={slot.title}
+                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 border-2 border-dashed border-neutral-200 text-neutral-400 p-4 text-center">
+                                      <ImageIcon className="w-8 h-8 text-neutral-300 mb-1" />
+                                      <span className="text-[11px] font-bold text-neutral-500">Espacio Vacío</span>
+                                      <span className="text-[9px] text-neutral-400">Sin foto en la web</span>
+                                    </div>
+                                  )}
                                   
                                   {/* Badge de Medida Recomendada */}
                                   <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
@@ -2948,9 +2955,13 @@ export default function AdminPage() {
                                     <span>{slot.dimensions}</span>
                                   </div>
 
-                                  {/* Badge de Estado: Personalizada o Por Defecto */}
+                                  {/* Badge de Estado: Personalizada, Original o Vacío */}
                                   <div className="absolute top-3 right-3">
-                                    {isCustom ? (
+                                    {isEmpty ? (
+                                      <span className="bg-red-500/90 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm">
+                                        Vacío (Eliminada)
+                                      </span>
+                                    ) : isCustom ? (
                                       <span className="bg-[#1D9E75] text-white px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
                                         <Check className="w-3 h-3" />
                                         <span>Personalizada</span>
@@ -2993,11 +3004,11 @@ export default function AdminPage() {
                                     </div>
                                   </div>
 
-                                  {/* Botones de Actualizar / Restablecer */}
+                                  {/* Botones de Actualizar / Eliminar */}
                                   <div className="pt-2 flex items-center gap-2 border-t border-neutral-100">
                                     <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-sm">
                                       <UploadCloud className="w-3.5 h-3.5" />
-                                      <span>Subir Nueva Foto</span>
+                                      <span>{currentUrl ? "Reemplazar Foto" : "Subir Foto"}</span>
                                       <input
                                         type="file"
                                         accept="image/jpeg,image/png,image/webp"
@@ -3013,12 +3024,12 @@ export default function AdminPage() {
                                       />
                                     </label>
 
-                                    {isCustom && (
+                                    {currentUrl && (
                                       <button
-                                        onClick={() => handleResetMedia(slot.key)}
+                                        onClick={() => handleDeleteMedia(slot.key)}
                                         disabled={isUploading}
-                                        className="h-10 px-3.5 rounded-full border border-neutral-200 bg-white hover:bg-neutral-100 text-neutral-500 hover:text-red-500 transition-all cursor-pointer flex items-center justify-center"
-                                        title="Restablecer foto original por defecto"
+                                        className="h-10 px-3.5 rounded-full border border-neutral-200 bg-white hover:bg-red-50 text-neutral-500 hover:text-red-500 transition-all cursor-pointer flex items-center justify-center"
+                                        title="Eliminar foto (dejar espacio vacío)"
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
                                       </button>

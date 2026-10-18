@@ -12,7 +12,7 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
   {
     id: "hero",
     title: "Banners Principales (Hero)",
-    description: "Los 3 banners cinematográficos que dan la bienvenida al visitante en la parte superior."
+    description: "Los 3 banners cinematográficos destacados que dan la bienvenida al visitante en la parte superior."
   },
   {
     id: "highlights",
@@ -37,33 +37,33 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
 ]
 
 export const MEDIA_SLOTS: MediaSlot[] = [
-  // Hero Banners
+  // Hero Banners (Mobile & Desktop unificados)
   {
     key: "hero_slide_1",
     title: "Banner Principal 01",
     section: "hero",
-    dimensions: "1440 x 760 px",
-    aspectRatio: "16:9 o 1.89:1",
-    description: "Primer slide del banner hero (Enfoque Terapia Online y Bienestar)",
-    defaultUrl: "/images/BannerHero01.jpg"
+    dimensions: "1440 x 760 px (o 1080 x 1920 móvil)",
+    aspectRatio: "Adaptable (16:9 / 3:4)",
+    description: "Primer slide del banner hero (Enfoque Dra. Mariana Caicedo - Mi Herida, Mi Reacción)",
+    defaultUrl: "/images/desktop-hero/slide-1.png"
   },
   {
     key: "hero_slide_2",
     title: "Banner Principal 02",
     section: "hero",
-    dimensions: "1440 x 760 px",
-    aspectRatio: "16:9 o 1.89:1",
-    description: "Segundo slide del banner hero (Enfoque Retiros y Comunidad)",
-    defaultUrl: "/images/BannerHero03.jpg"
+    dimensions: "1440 x 760 px (o 1080 x 1920 móvil)",
+    aspectRatio: "Adaptable (16:9 / 3:4)",
+    description: "Segundo slide del banner hero (Enfoque ¿Por qué sobrepienso todo?)",
+    defaultUrl: "/images/desktop-hero/slide-2.jpg"
   },
   {
     key: "hero_slide_3",
     title: "Banner Principal 03",
     section: "hero",
-    dimensions: "1440 x 760 px",
-    aspectRatio: "16:9 o 1.89:1",
-    description: "Tercer slide del banner hero (Enfoque Sanación y Crecimiento)",
-    defaultUrl: "/images/BannerHero02.jpg"
+    dimensions: "1440 x 760 px (o 1080 x 1920 móvil)",
+    aspectRatio: "Adaptable (16:9 / 3:4)",
+    description: "Tercer slide del banner hero (Enfoque Soulmar Podcast)",
+    defaultUrl: "/images/desktop-hero/podcast.png"
   },
 
   // Highlight Carousel

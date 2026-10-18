@@ -146,7 +146,7 @@ export async function POST(request: Request) {
 }
 
 /**
- * DELETE: Restablecer una imagen a su valor original por defecto
+ * DELETE: Eliminar una foto de un slot, dejando la caja vacía en la web
  */
 export async function DELETE(request: Request) {
   try {
@@ -166,7 +166,8 @@ export async function DELETE(request: Request) {
     }
 
     const currentMedia = await getStoredMedia()
-    delete currentMedia[slotKey]
+    // Se guarda explícitamente como __EMPTY__ para que la web NO vuelva a mostrar la foto anterior
+    currentMedia[slotKey] = "__EMPTY__"
     await saveStoredMedia(currentMedia)
 
     return NextResponse.json({ success: true, media: currentMedia })

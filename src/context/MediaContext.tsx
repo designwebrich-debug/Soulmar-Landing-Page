@@ -7,7 +7,7 @@ interface MediaContextType {
   media: Record<string, string>
   getMediaUrl: (slotKey: string, fallbackDefault?: string) => string
   updateMediaUrl: (slotKey: string, newUrl: string) => void
-  resetMediaUrl: (slotKey: string) => void
+  deleteMediaSlot: (slotKey: string) => void
   refreshMedia: () => Promise<void>
 }
 
@@ -15,54 +15,49 @@ const MediaContext = createContext<MediaContextType>({
   media: {},
   getMediaUrl: (slotKey: string, fallbackDefault?: string) => fallbackDefault || "",
   updateMediaUrl: () => {},
-  resetMediaUrl: () => {},
+  deleteMediaSlot: () => {},
   refreshMedia: async () => {}
 })
 
-// Mapeo inicial por defecto
-const initialDefaultMedia: Record<string, string> = {}
+// Mapeo inicial de fábrica
+const factoryDefaultMedia: Record<string, string> = {}
 MEDIA_SLOTS.forEach(slot => {
-  initialDefaultMedia[slot.key] = slot.defaultUrl
+  factoryDefaultMedia[slot.key] = slot.defaultUrl
 })
 
 export function MediaProvider({ children }: { children: React.ReactNode }) {
-  const [media, setMedia] = useState<Record<string, string>>(initialDefaultMedia)
-
-  const refreshMedia = async () => {
-    try {
-      // 1. Respaldo local inmediato
-      let local: Record<string, string> = {}
+  // Inicializar estado usando localStorage si está en cliente para renderizado instantáneo
+  const [media, setMedia] = useState<Record<string, string>>(() => {
+    if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("soulmar_media_registry")
         if (stored) {
-          local = JSON.parse(stored)
+          const parsed = JSON.parse(stored)
+          if (parsed && typeof parsed === "object") {
+            return { ...factoryDefaultMedia, ...parsed }
+          }
         }
       } catch (e) {}
+    }
+    return factoryDefaultMedia
+  })
 
+  const refreshMedia = async () => {
+    try {
       const res = await fetch("/api/media", { cache: "no-store" })
       if (res.ok) {
         const data = await res.json()
         if (data.success && data.media) {
-          const merged = { ...initialDefaultMedia, ...local, ...data.media }
+          // data.media contiene las asignaciones actuales o "__EMPTY__" para eliminadas
+          const merged = { ...factoryDefaultMedia, ...data.media }
           setMedia(merged)
           try {
-            localStorage.setItem("soulmar_media_registry", JSON.stringify(merged))
+            localStorage.setItem("soulmar_media_registry", JSON.stringify(data.media))
           } catch (e) {}
-          return
         }
-      }
-
-      if (Object.keys(local).length > 0) {
-        setMedia({ ...initialDefaultMedia, ...local })
       }
     } catch (err) {
       console.warn("[MediaProvider] Error loading media:", err)
-      try {
-        const stored = localStorage.getItem("soulmar_media_registry")
-        if (stored) {
-          setMedia({ ...initialDefaultMedia, ...JSON.parse(stored) })
-        }
-      } catch (e) {}
     }
   }
 
@@ -70,8 +65,15 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     refreshMedia()
   }, [])
 
+  /**
+   * getMediaUrl: Retorna la URL de la foto.
+   * Si el usuario la eliminó explícitamente ("__EMPTY__"), retorna cadena vacía ""
+   * para que la caja quede completamente limpia y vacía sin mostrar fotos viejas.
+   */
   const getMediaUrl = (slotKey: string, fallbackDefault?: string) => {
-    if (media[slotKey]) return media[slotKey]
+    const val = media[slotKey]
+    if (val === "__EMPTY__") return ""
+    if (val) return val
     const slot = MEDIA_SLOTS.find(s => s.key === slotKey)
     return slot?.defaultUrl || fallbackDefault || ""
   }
@@ -86,11 +88,9 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
-  const resetMediaUrl = (slotKey: string) => {
-    const slot = MEDIA_SLOTS.find(s => s.key === slotKey)
-    const defaultUrl = slot?.defaultUrl || ""
+  const deleteMediaSlot = (slotKey: string) => {
     setMedia(prev => {
-      const next = { ...prev, [slotKey]: defaultUrl }
+      const next = { ...prev, [slotKey]: "__EMPTY__" }
       try {
         localStorage.setItem("soulmar_media_registry", JSON.stringify(next))
       } catch (e) {}
@@ -99,7 +99,7 @@ export function MediaProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <MediaContext.Provider value={{ media, getMediaUrl, updateMediaUrl, resetMediaUrl, refreshMedia }}>
+    <MediaContext.Provider value={{ media, getMediaUrl, updateMediaUrl, deleteMediaSlot, refreshMedia }}>
       {children}
     </MediaContext.Provider>
   )

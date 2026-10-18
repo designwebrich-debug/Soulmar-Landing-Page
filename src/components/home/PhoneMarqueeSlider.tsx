@@ -200,15 +200,21 @@ export function PhoneMarqueeSlider() {
                   onClick={handleScrollToBooking}
                   className="block relative group/card p-0 m-0"
                 >
-                  <Image
-                    src={card.src}
-                    alt={card.alt}
-                    width={576}
-                    height={1024}
-                    quality={85}
-                    className="w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
-                    priority={isCenter}
-                  />
+                  {Boolean(card.src) ? (
+                    <Image
+                      src={card.src}
+                      alt={card.alt}
+                      width={576}
+                      height={1024}
+                      quality={85}
+                      className="w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
+                      priority={isCenter}
+                    />
+                  ) : (
+                    <div className="w-[240px] sm:w-[320px] lg:w-[380px] aspect-[9/16] rounded-3xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400 text-xs font-bold border border-neutral-200 dark:border-neutral-700">
+                      <span>Espacio vacío</span>
+                    </div>
+                  )}
                 </Link>
               </div>
             )
