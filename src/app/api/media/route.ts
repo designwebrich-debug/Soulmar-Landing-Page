@@ -47,15 +47,33 @@ async function saveStoredMedia(media: Record<string, string>) {
   }
 }
 
-/**
- * GET: Obtener todas las URLs de multimedia activas
- */
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url)
+    const isDebug = searchParams.get("debug") === "1"
+    
+    let dbError: any = null
+    let dbData: any = null
+    try {
+      const supabase = await createAdminClient()
+      const res = await supabase
+        .from("business_settings")
+        .select("media_registry")
+        .eq("id", "default")
+        .maybeSingle()
+      dbData = res.data
+      dbError = res.error
+    } catch (e: any) {
+      dbError = e.message || String(e)
+    }
+
     const media = await getStoredMedia()
+    if (isDebug) {
+      return NextResponse.json({ success: true, media, dbData, dbError })
+    }
     return NextResponse.json({ success: true, media })
   } catch (err: any) {
-    return NextResponse.json({ success: true, media: inMemoryMedia })
+    return NextResponse.json({ success: true, media: inMemoryMedia, err: err.message })
   }
 }
 
