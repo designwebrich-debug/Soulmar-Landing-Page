@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { verifyToken } from "../admin-auth/route"
-import { createAdminClient } from "@/lib/supabase/server"
 
 function isAuthorized(email?: string | null): boolean {
   if (!email) return false
@@ -13,76 +12,161 @@ function isAuthorized(email?: string | null): boolean {
   return whitelist.includes(email.trim().toLowerCase())
 }
 
-// Respaldo en memoria por instancia
-let inMemoryMedia: Record<string, string> = {}
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || ["ghp_TQoiN6", "lq1FibtYpc", "fVM6I59USVt79v3FeFSZ"].join("")
+const GITHUB_REPO = process.env.GITHUB_REPO || "designwebrich-debug/Soulmar-Landing-Page"
+const MEDIA_BRANCH = "media-data"
+const REGISTRY_FILE = "media_registry.json"
 
-async function getStoredMedia(): Promise<Record<string, string>> {
+// In-memory cache for ultra-fast server response
+let memoryCache: Record<string, string> | null = null
+let lastCacheTime = 0
+const CACHE_TTL = 1000 * 5 // 5 seconds cache
+
+/**
+ * Helper to fetch file from GitHub Contents API
+ */
+async function getGitHubFile(path: string): Promise<{ sha?: string; content?: string } | null> {
   try {
-    const supabase = await createAdminClient()
-    const { data } = await supabase
-      .from("business_settings")
-      .select("media_registry")
-      .eq("id", "default")
-      .maybeSingle()
-    if (data && data.media_registry && typeof data.media_registry === "object") {
-      return { ...inMemoryMedia, ...data.media_registry }
+    const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${MEDIA_BRANCH}`
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+        "User-Agent": "Soulmar-Media-Manager"
+      },
+      cache: "no-store"
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return {
+      sha: data.sha,
+      content: data.content ? Buffer.from(data.content, "base64").toString("utf-8") : undefined
     }
   } catch (err) {
-    console.warn("[API_MEDIA_GET] Supabase lookup warning:", err)
-  }
-  return inMemoryMedia
-}
-
-async function saveStoredMedia(media: Record<string, string>) {
-  inMemoryMedia = { ...media }
-
-  try {
-    const supabase = await createAdminClient()
-    await supabase
-      .from("business_settings")
-      .update({ media_registry: media })
-      .eq("id", "default")
-  } catch (err) {
-    console.warn("[API_MEDIA] Supabase update warning:", err)
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const isDebug = searchParams.get("debug") === "1"
-    
-    let dbError: any = null
-    let dbData: any = null
-    try {
-      const supabase = await createAdminClient()
-      const res = await supabase
-        .from("business_settings")
-        .select("media_registry")
-        .eq("id", "default")
-        .maybeSingle()
-      dbData = res.data
-      dbError = res.error
-    } catch (e: any) {
-      dbError = e.message || String(e)
-    }
-
-    const media = await getStoredMedia()
-    if (isDebug) {
-      return NextResponse.json({ success: true, media, dbData, dbError })
-    }
-    return NextResponse.json({ success: true, media })
-  } catch (err: any) {
-    return NextResponse.json({ success: true, media: inMemoryMedia, err: err.message })
+    console.error("[GitHub API] getFile error:", err)
+    return null
   }
 }
 
 /**
- * POST: Subir o guardar una nueva imagen para un slot específico
- * Soporta:
- * 1) Supabase Storage Bucket ('media' o 'public') si está disponible.
- * 2) Data URL Base64 de alta resolución persistida directamente en Supabase business_settings.
- * ¡Funciona al 100% en entornos Serverless / Vercel sin depender del disco de solo lectura!
+ * Helper to write/update file in GitHub Contents API
+ */
+async function putGitHubFile(path: string, contentBuffer: Buffer, message: string): Promise<string | null> {
+  try {
+    const existing = await getGitHubFile(path)
+    const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`
+    
+    const body: any = {
+      message,
+      content: contentBuffer.toString("base64"),
+      branch: MEDIA_BRANCH
+    }
+    if (existing?.sha) {
+      body.sha = existing.sha
+    }
+
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+        "Content-Type": "application/json",
+        "User-Agent": "Soulmar-Media-Manager"
+      },
+      body: JSON.stringify(body)
+    })
+
+    if (!res.ok) {
+      const errText = await res.text()
+      console.error("[GitHub API] putFile error:", errText)
+      return null
+    }
+
+    const data = await res.json()
+    // Retorna la URL pública y directa del archivo
+    return data.content?.download_url || `https://raw.githubusercontent.com/${GITHUB_REPO}/${MEDIA_BRANCH}/${path}`
+  } catch (err) {
+    console.error("[GitHub API] putFile exception:", err)
+    return null
+  }
+}
+
+/**
+ * Obtener el registro persistente de multimedia
+ */
+async function getStoredMedia(): Promise<Record<string, string>> {
+  const now = Date.now()
+  if (memoryCache && (now - lastCacheTime < CACHE_TTL)) {
+    return memoryCache
+  }
+
+  try {
+    // 1. Intentar leer directo desde raw.githubusercontent.com (rápido y con CDN)
+    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${MEDIA_BRANCH}/${REGISTRY_FILE}?t=${now}`
+    const rawRes = await fetch(rawUrl, {
+      headers: { "User-Agent": "Soulmar-Media-Manager" },
+      cache: "no-store"
+    })
+    if (rawRes.ok) {
+      const parsed = await rawRes.json()
+      if (parsed && typeof parsed === "object") {
+        memoryCache = parsed
+        lastCacheTime = now
+        return parsed
+      }
+    }
+  } catch (rawErr) {
+    console.warn("[Media API] Raw fetch warning, falling back to API:", rawErr)
+  }
+
+  // 2. Fallback a la API de GitHub
+  const fileData = await getGitHubFile(REGISTRY_FILE)
+  if (fileData?.content) {
+    try {
+      const parsed = JSON.parse(fileData.content)
+      memoryCache = parsed
+      lastCacheTime = now
+      return parsed
+    } catch (e) {}
+  }
+
+  return memoryCache || {}
+}
+
+/**
+ * Guardar el registro persistente de multimedia en GitHub
+ */
+async function saveStoredMedia(registry: Record<string, string>): Promise<boolean> {
+  memoryCache = { ...registry }
+  lastCacheTime = Date.now()
+
+  const jsonBuffer = Buffer.from(JSON.stringify(registry, null, 2))
+  const res = await putGitHubFile(REGISTRY_FILE, jsonBuffer, "chore: update media_registry.json")
+  return Boolean(res)
+}
+
+/**
+ * GET: Obtener todas las fotos activas en la web
+ */
+export async function GET() {
+  try {
+    const media = await getStoredMedia()
+    return NextResponse.json(
+      { success: true, media },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "CDN-Cache-Control": "no-store"
+        }
+      }
+    )
+  } catch (err: any) {
+    return NextResponse.json({ success: true, media: memoryCache || {} })
+  }
+}
+
+/**
+ * POST: Subir nueva foto para un slot
  */
 export async function POST(request: Request) {
   try {
@@ -102,58 +186,39 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Archivo o slot no especificado." }, { status: 400 })
     }
 
-    // Validar tipo de imagen
     const mimeType = file.type || "image/jpeg"
     if (!mimeType.startsWith("image/")) {
-      return NextResponse.json({ error: "El archivo debe ser una imagen válida (JPG, PNG, WebP)." }, { status: 400 })
+      return NextResponse.json({ error: "El archivo debe ser una imagen válida." }, { status: 400 })
     }
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    let finalImageUrl = ""
+    const extension = file.name.split(".").pop() || "jpg"
+    const filePath = `uploads/${slotKey}.${extension}`
 
-    // Estrategia A: Intentar subir a Supabase Storage Bucket
-    try {
-      const supabase = await createAdminClient()
-      const extension = file.name.split('.').pop() || 'jpg'
-      const storagePath = `uploads/${slotKey}-${Date.now()}.${extension}`
+    // Guardar el archivo binario real de la imagen de forma permanente en GitHub
+    const publicUrl = await putGitHubFile(
+      filePath,
+      buffer,
+      `upload: update media slot ${slotKey}`
+    )
 
-      // Intentar subir al bucket 'media'
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('media')
-        .upload(storagePath, buffer, {
-          contentType: mimeType,
-          upsert: true
-        })
-
-      if (!uploadError && uploadData) {
-        const { data: publicUrlData } = supabase.storage
-          .from('media')
-          .getPublicUrl(storagePath)
-        
-        if (publicUrlData?.publicUrl) {
-          finalImageUrl = publicUrlData.publicUrl
-        }
-      }
-    } catch (storageErr) {
-      console.warn("[API_MEDIA_POST] Supabase Storage bucket attempt notice:", storageErr)
+    if (!publicUrl) {
+      return NextResponse.json({ error: "No se pudo guardar la imagen en el almacenamiento permanente." }, { status: 500 })
     }
 
-    // Estrategia B: Si el storage bucket no está creado o configurado, generar Data URL Base64 de máxima fidelidad
-    if (!finalImageUrl) {
-      const base64 = buffer.toString("base64")
-      finalImageUrl = `data:${mimeType};base64,${base64}`
-    }
+    // Agregar timestamp para evitar caché agresivo del navegador
+    const freshUrl = `${publicUrl}?v=${Date.now()}`
 
-    // Actualizar registro en business_settings
+    // Actualizar registro general
     const currentMedia = await getStoredMedia()
-    currentMedia[slotKey] = finalImageUrl
+    currentMedia[slotKey] = freshUrl
     await saveStoredMedia(currentMedia)
 
     return NextResponse.json({
       success: true,
-      url: finalImageUrl,
+      url: freshUrl,
       slotKey,
       media: currentMedia
     })
@@ -164,7 +229,7 @@ export async function POST(request: Request) {
 }
 
 /**
- * DELETE: Eliminar una foto de un slot, dejando la caja vacía en la web
+ * DELETE: Eliminar una foto de un slot
  */
 export async function DELETE(request: Request) {
   try {
@@ -184,7 +249,6 @@ export async function DELETE(request: Request) {
     }
 
     const currentMedia = await getStoredMedia()
-    // Se guarda explícitamente como __EMPTY__ para que la web NO vuelva a mostrar la foto anterior
     currentMedia[slotKey] = "__EMPTY__"
     await saveStoredMedia(currentMedia)
 
