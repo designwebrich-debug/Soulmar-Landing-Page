@@ -400,7 +400,18 @@ export default function AdminPage() {
   const [revenueActiveTab, setRevenueActiveTab] = useState<"current" | "weekly" | "monthly">("current")
 
   // Estados de Multimedia
-  const [mediaMap, setMediaMap] = useState<Record<string, string>>({})
+  const [mediaMap, setMediaMap] = useState<Record<string, string>>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("soulmar_media_registry")
+        if (stored) {
+          const parsed = JSON.parse(stored)
+          if (parsed && typeof parsed === "object") return parsed
+        }
+      } catch (e) {}
+    }
+    return {}
+  })
   const [uploadingSlotKey, setUploadingSlotKey] = useState<string | null>(null)
   const [mediaActiveSection, setMediaActiveSection] = useState<string>("all")
   const [mediaSearchQuery, setMediaSearchQuery] = useState<string>("")

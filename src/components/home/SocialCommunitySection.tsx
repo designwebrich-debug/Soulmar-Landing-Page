@@ -24,7 +24,7 @@ export function SocialCommunitySection() {
   const { getMediaUrl } = useMedia()
   const isEn = language === "en"
 
-  const socialPosts: SocialPost[] = [
+  const socialPosts: SocialPost[] = React.useMemo(() => [
     {
       id: "post-1",
       platform: "instagram",
@@ -52,7 +52,7 @@ export function SocialCommunitySection() {
       image: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png"),
       href: "https://www.instagram.com/soulmar.org_/?hl=es",
     },
-  ]
+  ], [language, getMediaUrl])
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [activeDot, setActiveDot] = useState(0)
@@ -305,7 +305,8 @@ export function SocialCommunitySection() {
                     src={post.image}
                     alt={post.title}
                     fill
-                    quality={85}
+                    quality={100}
+                    unoptimized
                     sizes="(max-width: 768px) 85vw, 400px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
