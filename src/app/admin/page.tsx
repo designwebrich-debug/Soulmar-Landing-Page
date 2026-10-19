@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { normalizeTime } from "@/lib/utils"
@@ -427,6 +428,8 @@ export default function AdminPage() {
   const [mediaActiveDevice, setMediaActiveDevice] = useState<DeviceType>("desktop")
   const [mediaSearchQuery, setMediaSearchQuery] = useState<string>("")
   const [mediaUploadSuccess, setMediaUploadSuccess] = useState<string | null>(null)
+  const [isRefreshingMedia, setIsRefreshingMedia] = useState(false)
+  const [refreshSuccess, setRefreshSuccess] = useState(false)
   
   // Estados para reprogramación de citas
   const [reschedulingApp, setReschedulingApp] = useState<any | null>(null)
@@ -636,15 +639,31 @@ export default function AdminPage() {
   // Cargar registro de multimedia
   const fetchMedia = async () => {
     try {
-      const res = await fetch("/api/media", { cache: "no-store" })
+      const res = await fetch("/api/media", { cache: "no-store", headers: { "pragma": "no-cache" } })
       if (res.ok) {
         const data = await res.json()
         if (data.success && data.media) {
           setMediaMap(data.media)
+          try {
+            localStorage.setItem("soulmar_media_registry", JSON.stringify(data.media))
+            window.dispatchEvent(new CustomEvent("soulmar_media_refreshed", { detail: data.media }))
+          } catch (e) {}
         }
       }
     } catch (err) {
       console.warn("Error cargando multimedia:", err)
+    }
+  }
+
+  // Refrescar manualmente y sincronizar con la web en vivo
+  const handleRefreshMedia = async () => {
+    try {
+      setIsRefreshingMedia(true)
+      await fetchMedia()
+      setRefreshSuccess(true)
+      setTimeout(() => setRefreshSuccess(false), 2500)
+    } finally {
+      setIsRefreshingMedia(false)
     }
   }
 
@@ -2841,22 +2860,23 @@ export default function AdminPage() {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 shrink-0">
                     <button
-                      onClick={fetchMedia}
-                      className="h-11 px-5 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+                      onClick={handleRefreshMedia}
+                      disabled={isRefreshingMedia}
+                      className="h-11 px-5 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer whitespace-nowrap active:scale-95"
                     >
-                      <RefreshCw className="w-4 h-4 text-neutral-400" />
-                      <span>Refrescar</span>
+                      <RefreshCw className={`w-4 h-4 text-neutral-500 ${isRefreshingMedia ? "animate-spin text-black" : ""}`} />
+                      <span>{refreshSuccess ? "¡Sincronizado!" : "Refrescar"}</span>
                     </button>
                     <a
                       href="https://www.soulmar.org"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-11 px-6 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm cursor-pointer"
+                      className="h-11 px-6 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 shadow-sm cursor-pointer whitespace-nowrap text-center shrink-0 active:scale-95"
                     >
-                      <span>Ver Web en Vivo</span>
-                      <ExternalLink className="w-4 h-4" />
+                      <span className="leading-none text-center">Ver en vivo</span>
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                     </a>
                   </div>
                 </div>
@@ -2877,28 +2897,38 @@ export default function AdminPage() {
                       </p>
                     </div>
 
-                    {/* Cupertino Segmented Control */}
-                    <div className="bg-white/10 backdrop-blur-xl p-1.5 rounded-2xl flex items-center gap-1.5 border border-white/15 self-start lg:self-center">
+                    {/* Apple Fluid Segmented Control con Píldora Deslizante */}
+                    <div className="bg-white/[0.08] backdrop-blur-2xl p-1.5 rounded-full flex items-center border border-white/15 relative self-start lg:self-center shadow-inner">
                       {MEDIA_DEVICES.map((device) => {
                         const isActive = mediaActiveDevice === device.id
                         const Icon = device.id === "desktop" ? Monitor : device.id === "mobile" ? Smartphone : Tablet
                         return (
                           <button
                             key={device.id}
+                            type="button"
                             onClick={() => setMediaActiveDevice(device.id)}
-                            className={`px-4 md:px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2.5 cursor-pointer ${
-                              isActive
-                                ? "bg-white text-black shadow-xl scale-[1.02]"
-                                : "text-neutral-300 hover:text-white hover:bg-white/5"
-                            }`}
+                            className="relative px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 cursor-pointer outline-none select-none"
                           >
-                            <Icon className={`w-4 h-4 ${isActive ? "text-black" : "text-neutral-400"}`} />
-                            <div className="text-left">
-                              <div className="font-black leading-none">{device.shortLabel}</div>
-                              <div className={`text-[9px] font-mono leading-none mt-1 ${isActive ? "text-neutral-500" : "text-neutral-400"}`}>
-                                {device.id === "desktop" ? "16:9 / 21:9" : device.id === "mobile" ? "9:16 Vertical" : "4:3 Tablet"}
-                              </div>
-                            </div>
+                            {/* Píldora blanca deslizante animada estilo Apple */}
+                            {isActive && (
+                              <motion.div
+                                layoutId="activeDeviceSlidingPill"
+                                transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                                className="absolute inset-0 bg-white rounded-full shadow-lg"
+                              />
+                            )}
+                            <Icon
+                              className={`w-4 h-4 relative z-10 transition-colors duration-200 ${
+                                isActive ? "text-black stroke-[2.5]" : "text-neutral-400"
+                              }`}
+                            />
+                            <span
+                              className={`relative z-10 transition-colors duration-200 ${
+                                isActive ? "text-black font-black" : "text-neutral-300 hover:text-white"
+                              }`}
+                            >
+                              {device.shortLabel}
+                            </span>
                           </button>
                         )
                       })}
@@ -3099,32 +3129,35 @@ export default function AdminPage() {
                                       </div>
                                     )}
 
-                                    {/* Badge de Medida Recomendada */}
-                                    <div className="absolute top-2.5 left-2.5 bg-black/85 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm z-10">
-                                      <Sliders className="w-2.5 h-2.5 text-[#ffc971]" />
-                                      <span>{deviceSpec.dimensions}</span>
-                                    </div>
+                                    {/* Barra Superior de Píldoras 100% Alineadas en Horizontal */}
+                                    <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-10 pointer-events-none">
+                                      {/* Píldora de Medida */}
+                                      <div className="h-6 px-2.5 bg-black/85 backdrop-blur-md text-white rounded-full text-[8.5px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm border border-white/10 shrink-0">
+                                        <Sliders className="w-2.5 h-2.5 text-[#ffc971] shrink-0" />
+                                        <span className="leading-none">{deviceSpec.dimensions}</span>
+                                      </div>
 
-                                    {/* Badge de Estado: Exclusiva, Heredada o Original */}
-                                    <div className="absolute top-2.5 right-2.5 z-10">
-                                      {isEmpty ? (
-                                        <span className="bg-red-500/90 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm">
-                                          Vacío
-                                        </span>
-                                      ) : isDirectCustom ? (
-                                        <span className="bg-[#1D9E75] text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-                                          <Check className="w-2.5 h-2.5" />
-                                          <span>Exclusiva {activeDev.shortLabel}</span>
-                                        </span>
-                                      ) : isInherited ? (
-                                        <span className="bg-amber-500 text-black px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm" title="Usando foto de PC mientras no subas una personalizada para este dispositivo">
-                                          Hereda de PC
-                                        </span>
-                                      ) : (
-                                        <span className="bg-neutral-800/80 backdrop-blur-md text-neutral-300 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider shadow-sm">
-                                          Original
-                                        </span>
-                                      )}
+                                      {/* Píldora de Estado */}
+                                      <div className="shrink-0 flex items-center">
+                                        {isEmpty ? (
+                                          <span className="h-6 px-2.5 bg-red-500/90 backdrop-blur-md text-white rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none border border-red-400/30">
+                                            Vacío
+                                          </span>
+                                        ) : isDirectCustom ? (
+                                          <span className="h-6 px-2.5 bg-[#1D9E75] text-white rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1 leading-none border border-emerald-400/30">
+                                            <Check className="w-2.5 h-2.5 shrink-0" />
+                                            <span>Exclusiva {activeDev.shortLabel}</span>
+                                          </span>
+                                        ) : isInherited ? (
+                                          <span className="h-6 px-2.5 bg-amber-500 text-black rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none border border-amber-300/40" title="Usando foto de PC mientras no subas una personalizada para este dispositivo">
+                                            Hereda de PC
+                                          </span>
+                                        ) : (
+                                          <span className="h-6 px-2.5 bg-neutral-800/85 backdrop-blur-md text-neutral-300 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none border border-white/10">
+                                            Original
+                                          </span>
+                                        )}
+                                      </div>
                                     </div>
 
                                     {/* Overlay de Subiendo */}

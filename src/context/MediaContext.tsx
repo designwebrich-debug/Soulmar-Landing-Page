@@ -124,12 +124,23 @@ export function MediaProvider({
       }
     }
 
+    const handleRefreshEvent = (e: Event) => {
+      const detail = (e as CustomEvent).detail
+      if (detail && typeof detail === "object") {
+        setMedia(prev => ({ ...prev, ...detail }))
+      } else {
+        refreshMedia()
+      }
+    }
+
     window.addEventListener("storage", handleStorage)
     window.addEventListener("soulmar_media_updated", handleCustomUpdate)
+    window.addEventListener("soulmar_media_refreshed", handleRefreshEvent)
 
     return () => {
       window.removeEventListener("storage", handleStorage)
       window.removeEventListener("soulmar_media_updated", handleCustomUpdate)
+      window.removeEventListener("soulmar_media_refreshed", handleRefreshEvent)
     }
   }, [refreshMedia])
 

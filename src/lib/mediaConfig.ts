@@ -66,6 +66,11 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
     description: "Los 3 banners cinematográficos destacados que dan la bienvenida al visitante en la parte superior."
   },
   {
+    id: "moments",
+    title: "Módulos 'Tu Momento' (YouTube / Series)",
+    description: "Portadas de las 4 series temáticas (Ansiedad, Tristeza, Emunah, Mindset) con botón de reproducción de YouTube."
+  },
+  {
     id: "highlights",
     title: "Carrusel de Destacados",
     description: "Imágenes panorámicas de cursos, retiros y novedades de Soulmar."
@@ -84,11 +89,6 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
     id: "team",
     title: "Terapeutas y Equipo Clínico",
     description: "Fotografías de perfil de los profesionales clínicos en la sección de agendamiento."
-  },
-  {
-    id: "moments",
-    title: "Módulos 'Tu Momento' (YouTube / Series)",
-    description: "Portadas de las 4 series temáticas (Ansiedad, Tristeza, Emunah, Mindset) con botón de reproducción de YouTube."
   }
 ]
 
@@ -196,6 +196,148 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         aspectClass: "aspect-[4/3]",
         recommendedNotice: "Encuadre balanceado para iPads y tabletas en orientación vertical u horizontal.",
         defaultUrl: "/images/desktop-hero/podcast.png"
+      }
+    }
+  },
+
+  // ─── MÓDULOS "TU MOMENTO" (SERIES YOUTUBE) ───────────────────
+  {
+    key: "moment_card_ansiedad",
+    title: "Portada 'ANSIEDAD' (Tu Momento)",
+    section: "moments",
+    description: "Portada de la serie Ansiedad con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
+    defaultUrl: "/images/desktop-modules/ansiedad.jpg",
+    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
+    aspectRatio: "Vertical 3:4",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
+        defaultUrl: "/images/desktop-modules/ansiedad.jpg"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "450 × 600 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
+        defaultUrl: "/images/mobile-modules/ansiedad.jpg"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
+        defaultUrl: "/images/desktop-modules/ansiedad.jpg"
+      }
+    }
+  },
+  {
+    key: "moment_card_tristeza",
+    title: "Portada 'TRISTEZA' (Tu Momento)",
+    section: "moments",
+    description: "Portada de la serie Tristeza / Depresión con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
+    defaultUrl: "/images/desktop-modules/tristeza.png",
+    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
+    aspectRatio: "Vertical 3:4",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
+        defaultUrl: "/images/desktop-modules/tristeza.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "450 × 600 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
+        defaultUrl: "/images/mobile-modules/depresion.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
+        defaultUrl: "/images/desktop-modules/tristeza.png"
+      }
+    }
+  },
+  {
+    key: "moment_card_emunah",
+    title: "Portada 'EMUNAH' (Tu Momento)",
+    section: "moments",
+    description: "Portada de la serie Emunah con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
+    defaultUrl: "/images/desktop-modules/emuna.png",
+    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
+    aspectRatio: "Vertical 3:4",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
+        defaultUrl: "/images/desktop-modules/emuna.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "450 × 600 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
+        defaultUrl: "/images/mobile-modules/emuna.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
+        defaultUrl: "/images/desktop-modules/emuna.png"
+      }
+    }
+  },
+  {
+    key: "moment_card_mindset",
+    title: "Portada 'MINDSET' (Tu Momento)",
+    section: "moments",
+    description: "Portada de la serie Mindset con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
+    defaultUrl: "/images/desktop-modules/mindset.png",
+    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
+    aspectRatio: "Vertical 3:4",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
+        defaultUrl: "/images/desktop-modules/mindset.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "450 × 600 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
+        defaultUrl: "/images/mobile-modules/mindset.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "600 × 800 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
+        defaultUrl: "/images/desktop-modules/mindset.png"
       }
     }
   },
@@ -659,148 +801,6 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         aspectClass: "aspect-square",
         recommendedNotice: "Foto de perfil en resolución intermedia para iPad.",
         defaultUrl: "/images/therapists/mariana.png"
-      }
-    }
-  },
-
-  // ─── MÓDULOS "TU MOMENTO" (SERIES YOUTUBE) ───────────────────
-  {
-    key: "moment_card_ansiedad",
-    title: "Portada 'ANSIEDAD' (Tu Momento)",
-    section: "moments",
-    description: "Portada de la serie Ansiedad con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
-    defaultUrl: "/images/desktop-modules/ansiedad.jpg",
-    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
-    aspectRatio: "Vertical 3:4",
-    devices: {
-      desktop: {
-        label: "Versión Computador (PC)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
-        defaultUrl: "/images/desktop-modules/ansiedad.jpg"
-      },
-      mobile: {
-        label: "Versión Celular (Móvil)",
-        dimensions: "450 × 600 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
-        defaultUrl: "/images/mobile-modules/ansiedad.jpg"
-      },
-      tablet: {
-        label: "Versión iPad (Tablet)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
-        defaultUrl: "/images/desktop-modules/ansiedad.jpg"
-      }
-    }
-  },
-  {
-    key: "moment_card_tristeza",
-    title: "Portada 'TRISTEZA' (Tu Momento)",
-    section: "moments",
-    description: "Portada de la serie Tristeza / Depresión con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
-    defaultUrl: "/images/desktop-modules/tristeza.png",
-    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
-    aspectRatio: "Vertical 3:4",
-    devices: {
-      desktop: {
-        label: "Versión Computador (PC)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
-        defaultUrl: "/images/desktop-modules/tristeza.png"
-      },
-      mobile: {
-        label: "Versión Celular (Móvil)",
-        dimensions: "450 × 600 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
-        defaultUrl: "/images/mobile-modules/depresion.png"
-      },
-      tablet: {
-        label: "Versión iPad (Tablet)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
-        defaultUrl: "/images/desktop-modules/tristeza.png"
-      }
-    }
-  },
-  {
-    key: "moment_card_emunah",
-    title: "Portada 'EMUNAH' (Tu Momento)",
-    section: "moments",
-    description: "Portada de la serie Emunah con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
-    defaultUrl: "/images/desktop-modules/emuna.png",
-    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
-    aspectRatio: "Vertical 3:4",
-    devices: {
-      desktop: {
-        label: "Versión Computador (PC)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
-        defaultUrl: "/images/desktop-modules/emuna.png"
-      },
-      mobile: {
-        label: "Versión Celular (Móvil)",
-        dimensions: "450 × 600 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
-        defaultUrl: "/images/mobile-modules/emuna.png"
-      },
-      tablet: {
-        label: "Versión iPad (Tablet)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
-        defaultUrl: "/images/desktop-modules/emuna.png"
-      }
-    }
-  },
-  {
-    key: "moment_card_mindset",
-    title: "Portada 'MINDSET' (Tu Momento)",
-    section: "moments",
-    description: "Portada de la serie Mindset con la Dra. Mariana Caicedo en la sección 'Tu Momento'.",
-    defaultUrl: "/images/desktop-modules/mindset.png",
-    dimensions: "600 × 800 px (PC/iPad) / 450 × 600 px (Móvil)",
-    aspectRatio: "Vertical 3:4",
-    devices: {
-      desktop: {
-        label: "Versión Computador (PC)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en alta definición para la cuadrícula en monitores y laptops.",
-        defaultUrl: "/images/desktop-modules/mindset.png"
-      },
-      mobile: {
-        label: "Versión Celular (Móvil)",
-        dimensions: "450 × 600 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada vertical optimizada para tarjetas táctiles en 2 columnas en teléfonos.",
-        defaultUrl: "/images/mobile-modules/mindset.png"
-      },
-      tablet: {
-        label: "Versión iPad (Tablet)",
-        dimensions: "600 × 800 px",
-        aspectRatio: "Vertical 3:4",
-        aspectClass: "aspect-[3/4]",
-        recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
-        defaultUrl: "/images/desktop-modules/mindset.png"
       }
     }
   }
