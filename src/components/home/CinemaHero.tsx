@@ -11,6 +11,7 @@ import { format, addDays } from "date-fns"
 import { es, enUS } from "date-fns/locale"
 import { searchSoulmar, type SearchItem } from "@/lib/searchDatabase"
 import { normalizeTime } from "@/lib/utils"
+import { getFirstAvailableSlot, type SlotAvailability } from "@/lib/availability"
 
 import { useMedia } from "@/context/MediaContext"
 
@@ -18,6 +19,7 @@ export function CinemaHero() {
   const { t, language } = useTranslation()
   const { getMediaUrl, media } = useMedia()
   const [nextSlot, setNextSlot] = React.useState<string>("")
+  const [nextSlotData, setNextSlotData] = React.useState<SlotAvailability | null>(null)
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [currentMobileSlide, setCurrentMobileSlide] = React.useState(0)
   const [activeInfoCardIndex, setActiveInfoCardIndex] = React.useState(0)
@@ -358,154 +360,44 @@ export function CinemaHero() {
       const holidays = settings.holidays || []
       const appointments = appointmentsData.appointments || []
 
-      // 2. Loop starting from today (up to 30 days into the future) to find the first available slot
-      let foundSlot = ""
-      let dateToCheck = new Date()
-
-      for (let i = 0; i < 30; i++) {
-        const formattedDate = format(dateToCheck, "yyyy-MM-dd")
-
-        // Check if date is a holiday
-        const isHoliday = holidays.some((h: any) => {
-          const hDate = typeof h === 'string' ? h : h.date;
-          return hDate === formattedDate;
-        })
-
-        if (isHoliday) {
-          dateToCheck = addDays(dateToCheck, 1)
-          continue
-        }
-
-        // Get weekday name in Spanish
-        const weekdaysES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-        const dayName = weekdaysES[dateToCheck.getDay()]
-        const config = schedules[dayName]
-
-        if (!config || !config.enabled) {
-          dateToCheck = addDays(dateToCheck, 1)
-          continue
-        }
-
-        // Determine duration in minutes
-        let durationMins = 30
-        if (slotDuration === "45 min") durationMins = 45
-        if (slotDuration === "1 hora") durationMins = 60
-        if (slotDuration === "1 hora 20 min") durationMins = 80
-
-        const slots: string[] = []
-
-        const generateBlock = (startH: number, startM: number, endH: number, endM: number) => {
-          let currentHour = startH
-          let currentMin = startM
-          
-          while (currentHour < endH || (currentHour === endH && currentMin < endM)) {
-            let displayHour = currentHour
-            let ampm = "AM"
-            
-            if (currentHour >= 12) {
-              ampm = "PM"
-              if (currentHour > 12) displayHour = currentHour - 12
-            } else if (currentHour === 0) {
-              displayHour = 12
-            }
-            
-            const hourStr = displayHour.toString().padStart(2, "0")
-            const minStr = currentMin.toString().padStart(2, "0")
-            slots.push(`${hourStr}:${minStr} ${ampm}`)
-            
-            currentMin += durationMins
-            if (currentMin >= 60) {
-              currentHour += Math.floor(currentMin / 60)
-              currentMin = currentMin % 60
-            }
-          }
-        }
-
-        // Generate AM block
-        if (config.start && config.end) {
-          const s = config.start.split(":")
-          const e = config.end.split(":")
-          generateBlock(parseInt(s[0]) || 7, parseInt(s[1]) || 0, parseInt(e[0]) || 12, parseInt(e[1]) || 0)
-        }
-
-        // Generate PM block
-        if (config.startPM && config.endPM) {
-          const s = config.startPM.split(":")
-          const e = config.endPM.split(":")
-          generateBlock(parseInt(s[0]) || 14, parseInt(s[1]) || 0, parseInt(e[0]) || 19, parseInt(e[1]) || 0)
-        }
-
-        // Check slots for this date
-        const isToday = dateToCheck.toDateString() === new Date().toDateString()
-        const now = new Date()
-        const currentHour = now.getHours()
-        const currentMinute = now.getMinutes()
-
-        for (const slot of slots) {
-          // Check if slot is in the past (if today)
-          if (isToday) {
-            const parts = slot.split(" ")
-            const timeParts = parts[0].split(":")
-            let slotHour = parseInt(timeParts[0], 10)
-            const slotMinute = parseInt(timeParts[1], 10)
-            const ampm = parts[1]
-
-            if (ampm === "PM" && slotHour !== 12) {
-              slotHour += 12
-            } else if (ampm === "AM" && slotHour === 12) {
-              slotHour = 0
-            }
-
-            if (currentHour > slotHour || (currentHour === slotHour && currentMinute >= slotMinute)) {
-              continue
-            }
-          }
-
-          // Check if already booked
-          const targetSlotNorm = normalizeTime(slot)
-          const isBooked = appointments.some((app: any) => {
-            return (
-              app.appointment_date === formattedDate &&
-              app.status !== "cancelled" &&
-              normalizeTime(app.appointment_time) === targetSlotNorm
-            )
-          })
-
-          if (!isBooked) {
-            // Found it! Format the output beautifully:
-            let dayPrefix = ""
-            if (isToday) {
-              dayPrefix = language === "es" ? "Hoy" : "Today"
-            } else {
-              const tomorrow = addDays(new Date(), 1)
-              const isTomorrow = dateToCheck.toDateString() === tomorrow.toDateString()
-              if (isTomorrow) {
-                dayPrefix = language === "es" ? "Mañana" : "Tomorrow"
-              } else {
-                dayPrefix = format(dateToCheck, language === "es" ? "EEE d MMM" : "EEE, MMM d", { locale: language === "es" ? es : enUS })
-                // Capitalize first letter of dayPrefix
-                dayPrefix = dayPrefix.charAt(0).toUpperCase() + dayPrefix.slice(1)
-              }
-            }
-            foundSlot = `${dayPrefix}, ${slot}`
-            break
-          }
-        }
-
-        if (foundSlot) {
-          break
-        }
-
-        dateToCheck = addDays(dateToCheck, 1)
+      const firstAvailable = getFirstAvailableSlot(schedules, slotDuration, holidays, appointments)
+      if (firstAvailable) {
+        setNextSlotData(firstAvailable)
+        setNextSlot(language === "es" ? firstAvailable.displayLabel.es : firstAvailable.displayLabel.en)
+      } else {
+        setNextSlotData(null)
+        setNextSlot(language === "es" ? "Próximamente disponible" : "Soon available")
       }
-
-      setNextSlot(foundSlot || (language === "es" ? "Próximamente disponible" : "Soon available"))
     }).catch(err => {
       console.error("Error calculating next slot:", err)
       setNextSlot(language === "es" ? "Hoy, 4:00 PM" : "Today, 4:00 PM") // Fallback
     })
     }) // end executeWhenIdle
   }, [language])
+
+  React.useEffect(() => {
+    if (nextSlotData) {
+      setNextSlot(language === "es" ? nextSlotData.displayLabel.es : nextSlotData.displayLabel.en)
+    }
+  }, [language, nextSlotData])
+
+  const handleBookingClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (nextSlotData) {
+      window.dispatchEvent(
+        new CustomEvent("soulmar_select_slot", {
+          detail: {
+            dateStr: nextSlotData.dateStr,
+            timeStr: nextSlotData.slot,
+          },
+        })
+      )
+    }
+    const el = document.getElementById("agendamiento")
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" })
+    }
+  }
 
   const displaySlot = nextSlot || (language === "es" ? "Agenda cuando estés lista o listo" : "Book when you are ready")
 
@@ -538,10 +430,7 @@ export function CinemaHero() {
       </div>
       <Link 
         href="/#agendamiento" 
-        onClick={(e) => {
-          e.preventDefault();
-          document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" });
-        }}
+        onClick={handleBookingClick}
         className="block"
       >
         <Button className="w-full bg-[#c9cba3] hover:bg-[#ffc971] text-neutral-900 font-black text-[9px] uppercase tracking-widest rounded-full h-8 shadow-sm transition-all duration-300 border-none cursor-pointer">
@@ -860,9 +749,9 @@ export function CinemaHero() {
                             <span className="text-neutral-300">•</span>
                             <button
                               type="button"
-                              onClick={() => {
+                              onClick={(e) => {
                                 setIsSearchFocused(false)
-                                document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
+                                handleBookingClick(e)
                               }}
                               className="text-[11px] font-bold text-[#8da9c4] hover:underline"
                             >
@@ -894,10 +783,7 @@ export function CinemaHero() {
               </div>
               <Link 
                 href="/#agendamiento" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={handleBookingClick}
                 className="block w-full"
               >
                 <Button className="w-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white font-black text-xs uppercase tracking-widest rounded-full h-11 shadow-md transition-all duration-300 border-none cursor-pointer">

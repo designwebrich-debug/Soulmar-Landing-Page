@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
 import { cn, normalizeTime } from "@/lib/utils"
+import { generateSlotsForDate, isPastSlot, isSlotBooked, getFirstAvailableSlot } from "@/lib/availability"
 
 const AM_SLOTS = [
   "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM"
@@ -120,118 +121,66 @@ export function AgendamientoSection() {
 
   // Generar horarios de slots dinámicamente según la configuración del administrador
   const generatedSlots = useMemo(() => {
-    if (!selectedDate) return { am: [], pm: [] }
-    
-    const weekdaysES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-    const dayName = weekdaysES[selectedDate.getDay()]
-    const config = schedules[dayName]
-    
-    if (!config || !config.enabled) return { am: [], pm: [] }
-    
-    let durationMins = 30
-    if (slotDuration === "45 min") durationMins = 45
-    if (slotDuration === "1 hora") durationMins = 60
-    if (slotDuration === "1 hora 20 min") durationMins = 80
-    
-    const am: string[] = []
-    const pm: string[] = []
-    
-    const generateBlock = (startH: number, startM: number, endH: number, endM: number) => {
-      let currentHour = startH
-      let currentMin = startM
-      
-      while (currentHour < endH || (currentHour === endH && currentMin < endM)) {
-        let displayHour = currentHour
-        let ampm = "AM"
-        
-        if (currentHour >= 12) {
-          ampm = "PM"
-          if (currentHour > 12) displayHour = currentHour - 12
-        } else if (currentHour === 0) {
-          displayHour = 12
-        }
-        
-        const hourStr = displayHour.toString().padStart(2, "0")
-        const minStr = currentMin.toString().padStart(2, "0")
-        const slotStr = `${hourStr}:${minStr} ${ampm}`
-        
-        if (ampm === "AM") {
-          am.push(slotStr)
-        } else {
-          pm.push(slotStr)
-        }
-        
-        currentMin += durationMins
-        if (currentMin >= 60) {
-          currentHour += Math.floor(currentMin / 60)
-          currentMin = currentMin % 60
-        }
-      }
-    }
-    
-    // Procesar bloque AM
-    if (config.start && config.end) {
-      const s = config.start.split(":")
-      const e = config.end.split(":")
-      generateBlock(parseInt(s[0]) || 10, parseInt(s[1]) || 0, parseInt(e[0]) || 20, parseInt(e[1]) || 0)
-    }
-    
-    // Procesar bloque PM
-    if (config.startPM && config.endPM) {
-      const s = config.startPM.split(":")
-      const e = config.endPM.split(":")
-      generateBlock(parseInt(s[0]) || 14, parseInt(s[1]) || 0, parseInt(e[0]) || 19, parseInt(e[1]) || 0)
-    }
-    
-    return { am, pm }
+    return generateSlotsForDate(selectedDate, schedules, slotDuration)
   }, [selectedDate, schedules, slotDuration])
-
 
   // Helper to disable slots that are in the past if selectedDate is today
   // OR if the slot has already been booked (confirmed or pending)
   const isSlotDisabled = (timeStr: string): boolean => {
     if (!selectedDate) return true
-
-    // 1. Verificar si el slot ya está reservado (estado != "cancelled") con normalización rigurosa de hora
-    const targetNorm = normalizeTime(timeStr)
-    const hasBooking = existingAppointments.some(app => {
-      return (
-        app.appointment_date === formattedSelectedDate &&
-        app.status !== "cancelled" &&
-        normalizeTime(app.appointment_time) === targetNorm
-      )
-    })
-    if (hasBooking) return true
-
-    // 2. Verificar si el slot es del pasado en caso de ser hoy
-    const isToday = selectedDate.toDateString() === new Date().toDateString()
-    if (!isToday) return false
-
-    // Parse slot hour and minute (e.g., "08:00 AM" -> hour 8, minute 0)
-    const parts = timeStr.split(" ")
-    const timeParts = parts[0].split(":")
-    let hour = parseInt(timeParts[0], 10)
-    const minute = parseInt(timeParts[1], 10)
-    const ampm = parts[1]
-
-    if (ampm === "PM" && hour !== 12) {
-      hour += 12
-    } else if (ampm === "AM" && hour === 12) {
-      hour = 0
-    }
-
-    const now = new Date()
-    const currentHour = now.getHours()
-    const currentMinute = now.getMinutes()
-
-    if (currentHour > hour) {
-      return true
-    } else if (currentHour === hour) {
-      return currentMinute >= minute
-    }
-
+    if (isSlotBooked(timeStr, formattedSelectedDate, existingAppointments)) return true
+    if (isPastSlot(timeStr, selectedDate)) return true
     return false
   }
+
+  // Auto-seleccionar primer día y slot disponible en cuanto carguen los datos
+  useEffect(() => {
+    if (!selectedDate && Object.keys(schedules).length > 0) {
+      const firstAvailable = getFirstAvailableSlot(schedules, slotDuration, holidays, existingAppointments)
+      if (firstAvailable) {
+        setSelectedDate(firstAvailable.date)
+        setCurrentMonth(firstAvailable.date)
+        setSelectedTime(firstAvailable.slot)
+      }
+    }
+  }, [schedules, slotDuration, holidays, existingAppointments, selectedDate])
+
+  // Escuchar evento personalizado emitido desde Hero u otras partes para preseleccionar slot
+  useEffect(() => {
+    const handleSelectSlotEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ dateStr?: string; timeStr?: string }>
+      const detail = customEvent.detail
+      if (!detail) return
+
+      if (detail.dateStr) {
+        const [year, month, day] = detail.dateStr.split("-").map(Number)
+        if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+          const targetDate = new Date(year, month - 1, day)
+          setSelectedDate(targetDate)
+          setCurrentMonth(new Date(year, month - 1, 1))
+        }
+      }
+
+      if (detail.timeStr) {
+        setSelectedTime(detail.timeStr)
+      }
+
+      setValidationError(null)
+    }
+
+    window.addEventListener("soulmar_select_slot", handleSelectSlotEvent)
+    return () => window.removeEventListener("soulmar_select_slot", handleSelectSlotEvent)
+  }, [])
+
+  const availableAmCount = useMemo(() => {
+    return generatedSlots.am.filter((time) => !isSlotDisabled(time)).length
+  }, [generatedSlots.am, selectedDate, formattedSelectedDate, existingAppointments])
+
+  const availablePmCount = useMemo(() => {
+    return generatedSlots.pm.filter((time) => !isSlotDisabled(time)).length
+  }, [generatedSlots.pm, selectedDate, formattedSelectedDate, existingAppointments])
+
+  const totalAvailableCount = availableAmCount + availablePmCount
 
   const successContainerRef = useRef<HTMLDivElement>(null)
 
@@ -591,94 +540,138 @@ export function AgendamientoSection() {
                         <div>
                           {/* FIELD 1: AVAILABLE HOURS */}
                           <div>
-                            <div className="md:h-[42px] flex items-center mb-6">
+                            <div className="md:h-[42px] flex items-center justify-between mb-6">
                               <Label className="text-[10px] font-extrabold uppercase tracking-wider text-foreground/50 leading-none">
                                 {language === "es" ? "Horas disponibles*" : "Available times*"}
                               </Label>
-                            </div>
-                            <div className="space-y-4">
-                              {/* SECCIÓN MAÑANA */}
-                              <div className="space-y-2">
-                                <span className="text-[9px] font-extrabold uppercase tracking-widest text-foreground/35 flex items-center gap-1.5 leading-none">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500/60 dark:bg-amber-400/60" />
-                                  {language === "es" ? "Mañana (AM)" : "Morning (AM)"}
+                              {selectedDate && (
+                                <span className="text-[10px] font-bold text-primary">
+                                  {formattedSelectedDateLong}
                                 </span>
-                                <div className="grid grid-cols-3 gap-2">
-                                  {generatedSlots.am.length === 0 ? (
-                                    <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
-                                      {language === "es" ? "Sin cupos en la mañana — prueba en la tarde 🍂" : "No morning slots — try the afternoon 🍂"}
-                                    </span>
-                                  ) : (
-                                    generatedSlots.am.map((time) => {
-                                      const isSelected = selectedTime === time;
-                                      const isDisabled = !selectedDate || isSlotDisabled(time);
-                                      return (
-                                        <button
-                                          key={time}
-                                          type="button"
-                                          disabled={isDisabled}
-                                          onClick={() => {
-                                            setSelectedTime(time)
-                                            setValidationError(null)
-                                          }}
-                                          className={cn(
-                                            "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
-                                            isDisabled
-                                              ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
-                                              : isSelected
-                                                ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
-                                                : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-                                          )}
-                                        >
-                                            {time}
-                                        </button>
-                                      )
-                                    })
-                                  )}
-                                </div>
-                              </div>
+                              )}
+                            </div>
 
-                              {/* SECCIÓN TARDE */}
-                              <div className="space-y-2">
-                                <span className="text-[9px] font-extrabold uppercase tracking-widest text-foreground/35 flex items-center gap-1.5 leading-none">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500/60 dark:bg-blue-400/60" />
-                                  {language === "es" ? "Tarde (PM)" : "Afternoon (PM)"}
-                                </span>
-                                <div className="grid grid-cols-3 gap-2">
-                                  {generatedSlots.pm.length === 0 ? (
-                                    <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
-                                      {language === "es" ? "Sin cupos en la tarde — prueba en la mañana 🌅" : "No afternoon slots — try the morning 🌅"}
+                            {!selectedDate ? (
+                              <div className="py-10 px-5 text-center rounded-2xl border border-dashed border-border/70 dark:border-border/20 bg-surface/20 flex flex-col items-center justify-center space-y-2">
+                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+                                  <CalendarIcon className="w-5 h-5" />
+                                </div>
+                                <p className="text-xs font-bold text-foreground">
+                                  {language === "es" ? "Selecciona un día en el calendario" : "Select a day on the calendar"}
+                                </p>
+                                <p className="text-[11px] text-foreground/50 max-w-[230px] leading-relaxed">
+                                  {language === "es"
+                                    ? "Haz clic en una fecha disponible a la izquierda para ver los horarios de sesión."
+                                    : "Click on an available date on the left to view available session times."}
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="space-y-4">
+                                {totalAvailableCount === 0 && (
+                                  <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 text-[11px] font-medium leading-relaxed">
+                                    {language === "es"
+                                      ? "No quedan cupos disponibles para esta fecha. Por favor elige otra fecha en el calendario o contáctanos por WhatsApp para coordinar."
+                                      : "No slots left for this day. Please select another date on the calendar or contact us on WhatsApp."}
+                                  </div>
+                                )}
+
+                                {/* SECCIÓN MAÑANA */}
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-foreground/35 flex items-center gap-1.5 leading-none">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500/60 dark:bg-amber-400/60" />
+                                      {language === "es" ? "Mañana (AM)" : "Morning (AM)"}
                                     </span>
-                                  ) : (
-                                    generatedSlots.pm.map((time) => {
-                                      const isSelected = selectedTime === time;
-                                      const isDisabled = !selectedDate || isSlotDisabled(time);
-                                      return (
-                                        <button
-                                          key={time}
-                                          type="button"
-                                          disabled={isDisabled}
-                                          onClick={() => {
-                                            setSelectedTime(time)
-                                            setValidationError(null)
-                                          }}
-                                          className={cn(
-                                            "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
-                                            isDisabled
-                                              ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
-                                              : isSelected
-                                                ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102"
-                                                : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-                                          )}
-                                        >
-                                            {time}
-                                        </button>
-                                      )
-                                    })
-                                  )}
+                                    {generatedSlots.am.length > 0 && availableAmCount === 0 && (
+                                      <span className="text-[8.5px] font-bold text-foreground/40">
+                                        {language === "es" ? "Completados o pasados" : "Past or booked"}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="grid grid-cols-3 gap-2">
+                                    {generatedSlots.am.length === 0 ? (
+                                      <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
+                                        {language === "es" ? "Sin cupos en la mañana para este día 🍂" : "No morning slots for this day 🍂"}
+                                      </span>
+                                    ) : (
+                                      generatedSlots.am.map((time) => {
+                                        const isSelected = selectedTime === time;
+                                        const isDisabled = !selectedDate || isSlotDisabled(time);
+                                        return (
+                                          <button
+                                            key={time}
+                                            type="button"
+                                            disabled={isDisabled}
+                                            onClick={() => {
+                                              setSelectedTime(time)
+                                              setValidationError(null)
+                                            }}
+                                            className={cn(
+                                              "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
+                                              isDisabled
+                                                ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
+                                                : isSelected
+                                                  ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102 ring-2 ring-primary/30"
+                                                  : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+                                            )}
+                                          >
+                                              {time}
+                                          </button>
+                                        )
+                                      })
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* SECCIÓN TARDE */}
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-foreground/35 flex items-center gap-1.5 leading-none">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500/60 dark:bg-blue-400/60" />
+                                      {language === "es" ? "Tarde (PM)" : "Afternoon (PM)"}
+                                    </span>
+                                    {generatedSlots.pm.length > 0 && availablePmCount === 0 && (
+                                      <span className="text-[8.5px] font-bold text-foreground/40">
+                                        {language === "es" ? "Completados o pasados" : "Past or booked"}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="grid grid-cols-3 gap-2">
+                                    {generatedSlots.pm.length === 0 ? (
+                                      <span className="col-span-3 text-[10px] font-bold text-foreground/30 py-2">
+                                        {language === "es" ? "Sin cupos en la tarde para este día 🌅" : "No afternoon slots for this day 🌅"}
+                                      </span>
+                                    ) : (
+                                      generatedSlots.pm.map((time) => {
+                                        const isSelected = selectedTime === time;
+                                        const isDisabled = !selectedDate || isSlotDisabled(time);
+                                        return (
+                                          <button
+                                            key={time}
+                                            type="button"
+                                            disabled={isDisabled}
+                                            onClick={() => {
+                                              setSelectedTime(time)
+                                              setValidationError(null)
+                                            }}
+                                            className={cn(
+                                              "h-10 text-xs font-bold rounded-lg border transition-all flex items-center justify-center outline-none select-none",
+                                              isDisabled
+                                                ? "opacity-30 cursor-not-allowed border-border/40 bg-surface/10 text-foreground/45"
+                                                : isSelected
+                                                  ? "bg-primary border-primary text-white shadow-md shadow-primary/20 scale-102 ring-2 ring-primary/30"
+                                                  : "border-border/80 dark:border-border/10 bg-background text-foreground/80 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+                                            )}
+                                          >
+                                              {time}
+                                          </button>
+                                        )
+                                      })
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                         </div>
                       </div>
