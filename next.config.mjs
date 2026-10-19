@@ -42,9 +42,9 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
+        hostname: 'druynmdkgdwuohojmptc.supabase.co',
         port: '',
-        pathname: '/**',
+        pathname: '/storage/**',
       },
     ],
   },
