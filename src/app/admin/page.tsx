@@ -41,6 +41,7 @@ import {
   Smartphone
 } from "lucide-react"
 import { MEDIA_SECTIONS, MEDIA_SLOTS, type MediaSlot } from "@/lib/mediaConfig"
+import { useMedia } from "@/context/MediaContext"
 
 interface Patient {
   name: string
@@ -383,6 +384,7 @@ function CustomSelect({
 
 export default function AdminPage() {
   const router = useRouter()
+  const { updateMediaUrl, deleteMediaSlot } = useMedia()
   // ─── AUTH PROPIO (sin NextAuth) ───────────────────────────
   const [adminEmail, setAdminEmail] = useState<string | null>(null)
   const [authChecked, setAuthChecked] = useState(false)
@@ -656,12 +658,7 @@ export default function AdminPage() {
         const data = await res.json()
         if (data.success) {
           setMediaMap(prev => ({ ...prev, [slotKey]: data.url }))
-          try {
-            const stored = localStorage.getItem("soulmar_media_registry")
-            const parsed = stored ? JSON.parse(stored) : {}
-            parsed[slotKey] = data.url
-            localStorage.setItem("soulmar_media_registry", JSON.stringify(parsed))
-          } catch (e) {}
+          updateMediaUrl(slotKey, data.url)
 
           setMediaUploadSuccess(slotKey)
           setTimeout(() => setMediaUploadSuccess(null), 3000)
@@ -693,12 +690,7 @@ export default function AdminPage() {
           ...prev,
           [slotKey]: "__EMPTY__"
         }))
-        try {
-          const stored = localStorage.getItem("soulmar_media_registry")
-          const parsed = stored ? JSON.parse(stored) : {}
-          parsed[slotKey] = "__EMPTY__"
-          localStorage.setItem("soulmar_media_registry", JSON.stringify(parsed))
-        } catch (e) {}
+        deleteMediaSlot(slotKey)
       }
     } catch (err: any) {
       console.error("Error al eliminar imagen:", err)

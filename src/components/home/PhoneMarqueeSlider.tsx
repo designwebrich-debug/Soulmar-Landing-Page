@@ -8,13 +8,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useMedia } from "@/context/MediaContext"
 
 export function PhoneMarqueeSlider() {
-  const { getMediaUrl } = useMedia()
+  const { getMediaUrl, media } = useMedia()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const touchStartX = React.useRef(0)
   const touchEndX = React.useRef(0)
 
-  const cards = [
+  const cards = React.useMemo(() => [
     {
       id: "card-1",
       src: getMediaUrl("phone_card_1", "/images/slider/phone-card-1.png"),
@@ -51,7 +51,7 @@ export function PhoneMarqueeSlider() {
       title: "Un espacio seguro",
       alt: "Terapia individual un espacio seguro en Soulmar",
     },
-  ]
+  ], [getMediaUrl, media])
 
   const totalCards = cards.length
 
@@ -179,7 +179,7 @@ export function PhoneMarqueeSlider() {
 
             return (
               <div
-                key={`${card.id}-${index}`}
+                key={`${card.id}-${card.src}-${index}`}
                 onClick={() => {
                   if (!isCenter) {
                     setActiveIndex(index)
@@ -207,6 +207,7 @@ export function PhoneMarqueeSlider() {
                       width={576}
                       height={1024}
                       quality={85}
+                      unoptimized={true}
                       className="w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
                       priority={isCenter}
                     />

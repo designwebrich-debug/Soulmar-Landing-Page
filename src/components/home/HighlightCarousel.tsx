@@ -18,7 +18,7 @@ export function HighlightCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const { t } = useTranslation()
-  const { getMediaUrl } = useMedia()
+  const { getMediaUrl, media } = useMedia()
 
   const slides: Slide[] = [
     { id: 1, image: getMediaUrl("highlight_slide_1", "/images/highlights/SLIDER01.png") },
@@ -70,7 +70,7 @@ export function HighlightCarousel() {
       >
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
-            key={currentIndex}
+            key={`${currentIndex}-${slides[currentIndex]?.image || ""}`}
             custom={direction}
             variants={variants}
             initial="enter"

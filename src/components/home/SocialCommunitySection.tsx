@@ -21,7 +21,7 @@ import { useMedia } from "@/context/MediaContext"
 
 export function SocialCommunitySection() {
   const { language } = useTranslation()
-  const { getMediaUrl } = useMedia()
+  const { getMediaUrl, media } = useMedia()
   const isEn = language === "en"
 
   const socialPosts: SocialPost[] = React.useMemo(() => [
@@ -52,7 +52,7 @@ export function SocialCommunitySection() {
       image: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png"),
       href: "https://www.instagram.com/soulmar.org_/?hl=es",
     },
-  ], [language, getMediaUrl])
+  ], [language, getMediaUrl, media])
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [activeDot, setActiveDot] = useState(0)
@@ -293,7 +293,7 @@ export function SocialCommunitySection() {
           >
             {socialPosts.map((post) => (
               <Link
-                key={post.id}
+                key={`${post.id}-${post.image}`}
                 href={post.href}
                 target="_blank"
                 rel="noopener noreferrer"

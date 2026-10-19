@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import { CinemaHero } from "@/components/home/CinemaHero"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: "Terapia Online - Dra. Mariana Caicedo | Psicóloga Clínica",
   description: "Terapia online con la Dra. Mariana Caicedo, psicóloga clínica. Un espacio cálido y confidencial para acompañarte en tu proceso de bienestar emocional. Agenda tu sesión.",

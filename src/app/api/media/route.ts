@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
+import { revalidatePath } from "next/cache"
 import { verifyToken } from "../admin-auth/route"
 import { createAdminClient } from "@/lib/supabase/server"
+
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 function isAuthorized(email?: string | null): boolean {
   if (!email) return false
@@ -25,7 +29,15 @@ export async function GET() {
 
     if (error) {
       console.error("[API_MEDIA_GET] Supabase error:", error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json(
+        { error: error.message },
+        {
+          status: 500,
+          headers: {
+            "Cache-Control": "no-store, no-cache, must-revalidate",
+          }
+        }
+      )
     }
 
     const media: Record<string, string> = {}
@@ -39,7 +51,16 @@ export async function GET() {
       }
     }
 
-    return NextResponse.json({ success: true, media })
+    return NextResponse.json(
+      { success: true, media },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "CDN-Cache-Control": "no-store",
+          "Vercel-CDN-Cache-Control": "no-store",
+        }
+      }
+    )
   } catch (err: any) {
     console.error("[API_MEDIA_GET] Fatal error:", err)
     return NextResponse.json({ error: err.message }, { status: 500 })
@@ -125,6 +146,15 @@ export async function POST(request: Request) {
       }
     }
 
+    // 4. Revalidar rutas para invalidar la caché de CDN y servidor inmediatamente
+    try {
+      revalidatePath("/", "layout")
+      revalidatePath("/", "page")
+      revalidatePath("/admin")
+    } catch (e) {
+      console.warn("[API_MEDIA_POST] revalidatePath error:", e)
+    }
+
     return NextResponse.json({
       success: true,
       url: finalUrl,
@@ -182,6 +212,15 @@ export async function DELETE(request: Request) {
       for (const row of allSlots) {
         media[row.slot_key] = row.is_empty ? "__EMPTY__" : row.url
       }
+    }
+
+    // 3. Revalidar rutas inmediatamente
+    try {
+      revalidatePath("/", "layout")
+      revalidatePath("/", "page")
+      revalidatePath("/admin")
+    } catch (e) {
+      console.warn("[API_MEDIA_DELETE] revalidatePath error:", e)
     }
 
     return NextResponse.json({ success: true, media })

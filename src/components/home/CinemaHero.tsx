@@ -16,7 +16,7 @@ import { useMedia } from "@/context/MediaContext"
 
 export function CinemaHero() {
   const { t, language } = useTranslation()
-  const { getMediaUrl } = useMedia()
+  const { getMediaUrl, media } = useMedia()
   const [nextSlot, setNextSlot] = React.useState<string>("")
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [currentMobileSlide, setCurrentMobileSlide] = React.useState(0)
@@ -64,7 +64,7 @@ export function CinemaHero() {
       buttonClass: "bg-[#8da9c4] hover:bg-neutral-900 text-white hover:text-white border-[#8da9c4]/20 hover:border-neutral-900/20",
       buttonIconClass: "bg-white text-[#8da9c4] group-hover:bg-white group-hover:text-neutral-900"
     }
-  ], [t, getMediaUrl])
+  ], [t, getMediaUrl, media])
 
   const mobileSlides = React.useMemo(() => [
     {
@@ -97,7 +97,7 @@ export function CinemaHero() {
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
-  ], [language, getMediaUrl])
+  ], [language, getMediaUrl, media])
 
   const [searchResults, setSearchResults] = React.useState<SearchItem[]>([])
   const [isSearchFocused, setIsSearchFocused] = React.useState(false)
@@ -614,7 +614,7 @@ export function CinemaHero() {
               <div className="absolute inset-0 w-full h-full rounded-[32px] md:rounded-[40px] overflow-hidden pointer-events-auto">
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={currentMobileSlide}
+                    key={`${currentMobileSlide}-${mobileSlides[currentMobileSlide]?.image || ""}-${(mobileSlides[currentMobileSlide] as any)?.desktopImage || ""}`}
                     initial={{ opacity: 0, scale: 1.02 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
