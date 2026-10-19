@@ -1,5 +1,3 @@
-import { format, addDays } from "date-fns"
-import { es, enUS } from "date-fns/locale"
 import { normalizeTime } from "./utils"
 
 export interface SlotAvailability {
@@ -19,6 +17,23 @@ export interface DaySlots {
 }
 
 export const WEEKDAYS_ES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+export const SHORT_DAYS_ES = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+export const SHORT_MONTHS_ES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+export const SHORT_DAYS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+export const SHORT_MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+function formatDateIso(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, "0")
+  const day = String(d.getDate()).padStart(2, "0")
+  return `${y}-${m}-${day}`
+}
+
+function addDaysDate(d: Date, days: number): Date {
+  const next = new Date(d.getTime())
+  next.setDate(next.getDate() + days)
+  return next
+}
 
 /**
  * Genera la lista de slots para una fecha y configuración dada.
@@ -166,7 +181,7 @@ export function getFirstAvailableSlot(
   const now = new Date()
 
   for (let i = 0; i < 30; i++) {
-    const formattedDate = format(dateToCheck, "yyyy-MM-dd")
+    const formattedDate = formatDateIso(dateToCheck)
 
     // Verificar si es festivo
     const isHoliday = holidays.some((h: any) => {
@@ -175,7 +190,7 @@ export function getFirstAvailableSlot(
     })
 
     if (isHoliday) {
-      dateToCheck = addDays(dateToCheck, 1)
+      dateToCheck = addDaysDate(dateToCheck, 1)
       continue
     }
 
@@ -184,7 +199,7 @@ export function getFirstAvailableSlot(
     const config = schedules[dayName]
 
     if (!config || !config.enabled) {
-      dateToCheck = addDays(dateToCheck, 1)
+      dateToCheck = addDaysDate(dateToCheck, 1)
       continue
     }
 
@@ -203,7 +218,7 @@ export function getFirstAvailableSlot(
 
       // ¡Slot encontrado!
       const isToday = dateToCheck.toDateString() === now.toDateString()
-      const tomorrow = addDays(now, 1)
+      const tomorrow = addDaysDate(now, 1)
       const isTomorrow = dateToCheck.toDateString() === tomorrow.toDateString()
 
       let labelEs = ""
@@ -216,12 +231,11 @@ export function getFirstAvailableSlot(
         labelEs = `Mañana, ${slot}`
         labelEn = `Tomorrow, ${slot}`
       } else {
-        const dEs = format(dateToCheck, "EEE d MMM", { locale: es })
-        const dEn = format(dateToCheck, "EEE, MMM d", { locale: enUS })
-        const capEs = dEs.charAt(0).toUpperCase() + dEs.slice(1)
-        const capEn = dEn.charAt(0).toUpperCase() + dEn.slice(1)
-        labelEs = `${capEs}, ${slot}`
-        labelEn = `${capEn}, ${slot}`
+        const dayIdx = dateToCheck.getDay()
+        const dayNum = dateToCheck.getDate()
+        const monthIdx = dateToCheck.getMonth()
+        labelEs = `${SHORT_DAYS_ES[dayIdx]} ${dayNum} ${SHORT_MONTHS_ES[monthIdx]}, ${slot}`
+        labelEn = `${SHORT_DAYS_EN[dayIdx]}, ${SHORT_MONTHS_EN[monthIdx]} ${dayNum}, ${slot}`
       }
 
       return {
@@ -235,7 +249,7 @@ export function getFirstAvailableSlot(
       }
     }
 
-    dateToCheck = addDays(dateToCheck, 1)
+    dateToCheck = addDaysDate(dateToCheck, 1)
   }
 
   return null
