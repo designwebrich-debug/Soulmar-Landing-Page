@@ -267,29 +267,37 @@ export function CinemaHero() {
   const mobileModules = React.useMemo(() => [
     {
       id: "ansiedad",
-      image: "/images/mobile-modules/ansiedad.jpg",
-      desktopImage: "/images/desktop-modules/ansiedad.jpg",
+      title: "Ansiedad",
+      image: getMediaUrl("moment_card_ansiedad", "/images/mobile-modules/ansiedad.jpg", "mobile"),
+      tabletImage: getMediaUrl("moment_card_ansiedad", "/images/desktop-modules/ansiedad.jpg", "tablet"),
+      desktopImage: getMediaUrl("moment_card_ansiedad", "/images/desktop-modules/ansiedad.jpg", "desktop"),
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "depresion",
-      image: "/images/mobile-modules/depresion.png",
-      desktopImage: "/images/desktop-modules/tristeza.png",
+      title: "Tristeza",
+      image: getMediaUrl("moment_card_tristeza", "/images/mobile-modules/depresion.png", "mobile"),
+      tabletImage: getMediaUrl("moment_card_tristeza", "/images/desktop-modules/tristeza.png", "tablet"),
+      desktopImage: getMediaUrl("moment_card_tristeza", "/images/desktop-modules/tristeza.png", "desktop"),
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "emuna",
-      image: "/images/mobile-modules/emuna.png",
-      desktopImage: "/images/desktop-modules/emuna.png",
+      title: "Emunah",
+      image: getMediaUrl("moment_card_emunah", "/images/mobile-modules/emuna.png", "mobile"),
+      tabletImage: getMediaUrl("moment_card_emunah", "/images/desktop-modules/emuna.png", "tablet"),
+      desktopImage: getMediaUrl("moment_card_emunah", "/images/desktop-modules/emuna.png", "desktop"),
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
     {
       id: "mindset",
-      image: "/images/mobile-modules/mindset.png",
-      desktopImage: "/images/desktop-modules/mindset.png",
+      title: "Mindset",
+      image: getMediaUrl("moment_card_mindset", "/images/mobile-modules/mindset.png", "mobile"),
+      tabletImage: getMediaUrl("moment_card_mindset", "/images/desktop-modules/mindset.png", "tablet"),
+      desktopImage: getMediaUrl("moment_card_mindset", "/images/desktop-modules/mindset.png", "desktop"),
       href: "https://www.youtube.com/@Soulmar.Psicologia",
     },
-  ], [])
+  ], [getMediaUrl, media])
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -1061,25 +1069,48 @@ export function CinemaHero() {
               rel="noopener noreferrer"
               className="relative w-full aspect-[3/4] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border border-black/5 dark:border-white/10 flex flex-col justify-start p-3 md:p-4 select-none active:scale-[0.98] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group"
             >
-              {/* Foto para versión móvil (intacta) */}
-              <Image
-                src={mod.image}
-                alt={mod.id}
-                fill
-                quality={100}
-                unoptimized
-                className="md:hidden object-cover object-center group-hover:scale-105 transition-transform duration-500"
-              />
+              {/* Foto para versión celular (móvil) */}
+              {Boolean(mod.image) && (
+                <Image
+                  src={mod.image}
+                  alt={mod.title || mod.id}
+                  fill
+                  quality={100}
+                  unoptimized
+                  className="block md:hidden object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              )}
 
-              {/* Foto exclusiva para versión de computador (PC) en máxima calidad */}
-              <Image
-                src={mod.desktopImage}
-                alt={mod.id}
-                fill
-                quality={100}
-                unoptimized
-                className="hidden md:block object-cover object-center group-hover:scale-105 transition-transform duration-500"
-              />
+              {/* Foto para versión iPad (tablet) */}
+              {Boolean(mod.tabletImage) && (
+                <Image
+                  src={mod.tabletImage}
+                  alt={mod.title || mod.id}
+                  fill
+                  quality={100}
+                  unoptimized
+                  className="hidden md:block lg:hidden object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              )}
+
+              {/* Foto exclusiva para versión de computador (PC) */}
+              {Boolean(mod.desktopImage) && (
+                <Image
+                  src={mod.desktopImage}
+                  alt={mod.title || mod.id}
+                  fill
+                  quality={100}
+                  unoptimized
+                  className="hidden lg:block object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              )}
+
+              {/* Placeholder si el espacio está vacío */}
+              {!mod.image && !mod.tabletImage && !mod.desktopImage && (
+                <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white/50 text-xs font-semibold">
+                  <span>Espacio sin imagen</span>
+                </div>
+              )}
 
               {/* Botón único de reproducir en la esquina superior derecha */}
               <div className="relative z-10 flex justify-end w-full">
