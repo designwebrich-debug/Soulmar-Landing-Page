@@ -1211,33 +1211,6 @@ export function AgendamientoSection() {
           </div>
         )}
 
-        {/* Mobile Sticky Action Dock (Floating bottom bar for high-conversion on smartphones) */}
-        {!isSuccess && selectedDate && selectedTime && (
-          <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-background/90 dark:bg-[#111112]/90 backdrop-blur-2xl border-t border-border/80 p-3.5 pb-safe shadow-2xl animate-in slide-in-from-bottom duration-300">
-            <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
-              <div className="flex flex-col min-w-0">
-                <span className="text-[9px] font-extrabold uppercase tracking-widest text-primary truncate">
-                  {selectedTime} • {selectedDate.getDate()} {selectedDate.toLocaleDateString(language === "es" ? "es-ES" : "en-US", { month: "short" })}
-                </span>
-                <span className="text-[11px] font-bold text-foreground/80 truncate">
-                  {step === 1 ? (language === "es" ? "Paso 1: Fecha lista" : "Step 1: Time ready") : (language === "es" ? "Paso 2: Confirmar datos" : "Step 2: Confirm info")}
-                </span>
-              </div>
-              <Button
-                onClick={step === 1 ? handleStep1Next : handleStep2Submit}
-                disabled={isLoading}
-                className="h-11 px-5 rounded-full font-bold text-xs uppercase tracking-wider bg-primary text-white hover:bg-secondary-yellow hover:text-black shadow-lg shadow-primary/20 shrink-0 flex items-center gap-1.5 active:scale-95"
-              >
-                {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <span>{step === 1 ? (language === "es" ? "Continuar ➔" : "Continue ➔") : t("booking.step3_confirm")}</span>
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
-
       </div>
     </section>
   )
