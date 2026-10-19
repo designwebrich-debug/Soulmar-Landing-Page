@@ -11,7 +11,9 @@ import { useMedia } from "@/context/MediaContext"
 
 interface Slide {
   id: number
-  image: string
+  desktopImage: string
+  mobileImage: string
+  tabletImage: string
 }
 
 export function HighlightCarousel() {
@@ -21,20 +23,35 @@ export function HighlightCarousel() {
   const { getMediaUrl, media } = useMedia()
 
   const slides: Slide[] = [
-    { id: 1, image: getMediaUrl("highlight_slide_1", "/images/highlights/SLIDER01.png") },
-    { id: 2, image: getMediaUrl("highlight_slide_2", "/images/highlights/SLIDER02.png") },
-    { id: 3, image: getMediaUrl("highlight_slide_3", "/images/highlights/SLIDER03.png") },
+    {
+      id: 1,
+      desktopImage: getMediaUrl("highlight_slide_1", "/images/highlights/SLIDER01.png", "desktop"),
+      mobileImage: getMediaUrl("highlight_slide_1", "/images/highlights/SLIDER01.png", "mobile"),
+      tabletImage: getMediaUrl("highlight_slide_1", "/images/highlights/SLIDER01.png", "tablet"),
+    },
+    {
+      id: 2,
+      desktopImage: getMediaUrl("highlight_slide_2", "/images/highlights/SLIDER02.png", "desktop"),
+      mobileImage: getMediaUrl("highlight_slide_2", "/images/highlights/SLIDER02.png", "mobile"),
+      tabletImage: getMediaUrl("highlight_slide_2", "/images/highlights/SLIDER02.png", "tablet"),
+    },
+    {
+      id: 3,
+      desktopImage: getMediaUrl("highlight_slide_3", "/images/highlights/SLIDER03.png", "desktop"),
+      mobileImage: getMediaUrl("highlight_slide_3", "/images/highlights/SLIDER03.png", "mobile"),
+      tabletImage: getMediaUrl("highlight_slide_3", "/images/highlights/SLIDER03.png", "tablet"),
+    },
   ]
 
   const slideNext = useCallback(() => {
     setDirection(1)
     setCurrentIndex((prev) => (prev + 1) % slides.length)
-  }, [])
+  }, [slides.length])
 
   const slidePrev = useCallback(() => {
     setDirection(-1)
     setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length)
-  }, [])
+  }, [slides.length])
 
   // Auto-play with moderated interval (7 seconds as requested)
   useEffect(() => {
@@ -59,6 +76,8 @@ export function HighlightCarousel() {
     })
   }
 
+  const currentSlide = slides[currentIndex]
+
   return (
     <div className="relative w-full">
       <div 
@@ -70,7 +89,7 @@ export function HighlightCarousel() {
       >
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
-            key={`${currentIndex}-${slides[currentIndex]?.image || ""}`}
+            key={`${currentIndex}-${currentSlide?.desktopImage || ""}-${currentSlide?.mobileImage || ""}`}
             custom={direction}
             variants={variants}
             initial="enter"
@@ -93,14 +112,22 @@ export function HighlightCarousel() {
             className="absolute inset-0"
           >
             <div className="block w-full h-full pointer-events-none select-none">
-              {Boolean(slides[currentIndex].image) ? (
-                <img 
-                  src={slides[currentIndex].image} 
-                  alt={`Slide ${currentIndex + 1}`}
-                  className="w-full h-full object-cover pointer-events-none"
-                  loading="eager"
-                  draggable={false}
-                />
+              {(currentSlide.desktopImage || currentSlide.mobileImage || currentSlide.tabletImage) ? (
+                <picture className="w-full h-full block">
+                  {currentSlide.mobileImage && (
+                    <source media="(max-width: 767px)" srcSet={currentSlide.mobileImage} />
+                  )}
+                  {currentSlide.tabletImage && (
+                    <source media="(max-width: 1024px)" srcSet={currentSlide.tabletImage} />
+                  )}
+                  <img 
+                    src={currentSlide.desktopImage || currentSlide.mobileImage} 
+                    alt={`Slide ${currentIndex + 1}`}
+                    className="w-full h-full object-cover pointer-events-none"
+                    loading="eager"
+                    draggable={false}
+                  />
+                </picture>
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-neutral-900/40 text-white/50 text-xs font-semibold">
                   <span>Espacio sin imagen</span>

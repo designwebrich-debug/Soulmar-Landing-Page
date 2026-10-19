@@ -13,7 +13,9 @@ interface SocialPost {
   title: string
   tag: string
   views: string
-  image: string
+  desktopImage: string
+  mobileImage: string
+  tabletImage: string
   href: string
 }
 
@@ -31,7 +33,9 @@ export function SocialCommunitySection() {
       tag: "Instagram Reel",
       title: "Mi herida, mi reacción",
       views: "48.2K",
-      image: getMediaUrl("social_post_1", "/images/mobile-hero/slide-1.jpg"),
+      desktopImage: getMediaUrl("social_post_1", "/images/mobile-hero/slide-1.jpg", "desktop"),
+      mobileImage: getMediaUrl("social_post_1", "/images/mobile-hero/slide-1.jpg", "mobile"),
+      tabletImage: getMediaUrl("social_post_1", "/images/mobile-hero/slide-1.jpg", "tablet"),
       href: "https://www.instagram.com/soulmar.org_/?hl=es",
     },
     {
@@ -40,7 +44,9 @@ export function SocialCommunitySection() {
       tag: "Instagram Post",
       title: "¿Por qué sobrepienso todo?",
       views: "92.5K",
-      image: getMediaUrl("social_post_2", "/images/mobile-hero/slide-2.png"),
+      desktopImage: getMediaUrl("social_post_2", "/images/mobile-hero/slide-2.png", "desktop"),
+      mobileImage: getMediaUrl("social_post_2", "/images/mobile-hero/slide-2.png", "mobile"),
+      tabletImage: getMediaUrl("social_post_2", "/images/mobile-hero/slide-2.png", "tablet"),
       href: "https://www.instagram.com/soulmar.org_/?hl=es",
     },
     {
@@ -49,7 +55,9 @@ export function SocialCommunitySection() {
       tag: "Instagram Reel",
       title: "Tu sesión psicológica a un clic",
       views: "36.8K",
-      image: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png"),
+      desktopImage: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png", "desktop"),
+      mobileImage: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png", "mobile"),
+      tabletImage: getMediaUrl("social_post_3", "/images/mobile-hero/slide-3.png", "tablet"),
       href: "https://www.instagram.com/soulmar.org_/?hl=es",
     },
   ], [language, getMediaUrl, media])
@@ -293,23 +301,27 @@ export function SocialCommunitySection() {
           >
             {socialPosts.map((post) => (
               <Link
-                key={`${post.id}-${post.image}`}
+                key={`${post.id}-${post.desktopImage}-${post.mobileImage}`}
                 href={post.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="snap-start shrink-0 w-[68vw] sm:w-[260px] md:w-auto relative aspect-[9/14] rounded-[28px] overflow-hidden group shadow-lg active:scale-[0.98] transition-transform select-none border border-black/5 dark:border-white/10"
               >
                 {/* Full-bleed Photo completely clean or Empty State */}
-                {Boolean(post.image) ? (
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    quality={100}
-                    unoptimized
-                    sizes="(max-width: 768px) 85vw, 400px"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                  />
+                {Boolean(post.desktopImage || post.mobileImage || post.tabletImage) ? (
+                  <picture className="w-full h-full block">
+                    {post.mobileImage && (
+                      <source media="(max-width: 767px)" srcSet={post.mobileImage} />
+                    )}
+                    {post.tabletImage && (
+                      <source media="(max-width: 1024px)" srcSet={post.tabletImage} />
+                    )}
+                    <img
+                      src={post.desktopImage || post.mobileImage}
+                      alt={post.title}
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </picture>
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-400 p-4 text-center">
                     <span className="text-xs font-bold">Espacio vacío</span>

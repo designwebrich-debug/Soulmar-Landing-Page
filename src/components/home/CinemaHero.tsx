@@ -71,8 +71,9 @@ export function CinemaHero() {
       id: 1,
       tag: language === "es" ? "★ DESTACADO • DRA. MARIANA CAICEDO" : "★ FEATURED • DR. MARIANA CAICEDO",
       title: "",
-      image: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png"),
-      desktopImage: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png"),
+      image: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png", "mobile"),
+      tabletImage: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png", "tablet"),
+      desktopImage: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png", "desktop"),
       bottomTitle: language === "es" ? "Mi Herida, Mi Reacción" : "My Wound, My Reaction",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#agendamiento",
@@ -81,8 +82,9 @@ export function CinemaHero() {
       id: 2,
       tag: language === "es" ? "★ DESTACADO • SOULMAR" : "★ FEATURED • SOULMAR",
       title: "",
-      image: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg"),
-      desktopImage: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg"),
+      image: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg", "mobile"),
+      tabletImage: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg", "tablet"),
+      desktopImage: getMediaUrl("hero_slide_2", "/images/desktop-hero/slide-2.jpg", "desktop"),
       bottomTitle: language === "es" ? "¿Por qué sobrepienso todo?" : "Why do I overthink everything?",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "/#ebooks",
@@ -91,8 +93,9 @@ export function CinemaHero() {
       id: 3,
       tag: "PODCAST • SOULMAR",
       title: "",
-      image: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png"),
-      desktopImage: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png"),
+      image: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png", "mobile"),
+      tabletImage: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png", "tablet"),
+      desktopImage: getMediaUrl("hero_slide_3", "/images/desktop-hero/podcast.png", "desktop"),
       bottomTitle: "Soulmar Podcast",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
       href: "https://www.youtube.com/@Soulmar.Psicologia",
@@ -631,7 +634,7 @@ export function CinemaHero() {
                     }}
                     className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
                   >
-                    {/* Versión Móvil */}
+                    {/* Versión Celular (Móvil) */}
                     {Boolean(mobileSlides[currentMobileSlide].image) && (
                       <Image
                         src={mobileSlides[currentMobileSlide].image}
@@ -641,12 +644,23 @@ export function CinemaHero() {
                         unoptimized
                         priority={currentMobileSlide === 0}
                         sizes="(max-width: 768px) 100vw, 1200px"
-                        className={`object-cover object-center select-none ${
-                          (mobileSlides[currentMobileSlide] as any).desktopImage ? "md:hidden" : ""
-                        }`}
+                        className="block md:hidden object-cover object-center select-none"
                       />
                     )}
-                    {/* Versión PC exclusiva en ultra alta calidad */}
+                    {/* Versión iPad (Tablet) */}
+                    {Boolean((mobileSlides[currentMobileSlide] as any).tabletImage) && (
+                      <Image
+                        src={(mobileSlides[currentMobileSlide] as any).tabletImage}
+                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                        fill
+                        quality={100}
+                        unoptimized
+                        priority={currentMobileSlide === 0}
+                        sizes="(max-width: 1024px) 100vw, 1400px"
+                        className="hidden md:block lg:hidden object-cover object-center select-none"
+                      />
+                    )}
+                    {/* Versión Computador (PC) */}
                     {Boolean((mobileSlides[currentMobileSlide] as any).desktopImage) && (
                       <Image
                         src={(mobileSlides[currentMobileSlide] as any).desktopImage}
@@ -655,12 +669,12 @@ export function CinemaHero() {
                         quality={100}
                         unoptimized
                         priority={currentMobileSlide === 0}
-                        sizes="(max-width: 1200px) 100vw, 1600px"
-                        className="hidden md:block object-cover object-center select-none"
+                        sizes="(min-width: 1024px) 100vw, 1920px"
+                        className="hidden lg:block object-cover object-center select-none"
                       />
                     )}
                     {/* Placeholder si el espacio está vacío */}
-                    {!mobileSlides[currentMobileSlide].image && !(mobileSlides[currentMobileSlide] as any).desktopImage && (
+                    {!mobileSlides[currentMobileSlide].image && !(mobileSlides[currentMobileSlide] as any).tabletImage && !(mobileSlides[currentMobileSlide] as any).desktopImage && (
                       <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white/50 text-xs font-semibold">
                         <span>Espacio sin imagen</span>
                       </div>

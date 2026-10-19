@@ -17,37 +17,49 @@ export function PhoneMarqueeSlider() {
   const cards = React.useMemo(() => [
     {
       id: "card-1",
-      src: getMediaUrl("phone_card_1", "/images/slider/phone-card-1.png"),
+      desktopSrc: getMediaUrl("phone_card_1", "/images/slider/phone-card-1.png", "desktop"),
+      mobileSrc: getMediaUrl("phone_card_1", "/images/slider/phone-card-1.png", "mobile"),
+      tabletSrc: getMediaUrl("phone_card_1", "/images/slider/phone-card-1.png", "tablet"),
       title: "Relaciones sanas",
       alt: "Terapia de pareja y relaciones sanas en Soulmar",
     },
     {
       id: "card-2",
-      src: getMediaUrl("phone_card_2", "/images/slider/phone-card-2.png"),
+      desktopSrc: getMediaUrl("phone_card_2", "/images/slider/phone-card-2.png", "desktop"),
+      mobileSrc: getMediaUrl("phone_card_2", "/images/slider/phone-card-2.png", "mobile"),
+      tabletSrc: getMediaUrl("phone_card_2", "/images/slider/phone-card-2.png", "tablet"),
       title: "Tu profesión Ideal",
       alt: "Orientación vocacional y talento humano en Soulmar",
     },
     {
       id: "card-3",
-      src: getMediaUrl("phone_card_3", "/images/slider/phone-card-3.png"),
+      desktopSrc: getMediaUrl("phone_card_3", "/images/slider/phone-card-3.png", "desktop"),
+      mobileSrc: getMediaUrl("phone_card_3", "/images/slider/phone-card-3.png", "mobile"),
+      tabletSrc: getMediaUrl("phone_card_3", "/images/slider/phone-card-3.png", "tablet"),
       title: "Encuentra tu propósito",
       alt: "Terapia individual e introspección en Soulmar",
     },
     {
       id: "card-4",
-      src: getMediaUrl("phone_card_4", "/images/slider/phone-card-4.png"),
+      desktopSrc: getMediaUrl("phone_card_4", "/images/slider/phone-card-4.png", "desktop"),
+      mobileSrc: getMediaUrl("phone_card_4", "/images/slider/phone-card-4.png", "mobile"),
+      tabletSrc: getMediaUrl("phone_card_4", "/images/slider/phone-card-4.png", "tablet"),
       title: "Transita la depresión",
       alt: "Terapia para transitar la depresión en Soulmar",
     },
     {
       id: "card-5",
-      src: getMediaUrl("phone_card_5", "/images/slider/phone-card-5.png"),
+      desktopSrc: getMediaUrl("phone_card_5", "/images/slider/phone-card-5.png", "desktop"),
+      mobileSrc: getMediaUrl("phone_card_5", "/images/slider/phone-card-5.png", "mobile"),
+      tabletSrc: getMediaUrl("phone_card_5", "/images/slider/phone-card-5.png", "tablet"),
       title: "Gobierna la ansiedad",
       alt: "Terapia para gobernar la ansiedad en Soulmar",
     },
     {
       id: "card-6",
-      src: getMediaUrl("phone_card_6", "/images/slider/phone-card-6.png"),
+      desktopSrc: getMediaUrl("phone_card_6", "/images/slider/phone-card-6.png", "desktop"),
+      mobileSrc: getMediaUrl("phone_card_6", "/images/slider/phone-card-6.png", "mobile"),
+      tabletSrc: getMediaUrl("phone_card_6", "/images/slider/phone-card-6.png", "tablet"),
       title: "Un espacio seguro",
       alt: "Terapia individual un espacio seguro en Soulmar",
     },
@@ -179,7 +191,7 @@ export function PhoneMarqueeSlider() {
 
             return (
               <div
-                key={`${card.id}-${card.src}-${index}`}
+                key={`${card.id}-${card.desktopSrc}-${card.mobileSrc}-${index}`}
                 onClick={() => {
                   if (!isCenter) {
                     setActiveIndex(index)
@@ -200,17 +212,20 @@ export function PhoneMarqueeSlider() {
                   onClick={handleScrollToBooking}
                   className="block relative group/card p-0 m-0"
                 >
-                  {Boolean(card.src) ? (
-                    <Image
-                      src={card.src}
-                      alt={card.alt}
-                      width={576}
-                      height={1024}
-                      quality={85}
-                      unoptimized={true}
-                      className="w-[240px] sm:w-[320px] lg:w-[380px] h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
-                      priority={isCenter}
-                    />
+                  {Boolean(card.desktopSrc || card.mobileSrc || card.tabletSrc) ? (
+                    <picture className="block w-[240px] sm:w-[320px] lg:w-[380px] h-auto p-0 m-0">
+                      {card.mobileSrc && (
+                        <source media="(max-width: 767px)" srcSet={card.mobileSrc} />
+                      )}
+                      {card.tabletSrc && (
+                        <source media="(max-width: 1024px)" srcSet={card.tabletSrc} />
+                      )}
+                      <img
+                        src={card.desktopSrc || card.mobileSrc}
+                        alt={card.alt}
+                        className="w-full h-auto object-contain transition-all duration-500 p-0 m-0 border-0 shadow-none"
+                      />
+                    </picture>
                   ) : (
                     <div className="w-[240px] sm:w-[320px] lg:w-[380px] aspect-[9/16] rounded-3xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400 text-xs font-bold border border-neutral-200 dark:border-neutral-700">
                       <span>Espacio vacío</span>

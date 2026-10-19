@@ -927,16 +927,15 @@ export function AgendamientoSection() {
                               <div className="flex items-center gap-3">
                                 <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-surface/50 border border-border/10 flex-shrink-0 flex items-center justify-center">
                                   {Boolean(getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")) ? (
-                                    <Image 
-                                      key={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")}
-                                      src={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")} 
-                                      alt="Dra. Mariana Caicedo" 
-                                      fill
-                                      quality={100}
-                                      unoptimized={true}
-                                      sizes="48px"
-                                      className="object-cover"
-                                    />
+                                    <picture className="w-full h-full block">
+                                      <source media="(max-width: 767px)" srcSet={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "mobile")} />
+                                      <source media="(max-width: 1024px)" srcSet={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "tablet")} />
+                                      <img 
+                                        src={getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "desktop")} 
+                                        alt="Dra. Mariana Caicedo" 
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </picture>
                                   ) : (
                                     <span className="text-xs font-bold text-foreground/40">Dr</span>
                                   )}

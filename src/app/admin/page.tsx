@@ -38,9 +38,17 @@ import {
   RefreshCw,
   Sliders,
   CheckCircle,
-  Smartphone
+  Smartphone,
+  Tablet
 } from "lucide-react"
-import { MEDIA_SECTIONS, MEDIA_SLOTS, type MediaSlot } from "@/lib/mediaConfig"
+import {
+  MEDIA_SECTIONS,
+  MEDIA_SLOTS,
+  MEDIA_DEVICES,
+  getSlotDeviceKey,
+  type DeviceType,
+  type MediaSlot
+} from "@/lib/mediaConfig"
 import { useMedia } from "@/context/MediaContext"
 
 interface Patient {
@@ -416,6 +424,7 @@ export default function AdminPage() {
   })
   const [uploadingSlotKey, setUploadingSlotKey] = useState<string | null>(null)
   const [mediaActiveSection, setMediaActiveSection] = useState<string>("all")
+  const [mediaActiveDevice, setMediaActiveDevice] = useState<DeviceType>("desktop")
   const [mediaSearchQuery, setMediaSearchQuery] = useState<string>("")
   const [mediaUploadSuccess, setMediaUploadSuccess] = useState<string | null>(null)
   
@@ -677,9 +686,10 @@ export default function AdminPage() {
     }
   }
 
-  // Eliminar imagen dejando el espacio vacío (sin fallback a foto vieja)
-  const handleDeleteMedia = async (slotKey: string) => {
-    if (!confirm("¿Deseas eliminar esta foto? El espacio quedará vacío en la web hasta que subas una nueva.")) return
+  // Eliminar imagen dejando el espacio vacío (sin fallback a foto vieja) para el dispositivo específico
+  const handleDeleteMedia = async (slotKey: string, deviceLabel?: string) => {
+    const targetNotice = deviceLabel ? `para la versión de ${deviceLabel}` : ""
+    if (!confirm(`¿Deseas eliminar esta foto ${targetNotice}? El espacio quedará vacío en esa versión hasta que subas una nueva.`)) return
     try {
       setUploadingSlotKey(slotKey)
       const res = await fetch(`/api/media?slotKey=${slotKey}`, {
@@ -2851,6 +2861,72 @@ export default function AdminPage() {
                   </div>
                 </div>
 
+                {/* Selector Maestro de Dispositivo: COMPUTADOR (PC), CELULAR, IPAD */}
+                <div className="bg-gradient-to-br from-neutral-950 via-neutral-900 to-black text-white rounded-3xl p-6 md:p-8 shadow-xl border border-neutral-800">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div className="space-y-1.5 max-w-xl">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#ffc971] text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
+                        <Sliders className="w-3 h-3" />
+                        <span>Ajustes por Dispositivo • Soulmar Multi-Screen</span>
+                      </div>
+                      <h4 className="text-xl md:text-2xl font-black text-white tracking-tight font-sans">
+                        Elige la versión a editar: Computador, Celular o iPad
+                      </h4>
+                      <p className="text-xs text-neutral-300 font-medium leading-relaxed">
+                        Selecciona el dispositivo y visualiza las fotos tal como se verán en esa pantalla, con sus dimensiones y proporciones exactas. Al subir una foto en <strong className="text-white">Celular</strong>, solo se actualizará para celulares sin alterar la versión de PC ni iPad.
+                      </p>
+                    </div>
+
+                    {/* Cupertino Segmented Control */}
+                    <div className="bg-white/10 backdrop-blur-xl p-1.5 rounded-2xl flex items-center gap-1.5 border border-white/15 self-start lg:self-center">
+                      {MEDIA_DEVICES.map((device) => {
+                        const isActive = mediaActiveDevice === device.id
+                        const Icon = device.id === "desktop" ? Monitor : device.id === "mobile" ? Smartphone : Tablet
+                        return (
+                          <button
+                            key={device.id}
+                            onClick={() => setMediaActiveDevice(device.id)}
+                            className={`px-4 md:px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center gap-2.5 cursor-pointer ${
+                              isActive
+                                ? "bg-white text-black shadow-xl scale-[1.02]"
+                                : "text-neutral-300 hover:text-white hover:bg-white/5"
+                            }`}
+                          >
+                            <Icon className={`w-4 h-4 ${isActive ? "text-black" : "text-neutral-400"}`} />
+                            <div className="text-left">
+                              <div className="font-black leading-none">{device.shortLabel}</div>
+                              <div className={`text-[9px] font-mono leading-none mt-1 ${isActive ? "text-neutral-500" : "text-neutral-400"}`}>
+                                {device.id === "desktop" ? "16:9 / 21:9" : device.id === "mobile" ? "9:16 Vertical" : "4:3 Tablet"}
+                              </div>
+                            </div>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Banner de Estado del Dispositivo Activo */}
+                  {(() => {
+                    const activeDev = MEDIA_DEVICES.find(d => d.id === mediaActiveDevice) || MEDIA_DEVICES[0]
+                    return (
+                      <div className="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                        <div className="flex items-center gap-2.5">
+                          <span className="relative flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1D9E75] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#1D9E75]"></span>
+                          </span>
+                          <span className="text-neutral-300 font-medium">
+                            Versión activa: <strong className="text-white font-bold">{activeDev.title}</strong> — {activeDev.viewportNotice}
+                          </span>
+                        </div>
+                        <div className="text-[11px] font-mono text-[#ffc971] bg-white/5 px-3 py-1.5 rounded-full border border-white/10 self-start sm:self-auto">
+                          Subiendo fotos como: <span className="text-white font-bold">_[slot]_{activeDev.id}</span>
+                        </div>
+                      </div>
+                    )
+                  })()}
+                </div>
+
                 {/* Filtro por Secciones & Buscador */}
                 <div className="bg-white rounded-3xl p-6 border border-neutral-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   {/* Píldoras de Categorías */}
@@ -2924,94 +3000,183 @@ export default function AdminPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {sectionSlots.map((slot) => {
-                            const rawVal = mediaMap[slot.key]
-                            const isEmpty = rawVal === "__EMPTY__"
-                            const currentUrl = isEmpty ? "" : (rawVal || slot.defaultUrl)
-                            const isCustom = Boolean(rawVal && rawVal !== "__EMPTY__")
-                            const isUploading = uploadingSlotKey === slot.key
-                            const isSuccess = mediaUploadSuccess === slot.key
+                            const activeDev = MEDIA_DEVICES.find(d => d.id === mediaActiveDevice) || MEDIA_DEVICES[0]
+                            const deviceSpec = slot.devices[mediaActiveDevice] || slot.devices.desktop
+                            const targetSlotKey = getSlotDeviceKey(slot.key, mediaActiveDevice)
+
+                            // Valores directos y legados
+                            const directVal = mediaMap[targetSlotKey]
+                            const legacyVal = mediaMap[slot.key]
+                            
+                            // Flags de estado
+                            const isEmpty = directVal === "__EMPTY__"
+                            const isDirectCustom = Boolean(directVal && directVal !== "__EMPTY__")
+                            const isInherited = !isDirectCustom && !isEmpty && Boolean(legacyVal && legacyVal !== "__EMPTY__" && mediaActiveDevice !== "desktop")
+                            
+                            let currentUrl = ""
+                            if (isEmpty) {
+                              currentUrl = ""
+                            } else if (isDirectCustom) {
+                              currentUrl = directVal
+                            } else if (isInherited) {
+                              currentUrl = legacyVal
+                            } else {
+                              currentUrl = deviceSpec.defaultUrl || slot.defaultUrl
+                            }
+
+                            const isUploading = uploadingSlotKey === targetSlotKey || uploadingSlotKey === slot.key
+                            const isSuccess = mediaUploadSuccess === targetSlotKey
 
                             return (
                               <div
                                 key={slot.key}
                                 className="bg-white rounded-3xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
                               >
-                                {/* Preview de la Imagen con Badge de Dimensiones */}
-                                <div className="relative w-full aspect-video bg-neutral-100 overflow-hidden group">
-                                  {currentUrl ? (
-                                    <img
-                                      src={currentUrl}
-                                      alt={slot.title}
-                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                  ) : (
-                                    <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 border-2 border-dashed border-neutral-200 text-neutral-400 p-4 text-center">
-                                      <ImageIcon className="w-8 h-8 text-neutral-300 mb-1" />
-                                      <span className="text-[11px] font-bold text-neutral-500">Espacio Vacío</span>
-                                      <span className="text-[9px] text-neutral-400">Sin foto en la web</span>
-                                    </div>
-                                  )}
-                                  
-                                  {/* Badge de Medida Recomendada */}
-                                  <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
-                                    <Sliders className="w-3 h-3 text-[#ffc971]" />
-                                    <span>{slot.dimensions}</span>
+                                {/* Header del Recuadro con Selector Rápido de Dispositivo */}
+                                <div className="px-5 py-3 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/70">
+                                  <div className="flex items-center gap-2">
+                                    {mediaActiveDevice === "desktop" && <Monitor className="w-3.5 h-3.5 text-neutral-700" />}
+                                    {mediaActiveDevice === "mobile" && <Smartphone className="w-3.5 h-3.5 text-neutral-700" />}
+                                    {mediaActiveDevice === "tablet" && <Tablet className="w-3.5 h-3.5 text-neutral-700" />}
+                                    <span className="text-[11px] font-black uppercase tracking-wider text-black font-sans">
+                                      {activeDev.shortLabel}
+                                    </span>
                                   </div>
 
-                                  {/* Badge de Estado: Personalizada, Original o Vacío */}
-                                  <div className="absolute top-3 right-3">
-                                    {isEmpty ? (
-                                      <span className="bg-red-500/90 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm">
-                                        Vacío (Eliminada)
-                                      </span>
-                                    ) : isCustom ? (
-                                      <span className="bg-[#1D9E75] text-white px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-                                        <Check className="w-3 h-3" />
-                                        <span>Personalizada</span>
-                                      </span>
+                                  {/* Switcher Rápido de Dispositivo */}
+                                  <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-neutral-200/80 shadow-2xs">
+                                    {MEDIA_DEVICES.map((dev) => {
+                                      const devKey = getSlotDeviceKey(slot.key, dev.id)
+                                      const hasCustom = Boolean(mediaMap[devKey] && mediaMap[devKey] !== "__EMPTY__")
+                                      const isSelected = mediaActiveDevice === dev.id
+                                      return (
+                                        <button
+                                          key={dev.id}
+                                          type="button"
+                                          onClick={() => setMediaActiveDevice(dev.id)}
+                                          title={`Ver versión ${dev.title}`}
+                                          className={`px-2 py-0.5 rounded-lg text-[9px] font-black uppercase flex items-center gap-1 cursor-pointer transition-all ${
+                                            isSelected
+                                              ? "bg-black text-white shadow-xs"
+                                              : "text-neutral-500 hover:text-black hover:bg-neutral-100"
+                                          }`}
+                                        >
+                                          <span>{dev.shortLabel}</span>
+                                          {hasCustom && <span className="w-1.5 h-1.5 rounded-full bg-[#1D9E75]" />}
+                                        </button>
+                                      )
+                                    })}
+                                  </div>
+                                </div>
+
+                                {/* Frame Mockup Adaptativo al Dispositivo */}
+                                <div className="relative w-full bg-neutral-100/70 p-4 flex items-center justify-center min-h-[220px]">
+                                  <div
+                                    className={`relative w-full overflow-hidden transition-all duration-300 group ${
+                                      mediaActiveDevice === "mobile"
+                                        ? "max-w-[190px] aspect-[9/16] rounded-3xl border-4 border-neutral-900 bg-black shadow-xl"
+                                        : mediaActiveDevice === "tablet"
+                                        ? "max-w-[280px] aspect-[4/3] rounded-2xl border-4 border-neutral-800 bg-black shadow-lg"
+                                        : "aspect-video rounded-2xl border border-neutral-200 bg-neutral-900 shadow-sm"
+                                    }`}
+                                  >
+                                    {/* Notch para Celular */}
+                                    {mediaActiveDevice === "mobile" && (
+                                      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-2.5 bg-neutral-900 rounded-full z-20 pointer-events-none" />
+                                    )}
+
+                                    {currentUrl ? (
+                                      <img
+                                        src={currentUrl}
+                                        alt={slot.title}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                      />
                                     ) : (
-                                      <span className="bg-neutral-800/80 backdrop-blur-md text-neutral-300 px-2.5 py-1 rounded-full text-[8px] font-bold uppercase tracking-wider shadow-sm">
-                                        Original
-                                      </span>
+                                      <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900 text-neutral-400 p-4 text-center">
+                                        <ImageIcon className="w-8 h-8 text-neutral-500 mb-1" />
+                                        <span className="text-[10px] font-bold text-neutral-300">Espacio Vacío</span>
+                                        <span className="text-[8px] text-neutral-500">Sin foto en {activeDev.shortLabel}</span>
+                                      </div>
+                                    )}
+
+                                    {/* Badge de Medida Recomendada */}
+                                    <div className="absolute top-2.5 left-2.5 bg-black/85 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm z-10">
+                                      <Sliders className="w-2.5 h-2.5 text-[#ffc971]" />
+                                      <span>{deviceSpec.dimensions}</span>
+                                    </div>
+
+                                    {/* Badge de Estado: Exclusiva, Heredada o Original */}
+                                    <div className="absolute top-2.5 right-2.5 z-10">
+                                      {isEmpty ? (
+                                        <span className="bg-red-500/90 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm">
+                                          Vacío
+                                        </span>
+                                      ) : isDirectCustom ? (
+                                        <span className="bg-[#1D9E75] text-white px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
+                                          <Check className="w-2.5 h-2.5" />
+                                          <span>Exclusiva {activeDev.shortLabel}</span>
+                                        </span>
+                                      ) : isInherited ? (
+                                        <span className="bg-amber-500 text-black px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm" title="Usando foto de PC mientras no subas una personalizada para este dispositivo">
+                                          Hereda de PC
+                                        </span>
+                                      ) : (
+                                        <span className="bg-neutral-800/80 backdrop-blur-md text-neutral-300 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider shadow-sm">
+                                          Original
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    {/* Overlay de Subiendo */}
+                                    {isUploading && (
+                                      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-white z-20 animate-in fade-in">
+                                        <Loader2 className="w-6 h-6 animate-spin text-[#ffc971]" />
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-center px-2">
+                                          Subiendo a {activeDev.shortLabel}...
+                                        </span>
+                                      </div>
+                                    )}
+
+                                    {/* Feedback de Éxito */}
+                                    {isSuccess && (
+                                      <div className="absolute inset-0 bg-[#1D9E75]/95 backdrop-blur-sm flex flex-col items-center justify-center gap-1 text-white z-20 animate-in zoom-in-95">
+                                        <CheckCircle className="w-7 h-7 text-white" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-center px-2">
+                                          ¡{activeDev.shortLabel} Actualizado!
+                                        </span>
+                                      </div>
                                     )}
                                   </div>
-
-                                  {/* Overlay de Subiendo */}
-                                  {isUploading && (
-                                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-white z-10 animate-in fade-in">
-                                      <Loader2 className="w-6 h-6 animate-spin text-[#ffc971]" />
-                                      <span className="text-[10px] font-black uppercase tracking-widest">Guardando foto...</span>
-                                    </div>
-                                  )}
-
-                                  {/* Feedback de Éxito */}
-                                  {isSuccess && (
-                                    <div className="absolute inset-0 bg-[#1D9E75]/90 backdrop-blur-sm flex flex-col items-center justify-center gap-1 text-white z-10 animate-in zoom-in-95">
-                                      <CheckCircle className="w-8 h-8 text-white" />
-                                      <span className="text-xs font-black uppercase tracking-widest">¡Foto Actualizada!</span>
-                                    </div>
-                                  )}
                                 </div>
 
                                 {/* Info y Botones de Acción */}
-                                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                                   <div className="space-y-1.5">
-                                    <h5 className="text-sm font-black text-black leading-tight">
-                                      {slot.title}
-                                    </h5>
+                                    <div className="flex items-center justify-between gap-2">
+                                      <h5 className="text-sm font-black text-black leading-tight">
+                                        {slot.title}
+                                      </h5>
+                                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-neutral-600 font-bold shrink-0">
+                                        {deviceSpec.aspectRatio}
+                                      </span>
+                                    </div>
                                     <p className="text-[11px] text-neutral-500 font-medium leading-relaxed">
-                                      {slot.description}
+                                      {deviceSpec.recommendedNotice || slot.description}
                                     </p>
-                                    <div className="pt-1 flex items-center gap-3 text-[9px] font-mono text-neutral-400">
-                                      <span>Ratio: <strong className="text-neutral-700">{slot.aspectRatio}</strong></span>
+                                    <div className="text-[10px] text-neutral-400 font-mono">
+                                      Medida sugerida: <strong className="text-neutral-800 font-bold">{deviceSpec.dimensions}</strong>
                                     </div>
                                   </div>
 
-                                  {/* Botones de Actualizar / Eliminar */}
-                                  <div className="pt-2 flex items-center gap-2 border-t border-neutral-100">
+                                  {/* Botones de Actualizar / Eliminar para el dispositivo activo */}
+                                  <div className="pt-3 flex items-center gap-2 border-t border-neutral-100">
                                     <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-sm">
                                       <UploadCloud className="w-3.5 h-3.5" />
-                                      <span>{currentUrl ? "Reemplazar Foto" : "Subir Foto"}</span>
+                                      <span>
+                                        {isDirectCustom
+                                          ? `Reemplazar (${activeDev.shortLabel})`
+                                          : `Subir a ${activeDev.shortLabel}`}
+                                      </span>
                                       <input
                                         type="file"
                                         accept="image/jpeg,image/png,image/webp"
@@ -3019,7 +3184,7 @@ export default function AdminPage() {
                                         onChange={(e) => {
                                           const file = e.target.files?.[0]
                                           if (file) {
-                                            handleUploadMedia(slot.key, file)
+                                            handleUploadMedia(targetSlotKey, file)
                                             e.target.value = ""
                                           }
                                         }}
@@ -3027,12 +3192,12 @@ export default function AdminPage() {
                                       />
                                     </label>
 
-                                    {currentUrl && (
+                                    {(isDirectCustom || currentUrl) && (
                                       <button
-                                        onClick={() => handleDeleteMedia(slot.key)}
+                                        onClick={() => handleDeleteMedia(targetSlotKey, activeDev.title)}
                                         disabled={isUploading}
                                         className="h-10 px-3.5 rounded-full border border-neutral-200 bg-white hover:bg-red-50 text-neutral-500 hover:text-red-500 transition-all cursor-pointer flex items-center justify-center"
-                                        title="Eliminar foto (dejar espacio vacío)"
+                                        title={`Eliminar foto exclusiva de ${activeDev.shortLabel}`}
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
                                       </button>
