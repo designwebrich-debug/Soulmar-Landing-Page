@@ -79,6 +79,33 @@ export function AgendamientoSection() {
   const [holidays, setHolidays] = useState<any[]>([])
   const [existingAppointments, setExistingAppointments] = useState<any[]>([])
 
+  const formattedSelectedDate = useMemo(() => {
+    if (!selectedDate) return ""
+    const y = selectedDate.getFullYear()
+    const m = String(selectedDate.getMonth() + 1).padStart(2, "0")
+    const d = String(selectedDate.getDate()).padStart(2, "0")
+    return `${y}-${m}-${d}`
+  }, [selectedDate])
+
+  const formattedSelectedDateLong = useMemo(() => {
+    if (!selectedDate) return language === "es" ? "Selecciona fecha y hora" : "Select date and time"
+    const dateStr = selectedDate.toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    })
+    return `${dateStr}${selectedTime ? ` - ${selectedTime}` : ""}`
+  }, [selectedDate, selectedTime, language])
+
+  const dateFormattedOnly = useMemo(() => {
+    if (!selectedDate) return ""
+    const day = selectedDate.getDate()
+    const year = selectedDate.getFullYear()
+    const monthName = selectedDate.toLocaleDateString(language === "es" ? "es-ES" : "en-US", { month: "long" })
+    const capitalizedMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1)
+    return `${day} ${capitalizedMonth} ${year}`
+  }, [selectedDate, language])
+
   const fetchBookedSlots = () => {
     fetch("/api/appointments")
       .then(res => res.json())
@@ -383,34 +410,6 @@ export function AgendamientoSection() {
       setIsSuccess(true) // Still show confirmation if offline so patient is not left stranded
     }
   }
-
-
-  const formattedSelectedDate = useMemo(() => {
-    if (!selectedDate) return ""
-    const y = selectedDate.getFullYear()
-    const m = String(selectedDate.getMonth() + 1).padStart(2, "0")
-    const d = String(selectedDate.getDate()).padStart(2, "0")
-    return `${y}-${m}-${d}`
-  }, [selectedDate])
-
-  const formattedSelectedDateLong = useMemo(() => {
-    if (!selectedDate) return language === "es" ? "Selecciona fecha y hora" : "Select date and time"
-    const dateStr = selectedDate.toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    })
-    return `${dateStr}${selectedTime ? ` - ${selectedTime}` : ""}`
-  }, [selectedDate, selectedTime, language])
-
-  const dateFormattedOnly = useMemo(() => {
-    if (!selectedDate) return ""
-    const day = selectedDate.getDate()
-    const year = selectedDate.getFullYear()
-    const monthName = selectedDate.toLocaleDateString(language === "es" ? "es-ES" : "en-US", { month: "long" })
-    const capitalizedMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1)
-    return `${day} ${capitalizedMonth} ${year}`
-  }, [selectedDate, language])
 
   return (
     <section 
