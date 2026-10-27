@@ -1,26 +1,29 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { ServiceDetailPage } from "@/components/services/ServiceDetailPage"
 import { SERVICES_DATA } from "@/data/servicesData"
 
 export const metadata: Metadata = {
-  title: "Terapia en Ansiedad - Dra. Mariana Caicedo | Soulmar",
-  description:
-    "Terapia online especializada en ansiedad y sobrepensamiento con la Dra. Mariana Caicedo. Metodología basada en evidencia (TCC y ACT) para calmar tu sistema nervioso y recuperar el control.",
-  alternates: {
-    canonical: "/terapia-ansiedad",
-  },
-  openGraph: {
-    title: "Terapia en Ansiedad - Dra. Mariana Caicedo | Soulmar",
-    description:
-      "Herramientas clínicas para comprender y gestionar la ansiedad desde adentro. Sesiones privadas 100% online.",
-    url: "https://www.soulmar.org/terapia-ansiedad",
-    siteName: "Soulmar",
-    type: "website",
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
-export default function TerapiaAnsiedadPage() {
+export default async function TerapiaAnsiedadPage() {
+  const headersList = await headers()
+  const host = headersList.get("host") || ""
+  const isLocalhost =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("192.168.")
+
+  // Oculto en producción para usuarios reales (trabajo en borrador en localhost)
+  if (!isLocalhost && process.env.NODE_ENV === "production") {
+    redirect("/#servicios")
+  }
+
   const service = SERVICES_DATA["terapia-ansiedad"]
   if (!service) notFound()
 

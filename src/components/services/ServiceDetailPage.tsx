@@ -74,6 +74,12 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
         />
         <div className="absolute top-40 right-10 w-72 h-72 bg-[#8da9c4]/20 blur-[100px] rounded-full pointer-events-none" />
 
+        {/* DRAFT INDICATOR (LOCAL DEV PREVIEW) */}
+        <div className="relative z-10 mb-5 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+          <span>Modo Borrador Localhost • Esta página no es visible para usuarios reales en producción</span>
+        </div>
+
         {/* BREADCRUMB NAVIGATION */}
         <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-6">
           <Link

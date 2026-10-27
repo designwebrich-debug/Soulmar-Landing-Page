@@ -1,26 +1,29 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { ServiceDetailPage } from "@/components/services/ServiceDetailPage"
 import { SERVICES_DATA } from "@/data/servicesData"
 
 export const metadata: Metadata = {
-  title: "Valoración Psicológica Integral - Dra. Mariana Caicedo | Soulmar",
-  description:
-    "Evaluación psicológica científica con pruebas psicométricas estandarizadas internacionales y entrega de informe formal. Conoce con precisión tu diagnóstico y hoja de ruta clínica.",
-  alternates: {
-    canonical: "/valoracion-psicologica",
-  },
-  openGraph: {
-    title: "Valoración Psicológica Integral - Dra. Mariana Caicedo | Soulmar",
-    description:
-      "Evaluaciones clínicas que te ayudan a conocerte mejor, entender tus patrones y obtener un informe clínico profesional.",
-    url: "https://www.soulmar.org/valoracion-psicologica",
-    siteName: "Soulmar",
-    type: "website",
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
-export default function ValoracionPsicologicaPage() {
+export default async function ValoracionPsicologicaPage() {
+  const headersList = await headers()
+  const host = headersList.get("host") || ""
+  const isLocalhost =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("192.168.")
+
+  // Oculto en producción para usuarios reales (trabajo en borrador en localhost)
+  if (!isLocalhost && process.env.NODE_ENV === "production") {
+    redirect("/#servicios")
+  }
+
   const service = SERVICES_DATA["valoracion-psicologica"]
   if (!service) notFound()
 

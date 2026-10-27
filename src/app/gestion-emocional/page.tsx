@@ -1,26 +1,29 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { ServiceDetailPage } from "@/components/services/ServiceDetailPage"
 import { SERVICES_DATA } from "@/data/servicesData"
 
 export const metadata: Metadata = {
-  title: "Gestión Emocional & Habilidades DBT - Dra. Mariana Caicedo | Soulmar",
-  description:
-    "Aprende a comprender, autorregular y transformar tus emociones sin reprimirte ni explotar. Entrenamiento clínico basado en Terapia Dialéctico-Conductual con la Dra. Mariana Caicedo.",
-  alternates: {
-    canonical: "/gestion-emocional",
-  },
-  openGraph: {
-    title: "Gestión Emocional & Habilidades DBT - Dra. Mariana Caicedo | Soulmar",
-    description:
-      "Herramientas prácticas y clínicamente guiadas para comprender, autorregular y transformar tus emociones.",
-    url: "https://www.soulmar.org/gestion-emocional",
-    siteName: "Soulmar",
-    type: "website",
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
-export default function GestionEmocionalPage() {
+export default async function GestionEmocionalPage() {
+  const headersList = await headers()
+  const host = headersList.get("host") || ""
+  const isLocalhost =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("192.168.")
+
+  // Oculto en producción para usuarios reales (trabajo en borrador en localhost)
+  if (!isLocalhost && process.env.NODE_ENV === "production") {
+    redirect("/#servicios")
+  }
+
   const service = SERVICES_DATA["gestion-emocional"]
   if (!service) notFound()
 

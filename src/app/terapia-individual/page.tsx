@@ -1,26 +1,29 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { ServiceDetailPage } from "@/components/services/ServiceDetailPage"
 import { SERVICES_DATA } from "@/data/servicesData"
 
 export const metadata: Metadata = {
-  title: "Terapia Individual Online - Dra. Mariana Caicedo | Soulmar",
-  description:
-    "Terapia individual online con la Dra. Mariana Caicedo. Un espacio de 60 minutos solo para ti para explorar tu mundo interno, sanar heridas del pasado y florecer con autenticidad.",
-  alternates: {
-    canonical: "/terapia-individual",
-  },
-  openGraph: {
-    title: "Terapia Individual Online - Dra. Mariana Caicedo | Soulmar",
-    description:
-      "Un espacio de una hora, solo para ti, para hablar de lo que estás viviendo con una profesional de excelencia.",
-    url: "https://www.soulmar.org/terapia-individual",
-    siteName: "Soulmar",
-    type: "website",
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
-export default function TerapiaIndividualPage() {
+export default async function TerapiaIndividualPage() {
+  const headersList = await headers()
+  const host = headersList.get("host") || ""
+  const isLocalhost =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("192.168.")
+
+  // Oculto en producción para usuarios reales (trabajo en borrador en localhost)
+  if (!isLocalhost && process.env.NODE_ENV === "production") {
+    redirect("/#servicios")
+  }
+
   const service = SERVICES_DATA["terapia-individual"]
   if (!service) notFound()
 

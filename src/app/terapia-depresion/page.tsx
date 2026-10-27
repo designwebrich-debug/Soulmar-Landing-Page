@@ -1,26 +1,29 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
+import { headers } from "next/headers"
 import { ServiceDetailPage } from "@/components/services/ServiceDetailPage"
 import { SERVICES_DATA } from "@/data/servicesData"
 
 export const metadata: Metadata = {
-  title: "Terapia en Depresión - Dra. Mariana Caicedo | Soulmar",
-  description:
-    "Acompañamiento clínico especializado en depresión y pérdida de sentido con la Dra. Mariana Caicedo. Activación conductual basada en evidencia y calidez humana paso a paso.",
-  alternates: {
-    canonical: "/terapia-depresion",
-  },
-  openGraph: {
-    title: "Terapia en Depresión - Dra. Mariana Caicedo | Soulmar",
-    description:
-      "Acompañamiento clínico especializado para transitar la depresión con apoyo profesional y sin juicios.",
-    url: "https://www.soulmar.org/terapia-depresion",
-    siteName: "Soulmar",
-    type: "website",
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
-export default function TerapiaDepresionPage() {
+export default async function TerapiaDepresionPage() {
+  const headersList = await headers()
+  const host = headersList.get("host") || ""
+  const isLocalhost =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("192.168.")
+
+  // Oculto en producción para usuarios reales (trabajo en borrador en localhost)
+  if (!isLocalhost && process.env.NODE_ENV === "production") {
+    redirect("/#servicios")
+  }
+
   const service = SERVICES_DATA["terapia-depresion"]
   if (!service) notFound()
 

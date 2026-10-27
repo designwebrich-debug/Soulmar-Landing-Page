@@ -64,6 +64,14 @@ export function ServicesSection() {
   
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isLocalhost, setIsLocalhost] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const h = window.location.hostname
+      setIsLocalhost(h === "localhost" || h === "127.0.0.1" || h.startsWith("192.168."))
+    }
+  }, [])
 
   // Track active slide based on scroll position in mobile
   useEffect(() => {
@@ -129,8 +137,16 @@ export function ServicesSection() {
             return (
               <Link
                 key={index}
-                href={`/${cfg.slug}`}
+                href={isLocalhost ? `/${cfg.slug}` : "/#agendamiento"}
                 className="snap-start shrink-0 w-[76vw] sm:w-[320px] md:w-auto group relative block active:scale-[0.98] transition-transform duration-200"
+                onClick={(e) => {
+                  if (!isLocalhost) {
+                    if (window.location.pathname === "/") {
+                      e.preventDefault()
+                      document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  }
+                }}
               >
                 {/* Hover/Tap glow */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${cfg.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
