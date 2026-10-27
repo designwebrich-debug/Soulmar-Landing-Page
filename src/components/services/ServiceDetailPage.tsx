@@ -440,7 +440,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
               </p>
               <div className="mt-4 flex flex-wrap justify-center gap-2">
                 <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-[11px] font-bold text-[#1d1d1f]/80 dark:text-white/80">
-                  TCC & ACT Basada en Evidencia
+                  Enfoque Cognitivo-Conductual
                 </span>
                 <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-[11px] font-bold text-[#1d1d1f]/80 dark:text-white/80">
                   Reg. Profesional Activo

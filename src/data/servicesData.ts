@@ -82,7 +82,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     quickSpecs: {
       duration: "50 - 60 minutos por sesión",
       modality: "100% Online (Videollamada privada en alta definición)",
-      approach: "Cognitivo-Conductual (TCC) & Aceptación y Compromiso (ACT)",
+      approach: "Enfoque Cognitivo-Conductual (TCC) Basado en Evidencia",
       professional: "Dra. Mariana Caicedo • Psicóloga Clínica",
       frequency: "Semanal en fase inicial; quincenal en consolidación",
       confidentiality: "100% Confidencial bajo estricto secreto profesional",
@@ -149,16 +149,16 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       },
     ],
     clinicalApproach: {
-      badge: "Psicología Clínica Basada en Evidencia",
-      title: "El Enfoque de la Dra. Mariana Caicedo",
-      lead: "Sin dogmas esotéricos ni frialdad burocrática: una alianza clínica humana donde la ciencia y la empatía trabajan juntas para tu libertad emocional.",
+      badge: "Enfoque Cognitivo-Conductual",
+      title: "El Enfoque Cognitivo-Conductual de la Dra. Mariana Caicedo",
+      lead: "La Dra. Mariana Caicedo fundamenta su práctica clínica en el Enfoque Cognitivo-Conductual (TCC), el estándar de oro con mayor respaldo científico internacional para desactivar la ansiedad, reestructurar pensamientos automáticos y calmar el sistema nervioso.",
       quote:
         "Mi objetivo en cada sesión no es simplemente darte consejos; es entregarte la comprensión biológica y psicológica de lo que experimentas, dotándote de herramientas prácticas que cambien de verdad tu manera de habitar tu mente.",
       pillars: [
         {
-          title: "Psicología Basada en Evidencia (EBT)",
+          title: "Enfoque Cognitivo-Conductual (TCC)",
           description:
-            "Utilizamos exclusivamente intervenciones con respaldo empírico en la literatura científica internacional (TCC, ACT, Mindfulness clínico).",
+            "Utilizamos exclusivamente intervenciones con respaldo empírico en la literatura científica internacional, analizando la interacción entre pensamientos, emociones y conductas.",
         },
         {
           title: "Espacio Cálido y 100% Libre de Juicio",
@@ -177,7 +177,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
         },
       ],
       evidenceNote:
-        "La TCC y ACT son reconocidas por la American Psychological Association (APA) como tratamientos de primera línea y estándar de oro para el tratamiento de trastornos de ansiedad y pánico.",
+        "El Enfoque Cognitivo-Conductual (TCC) es reconocido por la American Psychological Association (APA) y la OMS como el tratamiento de primera línea y estándar de oro para el tratamiento de trastornos de ansiedad y pánico.",
     },
     transformationBenefits: [
       {
@@ -272,7 +272,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     quickSpecs: {
       duration: "60 - 75 minutos por sesión conjunta",
       modality: "100% Online (Sesión conjunta desde la misma o distintas ubicaciones)",
-      approach: "Terapia Focalizada en las Emociones (EFT) & Teoría del Apego",
+      approach: "Enfoque Cognitivo-Conductual (TCC) Aplicado a Parejas",
       professional: "Dra. Mariana Caicedo • Psicóloga Clínica",
       frequency: "Quincenal o semanal según el nivel de urgencia del vínculo",
       confidentiality: "Espacio confidencial, neutral y sin tomas de partido",
@@ -339,9 +339,9 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       },
     ],
     clinicalApproach: {
-      badge: "Terapia Focalizada en las Emociones (EFT)",
-      title: "El Enfoque de la Dra. Mariana Caicedo",
-      lead: "Un espacio neutral donde nadie es el 'malo de la película'. La Dra. Mariana Caicedo actúa como facilitadora para que puedan volver a escucharse con el corazón.",
+      badge: "Enfoque Cognitivo-Conductual en Pareja",
+      title: "El Enfoque Cognitivo-Conductual de la Dra. Mariana Caicedo",
+      lead: "A través del Enfoque Cognitivo-Conductual, la Dra. Mariana Caicedo ayuda a la pareja a identificar y modificar las interpretaciones automáticas, distorsiones cognitivas y conductas reactivas que activan el conflicto, reemplazándolas por habilidades de comunicación asertiva y resolución de problemas.",
       quote:
         "Las parejas no se distancian porque se les acabe el amor; se distancian porque dejan de sentirse seguras para ser vulnerables con el otro. Mi labor es devolverles ese espacio de seguridad.",
       pillars: [
@@ -351,9 +351,9 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
             "No tomamos bandos ni decidimos quién tiene la razón. Ambos son escuchados con el mismo respeto, equidad y profundidad.",
         },
         {
-          title: "Terapia Focalizada en las Emociones (EFT)",
+          title: "Intervención Cognitivo-Conductual Vincular",
           description:
-            "La metodología con mayores tasas de éxito comprobado en terapia de pareja a nivel internacional (70-75% de recuperación y baja tasa de recaídas).",
+            "Reestructuración de creencias disfuncionales sobre la relación y entrenamiento conductual en resolución de conflictos cotidianos.",
         },
         {
           title: "Práctica en Vivo durante la Sesión",
@@ -367,7 +367,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
         },
       ],
       evidenceNote:
-        "EFT está validada por más de 30 años de investigación empírica liderada por la Dra. Sue Johnson y avalada por la Asociación Americana de Terapia Familiar.",
+        "La Terapia Cognitivo-Conductual aplicada a parejas cuenta con amplia evidencia empírica en la modificación de pautas de interacción disfuncionales y fortalecimiento del vínculo afectivo.",
     },
     transformationBenefits: [
       {
@@ -462,7 +462,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     quickSpecs: {
       duration: "50 - 60 minutos por sesión",
       modality: "100% Online (Videollamada privada y segura)",
-      approach: "Activación Conductual (BA) & Terapia Cognitiva de Beck",
+      approach: "Enfoque Cognitivo-Conductual (TCC) & Activación Conductual",
       professional: "Dra. Mariana Caicedo • Psicóloga Clínica",
       frequency: "Semanal en etapas tempranas para garantizar contención",
       confidentiality: "100% Confidencial y respetuoso con tu ritmo",
@@ -529,9 +529,9 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       },
     ],
     clinicalApproach: {
-      badge: "Activación Conductual & Terapia Cognitiva",
-      title: "El Enfoque de la Dra. Mariana Caicedo",
-      lead: "Un acompañamiento cálido y paciente donde jamás te diremos 'échale ganas'. La ciencia psicológica demuestra que el camino de regreso es gradual y compasivo.",
+      badge: "Enfoque Cognitivo-Conductual",
+      title: "El Enfoque Cognitivo-Conductual de la Dra. Mariana Caicedo",
+      lead: "El Enfoque Cognitivo-Conductual (TCC) desarrollado por el Dr. Aaron Beck y la Activación Conductual constituyen el abordaje clínico de la Dra. Mariana Caicedo para desarmar la inercia depresiva, reestructurar la autocrítica y recuperar la energía vital paso a paso.",
       quote:
         "Cuando estás en depresión, hasta respirar pesa. Mi rol no es empujarte a la fuerza hacia la luz, sino sentarme a tu lado en la sombra, tomarte de la mano y mostrarte el primer paso que sí puedes dar hoy.",
       pillars: [
@@ -541,9 +541,9 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
             "Rechazamos las frases cliché y la exigencia de estar feliz. Validamos tu dolor con la seriedad clínica y el respeto humano que merece.",
         },
         {
-          title: "Activación Conductual con Respaldo Científico",
+          title: "Enfoque Cognitivo-Conductual & Activación",
           description:
-            "El tratamiento psicológico con mayores tasas de remisión en depresión moderada y severa, respaldado por ensayos clínicos aleatorizados.",
+            "El tratamiento psicológico con mayores tasas de remisión en depresión moderada y severa, modificando esquemas pesimistas y patrones de aislamiento.",
         },
         {
           title: "Micro-Pasos Adaptados a tu Energía",
@@ -557,7 +557,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
         },
       ],
       evidenceNote:
-        "La Activación Conductual (BA) ha demostrado en meta-análisis del Journal of Consulting and Clinical Psychology igualar o superar la eficacia de intervenciones tradicionales complejas en el tratamiento de la depresión.",
+        "El Enfoque Cognitivo-Conductual (TCC) y la Activación Conductual cuentan con el más alto nivel de evidencia (Nivel 1A) en guías clínicas mundiales como NICE y APA para el tratamiento de la depresión.",
     },
     transformationBenefits: [
       {
@@ -652,7 +652,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     quickSpecs: {
       duration: "50 - 60 minutos por sesión",
       modality: "100% Online (Videollamada privada en HD)",
-      approach: "Psicología Clínica Integrativa, TCC, Esquemas & Apego",
+      approach: "Enfoque Cognitivo-Conductual (TCC) Basado en Evidencia",
       professional: "Dra. Mariana Caicedo • Psicóloga Clínica",
       frequency: "Semanal o quincenal según tus metas individuales",
       confidentiality: "100% Confidencial, seguro y sin juicios",
@@ -719,16 +719,16 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       },
     ],
     clinicalApproach: {
-      badge: "Enfoque Integrativo & Terapia de Esquemas",
-      title: "El Enfoque de la Dra. Mariana Caicedo",
-      lead: "Un laboratorio personal donde no hay recetas genéricas. Cada sesión es un traje a la medida de tu mente, tus heridas y tus más altas aspiraciones.",
+      badge: "Enfoque Cognitivo-Conductual",
+      title: "El Enfoque Cognitivo-Conductual de la Dra. Mariana Caicedo",
+      lead: "La Dra. Mariana Caicedo guía cada proceso individual bajo el Enfoque Cognitivo-Conductual (TCC), trabajando sobre la relación directa entre pensamientos, emociones y conductas para transformar creencias limitantes en autonomía real.",
       quote:
         "La verdadera terapia no intenta cambiar quién eres; te ayuda a despojarte de todo aquello que aprendiste a ser para sobrevivir, permitiéndote al fin ser tú mismo/a en libertad.",
       pillars: [
         {
-          title: "Personalización Absoluta",
+          title: "Modelo Cognitivo-Conductual Científico",
           description:
-            "Adaptamos las técnicas clínicas a tu personalidad, estilo de aprendizaje y momento vital concreto.",
+            "Trabajamos sobre la modificación de creencias intermedias y nucleares, desarrollando flexibilidad cognitiva y nuevas conductas adaptativas.",
         },
         {
           title: "Mirada Holística y Compasiva",
@@ -747,7 +747,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
         },
       ],
       evidenceNote:
-        "El enfoque integrativo basado en TCC y Apego cuenta con el más amplio consenso clínico para el tratamiento de problemas de adaptación, autoestima, ansiedad e insatisfacción vital.",
+        "El Enfoque Cognitivo-Conductual (TCC) es el modelo psicoterapéutico con mayor respaldo de investigación empírica a nivel global para el desarrollo personal y la salud mental.",
     },
     transformationBenefits: [
       {
@@ -842,7 +842,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     quickSpecs: {
       duration: "50 - 60 minutos por sesión",
       modality: "100% Online (Sesiones interactivas con material de trabajo)",
-      approach: "Terapia Dialéctico-Conductual (DBT) & Neurociencia Afectiva",
+      approach: "Enfoque Cognitivo-Conductual (TCC) & Regulación Emocional",
       professional: "Dra. Mariana Caicedo • Psicóloga Clínica",
       frequency: "Semanal en módulo de entrenamiento intensivo",
       confidentiality: "100% Confidencial y práctico",
@@ -909,16 +909,16 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       },
     ],
     clinicalApproach: {
-      badge: "Terapia Dialéctico-Conductual (DBT)",
-      title: "El Enfoque de la Dra. Mariana Caicedo",
-      lead: "No te enseñaremos a reprimir lo que sientes ni a convertirte en un robot. Te enseñaremos a surfear las olas emocionales sin ahogarte en ellas.",
+      badge: "Enfoque Cognitivo-Conductual",
+      title: "El Enfoque Cognitivo-Conductual de la Dra. Mariana Caicedo",
+      lead: "El Enfoque Cognitivo-Conductual enseña que las emociones no ocurren en el vacío: son el resultado de cómo interpretamos la realidad. La Dra. Mariana Caicedo te entrena para intervenir en ese diálogo interno y regular tu respuesta conductual con serenidad.",
       quote:
         "Entre el estímulo y la respuesta hay un espacio. En ese espacio reside nuestro poder de elegir nuestra respuesta. En nuestra respuesta yacen nuestro crecimiento y nuestra libertad.",
       pillars: [
         {
-          title: "Habilidades DBT de Efectividad Comprobada",
+          title: "Regulación Cognitivo-Conductual",
           description:
-            "El protocolo clínico más reconocido en el mundo para personas con alta sensibilidad emocional o reactividad.",
+            "Entrenamiento estructurado en reestructuración cognitiva y modificación de conducta para responder con sabiduría en lugar de reaccionar impulsivamente.",
         },
         {
           title: "Enfoque Somático y Neurobiológico",
@@ -937,7 +937,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
         },
       ],
       evidenceNote:
-        "La Terapia Dialéctico-Conductual ha sido avalada por la Cochrane Collaboration y la APA como el estándar de oro en el entrenamiento de habilidades de regulación emocional.",
+        "Las técnicas cognitivo-conductuales de regulación emocional constituyen el estándar de oro respaldado por la APA para el manejo de la impulsividad y la reactividad afectiva.",
     },
     transformationBenefits: [
       {
@@ -1032,7 +1032,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     quickSpecs: {
       duration: "Proceso estructurado de 2 a 3 sesiones de 60 min",
       modality: "100% Online (Entrevistas clínicas + Batería psicométrica digital)",
-      approach: "Evaluación Clínica Basada en la Evidencia & DSM-5-TR",
+      approach: "Evaluación Clínica Cognitivo-Conductual & DSM-5-TR",
       professional: "Dra. Mariana Caicedo • Psicóloga Clínica",
       frequency: "Sesiones programadas consecutivas para entrega ágil",
       confidentiality: "Informe clínico formal con firma profesional y código deontológico",
@@ -1087,16 +1087,16 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       },
     ],
     clinicalApproach: {
-      badge: "Diagnóstico Clínico Riguroso",
-      title: "El Enfoque de la Dra. Mariana Caicedo",
-      lead: "Ciencia diagnóstica rigurosa comunicada con calidez, respeto y sin tecnicismos fríos que generen alarma innecesaria.",
+      badge: "Evaluación Cognitivo-Conductual",
+      title: "El Enfoque Diagnóstico de la Dra. Mariana Caicedo",
+      lead: "La Dra. Mariana Caicedo fundamenta su proceso de valoración en el Enfoque Cognitivo-Conductual y el Análisis Funcional de la Conducta, evaluando con rigurosidad técnica los factores desencadenantes, variables mediadoras y consecuencias del comportamiento.",
       quote:
         "Nombrar con precisión lo que nos pasa no es una condena; es el primer acto de libertad. Cuando por fin entiendes el nombre de tu tormenta, puedes comenzar a construir el refugio adecuado.",
       pillars: [
         {
-          title: "Pruebas Psicométricas Validadas",
+          title: "Análisis Funcional Cognitivo-Conductual",
           description:
-            "Utilizamos únicamente instrumentos avalados por la comunidad científica internacional (Inventarios de Beck, MCMI, STAI, DASS-21, etc.).",
+            "Mapeo científico y objetivo de la interacción entre estímulos, pensamientos automáticos, respuestas corporales y conductas.",
         },
         {
           title: "Informe Clínico Formal con Validez",
@@ -1115,7 +1115,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
         },
       ],
       evidenceNote:
-        "Nuestras evaluaciones siguen los criterios diagnósticos actualizados del DSM-5-TR (Manual Diagnóstico y Estadístico de los Trastornos Mentales) y la CIE-11 de la OMS.",
+        "La evaluación cognitivo-conductual garantiza un diagnóstico operativo conforme al DSM-5-TR y un plan de tratamiento directo, medible y eficaz.",
     },
     transformationBenefits: [
       {
