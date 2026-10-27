@@ -5,6 +5,26 @@ import { verifyToken } from "../admin-auth/route"
 import { createAdminClient } from "@/lib/supabase/server"
 import { createCalendarEvent } from "@/lib/googleCalendar"
 import { normalizeTime } from "@/lib/utils"
+import { rateLimit, getClientIp } from "@/lib/security/rateLimit"
+
+/** Escapa HTML para insertar datos del usuario de forma segura en correos. */
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+}
+
+/** Fecha de hoy (YYYY-MM-DD) en la zona horaria del consultorio. */
+function todayInBogota(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Bogota" }).format(new Date())
+}
+
+const EMAIL_RE = /^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']{2,}$/
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
+const MAX_ACTIVE_BOOKINGS_PER_EMAIL = 3
 
 // Helper para validar si el correo pertenece a la lista blanca
 function isAuthorized(email?: string | null): boolean {
@@ -76,7 +96,7 @@ async function notifyAdminByEmail(data: {
     await resend.emails.send({
       from: process.env.EMAIL_FROM || "Citas SoulMar <citas@soulmar.org>",
       to: recipients,
-      subject: `🚨 NUEVA CITA AGENDADA: ${data.fullName} (${data.date} - ${data.time})`,
+      subject: `🚨 NUEVA CITA AGENDADA: ${data.fullName.replace(/[\r\n]+/g, " ").slice(0, 80)} (${data.date} - ${data.time})`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 16px; background-color: #ffffff; color: #111827;">
           <div style="border-bottom: 2px solid #8da9c4; padding-bottom: 16px; margin-bottom: 20px;">
@@ -86,16 +106,16 @@ async function notifyAdminByEmail(data: {
 
           <div style="background-color: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
             <h2 style="font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; color: #3b82f6; margin-top: 0; margin-bottom: 14px;">📋 Datos del Paciente</h2>
-            <p style="margin: 6px 0; font-size: 14px;"><strong>👤 Nombre:</strong> ${data.fullName}</p>
-            <p style="margin: 6px 0; font-size: 14px;"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/${cleanPhone}" style="color: #059669; font-weight: bold; text-decoration: underline;">${data.phone}</a></p>
-            <p style="margin: 6px 0; font-size: 14px;"><strong>✉️ Correo:</strong> <a href="mailto:${data.email}" style="color: #2563eb;">${data.email}</a></p>
+            <p style="margin: 6px 0; font-size: 14px;"><strong>👤 Nombre:</strong> ${escapeHtml(data.fullName)}</p>
+            <p style="margin: 6px 0; font-size: 14px;"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/${cleanPhone}" style="color: #059669; font-weight: bold; text-decoration: underline;">${escapeHtml(data.phone)}</a></p>
+            <p style="margin: 6px 0; font-size: 14px;"><strong>✉️ Correo:</strong> <a href="mailto:${encodeURIComponent(data.email)}" style="color: #2563eb;">${escapeHtml(data.email)}</a></p>
           </div>
 
           <div style="background-color: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
             <h2 style="font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; color: #3b82f6; margin-top: 0; margin-bottom: 14px;">🗓️ Detalles de la Consulta</h2>
-            <p style="margin: 6px 0; font-size: 14px;"><strong>📅 Fecha:</strong> ${data.date}</p>
-            <p style="margin: 6px 0; font-size: 14px;"><strong>⏰ Hora:</strong> ${data.time}</p>
-            <p style="margin: 6px 0; font-size: 14px;"><strong>💬 Motivo:</strong> ${data.reason || "Consulta General"}</p>
+            <p style="margin: 6px 0; font-size: 14px;"><strong>📅 Fecha:</strong> ${escapeHtml(data.date)}</p>
+            <p style="margin: 6px 0; font-size: 14px;"><strong>⏰ Hora:</strong> ${escapeHtml(data.time)}</p>
+            <p style="margin: 6px 0; font-size: 14px;"><strong>💬 Motivo:</strong> ${escapeHtml(data.reason || "Consulta General")}</p>
             <p style="margin: 6px 0; font-size: 14px;"><strong>💻 Modalidad:</strong> Sesión Online (Google Meet)</p>
             <p style="margin: 6px 0; font-size: 14px;"><strong>💾 Persistencia:</strong> ${data.dbSaved ? "✅ Guardado en Supabase" : "⚠️ Error en BD"}</p>
           </div>
@@ -324,6 +344,15 @@ export async function PATCH(request: Request) {
  * Persistencia real en Supabase con blindaje contra sobreposiciones.
  */
 export async function POST(request: Request) {
+  // 🔒 Anti-spam: máx. 5 solicitudes de reserva por IP cada 10 minutos
+  const rl = rateLimit("booking", getClientIp(request), 5, 10 * 60 * 1000)
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: "Has realizado demasiadas solicitudes. Por favor intenta de nuevo en unos minutos." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+    )
+  }
+
   let payload: any
   try {
     payload = await request.json()
@@ -342,10 +371,50 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Faltan campos obligatorios para agendar la cita." }, { status: 400 })
   }
 
+  // 🔒 Validación estricta del lado del servidor (el front puede ser evadido)
+  const invalid = (msg: string) => NextResponse.json({ error: msg }, { status: 400 })
+  if (fullName.length < 2 || fullName.length > 120) return invalid("Por favor escribe un nombre válido.")
+  if (email.length > 254 || !EMAIL_RE.test(email)) return invalid("Por favor escribe un correo electrónico válido.")
+  const phoneDigits = phone.replace(/\D/g, "")
+  if (phone.length > 30 || phoneDigits.length < 7 || phoneDigits.length > 15 || /[^\d\s+()\-.]/.test(phone)) {
+    return invalid("Por favor escribe un número de WhatsApp válido.")
+  }
+  if (reason.length > 1000) return invalid("El motivo de consulta es demasiado largo (máx. 1000 caracteres).")
+
+  const parsedDate = new Date(`${date}T12:00:00Z`)
+  if (!DATE_RE.test(date) || Number.isNaN(parsedDate.getTime()) || parsedDate.toISOString().slice(0, 10) !== date) {
+    return invalid("La fecha seleccionada no es válida.")
+  }
+  const today = todayInBogota()
+  if (date < today) return invalid("No es posible agendar en una fecha pasada.")
+  const maxDate = new Date(`${today}T12:00:00Z`)
+  maxDate.setUTCDate(maxDate.getUTCDate() + 365)
+  if (parsedDate > maxDate) return invalid("Solo es posible agendar con hasta un año de anticipación.")
+
+  if (!/^\d{2}:\d{2}$/.test(normalizeTime(time))) return invalid("La hora seleccionada no es válida.")
+
   const displayTime = toDisplayTime(time)
 
   try {
     const supabase = await createAdminClient()
+
+    // 0. Anti-abuso: límite de citas activas futuras por correo
+    const { count: activeForEmail } = await supabase
+      .from("appointments")
+      .select("id", { count: "exact", head: true })
+      .eq("patient_email", email)
+      .in("status", ["pending", "confirmed"])
+      .gte("appointment_date", today)
+
+    if ((activeForEmail ?? 0) >= MAX_ACTIVE_BOOKINGS_PER_EMAIL) {
+      return NextResponse.json(
+        {
+          error: "Ya tienes varias citas activas registradas con este correo. Escríbenos por WhatsApp para gestionarlas.",
+          code: "TOO_MANY_ACTIVE_BOOKINGS",
+        },
+        { status: 429 }
+      )
+    }
 
     // 1. Verificar si ya existe un turno activo en esa fecha y hora
     const { data: existingSlots } = await supabase

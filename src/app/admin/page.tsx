@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
 import { normalizeTime } from "@/lib/utils"
 import { 
   LayoutDashboard, 
@@ -585,26 +584,10 @@ export default function AdminPage() {
       .finally(() => setAuthChecked(true))
   }, [])
 
-  // ─── Suscribirse a cambios en tiempo real con Supabase ───
-  useEffect(() => {
-    if (!adminEmail) return
-
-    const supabase = createClient()
-    const channel = supabase
-      .channel("admin-appointments-realtime")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "appointments" },
-        () => {
-          fetchAppointments()
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [adminEmail])
+  // 🔒 Hardening 2026-10-27: la suscripción Realtime con la clave pública (anon)
+  // se retiró. Con RLS deny-all ya no recibía eventos y, antes del bloqueo,
+  // podía transmitir datos de pacientes a cualquier cliente. Las citas se
+  // sincronizan vía /api/appointments (servidor + sesión admin) con polling.
 
   useEffect(() => {
     if (adminEmail) {
