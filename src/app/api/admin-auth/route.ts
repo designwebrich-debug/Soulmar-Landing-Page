@@ -26,14 +26,18 @@ const COMPROMISED_VALUES = new Set([
 const SESSION_VERSION = "v2-2026-10-27"
 
 function getMasterPassword(): string | null {
-  const p = process.env.ADMIN_MASTER_PASSWORD
-  if (!p || p.length < 12 || COMPROMISED_VALUES.has(p)) return null
+  let p = process.env.ADMIN_MASTER_PASSWORD
+  if (!p) return null
+  p = p.trim().replace(/[•\s]+$/, "")
+  if (p.length < 12 || COMPROMISED_VALUES.has(p)) return null
   return p
 }
 
 function getSigningKey(): string | null {
-  const s = process.env.NEXTAUTH_SECRET
-  if (!s || COMPROMISED_VALUES.has(s)) return null
+  let s = process.env.NEXTAUTH_SECRET
+  if (!s) return null
+  s = s.trim().replace(/[•\s]+$/, "")
+  if (COMPROMISED_VALUES.has(s)) return null
   return `${s}:${SESSION_VERSION}`
 }
 
@@ -96,7 +100,8 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
     const emailNorm = String(email || "").trim().toLowerCase()
-    const passwordOk = safeEqual(String(password || ""), masterPassword)
+    const passwordClean = String(password || "").trim().replace(/[•\s]+$/, "")
+    const passwordOk = safeEqual(passwordClean, masterPassword)
 
     // Mensaje genérico: no revela si el correo existe en la lista blanca
     if (!ADMIN_WHITELIST.includes(emailNorm) || !passwordOk) {
