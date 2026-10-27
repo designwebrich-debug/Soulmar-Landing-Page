@@ -9,6 +9,7 @@ import { useTranslation } from "@/context/LanguageContext"
 
 const serviceConfigs = [
   {
+    slug: "terapia-individual",
     icon: Heart,
     color: "#8da9c4",      // Azul Soulmar
     shadow: "shadow-[#8da9c4]/25",
@@ -16,6 +17,7 @@ const serviceConfigs = [
     glow: "from-[#8da9c4]/20",
   },
   {
+    slug: "terapia-pareja",
     icon: Users,
     color: "#ffc971",      // Amarillo Soulmar
     shadow: "shadow-[#ffc971]/25",
@@ -23,6 +25,7 @@ const serviceConfigs = [
     glow: "from-[#ffc971]/20",
   },
   {
+    slug: "gestion-emocional",
     icon: Sparkles,
     color: "#c9cba3",      // Verde Soulmar
     shadow: "shadow-[#c9cba3]/25",
@@ -30,6 +33,7 @@ const serviceConfigs = [
     glow: "from-[#c9cba3]/20",
   },
   {
+    slug: "valoracion-psicologica",
     icon: ClipboardList,
     color: "#1d1d1f",      // Negro
     shadow: "shadow-[#1d1d1f]/10",
@@ -37,6 +41,7 @@ const serviceConfigs = [
     glow: "from-[#1d1d1f]/10",
   },
   {
+    slug: "terapia-ansiedad",
     icon: Brain,
     color: "#a78bfa",      // Lila
     shadow: "shadow-[#a78bfa]/25",
@@ -44,6 +49,7 @@ const serviceConfigs = [
     glow: "from-[#a78bfa]/20",
   },
   {
+    slug: "terapia-depresion",
     icon: CloudRain,
     color: "#8da9c4",      // Azul Soulmar
     shadow: "shadow-[#8da9c4]/25",
@@ -123,14 +129,8 @@ export function ServicesSection() {
             return (
               <Link
                 key={index}
-                href="/#agendamiento"
+                href={`/${cfg.slug}`}
                 className="snap-start shrink-0 w-[76vw] sm:w-[320px] md:w-auto group relative block active:scale-[0.98] transition-transform duration-200"
-                onClick={(e) => {
-                  if (window.location.pathname === "/") {
-                    e.preventDefault()
-                    document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
-                  }
-                }}
               >
                 {/* Hover/Tap glow */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${cfg.glow} to-transparent rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
