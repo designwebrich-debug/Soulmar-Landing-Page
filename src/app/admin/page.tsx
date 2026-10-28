@@ -423,12 +423,34 @@ export default function AdminPage() {
     return {}
   })
   const [uploadingSlotKey, setUploadingSlotKey] = useState<string | null>(null)
-  const [mediaActiveSection, setMediaActiveSection] = useState<string>("all")
+  const [mediaActiveSection, setMediaActiveSection] = useState<string>("hero")
   const [mediaActiveDevice, setMediaActiveDevice] = useState<DeviceType>("desktop")
   const [mediaSearchQuery, setMediaSearchQuery] = useState<string>("")
   const [mediaUploadSuccess, setMediaUploadSuccess] = useState<string | null>(null)
   const [isRefreshingMedia, setIsRefreshingMedia] = useState(false)
   const [refreshSuccess, setRefreshSuccess] = useState(false)
+
+  // Acordeón / Plegado de secciones en pestaña Multimedia
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    hero: true
+  })
+
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }))
+  }
+
+  const expandAllSections = () => {
+    const allOpen: Record<string, boolean> = {}
+    MEDIA_SECTIONS.forEach(s => { allOpen[s.id] = true })
+    setExpandedSections(allOpen)
+  }
+
+  const collapseAllSections = () => {
+    setExpandedSections({})
+  }
   
   // Estados para reprogramación de citas
   const [reschedulingApp, setReschedulingApp] = useState<any | null>(null)
@@ -2828,142 +2850,146 @@ export default function AdminPage() {
             {activeTab === "multimedia" && (
               <div className="space-y-8 animate-in fade-in duration-300">
                 
-                {/* Header de la Sección */}
-                <div className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-                  <div className="space-y-2">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black text-white text-[9px] font-black uppercase tracking-widest">
-                      <Sparkles className="w-3 h-3 text-[#ffc971]" />
-                      <span>Soulmar Visual Manager</span>
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-black text-black tracking-tight font-sans uppercase">
-                      Gestión Multimedia de la Web
-                    </h3>
-                    <p className="text-xs text-neutral-500 font-medium max-w-2xl leading-relaxed">
-                      Actualiza en máxima calidad las imágenes de los carruseles, banners, tarjetas móviles y equipo clínico. Cada recuadro indica la medida recomendada exacta para mantener un diseño visual impecable.
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3 shrink-0">
-                    <button
-                      onClick={handleRefreshMedia}
-                      disabled={isRefreshingMedia}
-                      className="h-11 px-5 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer whitespace-nowrap active:scale-95"
-                    >
-                      <RefreshCw className={`w-4 h-4 text-neutral-500 ${isRefreshingMedia ? "animate-spin text-black" : ""}`} />
-                      <span>{refreshSuccess ? "¡Sincronizado!" : "Refrescar"}</span>
-                    </button>
-                    <a
-                      href="https://www.soulmar.org"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="h-11 px-6 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 shadow-sm cursor-pointer whitespace-nowrap text-center shrink-0 active:scale-95"
-                    >
-                      <span className="leading-none text-center">Ver en vivo</span>
-                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-                    </a>
-                  </div>
-                </div>
-
-                {/* Selector Maestro de Dispositivo: COMPUTADOR (PC), CELULAR, IPAD */}
-                <div className="bg-gradient-to-br from-neutral-950 via-neutral-900 to-black text-white rounded-3xl p-6 md:p-8 shadow-xl border border-neutral-800">
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                    <div className="space-y-1.5 max-w-xl">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#ffc971] text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
-                        <Sliders className="w-3 h-3" />
-                        <span>Ajustes por Dispositivo • Soulmar Multi-Screen</span>
+                {/* Barra de Control Unificada Multimedia (Apple Zen • Menos Ruido, Mayor Foco) */}
+                <div className="bg-white rounded-3xl p-6 md:p-8 border border-neutral-200/90 shadow-sm space-y-6">
+                  {/* Fila 1: Título sutil, Badge y Botones de Acción */}
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 text-neutral-800 text-[10px] font-bold tracking-wide">
+                        <Sparkles className="w-3 h-3 text-[#ffc971]" />
+                        <span>Gestor Multimedia Soulmar</span>
+                        <span className="w-1 h-1 rounded-full bg-neutral-300" />
+                        <span className="font-mono text-neutral-500">{MEDIA_SLOTS.length} espacios</span>
                       </div>
-                      <h4 className="text-xl md:text-2xl font-black text-white tracking-tight font-sans">
-                        Elige la versión a editar: Computador, Celular o iPad
-                      </h4>
-                      <p className="text-xs text-neutral-300 font-medium leading-relaxed">
-                        Selecciona el dispositivo y visualiza las fotos tal como se verán en esa pantalla, con sus dimensiones y proporciones exactas. Al subir una foto en <strong className="text-white">Celular</strong>, solo se actualizará para celulares sin alterar la versión de PC ni iPad.
-                      </p>
+                      <h3 className="text-xl md:text-2xl font-black text-black tracking-tight font-sans">
+                        Galería y Fotografías de la Web
+                      </h3>
                     </div>
 
-                    {/* Apple Fluid Segmented Control con Píldora Deslizante */}
-                    <div className="bg-white/[0.08] backdrop-blur-2xl p-1.5 rounded-full flex items-center border border-white/15 relative self-start lg:self-center shadow-inner">
-                      {MEDIA_DEVICES.map((device) => {
-                        const isActive = mediaActiveDevice === device.id
-                        const Icon = device.id === "desktop" ? Monitor : device.id === "mobile" ? Smartphone : Tablet
-                        return (
-                          <button
-                            key={device.id}
-                            type="button"
-                            onClick={() => setMediaActiveDevice(device.id)}
-                            className="relative px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 cursor-pointer outline-none select-none"
-                          >
-                            {/* Píldora blanca deslizante animada estilo Apple */}
-                            {isActive && (
-                              <motion.div
-                                layoutId="activeDeviceSlidingPill"
-                                transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                                className="absolute inset-0 bg-white rounded-full shadow-lg"
-                              />
-                            )}
-                            <Icon
-                              className={`w-4 h-4 relative z-10 transition-colors duration-200 ${
-                                isActive ? "text-black stroke-[2.5]" : "text-neutral-400"
-                              }`}
-                            />
-                            <span
-                              className={`relative z-10 transition-colors duration-200 ${
-                                isActive ? "text-black font-black" : "text-neutral-300 hover:text-white"
-                              }`}
+                    <div className="flex items-center gap-3 shrink-0">
+                      <button
+                        onClick={handleRefreshMedia}
+                        disabled={isRefreshingMedia}
+                        className="h-10 px-4 rounded-full border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-2xs cursor-pointer whitespace-nowrap active:scale-95"
+                      >
+                        <RefreshCw className={`w-3.5 h-3.5 text-neutral-500 ${isRefreshingMedia ? "animate-spin text-black" : ""}`} />
+                        <span>{refreshSuccess ? "¡Sincronizado!" : "Refrescar"}</span>
+                      </button>
+                      <a
+                        href="https://www.soulmar.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="h-10 px-5 rounded-full bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 shadow-sm cursor-pointer whitespace-nowrap text-center shrink-0 active:scale-95"
+                      >
+                        <span className="leading-none text-center">Ver en vivo</span>
+                        <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Fila 2: Selector Maestro de Pantalla (PC, Celular, iPad) Fluido y Minimalista */}
+                  <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                      <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">
+                        Pantalla a editar:
+                      </span>
+                      {/* Apple Fluid Segmented Control con Píldora Deslizante */}
+                      <div className="bg-neutral-100 p-1 rounded-full flex items-center border border-neutral-200/80 relative shadow-inner">
+                        {MEDIA_DEVICES.map((device) => {
+                          const isActive = mediaActiveDevice === device.id
+                          const Icon = device.id === "desktop" ? Monitor : device.id === "mobile" ? Smartphone : Tablet
+                          
+                          // Colores oficiales Soulmar por dispositivo
+                          const deviceStyles = {
+                            desktop: {
+                              bg: "bg-[#8da9c4]",
+                              text: "text-white",
+                              icon: "text-white stroke-[2.5]"
+                            },
+                            mobile: {
+                              bg: "bg-[#ffc971]",
+                              text: "text-neutral-950",
+                              icon: "text-neutral-950 stroke-[2.5]"
+                            },
+                            tablet: {
+                              bg: "bg-[#c9cba3]",
+                              text: "text-neutral-950",
+                              icon: "text-neutral-950 stroke-[2.5]"
+                            }
+                          }[device.id as "desktop" | "mobile" | "tablet"] || {
+                            bg: "bg-black",
+                            text: "text-white",
+                            icon: "text-white stroke-[2.5]"
+                          }
+
+                          return (
+                            <button
+                              key={device.id}
+                              type="button"
+                              onClick={() => setMediaActiveDevice(device.id)}
+                              className="relative px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 cursor-pointer outline-none select-none"
                             >
-                              {device.shortLabel}
-                            </span>
-                          </button>
-                        )
-                      })}
+                              {isActive && (
+                                <motion.div
+                                  layoutId="activeDeviceSlidingPill"
+                                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                                  className={`absolute inset-0 ${deviceStyles.bg} rounded-full shadow-md`}
+                                />
+                              )}
+                              <Icon
+                                className={`w-3.5 h-3.5 relative z-10 transition-colors duration-200 ${
+                                  isActive ? deviceStyles.icon : "text-neutral-500"
+                                }`}
+                              />
+                              <span
+                                className={`relative z-10 transition-colors duration-200 ${
+                                  isActive ? `${deviceStyles.text} font-black` : "text-neutral-600 hover:text-black"
+                                }`}
+                              >
+                                {device.shortLabel}
+                              </span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="text-xs text-neutral-500 font-medium flex items-center gap-2">
+                      <span className={`inline-block w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
+                        mediaActiveDevice === "desktop" ? "bg-[#8da9c4]" : mediaActiveDevice === "mobile" ? "bg-[#ffc971]" : "bg-[#c9cba3]"
+                      }`} />
+                      <span>
+                        Editando versión: <strong className="text-black font-bold">{MEDIA_DEVICES.find(d => d.id === mediaActiveDevice)?.title}</strong>
+                      </span>
                     </div>
                   </div>
-
-                  {/* Banner de Estado del Dispositivo Activo */}
-                  {(() => {
-                    const activeDev = MEDIA_DEVICES.find(d => d.id === mediaActiveDevice) || MEDIA_DEVICES[0]
-                    return (
-                      <div className="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                        <div className="flex items-center gap-2.5">
-                          <span className="relative flex h-2.5 w-2.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1D9E75] opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#1D9E75]"></span>
-                          </span>
-                          <span className="text-neutral-300 font-medium">
-                            Versión activa: <strong className="text-white font-bold">{activeDev.title}</strong> — {activeDev.viewportNotice}
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-mono text-[#ffc971] bg-white/5 px-3 py-1.5 rounded-full border border-white/10 self-start sm:self-auto">
-                          Subiendo fotos como: <span className="text-white font-bold">_[slot]_{activeDev.id}</span>
-                        </div>
-                      </div>
-                    )
-                  })()}
                 </div>
 
-                {/* Filtro por Secciones & Buscador */}
-                <div className="bg-white rounded-3xl p-6 border border-neutral-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                {/* Filtro por Secciones con Foco Visual Limpio (Modo Pestañas Zen) */}
+                <div className="bg-white rounded-3xl p-4 md:p-5 border border-neutral-200/90 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   {/* Píldoras de Categorías */}
-                  <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 hide-scrollbar">
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 hide-scrollbar">
                     <button
                       onClick={() => setMediaActiveSection("all")}
-                      className={`h-9 px-4 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                      className={`h-9 px-4 rounded-full text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
                         mediaActiveSection === "all"
-                          ? "bg-black text-white shadow-sm"
-                          : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
+                          ? "bg-black text-white shadow-xs"
+                          : "bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200/60"
                       }`}
                     >
                       Todas ({MEDIA_SLOTS.length})
                     </button>
                     {MEDIA_SECTIONS.map((sec) => {
                       const count = MEDIA_SLOTS.filter(s => s.section === sec.id).length
+                      const isSecActive = mediaActiveSection === sec.id
                       return (
                         <button
                           key={sec.id}
                           onClick={() => setMediaActiveSection(sec.id)}
-                          className={`h-9 px-4 rounded-full text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                            mediaActiveSection === sec.id
-                              ? "bg-black text-white shadow-sm"
-                              : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
+                          className={`h-9 px-4 rounded-full text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
+                            isSecActive
+                              ? "bg-black text-white shadow-xs"
+                              : "bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200/60"
                           }`}
                         >
                           {sec.title.split("(")[0].trim()} ({count})
@@ -2972,21 +2998,47 @@ export default function AdminPage() {
                     })}
                   </div>
 
-                  {/* Buscador de Slots */}
-                  <div className="relative w-full lg:w-72">
+                  {/* Buscador Rápido */}
+                  <div className="relative w-full lg:w-64 shrink-0">
                     <input
                       type="text"
-                      placeholder="Buscar por nombre o sección..."
+                      placeholder="Buscar espacio..."
                       value={mediaSearchQuery}
                       onChange={(e) => setMediaSearchQuery(e.target.value)}
-                      className="w-full h-10 rounded-full pl-9 pr-4 bg-[#F8F8FA] border border-neutral-200 text-xs font-semibold focus:border-black outline-none transition-all"
+                      className="w-full h-9 rounded-full pl-8 pr-4 bg-neutral-50 border border-neutral-200/80 text-xs font-medium focus:border-black focus:bg-white outline-none transition-all"
                     />
-                    <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-3.5 top-3" />
+                    <Search className="w-3 h-3 text-neutral-400 absolute left-3 top-3" />
                   </div>
                 </div>
 
-                {/* Grid de Zonas y Fotos */}
-                <div className="space-y-10">
+                {/* Control de Desplegar/Plegar cuando se visualizan "Todas" */}
+                {mediaActiveSection === "all" && !mediaSearchQuery && (
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-2 text-xs text-neutral-500 font-medium">
+                    <span className="text-[11px] font-semibold text-neutral-400">
+                      Toca cualquier pestaña para ver o recoger sus fotografías
+                    </span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        type="button"
+                        onClick={expandAllSections}
+                        className="text-[11px] font-bold uppercase tracking-wider text-neutral-600 hover:text-black transition-colors cursor-pointer"
+                      >
+                        Desplegar todas
+                      </button>
+                      <span className="text-neutral-300">•</span>
+                      <button
+                        type="button"
+                        onClick={collapseAllSections}
+                        className="text-[11px] font-bold uppercase tracking-wider text-neutral-600 hover:text-black transition-colors cursor-pointer"
+                      >
+                        Plegar todas
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Grid de Fotos Estilo Galería Apple (Limpio, Sin Distracciones) */}
+                <div className="space-y-6">
                   {MEDIA_SECTIONS.filter(sec => mediaActiveSection === "all" || mediaActiveSection === sec.id).map((sec) => {
                     const sectionSlots = MEDIA_SLOTS.filter(slot => {
                       if (slot.section !== sec.id) return false
@@ -2997,22 +3049,63 @@ export default function AdminPage() {
 
                     if (sectionSlots.length === 0) return null
 
+                    // En modo 'Todas' se respeta el clic para abrir/cerrar; si se filtra una categoría específica o hay búsqueda, se muestra abierta
+                    const isExpanded = mediaActiveSection !== "all" || Boolean(mediaSearchQuery) || Boolean(expandedSections[sec.id])
+
                     return (
                       <div key={sec.id} className="space-y-4">
-                        <div className="border-b border-neutral-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                          <div>
-                            <h4 className="text-sm font-black text-black uppercase tracking-wider font-sans">
-                              {sec.title}
-                            </h4>
-                            <p className="text-[11px] text-neutral-400 font-semibold">{sec.description}</p>
+                        {/* Pestaña / Cabecera interactiva con toggle */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (mediaActiveSection === "all" && !mediaSearchQuery) {
+                              toggleSection(sec.id)
+                            }
+                          }}
+                          className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex items-center justify-between gap-4 select-none ${
+                            mediaActiveSection === "all" && !mediaSearchQuery ? "cursor-pointer" : "cursor-default"
+                          } ${
+                            isExpanded 
+                              ? "bg-white border-neutral-300 shadow-xs" 
+                              : "bg-neutral-50 hover:bg-neutral-100/90 border-neutral-200/80 hover:border-neutral-300"
+                          }`}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h4 className="text-sm sm:text-base font-black text-black tracking-tight font-sans uppercase truncate">
+                                {sec.title}
+                              </h4>
+                              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest hidden sm:inline">
+                                • {sectionSlots.length} {sectionSlots.length === 1 ? "foto" : "fotos"}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-neutral-500 font-medium truncate mt-0.5">
+                              {sec.description}
+                            </p>
                           </div>
-                          <span className="text-[10px] font-bold text-neutral-400 font-mono">
-                            {sectionSlots.length} {sectionSlots.length === 1 ? "foto" : "fotos"}
-                          </span>
-                        </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                          {sectionSlots.map((slot) => {
+                          <div className="flex items-center gap-2 shrink-0">
+                            {mediaActiveSection === "all" && !mediaSearchQuery && (
+                              <span className={`text-[10px] font-bold uppercase tracking-wider hidden md:inline-block px-2.5 py-1 rounded-full ${
+                                isExpanded ? "bg-neutral-100 text-neutral-800" : "bg-white border border-neutral-200 text-neutral-500"
+                              }`}>
+                                {isExpanded ? "Plegar" : "Desplegar"}
+                              </span>
+                            )}
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-200 border ${
+                              isExpanded 
+                                ? "bg-neutral-100 border-neutral-200 rotate-180 text-black" 
+                                : "bg-white border-neutral-200 text-neutral-400"
+                            }`}>
+                              <ChevronDown className="w-4 h-4" />
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* Grid de tarjetas desplegado */}
+                        {isExpanded && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200">
+                            {sectionSlots.map((slot) => {
                             const activeDev = MEDIA_DEVICES.find(d => d.id === mediaActiveDevice) || MEDIA_DEVICES[0]
                             const deviceSpec = slot.devices[mediaActiveDevice] || slot.devices.desktop
                             const targetSlotKey = getSlotDeviceKey(slot.key, mediaActiveDevice)
@@ -3043,59 +3136,22 @@ export default function AdminPage() {
                             return (
                               <div
                                 key={slot.key}
-                                className="bg-white rounded-3xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
+                                className="bg-white rounded-3xl border border-neutral-200/80 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                               >
-                                {/* Header del Recuadro con Selector Rápido de Dispositivo */}
-                                <div className="px-5 py-3 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/70">
-                                  <div className="flex items-center gap-2">
-                                    {mediaActiveDevice === "desktop" && <Monitor className="w-3.5 h-3.5 text-neutral-700" />}
-                                    {mediaActiveDevice === "mobile" && <Smartphone className="w-3.5 h-3.5 text-neutral-700" />}
-                                    {mediaActiveDevice === "tablet" && <Tablet className="w-3.5 h-3.5 text-neutral-700" />}
-                                    <span className="text-[11px] font-black uppercase tracking-wider text-black font-sans">
-                                      {activeDev.shortLabel}
-                                    </span>
-                                  </div>
-
-                                  {/* Switcher Rápido de Dispositivo */}
-                                  <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-neutral-200/80 shadow-2xs">
-                                    {MEDIA_DEVICES.map((dev) => {
-                                      const devKey = getSlotDeviceKey(slot.key, dev.id)
-                                      const hasCustom = Boolean(mediaMap[devKey] && mediaMap[devKey] !== "__EMPTY__")
-                                      const isSelected = mediaActiveDevice === dev.id
-                                      return (
-                                        <button
-                                          key={dev.id}
-                                          type="button"
-                                          onClick={() => setMediaActiveDevice(dev.id)}
-                                          title={`Ver versión ${dev.title}`}
-                                          className={`px-2 py-0.5 rounded-lg text-[9px] font-black uppercase flex items-center gap-1 cursor-pointer transition-all ${
-                                            isSelected
-                                              ? "bg-black text-white shadow-xs"
-                                              : "text-neutral-500 hover:text-black hover:bg-neutral-100"
-                                          }`}
-                                        >
-                                          <span>{dev.shortLabel}</span>
-                                          {hasCustom && <span className="w-1.5 h-1.5 rounded-full bg-[#1D9E75]" />}
-                                        </button>
-                                      )
-                                    })}
-                                  </div>
-                                </div>
-
-                                {/* Frame Mockup Adaptativo al Dispositivo */}
-                                <div className="relative w-full bg-neutral-100/70 p-4 flex items-center justify-center min-h-[220px]">
+                                {/* Mockup Visual Limpio (Sin header de botones repetitivos) */}
+                                <div className="relative w-full bg-neutral-100/60 p-4 flex items-center justify-center min-h-[220px]">
                                   <div
                                     className={`relative w-full overflow-hidden transition-all duration-300 group ${
                                       mediaActiveDevice === "mobile"
-                                        ? "max-w-[190px] aspect-[9/16] rounded-3xl border-4 border-neutral-900 bg-black shadow-xl"
+                                        ? "max-w-[180px] aspect-[9/16] rounded-3xl border-4 border-neutral-900 bg-black shadow-lg"
                                         : mediaActiveDevice === "tablet"
-                                        ? "max-w-[280px] aspect-[4/3] rounded-2xl border-4 border-neutral-800 bg-black shadow-lg"
-                                        : "aspect-video rounded-2xl border border-neutral-200 bg-neutral-900 shadow-sm"
+                                        ? "max-w-[270px] aspect-[4/3] rounded-2xl border-4 border-neutral-800 bg-black shadow-md"
+                                        : "aspect-video rounded-2xl border border-neutral-200/90 bg-neutral-900 shadow-xs"
                                     }`}
                                   >
                                     {/* Notch para Celular */}
                                     {mediaActiveDevice === "mobile" && (
-                                      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-2.5 bg-neutral-900 rounded-full z-20 pointer-events-none" />
+                                      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-2 bg-neutral-900 rounded-full z-20 pointer-events-none" />
                                     )}
 
                                     {currentUrl ? (
@@ -3106,15 +3162,14 @@ export default function AdminPage() {
                                       />
                                     ) : (
                                       <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900 text-neutral-400 p-4 text-center">
-                                        <ImageIcon className="w-8 h-8 text-neutral-500 mb-1" />
-                                        <span className="text-[10px] font-bold text-neutral-300">Espacio Vacío</span>
-                                        <span className="text-[8px] text-neutral-500">Sin foto en {activeDev.shortLabel}</span>
+                                        <ImageIcon className="w-8 h-8 text-neutral-600 mb-1" />
+                                        <span className="text-[10px] font-bold text-neutral-400">Sin foto asignada</span>
                                       </div>
                                     )}
 
-                                    {/* Barra Superior de Píldoras 100% Alineadas en Horizontal */}
+                                    {/* Píldoras Superiores en el Mockup: Medida Sugerida en Alta Calidad + Estado */}
                                     <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-10 pointer-events-none">
-                                      {/* Píldora de Medida */}
+                                      {/* Píldora de Medida Exacta */}
                                       <div className="h-6 px-2.5 bg-black/85 backdrop-blur-md text-white rounded-full text-[8.5px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm border border-white/10 shrink-0">
                                         <Sliders className="w-2.5 h-2.5 text-[#ffc971] shrink-0" />
                                         <span className="leading-none">{deviceSpec.dimensions}</span>
@@ -3123,17 +3178,17 @@ export default function AdminPage() {
                                       {/* Píldora de Estado */}
                                       <div className="shrink-0 flex items-center">
                                         {isEmpty ? (
-                                          <span className="h-6 px-2.5 bg-red-500/90 backdrop-blur-md text-white rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none border border-red-400/30">
+                                          <span className="h-6 px-2 bg-red-500/90 backdrop-blur-md text-white rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none">
                                             Vacío
                                           </span>
                                         ) : isDirectCustom ? (
-                                          <span className="h-6 px-2.5 bg-[#1D9E75] text-white rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1 leading-none border border-emerald-400/30">
+                                          <span className="h-6 px-2.5 bg-[#1D9E75] text-white rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1 leading-none">
                                             <Check className="w-2.5 h-2.5 shrink-0" />
-                                            <span>Exclusiva {activeDev.shortLabel}</span>
+                                            <span>{activeDev.shortLabel}</span>
                                           </span>
                                         ) : isInherited ? (
-                                          <span className="h-6 px-2.5 bg-amber-500 text-black rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none border border-amber-300/40" title="Usando foto de PC mientras no subas una personalizada para este dispositivo">
-                                            Hereda de PC
+                                          <span className="h-6 px-2.5 bg-amber-500 text-black rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none">
+                                            De PC
                                           </span>
                                         ) : (
                                           <span className="h-6 px-2.5 bg-neutral-800/85 backdrop-blur-md text-neutral-300 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center leading-none border border-white/10">
@@ -3165,9 +3220,9 @@ export default function AdminPage() {
                                   </div>
                                 </div>
 
-                                {/* Info y Botones de Acción */}
-                                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                                  <div className="space-y-1.5">
+                                {/* Pie de la Tarjeta: Título, Medida de Máxima Calidad y Botón de Acción */}
+                                <div className="p-5 space-y-3.5">
+                                  <div className="space-y-2">
                                     <div className="flex items-center justify-between gap-2">
                                       <h5 className="text-sm font-black text-black leading-tight">
                                         {slot.title}
@@ -3176,22 +3231,37 @@ export default function AdminPage() {
                                         {deviceSpec.aspectRatio}
                                       </span>
                                     </div>
-                                    <p className="text-[11px] text-neutral-500 font-medium leading-relaxed">
-                                      {deviceSpec.recommendedNotice || slot.description}
-                                    </p>
-                                    <div className="text-[10px] text-neutral-400 font-mono">
-                                      Medida sugerida: <strong className="text-neutral-800 font-bold">{deviceSpec.dimensions}</strong>
+
+                                    {/* Medida en Máxima Calidad (Para guiarte sin distraerte) */}
+                                    <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-neutral-600 bg-neutral-50 px-2.5 py-1.5 rounded-xl border border-neutral-200/70 w-full">
+                                      <span className="text-neutral-400 font-semibold">Medida:</span>
+                                      <strong className="text-black font-bold font-mono">{deviceSpec.dimensions}</strong>
+                                      <span className="text-[9px] text-[#1D9E75] font-black uppercase tracking-wider ml-auto">Alta Calidad</span>
                                     </div>
+
+                                    {slot.previewUrl && (
+                                      <div className="pt-0.5">
+                                        <a
+                                          href={slot.previewUrl}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-1.5 text-[10.5px] font-bold text-[#8da9c4] hover:text-[#0d1b2a] transition-colors"
+                                        >
+                                          <span>Ver página en vivo ({slot.previewUrl})</span>
+                                          <ExternalLink className="w-3 h-3" />
+                                        </a>
+                                      </div>
+                                    )}
                                   </div>
 
                                   {/* Botones de Actualizar / Eliminar para el dispositivo activo */}
-                                  <div className="pt-3 flex items-center gap-2 border-t border-neutral-100">
-                                    <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-sm">
-                                      <UploadCloud className="w-3.5 h-3.5" />
+                                  <div className="pt-2 flex items-center gap-2 border-t border-neutral-100">
+                                    <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-xs">
+                                      <UploadCloud className="w-4 h-4" />
                                       <span>
                                         {isDirectCustom
-                                          ? `Reemplazar (${activeDev.shortLabel})`
-                                          : `Subir a ${activeDev.shortLabel}`}
+                                          ? `Cambiar foto (${activeDev.shortLabel})`
+                                          : `Subir foto (${activeDev.shortLabel})`}
                                       </span>
                                       <input
                                         type="file"
@@ -3212,7 +3282,7 @@ export default function AdminPage() {
                                       <button
                                         onClick={() => handleDeleteMedia(targetSlotKey, activeDev.title)}
                                         disabled={isUploading}
-                                        className="h-10 px-3.5 rounded-full border border-neutral-200 bg-white hover:bg-red-50 text-neutral-500 hover:text-red-500 transition-all cursor-pointer flex items-center justify-center"
+                                        className="h-10 px-3.5 rounded-full border border-neutral-200 bg-white hover:bg-red-50 text-neutral-400 hover:text-red-500 transition-all cursor-pointer flex items-center justify-center"
                                         title={`Eliminar foto exclusiva de ${activeDev.shortLabel}`}
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
@@ -3224,10 +3294,11 @@ export default function AdminPage() {
                             )
                           })}
                         </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
 
               </div>
             )}

@@ -10,7 +10,7 @@ export const COP_TO_USD_RATE = 4000;
 export function formatPrice(amount: number, currency: "COP" | "USD" = "COP") {
   const formatted = new Intl.NumberFormat("es-CO", {
     style: "currency",
-    currency,
+    currency: "USD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
@@ -22,7 +22,7 @@ export function formatCOPtoUSD(copAmount: number) {
   const usdAmount = copAmount / COP_TO_USD_RATE;
   const formatted = new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency,
+    currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(usdAmount);

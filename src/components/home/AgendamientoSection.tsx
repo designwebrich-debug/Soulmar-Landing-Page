@@ -677,7 +677,7 @@ export function AgendamientoSection() {
 
                       {/* LEFT COLUMN: SELECTED SESSION FOOTER */}
                       <div className="order-2 md:order-3 px-6 pt-0 pb-6 md:pb-8 md:border-r border-border/60 dark:border-border/10 flex flex-col justify-start">
-                        <div className="border-t border-border/20 pt-4 md:h-[76px] flex flex-col justify-start">
+                        <div className="border-t border-border/20 pt-4 md:min-h-[76px] flex flex-col justify-start">
                           <p className="text-[10px] font-extrabold uppercase tracking-widest text-foreground/45 leading-none">
                             {language === "es" ? "Sesión Seleccionada" : "Selected Date"}
                           </p>
@@ -686,12 +686,30 @@ export function AgendamientoSection() {
                               ? formattedSelectedDateLong 
                               : (language === "es" ? "Haz clic en un día del calendario" : "Click on a calendar day")}
                           </p>
+                          <div className="flex items-center gap-2 mt-3.5">
+                            <span className="text-xs font-black text-foreground tracking-tight">
+                              {language === "es" ? "$ 120.000 COP" : "$ 120,000 COP"}
+                            </span>
+                            <span className="text-foreground/30 text-xs">•</span>
+                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800/80 border border-neutral-200/80 dark:border-neutral-700/60">
+                              <Image 
+                                src="/images/google-meet.png" 
+                                alt="Google Meet" 
+                                width={16} 
+                                height={13} 
+                                className="w-3.5 h-auto object-contain shrink-0"
+                              />
+                              <span className="text-[10px] font-extrabold text-foreground/80 tracking-wide">
+                                (Vía Meet)
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
                       {/* RIGHT COLUMN: CONSULTATION REASON FOOTER */}
                       <div className="order-4 md:order-4 px-6 pt-0 pb-6 md:pb-8 flex flex-col justify-start">
-                        <div className="border-t border-transparent pt-4 md:h-[76px] flex flex-col justify-start space-y-2">
+                        <div className="border-t border-transparent pt-4 md:min-h-[76px] flex flex-col justify-start space-y-2">
                           <Label className="text-[10px] font-extrabold uppercase tracking-wider text-foreground/50 leading-none">
                             {language === "es" ? "Motivo de consulta*" : "Reason for consultation*"}
                           </Label>

@@ -15,7 +15,7 @@ import { PhoneMarqueeSlider } from "@/components/home/PhoneMarqueeSlider"
 import { AgendamientoSection } from "@/components/home/AgendamientoSection"
 import { SocialCommunitySection } from "@/components/home/SocialCommunitySection"
 import { EbookSection } from "@/components/home/EbookSection"
-import { NewsletterSection } from "@/components/home/NewsletterSection"
+import { CTASection } from "@/components/home/CTASection"
 import { FooterSection } from "@/components/home/FooterSection"
 
 export default function Home() {
@@ -42,8 +42,8 @@ export default function Home() {
       {/* SECTION 5.5: EBOOKS (Soulmar Free Resources) */}
       <EbookSection />
 
-      {/* SECTION 6: NEWSLETTER (Cinematic Brand Dynamic) */}
-      <NewsletterSection />
+      {/* SECTION 6: CTA FINAL (Tu Bienestar Empieza con una Decisión) */}
+      <CTASection />
 
       {/* FOOTER */}
       <FooterSection />

@@ -47,7 +47,7 @@ function parseAppointmentPatient(app: any) {
   let cleanReason = app.reason || ""
 
   if (typeof cleanReason === "string" && cleanReason.startsWith("[PACIENTE:")) {
-    const match = cleanReason.match(/^\[PACIENTE:\s*(.*?)\s*\|\s*TEL:\s*(.*?)\s*\|\s*EMAIL:\s*(.*?)\]\s*(.*)$/s)
+    const match = cleanReason.match(/^\[PACIENTE:\s*([\s\S]*?)\s*\|\s*TEL:\s*([\s\S]*?)\s*\|\s*EMAIL:\s*([\s\S]*?)\]\s*([\s\S]*)$/)
     if (match) {
       patientName = match[1] || patientName
       patientPhone = match[2] || patientPhone

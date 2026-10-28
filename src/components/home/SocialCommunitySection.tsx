@@ -106,7 +106,7 @@ export function SocialCommunitySection() {
   }
 
   return (
-    <Section id="comunidad" className="pt-10 md:pt-14 pb-20 bg-surface dark:bg-[#0b0b0c] transition-colors duration-500 relative overflow-hidden">
+    <Section id="comunidad" className="pt-10 md:pt-14 pb-8 md:pb-12 bg-surface dark:bg-[#0b0b0c] transition-colors duration-500 relative overflow-hidden">
       {/* Background ambient lighting with soft Soulmar tones to empower liquid glass refraction */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[70%] max-w-3xl h-[280px] bg-gradient-to-r from-[#8da9c4]/10 via-[#c9cba3]/10 to-[#8da9c4]/10 blur-[120px] pointer-events-none rounded-full" />
 

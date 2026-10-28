@@ -32,6 +32,7 @@ import { FooterSection } from "@/components/home/FooterSection"
 import { ServiceData, SERVICES_DATA } from "@/data/servicesData"
 import { WHATSAPP_ID } from "@/lib/constants"
 import { useTranslation } from "@/context/LanguageContext"
+import { useMedia } from "@/context/MediaContext"
 
 interface ServiceDetailPageProps {
   service: ServiceData
@@ -48,8 +49,16 @@ const ICON_MAP = {
 
 export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
   const { language } = useTranslation()
+  const { getMediaUrl } = useMedia()
   const IconComponent = ICON_MAP[service.iconName] || Brain
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
+
+  // Clave del slot multimedia para este servicio con soporte multidispositivo
+  const slotKey = `service_page_${service.slug.replace(/-/g, "_")}`
+  const desktopImg = getMediaUrl(slotKey, service.heroImage, "desktop")
+  const mobileImg = getMediaUrl(slotKey, service.heroImage, "mobile")
+  const tabletImg = getMediaUrl(slotKey, service.heroImage, "tablet")
+  const therapistImg = getMediaUrl("therapist_mariana", "/images/therapists/mariana.png")
 
   // Construct other services for cross-navigation
   const otherServices = Object.values(SERVICES_DATA).filter(
@@ -177,17 +186,18 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-[36px] md:rounded-[44px] overflow-hidden bg-white/80 dark:bg-white/[0.04] backdrop-blur-2xl border border-black/5 dark:border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.08)] p-6 md:p-8 flex flex-col justify-between aspect-[4/3] sm:aspect-[16/11]">
               
-              {/* Background cover image if present with subtle blur overlay */}
-              {service.heroImage && (
-                <div className="absolute inset-0 z-0">
-                  <Image
-                    src={service.heroImage}
-                    alt={service.title}
-                    fill
-                    priority
-                    quality={95}
-                    className="object-cover object-center opacity-85 dark:opacity-75"
-                  />
+              {/* Background cover image responsive por dispositivo (PC, Celular, iPad) */}
+              {Boolean(desktopImg || mobileImg) && (
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <picture className="w-full h-full block">
+                    <source media="(max-width: 767px)" srcSet={mobileImg || desktopImg} />
+                    <source media="(max-width: 1024px)" srcSet={tabletImg || desktopImg} />
+                    <img
+                      src={desktopImg || mobileImg}
+                      alt={service.title}
+                      className="w-full h-full object-cover object-center opacity-85 dark:opacity-75"
+                    />
+                  </picture>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20" />
                 </div>
               )}
@@ -424,7 +434,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
             <div className="lg:col-span-5 flex flex-col items-center text-center">
               <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-white/10 mb-6 group">
                 <Image
-                  src="/images/therapists/mariana.png"
+                  src={therapistImg}
                   alt="Dra. Mariana Caicedo"
                   fill
                   quality={95}

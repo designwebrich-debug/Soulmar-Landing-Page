@@ -15,6 +15,7 @@ export interface MediaSlot {
   section: string
   description: string
   defaultUrl: string
+  previewUrl?: string
   // Compatibilidad legacy
   dimensions?: string
   aspectRatio?: string
@@ -67,8 +68,13 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
   },
   {
     id: "moments",
-    title: "Módulos 'Tu Momento' (YouTube / Series)",
+    title: "Podcast",
     description: "Portadas de las 4 series temáticas (Ansiedad, Tristeza, Emunah, Mindset) con botón de reproducción de YouTube."
+  },
+  {
+    id: "services_pages",
+    title: "Terapias",
+    description: "Fotografías principales y tarjetas visuales para las 6 páginas de servicio individual."
   },
   {
     id: "highlights",
@@ -77,17 +83,17 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
   },
   {
     id: "mobile_cards",
-    title: "Tarjetas de Terapias",
+    title: "Mockups Iphone",
     description: "Tarjetas interactivas de servicios que rotan en la vitrina 3D."
   },
   {
     id: "social",
-    title: "Comunidad & Redes Sociales",
+    title: "Social media",
     description: "Portadas de los reels y publicaciones de Instagram y TikTok."
   },
   {
     id: "team",
-    title: "Terapeutas y Equipo Clínico",
+    title: "Profesionales",
     description: "Fotografías de perfil de los profesionales clínicos en la sección de agendamiento."
   }
 ]
@@ -338,6 +344,224 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         aspectClass: "aspect-[3/4]",
         recommendedNotice: "Portada en resolución intermedia para iPad y tabletas.",
         defaultUrl: "/images/desktop-modules/mindset.png"
+      }
+    }
+  },
+
+  // ─── PÁGINAS DE SERVICIOS INDIVIDUALES ────────────────────
+  {
+    key: "service_page_terapia_individual",
+    title: "Terapia Individual (Portada)",
+    section: "services_pages",
+    description: "Portada de la tarjeta visual en la página de Terapia Individual (/terapia-individual).",
+    defaultUrl: "/images/desktop-modules/ansiedad.jpg",
+    previewUrl: "/terapia-individual",
+    dimensions: "1200 × 800 px (PC) / 800 × 1000 px (Móvil)",
+    aspectRatio: "Panorámico 16:11 (PC) / Vertical 4:5 (Móvil)",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1200 × 800 px",
+        aspectRatio: "Panorámico 16:11",
+        aspectClass: "aspect-[16/11]",
+        recommendedNotice: "Portada de alta resolución para la tarjeta hero en pantallas de computador y laptops.",
+        defaultUrl: "/images/desktop-modules/ansiedad.jpg"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Portada vertical optimizada para vista táctil en teléfonos móviles.",
+        defaultUrl: "/images/mobile-modules/ansiedad.jpg"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1000 × 750 px",
+        aspectRatio: "Proporción 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Encuadre balanceado para iPads y tabletas.",
+        defaultUrl: "/images/desktop-modules/ansiedad.jpg"
+      }
+    }
+  },
+  {
+    key: "service_page_terapia_pareja",
+    title: "Terapia de Pareja (Portada)",
+    section: "services_pages",
+    description: "Portada de la tarjeta visual en la página de Terapia de Pareja (/terapia-pareja).",
+    defaultUrl: "/images/BannerHero02.jpg",
+    previewUrl: "/terapia-pareja",
+    dimensions: "1200 × 800 px (PC) / 800 × 1000 px (Móvil)",
+    aspectRatio: "Panorámico 16:11 (PC) / Vertical 4:5 (Móvil)",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1200 × 800 px",
+        aspectRatio: "Panorámico 16:11",
+        aspectClass: "aspect-[16/11]",
+        recommendedNotice: "Portada de alta resolución para la tarjeta hero en pantallas de computador y laptops.",
+        defaultUrl: "/images/BannerHero02.jpg"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Portada vertical optimizada para vista táctil en teléfonos móviles.",
+        defaultUrl: "/images/mobile-hero/slide-2.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1000 × 750 px",
+        aspectRatio: "Proporción 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Encuadre balanceado para iPads y tabletas.",
+        defaultUrl: "/images/BannerHero02.jpg"
+      }
+    }
+  },
+  {
+    key: "service_page_gestion_emocional",
+    title: "Gestión Emocional (Portada)",
+    section: "services_pages",
+    description: "Portada de la tarjeta visual en la página de Gestión Emocional (/gestion-emocional).",
+    defaultUrl: "/images/desktop-modules/tristeza.png",
+    previewUrl: "/gestion-emocional",
+    dimensions: "1200 × 800 px (PC) / 800 × 1000 px (Móvil)",
+    aspectRatio: "Panorámico 16:11 (PC) / Vertical 4:5 (Móvil)",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1200 × 800 px",
+        aspectRatio: "Panorámico 16:11",
+        aspectClass: "aspect-[16/11]",
+        recommendedNotice: "Portada de alta resolución para la tarjeta hero en pantallas de computador y laptops.",
+        defaultUrl: "/images/desktop-modules/tristeza.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Portada vertical optimizada para vista táctil en teléfonos móviles.",
+        defaultUrl: "/images/mobile-modules/depresion.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1000 × 750 px",
+        aspectRatio: "Proporción 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Encuadre balanceado para iPads y tabletas.",
+        defaultUrl: "/images/desktop-modules/tristeza.png"
+      }
+    }
+  },
+  {
+    key: "service_page_valoracion_psicologica",
+    title: "Valoración Psicológica (Portada)",
+    section: "services_pages",
+    description: "Portada de la tarjeta visual en la página de Valoración Psicológica (/valoracion-psicologica).",
+    defaultUrl: "/images/desktop-hero/slide-1.png",
+    previewUrl: "/valoracion-psicologica",
+    dimensions: "1200 × 800 px (PC) / 800 × 1000 px (Móvil)",
+    aspectRatio: "Panorámico 16:11 (PC) / Vertical 4:5 (Móvil)",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1200 × 800 px",
+        aspectRatio: "Panorámico 16:11",
+        aspectClass: "aspect-[16/11]",
+        recommendedNotice: "Portada de alta resolución para la tarjeta hero en pantallas de computador y laptops.",
+        defaultUrl: "/images/desktop-hero/slide-1.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Portada vertical optimizada para vista táctil en teléfonos móviles.",
+        defaultUrl: "/images/mobile-hero/slide-1.jpg"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1000 × 750 px",
+        aspectRatio: "Proporción 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Encuadre balanceado para iPads y tabletas.",
+        defaultUrl: "/images/desktop-hero/slide-1.png"
+      }
+    }
+  },
+  {
+    key: "service_page_terapia_ansiedad",
+    title: "Tratamiento de Ansiedad (Portada)",
+    section: "services_pages",
+    description: "Portada de la tarjeta visual en la página de Terapia de Ansiedad (/terapia-ansiedad).",
+    defaultUrl: "/images/desktop-modules/mindset.png",
+    previewUrl: "/terapia-ansiedad",
+    dimensions: "1200 × 800 px (PC) / 800 × 1000 px (Móvil)",
+    aspectRatio: "Panorámico 16:11 (PC) / Vertical 4:5 (Móvil)",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1200 × 800 px",
+        aspectRatio: "Panorámico 16:11",
+        aspectClass: "aspect-[16/11]",
+        recommendedNotice: "Portada de alta resolución para la tarjeta hero en pantallas de computador y laptops.",
+        defaultUrl: "/images/desktop-modules/mindset.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Portada vertical optimizada para vista táctil en teléfonos móviles.",
+        defaultUrl: "/images/mobile-modules/mindset.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1000 × 750 px",
+        aspectRatio: "Proporción 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Encuadre balanceado para iPads y tabletas.",
+        defaultUrl: "/images/desktop-modules/mindset.png"
+      }
+    }
+  },
+  {
+    key: "service_page_terapia_depresion",
+    title: "Tratamiento de Depresión (Portada)",
+    section: "services_pages",
+    description: "Portada de la tarjeta visual en la página de Terapia de Depresión (/terapia-depresion).",
+    defaultUrl: "/images/desktop-modules/emuna.png",
+    previewUrl: "/terapia-depresion",
+    dimensions: "1200 × 800 px (PC) / 800 × 1000 px (Móvil)",
+    aspectRatio: "Panorámico 16:11 (PC) / Vertical 4:5 (Móvil)",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1200 × 800 px",
+        aspectRatio: "Panorámico 16:11",
+        aspectClass: "aspect-[16/11]",
+        recommendedNotice: "Portada de alta resolución para la tarjeta hero en pantallas de computador y laptops.",
+        defaultUrl: "/images/desktop-modules/emuna.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Portada vertical optimizada para vista táctil en teléfonos móviles.",
+        defaultUrl: "/images/mobile-modules/emuna.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1000 × 750 px",
+        aspectRatio: "Proporción 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Encuadre balanceado para iPads y tabletas.",
+        defaultUrl: "/images/desktop-modules/emuna.png"
       }
     }
   },
