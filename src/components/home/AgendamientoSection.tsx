@@ -414,7 +414,7 @@ export function AgendamientoSection() {
   return (
     <section 
       id="agendamiento" 
-      className="pt-16 md:pt-20 pb-14 md:pb-20 bg-white dark:bg-[#0b0b0c] transition-colors duration-500 border-t border-border/30 scroll-mt-20"
+      className="pt-20 md:pt-28 pb-8 md:pb-10 bg-white dark:bg-[#0b0b0c] transition-colors duration-500 border-t border-border/30 scroll-mt-20"
     >
       <div className="max-w-4xl mx-auto px-6">
         

@@ -81,7 +81,7 @@ export function FAQSection() {
   return (
     <section 
       id="preguntas-frecuentes"
-      className="py-16 md:py-24 px-4 sm:px-6 md:px-10 max-w-4xl mx-auto transition-colors duration-500"
+      className="pt-6 sm:pt-8 md:pt-10 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-4xl mx-auto transition-colors duration-500"
     >
       {/* SECTION HEADER */}
       <div className="text-center mb-12 space-y-3">
