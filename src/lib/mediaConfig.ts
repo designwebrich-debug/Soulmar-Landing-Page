@@ -890,33 +890,33 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     key: "social_post_1",
     title: "Reel 1: Mi Herida, Mi Reacción",
     section: "social",
-    description: "Portada del primer reel de la comunidad Soulmar",
+    description: "Portada o Video MP4 en máxima calidad del primer reel de la comunidad Soulmar (1080 × 1920 px, hasta 50MB)",
     defaultUrl: "/images/mobile-hero/slide-1.jpg",
-    dimensions: "1080 × 1920 px",
+    dimensions: "Foto o Video MP4 (1080 × 1920 px)",
     aspectRatio: "Vertical 9:14 / 9:16",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14 (HD)",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada de Reel de alta calidad para feed de escritorio.",
+        recommendedNotice: "Video MP4 o Portada de Reel en máxima calidad para feed de escritorio.",
         defaultUrl: "/images/mobile-hero/slide-1.jpg"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada vertical optimizada para pantalla de celular.",
+        recommendedNotice: "Video MP4 o Portada vertical optimizada para pantalla de celular.",
         defaultUrl: "/images/mobile-hero/slide-1.jpg"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada vertical para visualización en tablet.",
+        recommendedNotice: "Video MP4 o Portada vertical para visualización en tablet.",
         defaultUrl: "/images/mobile-hero/slide-1.jpg"
       }
     }
@@ -925,33 +925,33 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     key: "social_post_2",
     title: "Post 2: ¿Por Qué Sobrepienso Todo?",
     section: "social",
-    description: "Portada de la segunda publicación de la comunidad",
+    description: "Portada o Video MP4 en máxima calidad de la segunda publicación de la comunidad (1080 × 1920 px, hasta 50MB)",
     defaultUrl: "/images/mobile-hero/slide-2.png",
-    dimensions: "1080 × 1920 px",
+    dimensions: "Foto o Video MP4 (1080 × 1920 px)",
     aspectRatio: "Vertical 9:14 / 9:16",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14 (HD)",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada de Post de alta calidad para feed de escritorio.",
+        recommendedNotice: "Video MP4 o Portada de Post en máxima calidad para feed de escritorio.",
         defaultUrl: "/images/mobile-hero/slide-2.png"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada vertical optimizada para pantalla de celular.",
+        recommendedNotice: "Video MP4 o Portada vertical optimizada para pantalla de celular.",
         defaultUrl: "/images/mobile-hero/slide-2.png"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada vertical para visualización en tablet.",
+        recommendedNotice: "Video MP4 o Portada vertical para visualización en tablet.",
         defaultUrl: "/images/mobile-hero/slide-2.png"
       }
     }
@@ -960,33 +960,33 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     key: "social_post_3",
     title: "Reel 3: Tu Sesión Psicológica a un Clic",
     section: "social",
-    description: "Portada del tercer reel de la comunidad",
+    description: "Portada o Video MP4 en máxima calidad del tercer reel de la comunidad (1080 × 1920 px, hasta 50MB)",
     defaultUrl: "/images/mobile-hero/slide-3.png",
-    dimensions: "1080 × 1920 px",
+    dimensions: "Foto o Video MP4 (1080 × 1920 px)",
     aspectRatio: "Vertical 9:14 / 9:16",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14 (HD)",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada de Reel de alta calidad para feed de escritorio.",
+        recommendedNotice: "Video MP4 o Portada de Reel en máxima calidad para feed de escritorio.",
         defaultUrl: "/images/mobile-hero/slide-3.png"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada vertical optimizada para pantalla de celular.",
+        recommendedNotice: "Video MP4 o Portada vertical optimizada para pantalla de celular.",
         defaultUrl: "/images/mobile-hero/slide-3.png"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "1080 × 1920 px",
+        dimensions: "1080 × 1920 px (Foto o MP4)",
         aspectRatio: "Vertical 9:14",
         aspectClass: "aspect-[9/14]",
-        recommendedNotice: "Portada vertical para visualización en tablet.",
+        recommendedNotice: "Video MP4 o Portada vertical para visualización en tablet.",
         defaultUrl: "/images/mobile-hero/slide-3.png"
       }
     }

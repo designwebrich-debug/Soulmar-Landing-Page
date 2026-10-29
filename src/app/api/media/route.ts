@@ -68,8 +68,9 @@ export async function GET() {
 }
 
 /**
- * POST: Subir foto en máxima calidad directamente al bucket 'media' de Supabase
+ * POST: Subir foto o video MP4 en máxima calidad directamente al bucket 'media' de Supabase
  * y registrar la URL pública en `media_slots`. Cero límites de 4.5MB en Vercel, cero Base64 en BD.
+ * Soporta tanto subida directa mediante URL firmada (para videos y archivos pesados) como multipart/form-data.
  */
 export async function POST(request: Request) {
   try {
@@ -81,6 +82,108 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 })
     }
 
+    const contentType = request.headers.get("content-type") || ""
+
+    // ─────────────────────────────────────────────────────────────
+    // MODO 1: JSON (Generación de URL firmada y confirmación de subida directa)
+    // Permite subir videos MP4 de máxima calidad (hasta 50MB) saltándose el límite de Vercel (4.5MB).
+    // ─────────────────────────────────────────────────────────────
+    if (contentType.includes("application/json")) {
+      const body = await request.json()
+      const action = body.action
+
+      if (action === "get-upload-url") {
+        const { slotKey, fileName, fileType } = body
+        if (!slotKey || !fileName) {
+          return NextResponse.json({ error: "slotKey y fileName requeridos." }, { status: 400 })
+        }
+
+        const mime = (fileType || "video/mp4").toLowerCase()
+        const isAllowed = mime.startsWith("image/") || mime.startsWith("video/")
+        if (!isAllowed) {
+          return NextResponse.json(
+            { error: "Formato no permitido. Solo imágenes (JPG, PNG, WebP) o videos (MP4, QuickTime, WebM)." },
+            { status: 400 }
+          )
+        }
+
+        const extension = fileName.split(".").pop()?.toLowerCase() || (mime.startsWith("video/") ? "mp4" : "jpg")
+        const storagePath = `slots/${slotKey}-${Date.now()}.${extension}`
+
+        const supabase = await createAdminClient()
+        const { data, error } = await supabase.storage.from("media").createSignedUploadUrl(storagePath)
+
+        if (error || !data?.signedUrl) {
+          console.error("[API_MEDIA_POST] Error creando signedUploadUrl:", error)
+          return NextResponse.json(
+            { error: "Error al generar enlace de subida segura: " + (error?.message || "Desconocido") },
+            { status: 500 }
+          )
+        }
+
+        const { data: publicUrlData } = supabase.storage.from("media").getPublicUrl(storagePath)
+
+        return NextResponse.json({
+          success: true,
+          signedUrl: data.signedUrl,
+          storagePath,
+          publicUrl: publicUrlData.publicUrl
+        })
+      }
+
+      if (action === "confirm-upload") {
+        const { slotKey, storagePath, publicUrl } = body
+        if (!slotKey || !publicUrl) {
+          return NextResponse.json({ error: "slotKey y publicUrl son requeridos para confirmar." }, { status: 400 })
+        }
+
+        const supabase = await createAdminClient()
+        const { error: dbError } = await supabase
+          .from("media_slots")
+          .upsert({
+            slot_key: slotKey,
+            url: publicUrl,
+            storage_path: storagePath || null,
+            is_empty: false,
+            updated_at: new Date().toISOString()
+          })
+
+        if (dbError) {
+          console.error("[API_MEDIA_POST] Error confirmando slot en BD:", dbError)
+          return NextResponse.json({ error: "Error guardando en BD: " + dbError.message }, { status: 500 })
+        }
+
+        // Obtener mapa completo actualizado
+        const { data: allSlots } = await supabase.from("media_slots").select("slot_key, url, is_empty")
+        const media: Record<string, string> = {}
+        if (Array.isArray(allSlots)) {
+          for (const row of allSlots) {
+            media[row.slot_key] = row.is_empty ? "__EMPTY__" : row.url
+          }
+        }
+
+        try {
+          revalidatePath("/", "layout")
+          revalidatePath("/", "page")
+          revalidatePath("/admin")
+        } catch (e) {
+          console.warn("[API_MEDIA_POST] revalidatePath error:", e)
+        }
+
+        return NextResponse.json({
+          success: true,
+          url: publicUrl,
+          slotKey,
+          media
+        })
+      }
+
+      return NextResponse.json({ error: "Acción no reconocida." }, { status: 400 })
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // MODO 2: Multipart Form-Data (Subida estándar directa)
+    // ─────────────────────────────────────────────────────────────
     const formData = await request.formData()
     const file = formData.get("file") as File | null
     const slotKey = formData.get("slotKey") as string | null
@@ -90,15 +193,19 @@ export async function POST(request: Request) {
     }
 
     const mimeType = file.type || "image/jpeg"
-    if (!mimeType.startsWith("image/")) {
-      return NextResponse.json({ error: "El archivo debe ser una imagen válida (JPG, PNG, WebP)." }, { status: 400 })
+    const isAllowed = mimeType.startsWith("image/") || mimeType.startsWith("video/")
+    if (!isAllowed) {
+      return NextResponse.json(
+        { error: "El archivo debe ser una imagen válida (JPG, PNG, WebP) o video (MP4, WebM)." },
+        { status: 400 }
+      )
     }
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
     const supabase = await createAdminClient()
-    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+    const extension = file.name.split('.').pop()?.toLowerCase() || (mimeType.startsWith("video/") ? 'mp4' : 'jpg')
     const storagePath = `slots/${slotKey}-${Date.now()}.${extension}`
 
     // 1. Subir al bucket 'media' en Storage con upsert

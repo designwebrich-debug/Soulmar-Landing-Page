@@ -21,6 +21,12 @@ interface SocialPost {
 
 import { useMedia } from "@/context/MediaContext"
 
+function isVideoUrl(url?: string): boolean {
+  if (!url) return false
+  const clean = url.split("?")[0].toLowerCase()
+  return clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov") || clean.endsWith(".quicktime")
+}
+
 export function SocialCommunitySection() {
   const { language } = useTranslation()
   const { getMediaUrl, media } = useMedia()
@@ -307,21 +313,41 @@ export function SocialCommunitySection() {
                 rel="noopener noreferrer"
                 className="snap-start shrink-0 w-[68vw] sm:w-[260px] md:w-auto relative aspect-[9/14] rounded-[28px] overflow-hidden group shadow-lg active:scale-[0.98] transition-transform select-none border border-black/5 dark:border-white/10"
               >
-                {/* Full-bleed Photo completely clean or Empty State */}
+                {/* Full-bleed Photo, Video MP4 or Empty State */}
                 {Boolean(post.desktopImage || post.mobileImage || post.tabletImage) ? (
-                  <picture className="w-full h-full block">
-                    {post.mobileImage && (
-                      <source media="(max-width: 767px)" srcSet={post.mobileImage} />
-                    )}
-                    {post.tabletImage && (
-                      <source media="(max-width: 1024px)" srcSet={post.tabletImage} />
-                    )}
-                    <img
-                      src={post.desktopImage || post.mobileImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                    />
-                  </picture>
+                  isVideoUrl(post.desktopImage) || isVideoUrl(post.mobileImage) || isVideoUrl(post.tabletImage) ? (
+                    <div className="relative w-full h-full">
+                      <video
+                        src={post.desktopImage || post.mobileImage || post.tabletImage}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+                      />
+                      {/* Indicador sutil de reel estilo Instagram / Apple */}
+                      <div className="absolute top-3.5 right-3.5 w-7 h-7 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white pointer-events-none border border-white/20 shadow-xs">
+                        <svg className="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  ) : (
+                    <picture className="w-full h-full block">
+                      {post.mobileImage && (
+                        <source media="(max-width: 767px)" srcSet={post.mobileImage} />
+                      )}
+                      {post.tabletImage && (
+                        <source media="(max-width: 1024px)" srcSet={post.tabletImage} />
+                      )}
+                      <img
+                        src={post.desktopImage || post.mobileImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </picture>
+                  )
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-400 p-4 text-center">
                     <span className="text-xs font-bold">Espacio vacío</span>

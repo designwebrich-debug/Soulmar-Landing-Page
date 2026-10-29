@@ -39,8 +39,15 @@ import {
   Sliders,
   CheckCircle,
   Smartphone,
-  Tablet
+  Tablet,
+  Film
 } from "lucide-react"
+
+function isVideoUrl(url?: string | null): boolean {
+  if (!url) return false
+  const clean = url.split("?")[0].toLowerCase()
+  return clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov") || clean.endsWith(".quicktime")
+}
 import {
   MEDIA_SECTIONS,
   MEDIA_SLOTS,
@@ -672,12 +679,76 @@ export default function AdminPage() {
     }
   }
 
-  // Subir o reemplazar imagen
+  // Subir o reemplazar imagen o video MP4 en máxima calidad
   const handleUploadMedia = async (slotKey: string, file: File) => {
     try {
       setUploadingSlotKey(slotKey)
       setMediaUploadSuccess(null)
 
+      const isVideo = file.type.startsWith("video/") || file.name.toLowerCase().endsWith(".mp4") || file.name.toLowerCase().endsWith(".webm")
+      const isLargeFile = file.size > 4 * 1024 * 1024
+
+      // Si es video o archivo mayor a 4MB, usamos URL firmada directa para saltar límites de Vercel
+      if (isVideo || isLargeFile) {
+        // 1. Solicitar URL firmada a la API
+        const signRes = await fetch("/api/media", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "get-upload-url",
+            slotKey,
+            fileName: file.name,
+            fileType: file.type || "video/mp4",
+            fileSize: file.size
+          })
+        })
+
+        if (!signRes.ok) {
+          const errData = await signRes.json().catch(() => ({}))
+          throw new Error(errData.error || "No se pudo generar la URL de subida directa")
+        }
+
+        const { signedUrl, storagePath, publicUrl } = await signRes.json()
+
+        // 2. Subir directamente el buffer binario a Supabase Storage mediante PUT
+        const uploadRes = await fetch(signedUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type || "video/mp4"
+          },
+          body: file
+        })
+
+        if (!uploadRes.ok) {
+          const uploadErr = await uploadRes.text().catch(() => "")
+          throw new Error("Error al transferir archivo a Storage: " + uploadErr)
+        }
+
+        // 3. Confirmar registro en base de datos
+        const confirmRes = await fetch("/api/media", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "confirm-upload",
+            slotKey,
+            storagePath,
+            publicUrl
+          })
+        })
+
+        if (!confirmRes.ok) {
+          const confErr = await confirmRes.json().catch(() => ({}))
+          throw new Error(confErr.error || "Error al confirmar registro en base de datos")
+        }
+
+        setMediaMap(prev => ({ ...prev, [slotKey]: publicUrl }))
+        updateMediaUrl(slotKey, publicUrl)
+        setMediaUploadSuccess(slotKey)
+        setTimeout(() => setMediaUploadSuccess(null), 3000)
+        return
+      }
+
+      // Archivos estándar menores a 4MB: Subida directa mediante multipart/form-data
       const formData = new FormData()
       formData.append("file", file)
       formData.append("slotKey", slotKey)
@@ -696,15 +767,15 @@ export default function AdminPage() {
           setMediaUploadSuccess(slotKey)
           setTimeout(() => setMediaUploadSuccess(null), 3000)
         } else {
-          alert("Error al subir imagen: " + (data.error || "No se pudo procesar"))
+          alert("Error al subir archivo: " + (data.error || "No se pudo procesar"))
         }
       } else {
         const errText = await res.text()
-        alert("Error al subir imagen: " + errText)
+        alert("Error al subir archivo: " + errText)
       }
     } catch (err: any) {
-      console.error("Error al subir imagen:", err)
-      alert("Error de conexión al subir la imagen: " + err.message)
+      console.error("Error al subir archivo:", err)
+      alert("Error al subir archivo: " + err.message)
     } finally {
       setUploadingSlotKey(null)
     }
@@ -3134,15 +3205,32 @@ export default function AdminPage() {
                                     )}
 
                                     {currentUrl ? (
-                                      <img
-                                        src={currentUrl}
-                                        alt={slot.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                      />
+                                      isVideoUrl(currentUrl) ? (
+                                        <div className="relative w-full h-full">
+                                          <video
+                                            src={currentUrl}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                          />
+                                          <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[8.5px] font-bold text-white uppercase tracking-wider flex items-center gap-1 border border-white/20 shadow-xs pointer-events-none">
+                                            <Film className="w-2.5 h-2.5 text-[#ffc971]" />
+                                            <span>Video MP4</span>
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <img
+                                          src={currentUrl}
+                                          alt={slot.title}
+                                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                      )
                                     ) : (
                                       <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900 text-neutral-400 p-4 text-center">
                                         <ImageIcon className="w-8 h-8 text-neutral-600 mb-1" />
-                                        <span className="text-[10px] font-bold text-neutral-400">Sin foto asignada</span>
+                                        <span className="text-[10px] font-bold text-neutral-400">Sin archivo asignado</span>
                                       </div>
                                     )}
 
@@ -3238,13 +3326,21 @@ export default function AdminPage() {
                                     <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-xs">
                                       <UploadCloud className="w-4 h-4" />
                                       <span>
-                                        {isDirectCustom
-                                          ? `Cambiar foto (${activeDev.shortLabel})`
-                                          : `Subir foto (${activeDev.shortLabel})`}
+                                        {slot.section === "social"
+                                          ? (isDirectCustom
+                                              ? `Cambiar foto/video (${activeDev.shortLabel})`
+                                              : `Subir foto o video MP4 (${activeDev.shortLabel})`)
+                                          : (isDirectCustom
+                                              ? `Cambiar foto (${activeDev.shortLabel})`
+                                              : `Subir foto (${activeDev.shortLabel})`)}
                                       </span>
                                       <input
                                         type="file"
-                                        accept="image/jpeg,image/png,image/webp"
+                                        accept={
+                                          slot.section === "social"
+                                            ? "image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm"
+                                            : "image/jpeg,image/png,image/webp"
+                                        }
                                         disabled={isUploading}
                                         onChange={(e) => {
                                           const file = e.target.files?.[0]
