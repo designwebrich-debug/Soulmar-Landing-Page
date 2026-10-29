@@ -2898,52 +2898,33 @@ export default function AdminPage() {
                         {MEDIA_DEVICES.map((device) => {
                           const isActive = mediaActiveDevice === device.id
                           const Icon = device.id === "desktop" ? Monitor : device.id === "mobile" ? Smartphone : Tablet
-                          
-                          // Colores oficiales Soulmar por dispositivo
-                          const deviceStyles = {
-                            desktop: {
-                              bg: "bg-[#8da9c4]",
-                              text: "text-white",
-                              icon: "text-white stroke-[2.5]"
-                            },
-                            mobile: {
-                              bg: "bg-[#ffc971]",
-                              text: "text-neutral-950",
-                              icon: "text-neutral-950 stroke-[2.5]"
-                            },
-                            tablet: {
-                              bg: "bg-[#c9cba3]",
-                              text: "text-neutral-950",
-                              icon: "text-neutral-950 stroke-[2.5]"
-                            }
-                          }[device.id as "desktop" | "mobile" | "tablet"] || {
-                            bg: "bg-black",
-                            text: "text-white",
-                            icon: "text-white stroke-[2.5]"
-                          }
 
                           return (
                             <button
                               key={device.id}
                               type="button"
                               onClick={() => setMediaActiveDevice(device.id)}
-                              className="relative px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 cursor-pointer outline-none select-none"
+                              className={`relative px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer outline-none select-none ${
+                                isActive
+                                  ? "text-white"
+                                  : "text-neutral-600 hover:text-black"
+                              }`}
                             >
                               {isActive && (
                                 <motion.div
                                   layoutId="activeDeviceSlidingPill"
                                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                                  className={`absolute inset-0 ${deviceStyles.bg} rounded-full shadow-md`}
+                                  className="absolute inset-0 bg-black hover:bg-[#8da9c4] transition-colors duration-200 rounded-full shadow-md"
                                 />
                               )}
                               <Icon
                                 className={`w-3.5 h-3.5 relative z-10 transition-colors duration-200 ${
-                                  isActive ? deviceStyles.icon : "text-neutral-500"
+                                  isActive ? "text-white stroke-[2.5]" : "text-neutral-500"
                                 }`}
                               />
                               <span
                                 className={`relative z-10 transition-colors duration-200 ${
-                                  isActive ? `${deviceStyles.text} font-black` : "text-neutral-600 hover:text-black"
+                                  isActive ? "text-white font-black" : "text-neutral-600 hover:text-black"
                                 }`}
                               >
                                 {device.shortLabel}
@@ -2955,9 +2936,7 @@ export default function AdminPage() {
                     </div>
 
                     <div className="text-xs text-neutral-500 font-medium flex items-center gap-2">
-                      <span className={`inline-block w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
-                        mediaActiveDevice === "desktop" ? "bg-[#8da9c4]" : mediaActiveDevice === "mobile" ? "bg-[#ffc971]" : "bg-[#c9cba3]"
-                      }`} />
+                      <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#8da9c4] transition-colors duration-300" />
                       <span>
                         Editando versión: <strong className="text-black font-bold">{MEDIA_DEVICES.find(d => d.id === mediaActiveDevice)?.title}</strong>
                       </span>
@@ -2973,7 +2952,7 @@ export default function AdminPage() {
                       onClick={() => setMediaActiveSection("all")}
                       className={`h-9 px-4 rounded-full text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
                         mediaActiveSection === "all"
-                          ? "bg-black text-white shadow-xs"
+                          ? "bg-black hover:bg-[#8da9c4] text-white shadow-xs"
                           : "bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200/60"
                       }`}
                     >
@@ -2988,7 +2967,7 @@ export default function AdminPage() {
                           onClick={() => setMediaActiveSection(sec.id)}
                           className={`h-9 px-4 rounded-full text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
                             isSecActive
-                              ? "bg-black text-white shadow-xs"
+                              ? "bg-black hover:bg-[#8da9c4] text-white shadow-xs"
                               : "bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200/60"
                           }`}
                         >
@@ -3062,7 +3041,7 @@ export default function AdminPage() {
                               toggleSection(sec.id)
                             }
                           }}
-                          className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex items-center justify-between gap-4 select-none ${
+                          className={`group w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex items-center justify-between gap-4 select-none ${
                             mediaActiveSection === "all" && !mediaSearchQuery ? "cursor-pointer" : "cursor-default"
                           } ${
                             isExpanded 
@@ -3092,12 +3071,12 @@ export default function AdminPage() {
                                 {isExpanded ? "Plegar" : "Desplegar"}
                               </span>
                             )}
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-200 border ${
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 border ${
                               isExpanded 
-                                ? "bg-neutral-100 border-neutral-200 rotate-180 text-black" 
-                                : "bg-white border-neutral-200 text-neutral-400"
+                                ? "bg-neutral-100 border-neutral-200 rotate-180 text-black group-hover:border-[#c9cba3] group-hover:text-[#c9cba3] hover:bg-[#c9cba3]/15" 
+                                : "bg-white border-neutral-200 text-neutral-400 group-hover:border-[#c9cba3] group-hover:text-[#c9cba3] hover:bg-[#c9cba3]/15"
                             }`}>
-                              <ChevronDown className="w-4 h-4" />
+                              <ChevronDown className="w-4 h-4 transition-colors duration-200 group-hover:text-[#c9cba3]" />
                             </div>
                           </div>
                         </button>

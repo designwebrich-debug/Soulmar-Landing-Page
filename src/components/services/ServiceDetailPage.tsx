@@ -50,7 +50,6 @@ const ICON_MAP = {
 export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
   const { language } = useTranslation()
   const { getMediaUrl } = useMedia()
-  const IconComponent = ICON_MAP[service.iconName] || Brain
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
   // Clave del slot multimedia para este servicio con soporte multidispositivo
@@ -184,7 +183,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
 
           {/* RIGHT COLUMN: HERO VISUAL CARD (GLASS & ARTWORK) */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-[36px] md:rounded-[44px] overflow-hidden bg-white/80 dark:bg-white/[0.04] backdrop-blur-2xl border border-black/5 dark:border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.08)] p-6 md:p-8 flex flex-col justify-between aspect-[4/3] sm:aspect-[16/11]">
+            <div className="relative rounded-[36px] md:rounded-[44px] overflow-hidden bg-white/80 dark:bg-white/[0.04] backdrop-blur-2xl border border-black/5 dark:border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.08)] aspect-[4/3] sm:aspect-[16/11]">
               
               {/* Background cover image responsive por dispositivo (PC, Celular, iPad) */}
               {Boolean(desktopImg || mobileImg) && (
@@ -195,40 +194,11 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
                     <img
                       src={desktopImg || mobileImg}
                       alt={service.title}
-                      className="w-full h-full object-cover object-center opacity-85 dark:opacity-75"
+                      className="w-full h-full object-cover object-center"
                     />
                   </picture>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20" />
                 </div>
               )}
-
-              {/* CARD TOP ROW: SQUIRCLE ICON & SPECIALTY BADGE */}
-              <div className="relative z-10 flex items-center justify-between w-full">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg text-white"
-                  style={{ backgroundColor: service.themeColor }}
-                >
-                  <IconComponent className="w-7 h-7 text-white" />
-                </div>
-                <div className="px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold uppercase tracking-wider">
-                  Dra. Mariana Caicedo
-                </div>
-              </div>
-
-              {/* CARD BOTTOM INFO: DURATION & MODALITY CAPSULES */}
-              <div className="relative z-10 space-y-2 text-white">
-                <div className="text-2xl font-bold tracking-tight">
-                  {service.title}
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 font-medium">
-                    ⏱️ {service.quickSpecs.duration}
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 font-medium">
-                    💻 Online HD
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
