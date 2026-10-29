@@ -91,7 +91,7 @@ const nextConfig = {
               `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
               `font-src 'self' https://fonts.gstatic.com data:`,
               `img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc ${supabaseUrl}`,
-              `media-src 'self' data: blob:`,
+              `media-src 'self' data: blob: ${supabaseUrl}`,
               `connect-src 'self' ${supabaseUrl} wss://*.supabase.co https://wa.me`,
               "frame-ancestors 'none'",
               "base-uri 'self'",
