@@ -196,7 +196,7 @@ export function SoulmarAtmospherePlayer() {
   }
 
   // Ocultar si está desactivado por el administrador
-  if (!mounted || !isEnabled) {
+  if (!isEnabled) {
     return null
   }
 
