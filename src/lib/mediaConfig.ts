@@ -95,6 +95,11 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
     id: "team",
     title: "Profesionales",
     description: "Fotografías de perfil de los profesionales clínicos en la sección de agendamiento."
+  },
+  {
+    id: "audio",
+    title: "Audio Atmosphere",
+    description: "Música ambiental exclusiva de Soulmar (Soulmar Atmosphere — Un momento para volver a ti)."
   }
 ]
 

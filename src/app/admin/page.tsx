@@ -57,6 +57,7 @@ import {
   type MediaSlot
 } from "@/lib/mediaConfig"
 import { useMedia } from "@/context/MediaContext"
+import { AdminAudioAtmosphere } from "@/components/admin/AdminAudioAtmosphere"
 
 interface Patient {
   name: string
@@ -3030,7 +3031,7 @@ export default function AdminPage() {
                       Todas ({MEDIA_SLOTS.length})
                     </button>
                     {MEDIA_SECTIONS.map((sec) => {
-                      const count = MEDIA_SLOTS.filter(s => s.section === sec.id).length
+                      const count = sec.id === "audio" ? 1 : MEDIA_SLOTS.filter(s => s.section === sec.id).length
                       const isSecActive = mediaActiveSection === sec.id
                       return (
                         <button
@@ -3087,8 +3088,13 @@ export default function AdminPage() {
                   </div>
                 )}
 
-                {/* Grid de Fotos Estilo Galería Apple (Limpio, Sin Distracciones) */}
-                <div className="space-y-6">
+                {/* Si la sección activa es AUDIO, mostrar exclusivamente el panel de control de Audio Atmosphere */}
+                {mediaActiveSection === "audio" ? (
+                  <AdminAudioAtmosphere media={mediaMap} onSyncMedia={handleRefreshMedia} />
+                ) : (
+                  <>
+                    {/* Grid de Fotos Estilo Galería Apple (Limpio, Sin Distracciones) */}
+                    <div className="space-y-6">
                   {MEDIA_SECTIONS.filter(sec => mediaActiveSection === "all" || mediaActiveSection === sec.id).map((sec) => {
                     const sectionSlots = MEDIA_SLOTS.filter(slot => {
                       if (slot.section !== sec.id) return false
@@ -3374,6 +3380,15 @@ export default function AdminPage() {
                   )
                 })}
               </div>
+
+              {/* Sección Audio al final cuando se visualiza 'Todas' */}
+              {mediaActiveSection === "all" && !mediaSearchQuery && (
+                <div className="pt-6 border-t border-neutral-200/80">
+                  <AdminAudioAtmosphere media={mediaMap} onSyncMedia={handleRefreshMedia} />
+                </div>
+              )}
+            </>
+          )}
 
               </div>
             )}

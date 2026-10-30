@@ -99,15 +99,15 @@ export async function POST(request: Request) {
         }
 
         const mime = (fileType || "video/mp4").toLowerCase()
-        const isAllowed = mime.startsWith("image/") || mime.startsWith("video/")
+        const isAllowed = mime.startsWith("image/") || mime.startsWith("video/") || mime.startsWith("audio/")
         if (!isAllowed) {
           return NextResponse.json(
-            { error: "Formato no permitido. Solo imágenes (JPG, PNG, WebP) o videos (MP4, QuickTime, WebM)." },
+            { error: "Formato no permitido. Solo imágenes (JPG, PNG, WebP), videos (MP4, QuickTime, WebM) o audios (MP3, WAV, M4A)." },
             { status: 400 }
           )
         }
 
-        const extension = fileName.split(".").pop()?.toLowerCase() || (mime.startsWith("video/") ? "mp4" : "jpg")
+        const extension = fileName.split(".").pop()?.toLowerCase() || (mime.startsWith("video/") ? "mp4" : mime.startsWith("audio/") ? "mp3" : "jpg")
         const storagePath = `slots/${slotKey}-${Date.now()}.${extension}`
 
         const supabase = await createAdminClient()
@@ -178,6 +178,86 @@ export async function POST(request: Request) {
         })
       }
 
+      if (action === "update-audio-settings") {
+        const { isEnabled, status, title, fileName, size, duration, audioUrl, storagePath } = body
+        const supabase = await createAdminClient()
+
+        const metaPayload = {
+          isEnabled: Boolean(isEnabled),
+          status: status || (audioUrl ? "published" : "empty"),
+          title: title || "Soulmar Atmosphere — Un momento para volver a ti",
+          fileName: fileName || "",
+          size: size || "",
+          duration: duration || "",
+          audioUrl: audioUrl || null,
+          storagePath: storagePath || null,
+          updatedAt: new Date().toISOString()
+        }
+
+        // 1. Guardar metadatos en slot 'audio_atmosphere_meta'
+        const { error: metaError } = await supabase
+          .from("media_slots")
+          .upsert({
+            slot_key: "audio_atmosphere_meta",
+            url: JSON.stringify(metaPayload),
+            storage_path: null,
+            is_empty: false,
+            updated_at: new Date().toISOString()
+          })
+
+        if (metaError) {
+          console.error("[API_MEDIA_POST] Error guardando audio_atmosphere_meta:", metaError)
+          return NextResponse.json({ error: "Error guardando configuración de audio: " + metaError.message }, { status: 500 })
+        }
+
+        // 2. Si status es 'published', guardar o actualizar slot 'audio_atmosphere' con audioUrl
+        // Si status es 'empty', marcar slot 'audio_atmosphere' como vacío
+        if (status === "published" && audioUrl) {
+          await supabase
+            .from("media_slots")
+            .upsert({
+              slot_key: "audio_atmosphere",
+              url: audioUrl,
+              storage_path: storagePath || null,
+              is_empty: false,
+              updated_at: new Date().toISOString()
+            })
+        } else if (status === "empty") {
+          await supabase
+            .from("media_slots")
+            .upsert({
+              slot_key: "audio_atmosphere",
+              url: null,
+              storage_path: null,
+              is_empty: true,
+              updated_at: new Date().toISOString()
+            })
+        }
+
+        // Obtener mapa actualizado
+        const { data: allSlots } = await supabase.from("media_slots").select("slot_key, url, is_empty")
+        const media: Record<string, string> = {}
+        if (Array.isArray(allSlots)) {
+          for (const row of allSlots) {
+            media[row.slot_key] = row.is_empty ? "__EMPTY__" : (row.url || "")
+          }
+        }
+
+        try {
+          revalidatePath("/", "layout")
+          revalidatePath("/", "page")
+          revalidatePath("/admin")
+        } catch (e) {
+          console.warn("[API_MEDIA_POST] revalidatePath error:", e)
+        }
+
+        return NextResponse.json({
+          success: true,
+          media,
+          settings: metaPayload
+        })
+      }
+
       return NextResponse.json({ error: "Acción no reconocida." }, { status: 400 })
     }
 
@@ -193,10 +273,10 @@ export async function POST(request: Request) {
     }
 
     const mimeType = file.type || "image/jpeg"
-    const isAllowed = mimeType.startsWith("image/") || mimeType.startsWith("video/")
+    const isAllowed = mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/")
     if (!isAllowed) {
       return NextResponse.json(
-        { error: "El archivo debe ser una imagen válida (JPG, PNG, WebP) o video (MP4, WebM)." },
+        { error: "El archivo debe ser una imagen válida (JPG, PNG, WebP), video (MP4, WebM) o audio (MP3, WAV, M4A)." },
         { status: 400 }
       )
     }
@@ -205,7 +285,7 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(bytes)
 
     const supabase = await createAdminClient()
-    const extension = file.name.split('.').pop()?.toLowerCase() || (mimeType.startsWith("video/") ? 'mp4' : 'jpg')
+    const extension = file.name.split('.').pop()?.toLowerCase() || (mimeType.startsWith("video/") ? 'mp4' : mimeType.startsWith("audio/") ? 'mp3' : 'jpg')
     const storagePath = `slots/${slotKey}-${Date.now()}.${extension}`
 
     // 1. Subir al bucket 'media' en Storage con upsert

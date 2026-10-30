@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation"
 import { Navbar } from "./Navbar"
 import { MobileTabBar } from "./MobileTabBar"
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
+import { SoulmarAtmospherePlayer } from "@/components/audio/SoulmarAtmospherePlayer"
 
 export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -20,6 +21,7 @@ export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <WhatsAppButton />
+      <SoulmarAtmospherePlayer />
       <MobileTabBar />
     </>
   )
