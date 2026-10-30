@@ -42,7 +42,13 @@ export function FooterSection() {
           <div className="flex items-center gap-6 shrink-0">
             <div className="flex items-center gap-4">
               {/* Instagram */}
-              <Link href="https://instagram.com/soulmar" target="_blank" className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95">
+              <Link 
+                href="https://www.instagram.com/soulmar.org_/?hl=es" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Instagram de Soulmar"
+                className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95"
+              >
                 <div className="relative w-5 h-5">
                   <div className="block dark:hidden">
                     <Image src="/socialmedia/1.png" alt="Instagram" width={20} height={20} className="block group-hover:hidden object-contain" />
@@ -56,7 +62,13 @@ export function FooterSection() {
               </Link>
 
               {/* Facebook */}
-              <Link href="https://facebook.com/soulmar" target="_blank" className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95">
+              <Link 
+                href="https://www.facebook.com/soulmar.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Facebook de Soulmar"
+                className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95"
+              >
                 <div className="relative w-5 h-5">
                   <div className="block dark:hidden">
                     <Image src="/socialmedia/2.png" alt="Facebook" width={20} height={20} className="block group-hover:hidden object-contain" />
@@ -69,8 +81,20 @@ export function FooterSection() {
                 </div>
               </Link>
 
-              {/* Spotify */}
-              <Link href="https://open.spotify.com/user/soulmar" target="_blank" className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95">
+              {/* Spotify (Sin enlace aún / Próximamente) */}
+              <a 
+                href="#podcast"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById("podcast") || document.getElementById("hero")
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" })
+                  }
+                }}
+                title="Spotify (Muy pronto)"
+                aria-label="Spotify Soulmar (Muy pronto)"
+                className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95 cursor-pointer opacity-90"
+              >
                 <div className="relative w-5 h-5">
                   <div className="block dark:hidden">
                     <Image src="/socialmedia/3.png" alt="Spotify" width={20} height={20} className="block group-hover:hidden object-contain" />
@@ -81,10 +105,16 @@ export function FooterSection() {
                     <Image src="/socialmedia/a3.png" alt="Spotify" width={20} height={20} className="hidden group-hover:block object-contain" />
                   </div>
                 </div>
-              </Link>
+              </a>
 
               {/* Youtube */}
-              <Link href="https://youtube.com/@soulmar" target="_blank" className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95">
+              <Link 
+                href="https://www.youtube.com/@Soulmar.Psicologia" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="YouTube de Soulmar"
+                className="group relative block transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 active:scale-95"
+              >
                 <div className="relative w-5 h-5">
                   <div className="block dark:hidden">
                     <Image src="/socialmedia/4.png" alt="Youtube" width={20} height={20} className="block group-hover:hidden object-contain" />
