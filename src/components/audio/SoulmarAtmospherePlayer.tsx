@@ -27,8 +27,11 @@ export function SoulmarAtmospherePlayer() {
   const [isHovered, setIsHovered] = useState(false)
   const [mounted, setMounted] = useState(false)
 
-  // Obtener URL de audio y metadatos
-  const audioUrl = media["audio_atmosphere"] || ""
+  const DEFAULT_AUDIO_URL = "https://druynmdkgdwuohojmptc.supabase.co/storage/v1/object/public/media/slots/audio_atmosphere-default.mp3"
+
+  // Obtener URL de audio y metadatos con respaldo de fábrica inmediato
+  const rawAudio = media["audio_atmosphere"]
+  const audioUrl = (rawAudio && rawAudio !== "__EMPTY__") ? rawAudio : DEFAULT_AUDIO_URL
   let isEnabled = true
   let songTitle = "Soulmar Atmosphere — Un momento para volver a ti"
 
@@ -192,14 +195,14 @@ export function SoulmarAtmospherePlayer() {
     }
   }
 
-  // Ocultar si no está montado, si no hay audio publicado, o si está desactivado por el administrador
-  if (!mounted || !isEnabled || !audioUrl || audioUrl === "__EMPTY__") {
+  // Ocultar si está desactivado por el administrador
+  if (!mounted || !isEnabled) {
     return null
   }
 
   return (
     <div
-      className="fixed bottom-24 left-4 md:bottom-8 md:left-8 z-[9980] flex items-center select-none"
+      className="fixed bottom-24 left-4 md:bottom-8 md:left-8 z-[9995] flex items-center select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -41,6 +41,7 @@ MEDIA_SLOTS.forEach(slot => {
     factoryDefaultMedia[`${slot.key}_tablet`] = slot.devices.tablet.defaultUrl
   }
 })
+factoryDefaultMedia["audio_atmosphere"] = "https://druynmdkgdwuohojmptc.supabase.co/storage/v1/object/public/media/slots/audio_atmosphere-default.mp3"
 
 export function MediaProvider({
   children,

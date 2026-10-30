@@ -40,7 +40,8 @@ import {
   CheckCircle,
   Smartphone,
   Tablet,
-  Film
+  Film,
+  Music
 } from "lucide-react"
 
 function isVideoUrl(url?: string | null): boolean {
@@ -1735,7 +1736,7 @@ export default function AdminPage() {
               }`}
             >
               <ImageIcon className="w-4 h-4" />
-              <span className="text-xs uppercase tracking-wider">Multimedia</span>
+              <span className="text-xs uppercase tracking-wider">Multimedia & Audio</span>
             </button>
           </nav>
         </div>
@@ -1837,7 +1838,7 @@ export default function AdminPage() {
                   }`}
                 >
                   <ImageIcon className="w-4 h-4" />
-                  <span className="text-xs uppercase tracking-wider">Multimedia</span>
+                  <span className="text-xs uppercase tracking-wider">Multimedia & Audio</span>
                 </button>
               </nav>
             </div>
@@ -3030,8 +3031,22 @@ export default function AdminPage() {
                     >
                       Todas ({MEDIA_SLOTS.length})
                     </button>
-                    {MEDIA_SECTIONS.map((sec) => {
-                      const count = sec.id === "audio" ? 1 : MEDIA_SLOTS.filter(s => s.section === sec.id).length
+
+                    {/* Botón Destacado de AUDIO */}
+                    <button
+                      onClick={() => setMediaActiveSection("audio")}
+                      className={`h-9 px-4 rounded-full text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+                        mediaActiveSection === "audio"
+                          ? "bg-[#8da9c4] text-white shadow-xs"
+                          : "bg-blue-50/90 hover:bg-blue-100 text-blue-900 border border-blue-200/70"
+                      }`}
+                    >
+                      <Music className="w-3.5 h-3.5 text-[#8da9c4]" />
+                      <span>Audio Atmosphere</span>
+                    </button>
+
+                    {MEDIA_SECTIONS.filter(sec => sec.id !== "audio").map((sec) => {
+                      const count = MEDIA_SLOTS.filter(s => s.section === sec.id).length
                       const isSecActive = mediaActiveSection === sec.id
                       return (
                         <button
