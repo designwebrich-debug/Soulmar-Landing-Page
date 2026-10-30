@@ -11,9 +11,9 @@ export function HowToStartSection() {
   const title2 = isEn ? "FOLLOW THESE STEPS" : "SIGUE ESTOS PASOS"
 
   const steps = [
-    { num: isEn ? "STEP 1:" : "PASO 1:", text: isEn ? "Select the date" : "Seleciona el día" },
-    { num: isEn ? "STEP 2:" : "PASO 2:", text: isEn ? "Select the time" : "Seleciona la hora" },
-    { num: isEn ? "STEP 3:" : "PASO 3:", text: isEn ? "Select reason for consultation" : "Seleciona Motivo de consulta" },
+    { num: isEn ? "STEP 1:" : "PASO 1:", text: isEn ? "Select the date" : "Selecciona el día" },
+    { num: isEn ? "STEP 2:" : "PASO 2:", text: isEn ? "Select the time" : "Selecciona la hora" },
+    { num: isEn ? "STEP 3:" : "PASO 3:", text: isEn ? "Select reason for consultation" : "Selecciona motivo de consulta" },
     { num: isEn ? "STEP 4:" : "PASO 4:", text: isEn ? "Enter your full name" : "Agrega tu nombre completo" },
     { num: isEn ? "STEP 5:" : "PASO 5:", text: isEn ? "Enter your phone number" : "Agrega tu número celular" },
     { num: isEn ? "STEP 6:" : "PASO 6:", text: isEn ? "Enter your email" : "Agrega tu correo" },

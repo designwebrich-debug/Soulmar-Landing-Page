@@ -15,7 +15,7 @@ const navItems = [
   { key: "home", href: "/" },
   { key: "therapies", href: "/#caja-terapias" },
   { key: "tutorial", href: "/#como-empezar" },
-  { key: "agendar", href: "/#caja-agendamiento" },
+  { key: "agendar", href: "/sobre-mi" },
   { key: "follow_us", href: "/#comunidad" },
 ]
 
@@ -32,6 +32,12 @@ export function Navbar() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, key: string, href: string) => {
     setActiveKey(key)
 
+    if (pathname === href) {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
+
     if (pathname !== "/") return
 
     if (href === "/") {
@@ -47,6 +53,11 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
+
+      if (pathname === "/sobre-mi") {
+        setActiveKey("agendar")
+        return
+      }
 
       if (pathname !== "/") return
 
