@@ -18,7 +18,7 @@ export const SOULMAR_SEARCH_DATABASE: SearchItem[] = [
     subtitle: "Psicóloga Clínica • Tarjeta Prof. COLPSIC No. 248910",
     description: "Conoce mi formación académica, credenciales clínicas, enfoque cognitivo-conductual (TCC) y mensaje de voz personal.",
     category: "servicio",
-    href: "/sobre-mi",
+    targetId: "caja-agendamiento",
     keywords: [
       "sobre mi", "mariana", "mariana caicedo", "dra mariana", "doctora mariana", "tarjeta profesional", 
       "formacion", "enfoque", "cognitivo conductual", "tcc", "quien es", "estudios", "curriculum", "acreditacion", "colpsic"

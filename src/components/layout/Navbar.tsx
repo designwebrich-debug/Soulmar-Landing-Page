@@ -15,7 +15,7 @@ const navItems = [
   { key: "home", href: "/" },
   { key: "therapies", href: "/#caja-terapias" },
   { key: "tutorial", href: "/#como-empezar" },
-  { key: "agendar", href: "/sobre-mi" },
+  { key: "agendar", href: "/#caja-agendamiento" },
   { key: "follow_us", href: "/#comunidad" },
 ]
 

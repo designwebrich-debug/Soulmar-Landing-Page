@@ -156,6 +156,12 @@ export function SobreMiPage() {
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[75vw] max-w-4xl h-[360px] bg-[#8da9c4]/20 dark:bg-[#8da9c4]/15 blur-[140px] rounded-full pointer-events-none" />
         <div className="absolute top-48 right-10 w-72 h-72 bg-[#5d7c99]/15 blur-[120px] rounded-full pointer-events-none" />
 
+        {/* DRAFT INDICATOR (LOCAL DEV PREVIEW) */}
+        <div className="relative z-10 mb-5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+          <span>Modo Borrador • Esta página está oculta para usuarios en producción mientras terminas de corregir información</span>
+        </div>
+
         {/* BREADCRUMB NAVIGATION */}
         <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-6">
           <Link

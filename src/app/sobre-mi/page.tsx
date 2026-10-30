@@ -1,33 +1,30 @@
 import type { Metadata } from "next"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 import { SobreMiPage } from "@/components/about/SobreMiPage"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export const metadata: Metadata = {
-  title: "Sobre mí - Dra. Mariana Caicedo Quintero | Psicóloga Clínica",
-  description: "Conoce la trayectoria, formación académica y credenciales clínicas de la Dra. Mariana Caicedo Quintero (Tarjeta Prof. COLPSIC No. 248910). Enfoque Cognitivo-Conductual (TCC), terapias de 3ª generación y acompañamiento psicológico online.",
-  alternates: {
-    canonical: "https://www.soulmar.org/sobre-mi",
-  },
-  openGraph: {
-    title: "Dra. Mariana Caicedo Quintero - Psicóloga Clínica | Soulmar",
-    description: "Psicología clínica basada en evidencia científica, calidez humana y confidencialidad absoluta. Conoce mi formación, tarjeta profesional y enfoque terapéutico.",
-    url: "https://www.soulmar.org/sobre-mi",
-    siteName: "Soulmar",
-    images: [
-      {
-        url: "/images/therapists/mariana.png",
-        width: 640,
-        height: 640,
-        alt: "Dra. Mariana Caicedo Quintero - Psicóloga Clínica",
-      },
-    ],
-    locale: "es_CO",
-    type: "profile",
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
-export default function Page() {
+export default async function Page() {
+  const headersList = await headers()
+  const host = headersList.get("host") || ""
+  const isLocalhost =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("192.168.")
+
+  // Oculto en producción para usuarios reales mientras se termina de corregir información
+  if (!isLocalhost && process.env.NODE_ENV === "production") {
+    redirect("/#caja-agendamiento")
+  }
+
   return <SobreMiPage />
 }
