@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Play, Pause, Volume2, Sparkles } from "lucide-react"
+import { Play, Pause } from "lucide-react"
 import { useMedia } from "@/context/MediaContext"
 
 /**
@@ -11,25 +11,24 @@ import { useMedia } from "@/context/MediaContext"
  * Experiencia sonora ambiental: "Un momento para volver a ti."
  * Botón flotante Liquid Glass Apple en la esquina inferior izquierda.
  * - 100% Voluntario (Cero autoplay).
- * - Fade-in suave (~3 segundos).
- * - Fade-out suave (~2 segundos).
- * - Bucle continuo sin cortes audibles.
+ * - Fade-in gradual y perceptible desde 0.08 hasta 0.50.
+ * - Fade-out suave antes de pausar.
  * - Single-instance persistente a través de la navegación.
  * - Desactivación dinámica desde panel de control.
  */
 export function SoulmarAtmospherePlayer() {
   const { media } = useMedia()
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const fadeAnimRef = useRef<number | null>(null)
+  const isPlayingRef = useRef(false)
 
   const [isPlaying, setIsPlaying] = useState(false)
   const [isFading, setIsFading] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   const DEFAULT_AUDIO_URL = "https://druynmdkgdwuohojmptc.supabase.co/storage/v1/object/public/media/slots/audio_atmosphere-default.mp3"
 
-  // Obtener URL de audio y metadatos con respaldo de fábrica inmediato
+  // Sincronizar URL de audio y configuración
   const rawAudio = media["audio_atmosphere"]
   const audioUrl = (rawAudio && rawAudio !== "__EMPTY__") ? rawAudio : DEFAULT_AUDIO_URL
   let isEnabled = true
@@ -47,20 +46,30 @@ export function SoulmarAtmospherePlayer() {
       }
     }
   } catch (e) {
-    // Si no parsea, mantenemos los valores por defecto
+    // Mantener valores seguros si hay error al parsear
   }
 
+  // Mantener isPlayingRef sincronizado
   useEffect(() => {
-    setMounted(true)
+    isPlayingRef.current = isPlaying
+  }, [isPlaying])
+
+  // Limpiar animaciones de fade activas
+  const cancelFade = useCallback(() => {
+    if (fadeAnimRef.current !== null) {
+      cancelAnimationFrame(fadeAnimRef.current)
+      fadeAnimRef.current = null
+    }
   }, [])
 
-  // Inicializar o actualizar elemento de audio
+  // Inicializar o actualizar la pista de audio cuando cambie audioUrl
   useEffect(() => {
     if (!audioUrl || audioUrl === "__EMPTY__") {
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current = null
         setIsPlaying(false)
+        setIsFading(false)
       }
       return
     }
@@ -70,10 +79,11 @@ export function SoulmarAtmospherePlayer() {
       audio.preload = "none"
       audio.loop = true
       audio.volume = 0
-      audioRef.current = audio
+      audio.crossOrigin = "anonymous"
 
       audio.onended = () => {
         setIsPlaying(false)
+        setIsFading(false)
       }
 
       audio.onerror = (e) => {
@@ -81,103 +91,104 @@ export function SoulmarAtmospherePlayer() {
         setIsPlaying(false)
         setIsFading(false)
       }
+
+      audioRef.current = audio
     } else if (audioRef.current.src !== audioUrl) {
-      // Si la URL cambió en caliente
-      const wasPlaying = isPlaying
+      const wasPlaying = isPlayingRef.current
       audioRef.current.src = audioUrl
       audioRef.current.preload = "none"
       audioRef.current.loop = true
       if (wasPlaying) {
-        audioRef.current.volume = 0.35
+        audioRef.current.volume = 0.5
         audioRef.current.play().catch(() => setIsPlaying(false))
       }
     }
 
     return () => {
-      // Cleanup on unmount
-      if (fadeIntervalRef.current) {
-        clearInterval(fadeIntervalRef.current)
-      }
+      cancelFade()
     }
-  }, [audioUrl, isPlaying])
+  }, [audioUrl, cancelFade])
 
-  // Detener si el admin desactiva la música en vivo
+  // Si el administrador desactiva el audio en vivo, detener inmediatamente
   useEffect(() => {
-    if (!isEnabled && isPlaying && audioRef.current) {
+    if (!isEnabled && audioRef.current && isPlayingRef.current) {
+      cancelFade()
       audioRef.current.pause()
       audioRef.current.volume = 0
       setIsPlaying(false)
       setIsFading(false)
     }
-  }, [isEnabled, isPlaying])
+  }, [isEnabled, cancelFade])
 
-  const clearFade = () => {
-    if (fadeIntervalRef.current) {
-      clearInterval(fadeIntervalRef.current)
-      fadeIntervalRef.current = null
-    }
-  }
-
-  const fadeIn = useCallback((targetVolume = 0.35, durationMs = 3000) => {
+  // Fade In: Inicia perceptiblemente en 0.08 y sube suavemente hasta 0.50
+  const fadeIn = useCallback((targetVolume = 0.5, durationMs = 2500) => {
     if (!audioRef.current) return
-    clearFade()
+    cancelFade()
     setIsFading(true)
 
     const audio = audioRef.current
-    const stepTime = 50
-    const totalSteps = durationMs / stepTime
-    const volumeStep = targetVolume / totalSteps
+    audio.preload = "auto"
+    const startVolume = 0.08
+    audio.volume = startVolume
 
-    audio.volume = 0
     audio.play().then(() => {
       setIsPlaying(true)
-      let currentStep = 0
+      const startTime = performance.now()
 
-      fadeIntervalRef.current = setInterval(() => {
-        currentStep++
-        const nextVol = Math.min(targetVolume, currentStep * volumeStep)
-        audio.volume = nextVol
+      const step = (now: number) => {
+        const elapsed = now - startTime
+        const progress = Math.min(1, elapsed / durationMs)
+        // Curva suave cuadrática
+        const currentVol = startVolume + (targetVolume - startVolume) * Math.sin((progress * Math.PI) / 2)
+        audio.volume = Math.min(targetVolume, Math.max(0, currentVol))
 
-        if (currentStep >= totalSteps || nextVol >= targetVolume) {
-          clearFade()
+        if (progress < 1) {
+          fadeAnimRef.current = requestAnimationFrame(step)
+        } else {
           audio.volume = targetVolume
           setIsFading(false)
+          fadeAnimRef.current = null
         }
-      }, stepTime)
+      }
+
+      fadeAnimRef.current = requestAnimationFrame(step)
     }).catch((err) => {
-      console.warn("[SoulmarAtmosphere] Autoplay or playback prevented:", err)
+      console.warn("[SoulmarAtmosphere] Error al iniciar reproducción:", err)
       setIsPlaying(false)
       setIsFading(false)
-      clearFade()
+      cancelFade()
     })
-  }, [])
+  }, [cancelFade])
 
-  const fadeOut = useCallback((durationMs = 2000) => {
+  // Fade Out: Baja el volumen de forma armónica antes de pausar
+  const fadeOut = useCallback((durationMs = 1500) => {
     if (!audioRef.current) return
-    clearFade()
+    cancelFade()
     setIsFading(true)
 
     const audio = audioRef.current
-    const startVolume = audio.volume
-    const stepTime = 50
-    const totalSteps = durationMs / stepTime
-    const volumeStep = startVolume / totalSteps
-    let currentStep = 0
+    const initialVol = audio.volume
+    const startTime = performance.now()
 
-    fadeIntervalRef.current = setInterval(() => {
-      currentStep++
-      const nextVol = Math.max(0, startVolume - (currentStep * volumeStep))
-      audio.volume = nextVol
+    const step = (now: number) => {
+      const elapsed = now - startTime
+      const progress = Math.min(1, elapsed / durationMs)
+      const currentVol = Math.max(0, initialVol * (1 - progress))
+      audio.volume = currentVol
 
-      if (currentStep >= totalSteps || nextVol <= 0.01) {
-        clearFade()
+      if (progress < 1) {
+        fadeAnimRef.current = requestAnimationFrame(step)
+      } else {
         audio.volume = 0
         audio.pause()
         setIsPlaying(false)
         setIsFading(false)
+        fadeAnimRef.current = null
       }
-    }, stepTime)
-  }, [])
+    }
+
+    fadeAnimRef.current = requestAnimationFrame(step)
+  }, [cancelFade])
 
   const togglePlay = () => {
     if (!audioRef.current && audioUrl) {
@@ -185,13 +196,14 @@ export function SoulmarAtmospherePlayer() {
       audio.preload = "none"
       audio.loop = true
       audio.volume = 0
+      audio.crossOrigin = "anonymous"
       audioRef.current = audio
     }
 
     if (isPlaying) {
-      fadeOut(2000)
+      fadeOut(1500)
     } else {
-      fadeIn(0.35, 3000)
+      fadeIn(0.5, 2500)
     }
   }
 
