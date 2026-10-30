@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, isVideoUrl } from "@/lib/utils"
 import { useTranslation } from "@/context/LanguageContext"
 
 import { useMedia } from "@/context/MediaContext"
@@ -79,7 +79,7 @@ export function HighlightCarousel() {
   const currentSlide = slides[currentIndex]
 
   return (
-    <div className="relative w-full">
+    <div className="hidden md:block relative w-full">
       <div 
         className={cn(
           "relative w-full overflow-hidden rounded-3xl md:rounded-[3rem] group border border-black/5 dark:border-white/5",
@@ -113,21 +113,33 @@ export function HighlightCarousel() {
           >
             <div className="block w-full h-full pointer-events-none select-none">
               {(currentSlide.desktopImage || currentSlide.mobileImage || currentSlide.tabletImage) ? (
-                <picture className="w-full h-full block">
-                  {currentSlide.mobileImage && (
-                    <source media="(max-width: 767px)" srcSet={currentSlide.mobileImage} />
-                  )}
-                  {currentSlide.tabletImage && (
-                    <source media="(max-width: 1024px)" srcSet={currentSlide.tabletImage} />
-                  )}
-                  <img 
-                    src={currentSlide.desktopImage || currentSlide.mobileImage} 
-                    alt={`Slide ${currentIndex + 1}`}
+                isVideoUrl(currentSlide.desktopImage) || isVideoUrl(currentSlide.tabletImage) || isVideoUrl(currentSlide.mobileImage) ? (
+                  <video
+                    src={currentSlide.desktopImage || currentSlide.tabletImage || currentSlide.mobileImage}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
                     className="w-full h-full object-cover pointer-events-none"
-                    loading="eager"
-                    draggable={false}
                   />
-                </picture>
+                ) : (
+                  <picture className="w-full h-full block">
+                    {currentSlide.mobileImage && (
+                      <source media="(max-width: 767px)" srcSet={currentSlide.mobileImage} />
+                    )}
+                    {currentSlide.tabletImage && (
+                      <source media="(max-width: 1024px)" srcSet={currentSlide.tabletImage} />
+                    )}
+                    <img 
+                      src={currentSlide.desktopImage || currentSlide.mobileImage} 
+                      alt={`Slide ${currentIndex + 1}`}
+                      className="w-full h-full object-cover pointer-events-none"
+                      loading="eager"
+                      draggable={false}
+                    />
+                  </picture>
+                )
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-neutral-900/40 text-white/50 text-xs font-semibold">
                   <span>Espacio sin imagen</span>

@@ -64,7 +64,7 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
   {
     id: "hero",
     title: "Banners Principales (Hero)",
-    description: "Los 3 banners cinematográficos destacados que dan la bienvenida al visitante en la parte superior."
+    description: "Los 3 banners cinematográficos destacados que dan la bienvenida al visitante en la parte superior (admite Fotos en alta resolución o Videos MP4 en máxima calidad)."
   },
   {
     id: "moments",
@@ -79,7 +79,7 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
   {
     id: "highlights",
     title: "Carrusel de Destacados",
-    description: "Imágenes panorámicas de cursos, retiros y novedades de Soulmar."
+    description: "Banners panorámicos de cursos, retiros y novedades de Soulmar habilitados para PC e iPad (admite Fotos o Videos MP4 en máxima calidad)."
   },
   {
     id: "mobile_cards",

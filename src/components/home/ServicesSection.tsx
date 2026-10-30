@@ -206,8 +206,8 @@ export function ServicesSection() {
         </div>
       </div>
 
-      {/* Highlight Carousel */}
-      <div className="max-w-5xl mx-auto px-6 pt-16 relative z-10">
+      {/* Highlight Carousel - Habilitado únicamente en versión PC e iPad (oculto en móviles) */}
+      <div className="hidden md:block max-w-5xl mx-auto px-6 pt-16 relative z-10">
         <HighlightCarousel />
       </div>
     </Section>

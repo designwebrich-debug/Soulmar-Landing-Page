@@ -65,3 +65,12 @@ export function normalizeTime(t?: string | null): string {
 
   return clean
 }
+
+/**
+ * Detecta si una URL de recurso multimedia corresponde a un video (MP4, WebM, QuickTime, MOV).
+ */
+export function isVideoUrl(url?: string | null): boolean {
+  if (!url) return false
+  const clean = url.split("?")[0].toLowerCase()
+  return clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov") || clean.endsWith(".quicktime")
+}

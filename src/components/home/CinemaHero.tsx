@@ -8,7 +8,7 @@ import { ChevronDown, Calendar, ShieldCheck, Clock, Plus, ArrowUpRight, ArrowRig
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from "@/context/LanguageContext"
 import { searchSoulmar, type SearchItem } from "@/lib/searchDatabase"
-import { normalizeTime } from "@/lib/utils"
+import { normalizeTime, isVideoUrl } from "@/lib/utils"
 import { getFirstAvailableSlot, type SlotAvailability } from "@/lib/availability"
 
 import { useMedia } from "@/context/MediaContext"
@@ -531,42 +531,78 @@ export function CinemaHero() {
                   >
                     {/* Versión Celular (Móvil) */}
                     {Boolean(mobileSlides[currentMobileSlide].image) && (
-                      <Image
-                        src={mobileSlides[currentMobileSlide].image}
-                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
-                        fill
-                        quality={100}
-                        unoptimized
-                        priority={currentMobileSlide === 0}
-                        sizes="(max-width: 768px) 100vw, 1200px"
-                        className="block md:hidden object-cover object-center select-none"
-                      />
+                      isVideoUrl(mobileSlides[currentMobileSlide].image) ? (
+                        <video
+                          src={mobileSlides[currentMobileSlide].image}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                          className="block md:hidden w-full h-full object-cover object-center select-none pointer-events-none"
+                        />
+                      ) : (
+                        <Image
+                          src={mobileSlides[currentMobileSlide].image}
+                          alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                          fill
+                          quality={100}
+                          unoptimized
+                          priority={currentMobileSlide === 0}
+                          sizes="(max-width: 768px) 100vw, 1200px"
+                          className="block md:hidden object-cover object-center select-none"
+                        />
+                      )
                     )}
                     {/* Versión iPad (Tablet) */}
                     {Boolean((mobileSlides[currentMobileSlide] as any).tabletImage) && (
-                      <Image
-                        src={(mobileSlides[currentMobileSlide] as any).tabletImage}
-                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
-                        fill
-                        quality={100}
-                        unoptimized
-                        priority={currentMobileSlide === 0}
-                        sizes="(max-width: 1024px) 100vw, 1400px"
-                        className="hidden md:block lg:hidden object-cover object-center select-none"
-                      />
+                      isVideoUrl((mobileSlides[currentMobileSlide] as any).tabletImage) ? (
+                        <video
+                          src={(mobileSlides[currentMobileSlide] as any).tabletImage}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                          className="hidden md:block lg:hidden w-full h-full object-cover object-center select-none pointer-events-none"
+                        />
+                      ) : (
+                        <Image
+                          src={(mobileSlides[currentMobileSlide] as any).tabletImage}
+                          alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                          fill
+                          quality={100}
+                          unoptimized
+                          priority={currentMobileSlide === 0}
+                          sizes="(max-width: 1024px) 100vw, 1400px"
+                          className="hidden md:block lg:hidden object-cover object-center select-none"
+                        />
+                      )
                     )}
                     {/* Versión Computador (PC) */}
                     {Boolean((mobileSlides[currentMobileSlide] as any).desktopImage) && (
-                      <Image
-                        src={(mobileSlides[currentMobileSlide] as any).desktopImage}
-                        alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
-                        fill
-                        quality={100}
-                        unoptimized
-                        priority={currentMobileSlide === 0}
-                        sizes="(min-width: 1024px) 100vw, 1920px"
-                        className="hidden lg:block object-cover object-center select-none"
-                      />
+                      isVideoUrl((mobileSlides[currentMobileSlide] as any).desktopImage) ? (
+                        <video
+                          src={(mobileSlides[currentMobileSlide] as any).desktopImage}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                          className="hidden lg:block w-full h-full object-cover object-center select-none pointer-events-none"
+                        />
+                      ) : (
+                        <Image
+                          src={(mobileSlides[currentMobileSlide] as any).desktopImage}
+                          alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                          fill
+                          quality={100}
+                          unoptimized
+                          priority={currentMobileSlide === 0}
+                          sizes="(min-width: 1024px) 100vw, 1920px"
+                          className="hidden lg:block object-cover object-center select-none"
+                        />
+                      )
                     )}
                     {/* Placeholder si el espacio está vacío */}
                     {!mobileSlides[currentMobileSlide].image && !(mobileSlides[currentMobileSlide] as any).tabletImage && !(mobileSlides[currentMobileSlide] as any).desktopImage && (
