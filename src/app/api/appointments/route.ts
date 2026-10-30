@@ -497,23 +497,61 @@ export async function POST(request: Request) {
 }
 
 /**
- * DELETE: Purgar historial (citas canceladas o no-show) dentro de un periodo.
+ * DELETE: Eliminar una cita individual por ID o purgar historial de canceladas.
  */
 export async function DELETE(request: Request) {
   if (!(await requireAdmin())) return new NextResponse("Unauthorized", { status: 401 })
 
-  const timeframe = new URL(request.url).searchParams.get("timeframe")
-  if (!timeframe) return NextResponse.json({ error: "Parámetro 'timeframe' requerido." }, { status: 400 })
+  const url = new URL(request.url)
+  const id = url.searchParams.get("id")
+  const timeframe = url.searchParams.get("timeframe")
 
-  const cutoff = new Date()
-  if (timeframe === "day") cutoff.setDate(cutoff.getDate() - 1)
-  else if (timeframe === "week") cutoff.setDate(cutoff.getDate() - 7)
-  else if (timeframe === "month") cutoff.setMonth(cutoff.getMonth() - 1)
-  else if (timeframe === "year") cutoff.setFullYear(cutoff.getFullYear() - 1)
-  const cutoffIso = cutoff.toISOString().split("T")[0]
+  if (!id && !timeframe) {
+    return NextResponse.json({ error: "Parámetro 'id' o 'timeframe' requerido." }, { status: 400 })
+  }
 
   try {
     const supabase = await createAdminClient()
+
+    // Caso 1: Eliminar cita individual por ID
+    if (id) {
+      const { error, count } = await supabase
+        .from("appointments")
+        .delete({ count: "exact" })
+        .eq("id", id)
+
+      if (error) return dbUnavailable("API_APPOINTMENTS_DELETE_ID", error)
+
+      return NextResponse.json({
+        success: true,
+        deleted: count ?? 1,
+        message: "Cita eliminada exitosamente del sistema.",
+      })
+    }
+
+    // Caso 2: Purgar historial por periodo o todas las canceladas
+    if (timeframe === "all") {
+      const { error, count } = await supabase
+        .from("appointments")
+        .delete({ count: "exact" })
+        .in("status", ["cancelled", "no_show"])
+
+      if (error) return dbUnavailable("API_APPOINTMENTS_DELETE_ALL", error)
+
+      return NextResponse.json({
+        success: true,
+        deleted: count ?? 0,
+        message: "Todo el historial de citas canceladas ha sido purgado exitosamente.",
+      })
+    }
+
+    const cutoff = new Date()
+    if (timeframe === "day") cutoff.setDate(cutoff.getDate() - 1)
+    else if (timeframe === "week") cutoff.setDate(cutoff.getDate() - 7)
+    else if (timeframe === "month") cutoff.setMonth(cutoff.getMonth() - 1)
+    else if (timeframe === "year") cutoff.setFullYear(cutoff.getFullYear() - 1)
+    const cutoffIso = cutoff.toISOString().split("T")[0]
+
     const { error, count } = await supabase
       .from("appointments")
       .delete({ count: "exact" })

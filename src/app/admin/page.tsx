@@ -470,7 +470,7 @@ export default function AdminPage() {
   const [cancelingAppId, setCancelingAppId] = useState<string | null>(null)
   const [noShowAppId, setNoShowAppId] = useState<string | null>(null)
   const [showPurgeHistoryModal, setShowPurgeHistoryModal] = useState(false)
-  const [purgeTimeframe, setPurgeTimeframe] = useState<"day" | "week" | "month" | "year">("month")
+  const [purgeTimeframe, setPurgeTimeframe] = useState<"all" | "day" | "week" | "month" | "year">("all")
   const [isPurgingHistory, setIsPurgingHistory] = useState(false)
 
   useEffect(() => {
@@ -554,41 +554,39 @@ export default function AdminPage() {
     return `https://wa.me/${phoneWithPrefix}`
   }
 
-  // Cargar citas fusionando base de datos con caché persistente (garantía de cero pérdida)
-  const fetchAppointments = async () => {
+  // Cargar citas desde el servidor (Fuente Única de Verdad). 
+  // isSilent = true evita mostrar spinners o saltos en pantalla durante el polling de fondo.
+  const fetchAppointments = async (isSilent = false) => {
     try {
-      setLoadingAppointments(true)
-      
-      // Cargar respaldo local previo si existe
-      let localBackup: Appointment[] = []
-      try {
-        const stored = localStorage.getItem("soulmar_admin_appointments_backup")
-        if (stored) {
-          localBackup = JSON.parse(stored)
-        }
-      } catch (e) {}
+      if (!isSilent) {
+        setLoadingAppointments(true)
+      }
 
-      const res = await fetch("/api/appointments")
+      const res = await fetch("/api/appointments", {
+        cache: "no-store",
+        headers: { "pragma": "no-cache" }
+      })
       if (res.ok) {
         const data = await res.json()
         const serverApps: Appointment[] = Array.isArray(data.appointments) ? data.appointments : []
         
-        // Unir datos del servidor con el respaldo local sin duplicados
-        const serverIds = new Set(serverApps.map(a => a.id))
-        const merged = [
-          ...serverApps,
-          ...localBackup.filter(ba => !serverIds.has(ba.id))
-        ]
-
-        setAppointments(merged)
+        // El servidor (Supabase) es la fuente única de verdad.
+        // NO resucitar citas eliminadas o fantasmas que ya no existen en la BD.
+        setAppointments(serverApps)
         setIsCalendarConfigured(data.isCalendarConfigured || false)
         
-        // Actualizar respaldo en localStorage
+        // Actualizar respaldo en localStorage únicamente como copia limpia
         try {
-          localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(merged))
+          localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(serverApps))
         } catch (e) {}
-      } else if (localBackup.length > 0) {
-        setAppointments(localBackup)
+      } else {
+        // En caso de fallo de conexión puntual, consultar respaldo offline
+        try {
+          const stored = localStorage.getItem("soulmar_admin_appointments_backup")
+          if (stored) {
+            setAppointments(JSON.parse(stored))
+          }
+        } catch (e) {}
       }
     } catch (err) {
       console.error("Error al cargar citas:", err)
@@ -599,7 +597,9 @@ export default function AdminPage() {
         }
       } catch (e) {}
     } finally {
-      setLoadingAppointments(false)
+      if (!isSilent) {
+        setLoadingAppointments(false)
+      }
     }
   }
 
@@ -624,9 +624,9 @@ export default function AdminPage() {
     if (adminEmail) {
       fetchAppointments()
 
-      // Polling cada 15s para garantizar actualización en tiempo real incluso sin WebSockets
+      // Polling silencioso cada 15s para garantizar actualización en tiempo real sin saltos visuales ni parpadeos
       const pollTimer = setInterval(() => {
-        fetchAppointments()
+        fetchAppointments(true)
       }, 15000)
 
       // Cargar configuraciones de horarios
@@ -913,17 +913,48 @@ export default function AdminPage() {
               }
             })
           )
-        } else {
-          throw new Error(data.error || "Respuesta del servidor inválida")
         }
+      } else if (res.status === 404) {
+        // La cita ya no existe en la base de datos (registro huérfano): removerla limpiamente
+        setAppointments(prev => prev.filter(app => app.id !== id))
+        try {
+          const stored = localStorage.getItem("soulmar_admin_appointments_backup")
+          if (stored) {
+            const parsed = JSON.parse(stored)
+            localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(parsed.filter((a: any) => a.id !== id)))
+          }
+        } catch (e) {}
       } else {
         const errText = await res.text()
         throw new Error(errText)
       }
     } catch (err: any) {
       console.error("Error al cancelar cita:", err)
-      alert("Error al cancelar cita: " + (err.message || err))
-      fetchAppointments()
+      fetchAppointments(true)
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
+  // Eliminar cita individual por completo del sistema
+  const handleDeleteAppointment = async (id: string) => {
+    try {
+      setUpdatingId(id)
+      setAppointments(prev => prev.filter(app => app.id !== id))
+      try {
+        const stored = localStorage.getItem("soulmar_admin_appointments_backup")
+        if (stored) {
+          const parsed = JSON.parse(stored)
+          localStorage.setItem("soulmar_admin_appointments_backup", JSON.stringify(parsed.filter((a: any) => a.id !== id)))
+        }
+      } catch (e) {}
+
+      await fetch(`/api/appointments?id=${encodeURIComponent(id)}`, {
+        method: "DELETE"
+      })
+    } catch (err: any) {
+      console.error("Error al eliminar cita:", err)
+      fetchAppointments(true)
     } finally {
       setUpdatingId(null)
     }
@@ -996,6 +1027,9 @@ export default function AdminPage() {
       // Filtrar localmente citas pasadas o canceladas que caen en ese periodo
       setAppointments(prev => {
         const next = prev.filter(app => {
+          if (purgeTimeframe === "all") {
+            return app.status !== "cancelled" && app.status !== "no_show"
+          }
           const isTarget = (app.status === "cancelled" || app.status === "no_show" || app.appointment_date <= cutoffIso)
           return !isTarget
         })
@@ -1006,7 +1040,8 @@ export default function AdminPage() {
       })
 
       setShowPurgeHistoryModal(false)
-      alert("Historial purgado exitosamente según el periodo seleccionado.")
+      await fetchAppointments(true)
+      alert("Historial purgado exitosamente.")
     } catch (err: any) {
       console.error("Error al purgar historial:", err)
       alert("Hubo un problema al purgar el historial: " + (err.message || err))
@@ -2550,6 +2585,17 @@ export default function AdminPage() {
                                         <X className="w-3.5 h-3.5 stroke-[3.0]" />
                                       </button>
                                     )}
+
+                                    {/* Botón de Eliminar del Historial (Trash) - Si la cita está cancelada o no asistió */}
+                                    {(app.status === "cancelled" || app.status === "no_show") && (
+                                      <button
+                                        onClick={() => handleDeleteAppointment(app.id)}
+                                        className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-red-50 border border-neutral-200 hover:border-red-200 text-neutral-400 hover:text-red-600 flex items-center justify-center transition-all cursor-pointer"
+                                        title="Eliminar del historial definitivamente"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    )}
                                   </>
                                 )}
                               </div>
@@ -3784,6 +3830,7 @@ export default function AdminPage() {
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {[
+                  { id: "all", label: "Todas las Canceladas" },
                   { id: "day", label: "Último Día" },
                   { id: "week", label: "Última Semana" },
                   { id: "month", label: "Último Mes" },
