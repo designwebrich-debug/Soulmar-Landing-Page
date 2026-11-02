@@ -635,8 +635,8 @@ export function CinemaHero() {
                 </div>
               </div>
 
-              {/* ABAJO: BARRA DE BÚSQUEDA INTELIGENTE CON EFECTO DE CRISTAL LÍQUIDO */}
-              <div ref={searchContainerRef} className="relative z-50 w-full max-w-xl mx-auto">
+              {/* ABAJO: BARRA DE BÚSQUEDA INTELIGENTE CON EFECTO DE CRISTAL LÍQUIDO (Desactivada en versión celulares) */}
+              <div ref={searchContainerRef} className="hidden md:block relative z-50 w-full max-w-xl mx-auto">
                 <form
                   onSubmit={handleMobileSearch}
                   className="liquid-glass w-full h-[52px] md:h-[58px] rounded-full flex items-center gap-3 pl-4 md:pl-5 pr-2 shadow-2xl border border-white/40"

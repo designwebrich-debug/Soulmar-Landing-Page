@@ -5,6 +5,7 @@ import { Navbar } from "./Navbar"
 import { MobileTabBar } from "./MobileTabBar"
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton"
 import { SoulmarAtmospherePlayer } from "@/components/audio/SoulmarAtmospherePlayer"
+import { AtmosphereProvider } from "@/context/AtmosphereContext"
 
 export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -15,7 +16,7 @@ export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <AtmosphereProvider>
       <Navbar />
       <main className="pt-16 md:pt-24 pb-24 md:pb-0">
         {children}
@@ -23,6 +24,6 @@ export function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
       <WhatsAppButton />
       <SoulmarAtmospherePlayer />
       <MobileTabBar />
-    </>
+    </AtmosphereProvider>
   )
 }

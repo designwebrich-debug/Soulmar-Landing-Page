@@ -2425,7 +2425,7 @@ export default function AdminPage() {
                       Limpiar
                     </button>
                     <button 
-                      onClick={fetchAppointments}
+                      onClick={() => fetchAppointments()}
                       className="flex-1 h-10 rounded-full bg-black text-white hover:bg-[#8da9c4] text-[10px] uppercase font-bold transition-all cursor-pointer shadow-sm"
                     >
                       Filtrar

@@ -1,211 +1,20 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Play, Pause } from "lucide-react"
-import { useMedia } from "@/context/MediaContext"
+import { useAtmosphere } from "@/context/AtmosphereContext"
 
 /**
- * Soulmar Atmosphere Player
+ * Soulmar Atmosphere Player (Versión Desktop)
  * 
  * Experiencia sonora ambiental: "Un momento para volver a ti."
- * Botón flotante Liquid Glass Apple en la esquina inferior izquierda.
- * - 100% Voluntario (Cero autoplay).
- * - Fade-in gradual y perceptible desde 0.08 hasta 0.50.
- * - Fade-out suave antes de pausar.
- * - Single-instance persistente a través de la navegación.
- * - Desactivación dinámica desde panel de control.
+ * Botón flotante Liquid Glass Apple en la esquina inferior izquierda solo en Desktop.
+ * En versión celular, el control se ubica en el círculo izquierdo del MobileTabBar.
  */
 export function SoulmarAtmospherePlayer() {
-  const { media } = useMedia()
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const fadeAnimRef = useRef<number | null>(null)
-  const isPlayingRef = useRef(false)
-
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isFading, setIsFading] = useState(false)
+  const { isPlaying, isFading, isEnabled, togglePlay } = useAtmosphere()
   const [isHovered, setIsHovered] = useState(false)
-
-  const DEFAULT_AUDIO_URL = "https://druynmdkgdwuohojmptc.supabase.co/storage/v1/object/public/media/slots/audio_atmosphere-default.mp3"
-
-  // Sincronizar URL de audio y configuración
-  const rawAudio = media["audio_atmosphere"]
-  const audioUrl = (rawAudio && rawAudio !== "__EMPTY__") ? rawAudio : DEFAULT_AUDIO_URL
-  let isEnabled = true
-  let songTitle = "Soulmar Atmosphere — Un momento para volver a ti"
-
-  try {
-    const rawMeta = media["audio_atmosphere_meta"]
-    if (rawMeta) {
-      const parsed = typeof rawMeta === "string" ? JSON.parse(rawMeta) : rawMeta
-      if (parsed && typeof parsed.isEnabled === "boolean") {
-        isEnabled = parsed.isEnabled
-      }
-      if (parsed?.title) {
-        songTitle = parsed.title
-      }
-    }
-  } catch (e) {
-    // Mantener valores seguros si hay error al parsear
-  }
-
-  // Mantener isPlayingRef sincronizado
-  useEffect(() => {
-    isPlayingRef.current = isPlaying
-  }, [isPlaying])
-
-  // Limpiar animaciones de fade activas
-  const cancelFade = useCallback(() => {
-    if (fadeAnimRef.current !== null) {
-      cancelAnimationFrame(fadeAnimRef.current)
-      fadeAnimRef.current = null
-    }
-  }, [])
-
-  // Inicializar o actualizar la pista de audio cuando cambie audioUrl
-  useEffect(() => {
-    if (!audioUrl || audioUrl === "__EMPTY__") {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-        setIsPlaying(false)
-        setIsFading(false)
-      }
-      return
-    }
-
-    if (!audioRef.current) {
-      const audio = new Audio(audioUrl)
-      audio.preload = "none"
-      audio.loop = true
-      audio.volume = 0
-      audio.crossOrigin = "anonymous"
-
-      audio.onended = () => {
-        setIsPlaying(false)
-        setIsFading(false)
-      }
-
-      audio.onerror = (e) => {
-        console.warn("[SoulmarAtmosphere] Audio error:", e)
-        setIsPlaying(false)
-        setIsFading(false)
-      }
-
-      audioRef.current = audio
-    } else if (audioRef.current.src !== audioUrl) {
-      const wasPlaying = isPlayingRef.current
-      audioRef.current.src = audioUrl
-      audioRef.current.preload = "none"
-      audioRef.current.loop = true
-      if (wasPlaying) {
-        audioRef.current.volume = 0.5
-        audioRef.current.play().catch(() => setIsPlaying(false))
-      }
-    }
-
-    return () => {
-      cancelFade()
-    }
-  }, [audioUrl, cancelFade])
-
-  // Si el administrador desactiva el audio en vivo, detener inmediatamente
-  useEffect(() => {
-    if (!isEnabled && audioRef.current && isPlayingRef.current) {
-      cancelFade()
-      audioRef.current.pause()
-      audioRef.current.volume = 0
-      setIsPlaying(false)
-      setIsFading(false)
-    }
-  }, [isEnabled, cancelFade])
-
-  // Fade In: Inicia perceptiblemente en 0.08 y sube suavemente hasta 0.50
-  const fadeIn = useCallback((targetVolume = 0.5, durationMs = 2500) => {
-    if (!audioRef.current) return
-    cancelFade()
-    setIsFading(true)
-
-    const audio = audioRef.current
-    audio.preload = "auto"
-    const startVolume = 0.08
-    audio.volume = startVolume
-
-    audio.play().then(() => {
-      setIsPlaying(true)
-      const startTime = performance.now()
-
-      const step = (now: number) => {
-        const elapsed = now - startTime
-        const progress = Math.min(1, elapsed / durationMs)
-        // Curva suave cuadrática
-        const currentVol = startVolume + (targetVolume - startVolume) * Math.sin((progress * Math.PI) / 2)
-        audio.volume = Math.min(targetVolume, Math.max(0, currentVol))
-
-        if (progress < 1) {
-          fadeAnimRef.current = requestAnimationFrame(step)
-        } else {
-          audio.volume = targetVolume
-          setIsFading(false)
-          fadeAnimRef.current = null
-        }
-      }
-
-      fadeAnimRef.current = requestAnimationFrame(step)
-    }).catch((err) => {
-      console.warn("[SoulmarAtmosphere] Error al iniciar reproducción:", err)
-      setIsPlaying(false)
-      setIsFading(false)
-      cancelFade()
-    })
-  }, [cancelFade])
-
-  // Fade Out: Baja el volumen de forma armónica antes de pausar
-  const fadeOut = useCallback((durationMs = 1500) => {
-    if (!audioRef.current) return
-    cancelFade()
-    setIsFading(true)
-
-    const audio = audioRef.current
-    const initialVol = audio.volume
-    const startTime = performance.now()
-
-    const step = (now: number) => {
-      const elapsed = now - startTime
-      const progress = Math.min(1, elapsed / durationMs)
-      const currentVol = Math.max(0, initialVol * (1 - progress))
-      audio.volume = currentVol
-
-      if (progress < 1) {
-        fadeAnimRef.current = requestAnimationFrame(step)
-      } else {
-        audio.volume = 0
-        audio.pause()
-        setIsPlaying(false)
-        setIsFading(false)
-        fadeAnimRef.current = null
-      }
-    }
-
-    fadeAnimRef.current = requestAnimationFrame(step)
-  }, [cancelFade])
-
-  const togglePlay = () => {
-    if (!audioRef.current && audioUrl) {
-      const audio = new Audio(audioUrl)
-      audio.preload = "none"
-      audio.loop = true
-      audio.volume = 0
-      audio.crossOrigin = "anonymous"
-      audioRef.current = audio
-    }
-
-    if (isPlaying) {
-      fadeOut(1500)
-    } else {
-      fadeIn(0.5, 2500)
-    }
-  }
 
   // Ocultar si está desactivado por el administrador
   if (!isEnabled) {
@@ -214,7 +23,7 @@ export function SoulmarAtmospherePlayer() {
 
   return (
     <div
-      className="fixed bottom-24 left-4 md:bottom-8 md:left-8 z-[9995] flex items-center select-none"
+      className="hidden md:flex fixed md:bottom-8 md:left-8 z-[9995] items-center select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

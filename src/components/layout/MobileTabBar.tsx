@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Home, Sparkles, Calendar, BookOpen, Search, Moon, Sun, X, Mic, ExternalLink, ArrowRight } from "lucide-react"
+import { Home, Sparkles, Calendar, Search, Moon, Sun, X, Mic, ExternalLink, ArrowRight, Play, Pause } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useTranslation } from "@/context/LanguageContext"
+import { useAtmosphere } from "@/context/AtmosphereContext"
 import { cn } from "@/lib/utils"
 import { searchSoulmar, type SearchItem } from "@/lib/searchDatabase"
 
@@ -14,6 +15,7 @@ export function MobileTabBar() {
   const router = useRouter()
   const { language } = useTranslation()
   const { setTheme, resolvedTheme } = useTheme()
+  const { isPlaying, isEnabled: isAtmosphereEnabled, togglePlay: toggleAtmosphere } = useAtmosphere()
   const [activeTab, setActiveTab] = useState<string>("home")
   const [isSearching, setIsSearching] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -48,13 +50,10 @@ export function MobileTabBar() {
 
     const handleScroll = () => {
       const scrollPos = window.scrollY + 280
-      const ebooksEl = document.getElementById("ebooks")
       const bookingEl = document.getElementById("agendamiento")
       const servicesEl = document.getElementById("servicios")
 
-      if (ebooksEl && scrollPos >= ebooksEl.offsetTop) {
-        setActiveTab("ebooks")
-      } else if (bookingEl && scrollPos >= bookingEl.offsetTop) {
+      if (bookingEl && scrollPos >= bookingEl.offsetTop) {
         setActiveTab("booking")
       } else if (servicesEl && scrollPos >= servicesEl.offsetTop) {
         setActiveTab("services")
@@ -116,6 +115,12 @@ export function MobileTabBar() {
   // Smooth scroll & navigation helper
   const handleTabClick = (tabId: string) => {
     triggerHaptic()
+
+    if (tabId === "theme") {
+      toggleTheme()
+      return
+    }
+
     setActiveTab(tabId)
 
     if (tabId === "home") {
@@ -137,13 +142,6 @@ export function MobileTabBar() {
         el.scrollIntoView({ behavior: "smooth" })
       } else {
         window.location.href = "/#agendamiento"
-      }
-    } else if (tabId === "ebooks") {
-      const el = document.getElementById("ebooks")
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" })
-      } else {
-        window.location.href = "/#ebooks"
       }
     }
   }
@@ -328,9 +326,9 @@ export function MobileTabBar() {
       icon: Calendar,
     },
     {
-      id: "ebooks",
-      label: language === "es" ? "Libros & PDFs" : "Ebooks",
-      icon: BookOpen,
+      id: "theme",
+      label: isDarkMode ? (language === "es" ? "Modo Claro" : "Light Mode") : (language === "es" ? "Modo Oscuro" : "Dark Mode"),
+      icon: isDarkMode ? Sun : Moon,
     },
   ]
 
@@ -343,12 +341,15 @@ export function MobileTabBar() {
       data-floating-dock="true"
       className="md:hidden fixed bottom-6 left-0 right-0 z-[9990] flex items-center justify-center gap-2 pointer-events-none px-3"
     >
-      {/* ================= 1. MODO CLARO / OSCURO EN SU PROPIO CÍRCULO (IZQUIERDA) ================= */}
+      {/* ================= 1. BOTÓN SOULMAR ATMOSPHERE EN SU PROPIO CÍRCULO (IZQUIERDA) ================= */}
       <AnimatePresence mode="popLayout" initial={false}>
-        {!isSearching && (
+        {!isSearching && isAtmosphereEnabled && (
           <motion.button
-            key="theme-circle"
-            onClick={toggleTheme}
+            key="atmosphere-circle"
+            onClick={() => {
+              triggerHaptic()
+              toggleAtmosphere()
+            }}
             initial={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
@@ -356,24 +357,35 @@ export function MobileTabBar() {
             style={{ borderRadius: 9999 }}
             whileTap={{ scale: 0.9 }}
             className={cn(
-              "liquid-glass w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none rounded-full",
+              "liquid-glass relative w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none rounded-full overflow-hidden transition-all duration-300",
+              isPlaying && "ring-2 ring-[#8da9c4]/80 shadow-[0_0_22px_rgba(141,169,196,0.45)]",
               isOverLightBg && "liquid-glass-light-bg"
             )}
-            aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-            title={isDarkMode ? "Modo Claro" : "Modo Oscuro"}
+            aria-label={isPlaying ? "Pausar Soulmar Atmosphere" : "Reproducir Soulmar Atmosphere"}
+            title="Soulmar Atmosphere"
           >
+            {/* Apple liquid glass convex specular highlight */}
+            <div className="absolute top-0 left-2 right-2 h-5 rounded-full bg-gradient-to-b from-white/60 dark:from-white/20 via-white/10 to-transparent pointer-events-none" />
+
+            {/* Aura pulsante sutil si está reproduciendo */}
+            {isPlaying && (
+              <div className="absolute inset-0 bg-[#8da9c4]/20 animate-pulse pointer-events-none" />
+            )}
+
             <span
               className={cn(
-                "relative z-10 transition-colors duration-300",
-                isOverLightBg
+                "relative z-10 transition-colors duration-300 flex items-center justify-center",
+                isPlaying
+                  ? "text-[#4a6b82] dark:text-[#a8c5db]"
+                  : isOverLightBg
                   ? "text-neutral-800 hover:text-black"
-                  : "text-white/80 hover:text-white"
+                  : "text-white/85 hover:text-white"
               )}
             >
-              {isDarkMode ? (
-                <Sun className="w-[19px] h-[19px] stroke-[2.2]" />
+              {isPlaying ? (
+                <Pause className="w-[19px] h-[19px] fill-current stroke-[2.2]" />
               ) : (
-                <Moon className="w-[19px] h-[19px] stroke-[2.2]" />
+                <Play className="w-[19px] h-[19px] fill-current stroke-[2.2] ml-0.5" />
               )}
             </span>
           </motion.button>
