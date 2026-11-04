@@ -3027,27 +3027,31 @@ export default function AdminPage() {
                               key={device.id}
                               type="button"
                               onClick={() => setMediaActiveDevice(device.id)}
-                              className={`relative px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer outline-none select-none ${
+                              className={`group relative px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer outline-none select-none ${
                                 isActive
                                   ? "text-white"
-                                  : "text-neutral-600 hover:text-black"
+                                  : "text-neutral-600 hover:text-[#8da9c4] hover:bg-[#8da9c4]/15"
                               }`}
                             >
                               {isActive && (
                                 <motion.div
                                   layoutId="activeDeviceSlidingPill"
                                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                                  className="absolute inset-0 bg-black hover:bg-[#8da9c4] transition-colors duration-200 rounded-full shadow-md"
+                                  className="absolute inset-0 bg-black group-hover:bg-[#8da9c4] transition-colors duration-200 rounded-full shadow-md"
                                 />
                               )}
                               <Icon
                                 className={`w-3.5 h-3.5 relative z-10 transition-colors duration-200 ${
-                                  isActive ? "text-white stroke-[2.5]" : "text-neutral-500"
+                                  isActive
+                                    ? "text-white stroke-[2.5]"
+                                    : "text-neutral-500 group-hover:text-[#8da9c4]"
                                 }`}
                               />
                               <span
                                 className={`relative z-10 transition-colors duration-200 ${
-                                  isActive ? "text-white font-black" : "text-neutral-600 hover:text-black"
+                                  isActive
+                                    ? "text-white font-black"
+                                    : "text-neutral-600 group-hover:text-[#8da9c4]"
                                 }`}
                               >
                                 {device.shortLabel}
