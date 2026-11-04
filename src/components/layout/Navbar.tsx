@@ -14,7 +14,6 @@ import { WHATSAPP_LINK } from "@/lib/constants"
 const navItems = [
   { key: "home", href: "/" },
   { key: "therapies", href: "/#caja-terapias" },
-  { key: "tutorial", href: "/#como-empezar" },
   { key: "agendar", href: "/#caja-agendamiento" },
   { key: "follow_us", href: "/#comunidad" },
 ]
@@ -64,15 +63,12 @@ export function Navbar() {
       const scrollPos = window.scrollY + 280
       const comunidadEl = document.getElementById("comunidad")
       const agendamientoEl = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
-      const tutorialEl = document.getElementById("como-empezar")
       const therapiesEl = document.getElementById("caja-terapias") || document.getElementById("servicios")
 
       if (comunidadEl && scrollPos >= comunidadEl.offsetTop) {
         setActiveKey("follow_us")
       } else if (agendamientoEl && scrollPos >= agendamientoEl.offsetTop) {
         setActiveKey("agendar")
-      } else if (tutorialEl && scrollPos >= tutorialEl.offsetTop) {
-        setActiveKey("tutorial")
       } else if (therapiesEl && scrollPos >= therapiesEl.offsetTop) {
         setActiveKey("therapies")
       } else if (window.scrollY < 300) {
