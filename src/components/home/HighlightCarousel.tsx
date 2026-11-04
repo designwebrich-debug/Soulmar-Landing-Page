@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn, isVideoUrl } from "@/lib/utils"
 import { useTranslation } from "@/context/LanguageContext"
+import { OptimizedVideo } from "@/components/ui/OptimizedVideo"
 
 import { useMedia } from "@/context/MediaContext"
 
@@ -114,13 +115,9 @@ export function HighlightCarousel() {
             <div className="block w-full h-full pointer-events-none select-none">
               {(currentSlide.desktopImage || currentSlide.mobileImage || currentSlide.tabletImage) ? (
                 isVideoUrl(currentSlide.desktopImage) || isVideoUrl(currentSlide.tabletImage) || isVideoUrl(currentSlide.mobileImage) ? (
-                  <video
+                  <OptimizedVideo
                     src={currentSlide.desktopImage || currentSlide.tabletImage || currentSlide.mobileImage}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
+                    priority={currentIndex === 0}
                     className="w-full h-full object-cover pointer-events-none"
                   />
                 ) : (
@@ -135,7 +132,8 @@ export function HighlightCarousel() {
                       src={currentSlide.desktopImage || currentSlide.mobileImage} 
                       alt={`Slide ${currentIndex + 1}`}
                       className="w-full h-full object-cover pointer-events-none"
-                      loading="eager"
+                      loading={currentIndex === 0 ? "eager" : "lazy"}
+                      decoding="async"
                       draggable={false}
                     />
                   </picture>

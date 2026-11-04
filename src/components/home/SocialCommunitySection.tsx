@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowUpRight, ArrowRight } from "lucide-react"
 import { Section } from "@/components/layout/Section"
 import { useTranslation } from "@/context/LanguageContext"
+import { OptimizedVideo } from "@/components/ui/OptimizedVideo"
 
 interface SocialPost {
   id: string
@@ -317,13 +318,8 @@ export function SocialCommunitySection() {
                 {Boolean(post.desktopImage || post.mobileImage || post.tabletImage) ? (
                   isVideoUrl(post.desktopImage) || isVideoUrl(post.mobileImage) || isVideoUrl(post.tabletImage) ? (
                     <div className="relative w-full h-full">
-                      <video
+                      <OptimizedVideo
                         src={post.desktopImage || post.mobileImage || post.tabletImage}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 pointer-events-none"
                       />
                       {/* Indicador sutil de reel estilo Instagram / Apple */}
@@ -344,6 +340,8 @@ export function SocialCommunitySection() {
                       <img
                         src={post.desktopImage || post.mobileImage}
                         alt={post.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                       />
                     </picture>

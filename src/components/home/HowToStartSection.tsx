@@ -2,6 +2,7 @@
 
 import React from "react"
 import { useTranslation } from "@/context/LanguageContext"
+import { OptimizedVideo } from "@/components/ui/OptimizedVideo"
 
 export function HowToStartSection() {
   const { language } = useTranslation()
@@ -27,13 +28,8 @@ export function HowToStartSection() {
         
         {/* Laptop Video Mockup - Positioned at top and centered on mobile, full-width background on desktop */}
         <div className="w-full relative overflow-hidden">
-          <video 
+          <OptimizedVideo 
             src="/videos/video-mockup.mp4" 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            preload="metadata"
             className="w-full h-auto block laptop-mockup-mobile-centered md:aspect-auto md:object-fill"
           />
         </div>

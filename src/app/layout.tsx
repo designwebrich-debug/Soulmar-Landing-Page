@@ -62,31 +62,41 @@ export const viewport = {
 
 import { MediaProvider } from "@/context/MediaContext"
 import { createAdminClient } from "@/lib/supabase/server"
+import { unstable_cache } from "next/cache"
+
+const getCachedMediaSlots = unstable_cache(
+  async () => {
+    const initialMedia: Record<string, string> = {}
+    try {
+      const supabase = await createAdminClient()
+      const { data } = await supabase
+        .from("media_slots")
+        .select("slot_key, url, is_empty")
+      
+      if (Array.isArray(data)) {
+        for (const row of data) {
+          if (row.is_empty) {
+            initialMedia[row.slot_key] = "__EMPTY__"
+          } else if (row.url) {
+            initialMedia[row.slot_key] = row.url
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("[RootLayout] Error pre-fetching media slots:", err)
+    }
+    return initialMedia
+  },
+  ["media-slots-global-cache"],
+  { revalidate: 60, tags: ["media-slots"] }
+)
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const initialMedia: Record<string, string> = {}
-  try {
-    const supabase = await createAdminClient()
-    const { data } = await supabase
-      .from("media_slots")
-      .select("slot_key, url, is_empty")
-    
-    if (Array.isArray(data)) {
-      for (const row of data) {
-        if (row.is_empty) {
-          initialMedia[row.slot_key] = "__EMPTY__"
-        } else if (row.url) {
-          initialMedia[row.slot_key] = row.url
-        }
-      }
-    }
-  } catch (err) {
-    console.warn("[RootLayout] Error pre-fetching media slots:", err)
-  }
+  const initialMedia = await getCachedMediaSlots()
 
   return (
     <html suppressHydrationWarning>

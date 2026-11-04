@@ -225,7 +225,7 @@
     position: relative;
     isolation: isolate;
     transform: translateZ(0);
-    will-change: transform, backdrop-filter;
+    will-change: transform;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.14) 100%);
     -webkit-backdrop-filter: blur(6px) saturate(185%) brightness(1.06);
@@ -335,5 +335,23 @@
       0 2px 8px rgba(0, 0, 0, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 1) !important;
   }
+
+  /* ════════════════════════════════════════════════════════════
+     SILICON VALLEY CONTENT-VISIBILITY & GPU HARDWARE OPTIMIZATION
+     ════════════════════════════════════════════════════════════ */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 650px;
+  }
+
+  @keyframes eqBarPulse {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+  }
+  .eq-bar-1 { animation: eqBarPulse 1.2s ease-in-out infinite; transform-origin: center; will-change: transform; }
+  .eq-bar-2 { animation: eqBarPulse 1.5s ease-in-out infinite 0.15s; transform-origin: center; will-change: transform; }
+  .eq-bar-3 { animation: eqBarPulse 1.1s ease-in-out infinite 0.3s; transform-origin: center; will-change: transform; }
+  .eq-bar-4 { animation: eqBarPulse 1.7s ease-in-out infinite 0.45s; transform-origin: center; will-change: transform; }
+  .eq-bar-5 { animation: eqBarPulse 1.3s ease-in-out infinite 0.2s; transform-origin: center; will-change: transform; }
 }
 

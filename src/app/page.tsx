@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import { CinemaHero } from "@/components/home/CinemaHero"
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: "Terapia Online - Dra. Mariana Caicedo | Psicóloga Clínica",
@@ -25,28 +24,42 @@ export default function Home() {
       <CinemaHero />
 
       {/* SECTION 1: SERVICES (Includes Highlight Carousel nested inside) */}
-      <ServicesSection />
+      <div className="cv-auto">
+        <ServicesSection />
+      </div>
   
       {/* SECTION 2: HOW TO START (Laptop Video + 7 Steps) */}
-      <HowToStartSection />
+      <div className="cv-auto">
+        <HowToStartSection />
+      </div>
 
       {/* SECTION 3: INTEGRATED PREMIUM BOOKING SECTION (In-Situ) */}
-      <AgendamientoSection />
+      <div className="cv-auto">
+        <AgendamientoSection />
+      </div>
 
       {/* SECTION 4: PREGUNTAS FRECUENTES (FAQ Apple Interactive Accordion) */}
-      <FAQSection />
+      <div className="cv-auto">
+        <FAQSection />
+      </div>
 
       {/* SECTION 5: SOULMAR COMMUNITY (Apple iOS Widgets + Cinematic Reels Feed) */}
-      <SocialCommunitySection />
+      <div className="cv-auto">
+        <SocialCommunitySection />
+      </div>
 
       {/* SECTION 5.5: EBOOKS (Soulmar Free Resources) */}
       <EbookSection />
 
       {/* SECTION 6: CTA FINAL (Tu Bienestar Empieza con una Decisión) */}
-      <CTASection />
+      <div className="cv-auto">
+        <CTASection />
+      </div>
 
       {/* FOOTER */}
-      <FooterSection />
+      <div className="cv-auto">
+        <FooterSection />
+      </div>
     </div>
   );
 }
