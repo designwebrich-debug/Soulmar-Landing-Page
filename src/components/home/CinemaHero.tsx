@@ -530,68 +530,78 @@ export function CinemaHero() {
                     }}
                     className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
                   >
-                    {/* Media de Máxima Calidad Ultra-Optimizada (Foto o Video) */}
-                    {(() => {
-                      const slide = mobileSlides[currentMobileSlide] as any
-                      const hasVideo = isVideoUrl(slide.desktopImage) || isVideoUrl(slide.tabletImage) || isVideoUrl(slide.image)
-
-                      if (hasVideo) {
-                        return (
-                          <div className="w-full h-full relative">
-                            {Boolean(slide.image) && isVideoUrl(slide.image) && (
-                              <OptimizedVideo
-                                src={slide.image}
-                                priority={currentMobileSlide === 0}
-                                className="block md:hidden w-full h-full object-cover object-center"
-                              />
-                            )}
-                            {Boolean(slide.tabletImage) && isVideoUrl(slide.tabletImage) && (
-                              <OptimizedVideo
-                                src={slide.tabletImage}
-                                priority={currentMobileSlide === 0}
-                                className="hidden md:block lg:hidden w-full h-full object-cover object-center"
-                              />
-                            )}
-                            {Boolean(slide.desktopImage) && isVideoUrl(slide.desktopImage) && (
-                              <OptimizedVideo
-                                src={slide.desktopImage}
-                                priority={currentMobileSlide === 0}
-                                className="hidden lg:block w-full h-full object-cover object-center"
-                              />
-                            )}
-                          </div>
-                        )
-                      }
-
-                      const hasAnyImage = Boolean(slide.desktopImage || slide.tabletImage || slide.image)
-                      if (!hasAnyImage) {
-                        return (
-                          <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white/50 text-xs font-semibold">
-                            <span>Espacio sin imagen</span>
-                          </div>
-                        )
-                      }
-
-                      return (
-                        <picture className="w-full h-full block">
-                          {slide.desktopImage && (
-                            <source media="(min-width: 1024px)" srcSet={slide.desktopImage} />
-                          )}
-                          {slide.tabletImage && (
-                            <source media="(min-width: 768px)" srcSet={slide.tabletImage} />
-                          )}
-                          <img
-                            src={slide.desktopImage || slide.image}
-                            alt={slide.bottomTitle || "Soulmar"}
-                            className="w-full h-full object-cover object-center select-none"
-                            loading={currentMobileSlide === 0 ? "eager" : "lazy"}
-                            decoding="async"
-                            fetchPriority={currentMobileSlide === 0 ? "high" : "auto"}
-                            draggable={false}
-                          />
-                        </picture>
+                    {/* Versión Celular (Móvil) */}
+                    {Boolean(mobileSlides[currentMobileSlide].image) && (
+                      isVideoUrl(mobileSlides[currentMobileSlide].image) ? (
+                        <OptimizedVideo
+                          src={mobileSlides[currentMobileSlide].image}
+                          priority={currentMobileSlide === 0}
+                          className="block md:hidden w-full h-full object-cover object-center select-none pointer-events-none"
+                        />
+                      ) : (
+                        <Image
+                          src={mobileSlides[currentMobileSlide].image}
+                          alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                          fill
+                          quality={100}
+                          unoptimized
+                          priority={currentMobileSlide === 0}
+                          sizes="(max-width: 768px) 100vw, 1200px"
+                          className="block md:hidden object-cover object-center select-none"
+                        />
                       )
-                    })()}
+                    )}
+
+                    {/* Versión iPad (Tablet) */}
+                    {Boolean((mobileSlides[currentMobileSlide] as any).tabletImage) && (
+                      isVideoUrl((mobileSlides[currentMobileSlide] as any).tabletImage) ? (
+                        <OptimizedVideo
+                          src={(mobileSlides[currentMobileSlide] as any).tabletImage}
+                          priority={currentMobileSlide === 0}
+                          className="hidden md:block lg:hidden w-full h-full object-cover object-center select-none pointer-events-none"
+                        />
+                      ) : (
+                        <Image
+                          src={(mobileSlides[currentMobileSlide] as any).tabletImage}
+                          alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                          fill
+                          quality={100}
+                          unoptimized
+                          priority={currentMobileSlide === 0}
+                          sizes="(max-width: 1024px) 100vw, 1400px"
+                          className="hidden md:block lg:hidden object-cover object-center select-none"
+                        />
+                      )
+                    )}
+
+                    {/* Versión Computador (PC) */}
+                    {Boolean((mobileSlides[currentMobileSlide] as any).desktopImage) && (
+                      isVideoUrl((mobileSlides[currentMobileSlide] as any).desktopImage) ? (
+                        <OptimizedVideo
+                          src={(mobileSlides[currentMobileSlide] as any).desktopImage}
+                          priority={currentMobileSlide === 0}
+                          className="hidden lg:block w-full h-full object-cover object-center select-none pointer-events-none"
+                        />
+                      ) : (
+                        <Image
+                          src={(mobileSlides[currentMobileSlide] as any).desktopImage}
+                          alt={mobileSlides[currentMobileSlide].bottomTitle || "Soulmar"}
+                          fill
+                          quality={100}
+                          unoptimized
+                          priority={currentMobileSlide === 0}
+                          sizes="(min-width: 1024px) 100vw, 1920px"
+                          className="hidden lg:block object-cover object-center select-none"
+                        />
+                      )
+                    )}
+
+                    {/* Placeholder si el espacio está vacío */}
+                    {!mobileSlides[currentMobileSlide].image && !(mobileSlides[currentMobileSlide] as any).tabletImage && !(mobileSlides[currentMobileSlide] as any).desktopImage && (
+                      <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white/50 text-xs font-semibold">
+                        <span>Espacio sin imagen</span>
+                      </div>
+                    )}
                     {/* Sutil viñeta para legibilidad y elegancia visual */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />
                   </motion.div>
