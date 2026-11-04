@@ -137,13 +137,14 @@ export function ServicesSection() {
             return (
               <Link
                 key={index}
-                href={isLocalhost ? `/${cfg.slug}` : "/#agendamiento"}
+                href={isLocalhost ? `/${cfg.slug}` : "/#caja-agendamiento"}
                 className="snap-start shrink-0 w-[76vw] sm:w-[320px] md:w-auto group relative block active:scale-[0.98] transition-transform duration-200"
                 onClick={(e) => {
                   if (!isLocalhost) {
                     if (window.location.pathname === "/") {
                       e.preventDefault()
-                      document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
+                      const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
+                      el?.scrollIntoView({ behavior: "smooth" })
                     }
                   }
                 }}

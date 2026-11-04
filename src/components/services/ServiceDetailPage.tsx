@@ -145,7 +145,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
             {/* CTA BUTTONS ROW */}
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
               <Link
-                href="/#agendamiento"
+                href="/#caja-agendamiento"
                 className="inline-flex items-center justify-center gap-3 px-8 h-14 rounded-full bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] text-base font-bold shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 group"
               >
                 <Calendar className="w-5 h-5 text-[#ffc971]" />
@@ -697,7 +697,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/#agendamiento"
+                href="/#caja-agendamiento"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 h-14 rounded-full bg-white text-[#1d1d1f] text-base font-bold shadow-xl hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               >
                 <Calendar className="w-5 h-5 text-[#8da9c4]" />
@@ -741,7 +741,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
             </div>
           </div>
           <Link
-            href="/#agendamiento"
+            href="/#caja-agendamiento"
             className="shrink-0 px-5 py-2.5 rounded-full bg-[#8da9c4] text-white text-xs font-bold shadow-md hover:bg-[#8da9c4]/90 active:scale-95 transition-all flex items-center gap-1.5"
           >
             <span>Agendar</span>

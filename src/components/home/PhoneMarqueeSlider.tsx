@@ -105,7 +105,8 @@ export function PhoneMarqueeSlider() {
   const handleScrollToBooking = (e: React.MouseEvent) => {
     if (window.location.pathname === "/") {
       e.preventDefault()
-      document.getElementById("agendamiento")?.scrollIntoView({ behavior: "smooth" })
+      const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
+      el?.scrollIntoView({ behavior: "smooth" })
     }
   }
 
@@ -208,7 +209,7 @@ export function PhoneMarqueeSlider() {
                 }}
               >
                 <Link
-                  href="/#agendamiento"
+                  href="/#caja-agendamiento"
                   onClick={handleScrollToBooking}
                   className="block relative group/card p-0 m-0"
                 >

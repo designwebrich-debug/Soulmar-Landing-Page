@@ -113,7 +113,7 @@ export const SOULMAR_SEARCH_DATABASE: SearchItem[] = [
     subtitle: "Disponibilidad Inmediata en Calendario",
     description: "Reserva tu sesión online directamente en nuestro sistema interactivo de citas.",
     category: "agendamiento",
-    targetId: "agendamiento",
+    targetId: "caja-agendamiento",
     keywords: [
       "cita", "citas", "agendar", "agenda", "reserva", "reservar", "horario", "horarios", 
       "calendario", "disponible", "disponibilidad", "precio", "costo", "valor", "cuanto vale", 
@@ -127,7 +127,7 @@ export const SOULMAR_SEARCH_DATABASE: SearchItem[] = [
     subtitle: "Psicóloga Clínica Fundadora",
     description: "Conoce la trayectoria profesional, enfoque terapéutico y método de la Dra. Mariana Caicedo.",
     category: "agendamiento",
-    targetId: "agendamiento",
+    targetId: "caja-agendamiento",
     keywords: [
       "dra mariana", "mariana caicedo", "quien es", "doctora", "psicologa mariana", "experiencia", 
       "credenciales", "formacion", "quien atiende"

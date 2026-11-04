@@ -11,7 +11,7 @@ export default function BookRedirectPage() {
   useEffect(() => {
     // Redirigir a la landing page con el ancla de agendamiento
     const timer = setTimeout(() => {
-      router.replace("/#agendamiento")
+      router.replace("/#caja-agendamiento")
     }, 800)
     return () => clearTimeout(timer)
   }, [router])

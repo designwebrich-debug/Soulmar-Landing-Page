@@ -232,7 +232,7 @@ export function SobreMiPage() {
             {/* BOTONES DE ACCIÓN PRINCIPAL */}
             <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
               <Link
-                href="/#agendamiento"
+                href="/#caja-agendamiento"
                 className="h-12 px-7 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white font-bold text-sm tracking-wide shadow-lg shadow-[#8da9c4]/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >
                 <Calendar className="w-4 h-4" />
@@ -597,7 +597,7 @@ export function SobreMiPage() {
 
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/#agendamiento"
+            href="/#caja-agendamiento"
             className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white font-bold text-sm shadow-xl shadow-[#8da9c4]/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
             <Calendar className="w-4 h-4" />

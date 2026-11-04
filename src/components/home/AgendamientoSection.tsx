@@ -413,8 +413,7 @@ export function AgendamientoSection() {
 
   return (
     <section 
-      id="agendamiento" 
-      className="pt-20 md:pt-28 pb-8 md:pb-10 bg-white dark:bg-[#0b0b0c] transition-colors duration-500 border-t border-border/30 scroll-mt-20"
+      className="pt-20 md:pt-28 pb-8 md:pb-10 bg-white dark:bg-[#0b0b0c] transition-colors duration-500 border-t border-border/30"
     >
       <div className="max-w-4xl mx-auto px-6">
         
@@ -430,6 +429,9 @@ export function AgendamientoSection() {
           </p>
         </div>
         
+        {/* ANCLA DIRECTA A LA CAJA DE AGENDAMIENTO (Para enlaces #agendamiento y #caja-agendamiento) */}
+        <div id="agendamiento" className="scroll-mt-24 md:scroll-mt-28 pointer-events-none" />
+
         {/* WIDGET CONTAINER - EXACT REFERENCE STYLE */}
         <div 
           id="caja-agendamiento"

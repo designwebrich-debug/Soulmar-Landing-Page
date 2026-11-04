@@ -32,7 +32,14 @@ export function CTASection() {
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/#agendamiento"
+                href="/#caja-agendamiento"
+                onClick={(e) => {
+                  if (typeof window !== "undefined" && window.location.pathname === "/") {
+                    e.preventDefault()
+                    const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
+                    el?.scrollIntoView({ behavior: "smooth" })
+                  }
+                }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 h-14 rounded-full bg-white text-[#1d1d1f] text-base font-bold shadow-xl hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
               >
                 <Calendar className="w-5 h-5 text-[#8da9c4]" />

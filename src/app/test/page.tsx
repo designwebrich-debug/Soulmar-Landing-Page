@@ -398,7 +398,7 @@ export default function TestPage() {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto pt-4">
                   {resultType === "low" || resultType === "moderate" ? (
-                    <Link href="/#agendamiento" className="w-full sm:w-auto">
+                    <Link href="/#caja-agendamiento" className="w-full sm:w-auto">
                       <motion.button
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}

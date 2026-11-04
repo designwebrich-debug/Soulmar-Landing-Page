@@ -50,8 +50,8 @@ export function MobileTabBar() {
 
     const handleScroll = () => {
       const scrollPos = window.scrollY + 280
-      const bookingEl = document.getElementById("agendamiento")
-      const servicesEl = document.getElementById("servicios")
+      const bookingEl = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
+      const servicesEl = document.getElementById("caja-terapias") || document.getElementById("servicios")
 
       if (bookingEl && scrollPos >= bookingEl.offsetTop) {
         setActiveTab("booking")
@@ -137,11 +137,11 @@ export function MobileTabBar() {
         window.location.href = "/#servicios"
       }
     } else if (tabId === "booking") {
-      const el = document.getElementById("agendamiento")
+      const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
       if (el) {
         el.scrollIntoView({ behavior: "smooth" })
       } else {
-        window.location.href = "/#agendamiento"
+        window.location.href = "/#caja-agendamiento"
       }
     }
   }

@@ -77,7 +77,7 @@ export function CinemaHero() {
       desktopImage: getMediaUrl("hero_slide_1", "/images/desktop-hero/slide-1.png", "desktop"),
       bottomTitle: language === "es" ? "Mi Herida, Mi Reacción" : "My Wound, My Reaction",
       bottomSubtitle: language === "es" ? "Dra. Mariana Caicedo" : "Dr. Mariana Caicedo",
-      href: "/#agendamiento",
+      href: "/#caja-agendamiento",
     },
     {
       id: 2,
@@ -392,7 +392,7 @@ export function CinemaHero() {
         })
       )
     }
-    const el = document.getElementById("agendamiento")
+    const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
     if (el) {
       el.scrollIntoView({ behavior: "smooth" })
     }
@@ -428,7 +428,7 @@ export function CinemaHero() {
         <p className="text-[17px] font-black text-neutral-900 leading-tight tracking-tighter whitespace-nowrap">{displaySlot}</p>
       </div>
       <Link 
-        href="/#agendamiento" 
+        href="/#caja-agendamiento" 
         onClick={handleBookingClick}
         className="block"
       >
@@ -808,7 +808,7 @@ export function CinemaHero() {
                 </p>
               </div>
               <Link 
-                href="/#agendamiento" 
+                href="/#caja-agendamiento" 
                 onClick={handleBookingClick}
                 className="block w-full"
               >

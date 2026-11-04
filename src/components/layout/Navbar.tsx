@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -21,6 +21,8 @@ const navItems = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeKey, setActiveKey] = useState<string>("home")
+  const isClickingRef = useRef(false)
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const pathname = usePathname()
   const { language, setLanguage, t } = useTranslation()
 
@@ -29,7 +31,15 @@ export function Navbar() {
   }
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, key: string, href: string) => {
+    // 1. Activar inmediatamente el color azul Soulmar en la pestaña pulsada
     setActiveKey(key)
+
+    // 2. Bloquear temporalmente el detector de scroll para no sobrescribir la pestaña activa durante el desplazamiento suave
+    isClickingRef.current = true
+    if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current)
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickingRef.current = false
+    }, 1200)
 
     if (pathname === href) {
       e.preventDefault()
@@ -45,7 +55,10 @@ export function Navbar() {
     } else if (href.startsWith("/#")) {
       e.preventDefault()
       const id = href.replace("/#", "")
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+      const el = document.getElementById(id)
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" })
+      }
     }
   }
 
@@ -60,25 +73,53 @@ export function Navbar() {
 
       if (pathname !== "/") return
 
-      const scrollPos = window.scrollY + 280
+      // Si el usuario acaba de pulsar una pestaña del menú, respetamos su selección
+      if (isClickingRef.current) return
+
+      // Cerca del inicio de la página
+      if (window.scrollY < 260) {
+        setActiveKey("home")
+        return
+      }
+
+      // Si llegó al final de la página (zona de pie de página / comunidad)
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
+      if (isAtBottom) {
+        setActiveKey("follow_us")
+        return
+      }
+
+      // Detección ultra precisa con getBoundingClientRect() sin fallas de offsetTop
       const comunidadEl = document.getElementById("comunidad")
       const agendamientoEl = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
       const therapiesEl = document.getElementById("caja-terapias") || document.getElementById("servicios")
 
-      if (comunidadEl && scrollPos >= comunidadEl.offsetTop) {
-        setActiveKey("follow_us")
-      } else if (agendamientoEl && scrollPos >= agendamientoEl.offsetTop) {
-        setActiveKey("agendar")
-      } else if (therapiesEl && scrollPos >= therapiesEl.offsetTop) {
-        setActiveKey("therapies")
-      } else if (window.scrollY < 300) {
-        setActiveKey("home")
+      const threshold = 260
+
+      const sections: { key: string; el: HTMLElement | null }[] = [
+        { key: "follow_us", el: comunidadEl },
+        { key: "agendar", el: agendamientoEl },
+        { key: "therapies", el: therapiesEl },
+      ]
+
+      for (const section of sections) {
+        if (!section.el) continue
+        const rect = section.el.getBoundingClientRect()
+        if (rect.top <= threshold) {
+          setActiveKey(section.key)
+          return
+        }
       }
+
+      setActiveKey("home")
     }
     
     handleScroll()
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current)
+    }
   }, [pathname])
 
   return (
@@ -222,8 +263,8 @@ export function Navbar() {
             <ThemeToggle />
 
             <Link 
-              href="/#agendamiento"
-              onClick={(e) => handleNavClick(e, "agendar", "/#agendamiento")}
+              href="/#caja-agendamiento"
+              onClick={(e) => handleNavClick(e, "agendar", "/#caja-agendamiento")}
               className="h-9 px-5 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs font-bold transition-all shadow-sm hover:shadow-md flex items-center justify-center whitespace-nowrap active:scale-95 cursor-pointer"
             >
               <span>{t("common.book_now")}</span>
