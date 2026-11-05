@@ -18,7 +18,6 @@ import {
   Lock,
   FileCheck2,
   Globe2,
-  Sparkles,
   Compass,
   Check
 } from "lucide-react"
@@ -33,9 +32,6 @@ export function SobreMiPage() {
   const isEn = language === "en"
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
-
-  // Imagen de fondo panorámica de la caja principal
-  const heroBgImage = getMediaUrl("sobre_mi_hero_bg", "/images/hero-soulmar-cozy.jpg", "desktop")
 
   const whatsappHref = `https://api.whatsapp.com/send?phone=${WHATSAPP_ID}&text=${encodeURIComponent(
     isEn
@@ -117,106 +113,9 @@ export function SobreMiPage() {
     <div className="min-h-screen bg-[#fafaf9] dark:bg-[#0b0b0c] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-500 overflow-x-hidden selection:bg-[#8da9c4]/30 selection:text-foreground">
       
       {/* =========================================================================
-          SECCIÓN 1: HERO APPLE MINIMALISTA — CAJA COMPACTA CON ESPACIO LIMPIO PARA FOTO
-          (El texto ocupa estrictamente el costado izquierdo sin cruzar el 50% de ancho)
+          SECCIÓN 1: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
           ========================================================================= */}
-      <section className="relative pt-2 sm:pt-4 md:pt-6 pb-8 sm:pb-12 px-3 sm:px-6 md:px-10 max-w-7xl mx-auto">
-        {/* Glow ambiental sutil */}
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[70vw] max-w-3xl h-[240px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[130px] rounded-full pointer-events-none" />
-
-        {/* ═══════════════════════════════════════════════════════════════════════
-            CAJA HERO COMPACTA Y EQUILIBRADA (IMAGEN DE FONDO + TEXTO EN MITAD IZQUIERDA)
-            ═══════════════════════════════════════════════════════════════════════ */}
-        <div className="relative w-full rounded-[28px] sm:rounded-[36px] md:rounded-[40px] bg-[#edeef1] dark:bg-[#151518] border border-black/5 dark:border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.04)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.35)] overflow-hidden p-6 sm:p-8 md:p-10 lg:p-12 min-h-[340px] sm:min-h-[380px] lg:min-h-[400px] flex items-center">
-          
-          {/* 1. IMAGEN DE FONDO DE TODA LA CAJA GRANDE (Configurable vía MediaContext) */}
-          {heroBgImage && (
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-              <Image
-                src={heroBgImage}
-                alt="Fondo Sobre mí - Soulmar"
-                fill
-                quality={95}
-                priority
-                className="object-cover object-center select-none"
-              />
-              {/* Degradado inteligente: protege solo la mitad izquierda y deja la derecha 100% limpia para la foto */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#f7f8f9] via-[#f7f8f9]/90 via-[42%] to-transparent to-[52%] dark:from-[#121214] dark:via-[#121214]/90 dark:via-[42%] dark:to-transparent dark:to-[52%]" />
-            </div>
-          )}
-
-          {/* CONTENIDO PRINCIPAL: ESTRICTAMENTE LIMITADO AL COSTADO IZQUIERDO (< 48% DE ANCHO) */}
-          <div className="relative z-10 w-full md:max-w-[48%] lg:max-w-[46%] xl:max-w-[44%] space-y-4 sm:space-y-5">
-            
-            {/* Badge de identificación */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-[10.5px] sm:text-xs font-bold text-[#8da9c4] shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#8da9c4]" />
-              <span className="tracking-wide uppercase">
-                {isEn ? "Clinical Psychologist • Soulmar Founder" : "Psicóloga Clínica • Fundadora Soulmar"}
-              </span>
-            </div>
-
-            {/* Titular Principal optimizado para Google SEO, Seguridad y Calma */}
-            <h1 className="text-2xl sm:text-3xl lg:text-[32px] xl:text-[36px] font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.15]">
-              {isEn ? (
-                <>
-                  Your safe space toward calm. <br className="hidden sm:block" />
-                  <span className="text-[#8da9c4]">Clinical psychotherapy with Dr. Mariana Caicedo.</span>
-                </>
-              ) : (
-                <>
-                  Tu espacio seguro hacia la calma. <br className="hidden sm:block" />
-                  <span className="text-[#8da9c4]">Psicoterapia clínica con la Dra. Mariana Caicedo.</span>
-                </>
-              )}
-            </h1>
-
-            {/* Párrafo descriptivo: Corto, empático y con alta intención de búsqueda SEO */}
-            <p className="text-sm sm:text-[14.5px] text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed">
-              {isEn
-                ? "Evidence-based psychotherapy and authentic human warmth. A confidential, judgment-free sanctuary designed to help you overcome anxiety, regulate your nervous system, and restore inner peace with practical tools."
-                : "Psicoterapia basada en evidencia y cercanía humana auténtica. Un espacio confidencial y libre de juicios para superar la ansiedad, regular tus emociones y recuperar tu tranquilidad diaria con herramientas prácticas."}
-            </p>
-
-            {/* ACCIÓN PRINCIPAL (Sin barra de búsqueda - Botón directo y elegante) */}
-            <div className="pt-1 space-y-3.5">
-              <div>
-                <Link
-                  href="/#caja-agendamiento"
-                  className="h-11 sm:h-12 px-6 sm:px-7 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs sm:text-sm font-bold transition-all shadow-[0_8px_20px_rgba(141,169,196,0.35)] hover:shadow-[0_12px_26px_rgba(141,169,196,0.45)] inline-flex items-center gap-2 active:scale-95 cursor-pointer select-none group w-fit"
-                >
-                  <span>{isEn ? "Schedule Clinical Consultation" : "Agendar sesión con Mariana"}</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              {/* Micro-credenciales */}
-              <div className="flex flex-wrap items-center gap-2.5 text-[10.5px] sm:text-[11.5px] text-neutral-500 dark:text-neutral-400">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
-                  <span>Tarjeta Prof. Colpsic No. 248910</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
-                  <span>Secreto Profesional Médico</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
-                  <span>Google Meet Cifrado</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SECCIÓN 2: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
-          (Diseño idéntico a la segunda sección de la imagen de referencia)
-          ========================================================================= */}
-      <section className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto border-t border-neutral-200/60 dark:border-white/5">
+      <section className="pt-8 sm:pt-12 md:pt-16 pb-20 md:pb-28 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         
         {/* ENCABEZADO CENTRADO */}
         <div className="text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
