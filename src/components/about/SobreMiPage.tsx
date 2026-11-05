@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
@@ -8,10 +8,8 @@ import {
   ShieldCheck,
   Award,
   GraduationCap,
-  BookOpen,
   Brain,
   Heart,
-  Sparkles,
   CheckCircle2,
   Calendar,
   MessageCircle,
@@ -19,21 +17,19 @@ import {
   ArrowLeft,
   ChevronDown,
   Volume2,
-  VolumeX,
   Play,
   Pause,
   Lock,
   FileCheck2,
   Globe2,
-  Clock,
-  Sparkle,
+  Sparkles,
   Compass,
   Check
 } from "lucide-react"
 import { FooterSection } from "@/components/home/FooterSection"
 import { useTranslation } from "@/context/LanguageContext"
 import { useMedia } from "@/context/MediaContext"
-import { WHATSAPP_ID, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/constants"
+import { WHATSAPP_ID } from "@/lib/constants"
 
 export function SobreMiPage() {
   const { language } = useTranslation()
@@ -44,10 +40,11 @@ export function SobreMiPage() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [audioProgress, setAudioProgress] = useState(0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
+  const [userQuery, setUserQuery] = useState("")
 
-  // Simulation of audio playback with animated soundwave
+  // Simulación de reproducción de audio con onda sonora animada
   useEffect(() => {
-    let timer: any
+    let timer: NodeJS.Timeout
     if (isPlaying) {
       timer = setInterval(() => {
         setAudioProgress((prev) => {
@@ -67,7 +64,7 @@ export function SobreMiPage() {
   }
 
   // Foto de la Dra. Mariana configurada en el sistema multimedia
-  const therapistImage = getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "desktop")
+  const therapistHeroImage = getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "desktop")
 
   const whatsappHref = `https://api.whatsapp.com/send?phone=${WHATSAPP_ID}&text=${encodeURIComponent(
     isEn
@@ -109,7 +106,7 @@ export function SobreMiPage() {
     }
   ]
 
-  // Formación académica y trayectoria
+  // Formación académica y credenciales
   const credentials = [
     {
       icon: GraduationCap,
@@ -149,21 +146,20 @@ export function SobreMiPage() {
     <div className="min-h-screen bg-[#fafaf9] dark:bg-[#0b0b0c] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-500 overflow-x-hidden selection:bg-[#8da9c4]/30 selection:text-foreground">
       
       {/* =========================================================================
-          HERO & AUTORIDAD CLÍNICA
+          SECCIÓN 1: HERO APPLE MINIMALISTA (SPLIT SCREEN CON CÁPSULA INTERACTIVA)
           ========================================================================= */}
       <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
-        {/* Glow ambiental */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[75vw] max-w-4xl h-[360px] bg-[#8da9c4]/20 dark:bg-[#8da9c4]/15 blur-[140px] rounded-full pointer-events-none" />
-        <div className="absolute top-48 right-10 w-72 h-72 bg-[#5d7c99]/15 blur-[120px] rounded-full pointer-events-none" />
+        {/* Glow ambiental sutil de luz suave */}
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 w-[75vw] max-w-4xl h-[360px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[140px] rounded-full pointer-events-none" />
 
         {/* DRAFT INDICATOR (LOCAL DEV PREVIEW) */}
-        <div className="relative z-10 mb-5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
+        <div className="relative z-10 mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-          <span>Modo Borrador • Esta página está oculta para usuarios en producción mientras terminas de corregir información</span>
+          <span>Modo Borrador • Esta página está habilitada en localhost mientras perfeccionas los detalles</span>
         </div>
 
-        {/* BREADCRUMB NAVIGATION */}
-        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-6">
+        {/* BREADCRUMB */}
+        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-8">
           <Link
             href="/"
             className="hover:text-[#1d1d1f] dark:hover:text-white flex items-center gap-1.5 transition-colors group"
@@ -175,167 +171,264 @@ export function SobreMiPage() {
           <span className="text-[#8da9c4] font-semibold">{isEn ? "About Me" : "Sobre mí"}</span>
         </div>
 
-        {/* CONTENEDOR HERO EN GRID DE 2 COLUMNAS */}
+        {/* CONTENEDOR SPLIT EN 2 COLUMNAS (REFERENCIA EXACTA FOTO 1) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* COLUMNA IZQUIERDA: Textos de Autoridad, Titulación y Filosofía */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* COLUMNA IZQUIERDA: Textos editoriales + Cápsula interactiva */}
+          <div className="lg:col-span-6 space-y-6">
             
-            {/* BADGE DE IDENTIFICACIÓN PROFESIONAL */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-xs font-bold text-[#8da9c4] shadow-xs">
-              <ShieldCheck className="w-4 h-4 text-[#8da9c4]" />
+            {/* Pill de especialidad */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-xs font-bold text-[#8da9c4] shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#8da9c4]" />
               <span className="tracking-wide uppercase text-[11px]">
-                {isEn ? "Clinical Psychologist • Certified Professional" : "Psicóloga Clínica • Registro Profesional Verificado"}
+                {isEn ? "Clinical Psychologist • Soulmar Founder" : "Psicóloga Clínica • Fundadora Soulmar"}
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#1d1d1f] dark:text-white tracking-tight leading-[1.08]">
+            {/* Titular Principal estilo Apple */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.08]">
               {isEn ? (
                 <>
-                  Dr. Mariana <br />
-                  <span className="text-[#8da9c4]">Caicedo Quintero</span>
+                  A warm, evidence-based space <br className="hidden sm:block" />
+                  <span className="text-[#8da9c4]">to return to yourself.</span>
                 </>
               ) : (
                 <>
-                  Dra. Mariana <br />
-                  <span className="text-[#8da9c4]">Caicedo Quintero</span>
+                  Un espacio cálido y científico <br className="hidden sm:block" />
+                  <span className="text-[#8da9c4]">para volver a ti.</span>
                 </>
               )}
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed max-w-2xl">
+            {/* Párrafo descriptivo de alta legibilidad */}
+            <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed max-w-xl">
               {isEn
-                ? "Clinical psychologist, founder of Soulmar. I practice evidence-based Cognitive Behavioral Therapy (CBT) and third-generation therapies, providing a compassionate, warm, and confidential space to heal without judgment."
-                : "Psicóloga Clínica y fundadora de Soulmar. Ejerzo una psicoterapia basada en evidencia científica (Enfoque Cognitivo-Conductual y 3ª Generación), combinando el más alto rigor clínico con un espacio cálido, cercano y libre de juicios para volver a ti."}
+                ? "I am Dr. Mariana Caicedo Quintero. I combine evidence-based Cognitive Behavioral Therapy (CBT) and third-generation therapies with genuine empathy, providing a safe sanctuary to dismantle automatic worry and heal without judgment."
+                : "Soy la Dra. Mariana Caicedo Quintero. Combino el rigor científico del Enfoque Cognitivo-Conductual (TCC) y terapias contextuales de tercera generación con una cercanía humana auténtica, para que recuperes el control de tus emociones y tu tranquilidad diaria."}
             </p>
 
-            {/* PÍLDORAS DE AUTORIDAD CLÍNICA */}
-            <div className="flex flex-wrap gap-2.5 pt-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 dark:bg-white/10 text-xs font-semibold text-neutral-700 dark:text-neutral-200 border border-black/5 dark:border-white/10">
-                <Award className="w-3.5 h-3.5 text-[#8da9c4]" />
-                {isEn ? "COLPSIC License No. 248910" : "Tarjeta Profesional No. 248910 (COLPSIC)"}
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 dark:bg-white/10 text-xs font-semibold text-neutral-700 dark:text-neutral-200 border border-black/5 dark:border-white/10">
-                <Brain className="w-3.5 h-3.5 text-[#8da9c4]" />
-                {isEn ? "CBT Approach (Cognitive Behavioral)" : "Enfoque Cognitivo-Conductual (TCC)"}
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 dark:bg-white/10 text-xs font-semibold text-neutral-700 dark:text-neutral-200 border border-black/5 dark:border-white/10">
-                <Globe2 className="w-3.5 h-3.5 text-[#8da9c4]" />
-                {isEn ? "100% Online Worldwide" : "Acompañamiento Online Internacional"}
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 dark:bg-white/10 text-xs font-semibold text-neutral-700 dark:text-neutral-200 border border-black/5 dark:border-white/10">
-                <Lock className="w-3.5 h-3.5 text-[#8da9c4]" />
-                {isEn ? "Strict Professional Confidentiality" : "Secreto Profesional Médico"}
-              </span>
-            </div>
+            {/* CÁPSULA DE ACCIÓN UNIFICADA (Idéntica al input + botón de la imagen de referencia) */}
+            <div className="pt-2">
+              <div className="bg-white dark:bg-white/[0.06] p-1.5 sm:p-2 rounded-full border border-neutral-200/80 dark:border-white/10 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.04)] max-w-lg transition-all duration-300 focus-within:border-[#8da9c4] focus-within:shadow-[0_4px_25px_rgba(141,169,196,0.2)]">
+                <div className="flex items-center gap-2.5 pl-3 sm:pl-4 flex-1">
+                  <MessageCircle className="w-4 h-4 text-[#8da9c4] shrink-0" />
+                  <input
+                    type="text"
+                    value={userQuery}
+                    onChange={(e) => setUserQuery(e.target.value)}
+                    placeholder={
+                      isEn
+                        ? "What support do you need today? (Anxiety, therapy...)"
+                        : "¿En qué necesitas apoyo hoy? (ansiedad, terapia...)"
+                    }
+                    className="w-full bg-transparent text-xs sm:text-sm text-neutral-800 dark:text-white placeholder:text-neutral-400 outline-none font-medium"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        window.location.href = "/#caja-agendamiento"
+                      }
+                    }}
+                  />
+                </div>
+                <Link
+                  href="/#caja-agendamiento"
+                  className="h-10 sm:h-11 px-5 sm:px-6 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer select-none"
+                >
+                  <span>{isEn ? "Book Session" : "Agendar cita"}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
 
-            {/* BOTONES DE ACCIÓN PRINCIPAL */}
-            <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
-              <Link
-                href="/#caja-agendamiento"
-                className="h-12 px-7 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white font-bold text-sm tracking-wide shadow-lg shadow-[#8da9c4]/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-              >
-                <Calendar className="w-4 h-4" />
-                <span>{isEn ? "Book Session with Dr. Mariana" : "Agendar Sesión con Dra. Mariana"}</span>
-              </Link>
-
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-12 px-6 rounded-full bg-white dark:bg-white/10 hover:bg-neutral-50 dark:hover:bg-white/15 text-[#1d1d1f] dark:text-white font-bold text-sm border border-black/10 dark:border-white/15 transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <MessageCircle className="w-4 h-4 text-[#25D366]" />
-                <span>{isEn ? "Talk on WhatsApp" : "Hablar por WhatsApp"}</span>
-              </a>
+              {/* Micro-credenciales debajo de la cápsula */}
+              <div className="flex flex-wrap items-center gap-3 pt-3 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
+                  <span>Tarjeta Prof. Colpsic No. 248910</span>
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
+                  <span>Secreto Profesional Médico</span>
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
+                  <span>Google Meet Cifrado</span>
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* COLUMNA DERECHA: Retrato Clínico de la Dra. Mariana & Reproductor de Voz */}
-          <div className="lg:col-span-5 space-y-5">
-            
-            {/* CARD CON RETRATO OFICIAL Y EFECTO APPLE LIQUID GLASS */}
-            <div className="relative rounded-[32px] overflow-hidden bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border border-white/60 dark:border-white/10 p-3 shadow-2xl">
-              
-              <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-                <Image
-                  src={therapistImage}
-                  alt="Dra. Mariana Caicedo Quintero - Psicóloga Clínica"
-                  fill
-                  quality={95}
-                  priority
-                  className="object-cover object-top hover:scale-105 transition-transform duration-700"
-                />
+          {/* COLUMNA DERECHA: Card grande con foto de Mariana y Widget Flotante */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[460px] aspect-[4/5] rounded-[36px] sm:rounded-[44px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/70 dark:border-white/10 shadow-2xl group">
+              <Image
+                src={therapistHeroImage}
+                alt="Dra. Mariana Caicedo Quintero - Psicóloga Clínica"
+                fill
+                quality={100}
+                priority
+                className="object-cover object-top hover:scale-[1.02] transition-transform duration-700 select-none"
+              />
 
-                {/* Badge de Disponibilidad Activa en la Foto */}
-                <div className="absolute top-3.5 left-3.5 px-3 py-1.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md text-white text-[11px] font-bold flex items-center gap-2 border border-white/15">
-                  <span className="w-2 h-2 rounded-full bg-[#1D9E75] animate-pulse" />
-                  <span>{isEn ? "Available for Online Therapy" : "Consulta Online Disponible"}</span>
+              {/* Sutil viñeta para contraste */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
+
+              {/* Badge de Disponibilidad en la esquina superior derecha */}
+              <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md text-white text-[10.5px] font-bold flex items-center gap-2 border border-white/15">
+                <span className="w-2 h-2 rounded-full bg-[#1D9E75] animate-pulse" />
+                <span>{isEn ? "Online Session Available" : "Sesión Online Disponible"}</span>
+              </div>
+
+              {/* WIDGET FLOTANTE EN LA ESQUINA INFERIOR IZQUIERDA (Exacto al gráfico de la imagen de referencia) */}
+              <div className="absolute bottom-5 left-5 p-4 rounded-2xl bg-white/95 dark:bg-[#1a1a1c]/95 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-2xl space-y-2.5 max-w-[210px] select-none pointer-events-auto">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                    {isEn ? "Clinical Progress" : "Evolución Clínica"}
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#1D9E75]/15 text-[#1D9E75] text-[9.5px] font-extrabold">
+                    94% Calma
+                  </span>
+                </div>
+                
+                {/* Ilustración de curva de autorregulación emocional en azul Soulmar */}
+                <div className="h-8 w-full flex items-end">
+                  <svg className="w-full h-8 overflow-visible" viewBox="0 0 100 32" fill="none">
+                    <path
+                      d="M0 26 C 20 24, 35 28, 50 14 C 65 3, 80 8, 100 4"
+                      stroke="#8da9c4"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M0 29 C 25 27, 45 23, 70 20 C 85 18, 92 16, 100 12"
+                      stroke="#ffc971"
+                      strokeWidth="1.5"
+                      strokeDasharray="2.5 2.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </div>
 
-                {/* Badge Inferior de Credenciales */}
-                <div className="absolute bottom-3.5 inset-x-3.5 p-3.5 rounded-2xl bg-black/75 dark:bg-black/85 backdrop-blur-md border border-white/15 text-white flex items-center justify-between">
-                  <div>
-                    <h4 className="text-xs font-black uppercase tracking-wider text-white">Dra. Mariana Caicedo</h4>
-                    <p className="text-[11px] text-[#8da9c4] font-medium">Tarjeta Prof. Colpsic No. 248910</p>
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-[#1D9E75]" />
-                  </div>
+                <div className="flex items-center justify-between text-[9.5px] text-neutral-500 dark:text-neutral-400 font-medium pt-1.5 border-t border-neutral-100 dark:border-white/10">
+                  <span>{isEn ? "Session 01" : "Sesión 01"}</span>
+                  <span className="text-[#8da9c4] font-bold">{isEn ? "Self-regulation" : "Autonomía"}</span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* TARJETA DE VOZ PERSONAL (Apple Podcasts / Siri Soundwave Style) */}
-            <div className="rounded-2xl p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-black/5 dark:border-white/10 shadow-md space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-[#8da9c4]/20 flex items-center justify-center text-[#8da9c4]">
-                    <Volume2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-bold text-neutral-900 dark:text-white leading-tight">
-                      {isEn ? "Voice Note from Dr. Mariana" : "Mensaje de bienvenida de Mariana"}
-                    </h5>
-                    <p className="text-[10px] text-neutral-500 dark:text-neutral-400">
-                      {isEn ? "Listen to her personal voice (1:12 min)" : "Escucha su voz y mensaje personal (1:12 min)"}
-                    </p>
-                  </div>
-                </div>
+      {/* =========================================================================
+          SECCIÓN 2: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
+          (Diseño idéntico a la segunda sección de la imagen de referencia)
+          ========================================================================= */}
+      <section className="py-20 md:py-28 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto border-t border-neutral-200/60 dark:border-white/5">
+        
+        {/* ENCABEZADO CENTRADO */}
+        <div className="text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
+            {isEn
+              ? "Core features that set our clinical space apart"
+              : "Pilares clínicos que definen nuestro acompañamiento"}
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
+            {isEn
+              ? "Evidence-based Cognitive Behavioral Therapy combined with warmth and unconditional support to guide you back to yourself."
+              : "Psicoterapia basada en la más alta evidencia científica internacional, combinada con un espacio humano, libre de juicios y enfocado en devolverte el control de tu vida."}
+          </p>
+        </div>
 
-                {/* Botón Play / Pause interactivo */}
-                <button
-                  onClick={toggleAudio}
-                  aria-label={isPlaying ? "Pausar mensaje" : "Escuchar mensaje de voz"}
-                  className="w-9 h-9 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white flex items-center justify-center shadow-md transition-transform active:scale-95 cursor-pointer"
-                >
-                  {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
-                </button>
+        {/* ESTRUCTURA 3 COLUMNAS: 2 CARDS | FOTO CENTRAL | 2 CARDS */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
+          
+          {/* COLUMNA IZQUIERDA (2 Cards apiladas) */}
+          <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
+            {/* Card 1: Enfoque TCC */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-sm group-hover:scale-105 transition-transform">
+                <Brain className="w-5 h-5 stroke-[2.2]" />
               </div>
-
-              {/* Animación de onda sonora estilo Apple */}
-              <div className="flex items-center gap-1.5 h-6 px-2 bg-neutral-100 dark:bg-white/5 rounded-xl overflow-hidden">
-                {[12, 22, 16, 28, 14, 24, 18, 30, 20, 15, 26, 17, 24, 19, 29, 14, 21, 16, 27, 18].map((h, i) => (
-                  <span
-                    key={i}
-                    className={`flex-1 rounded-full transition-all duration-300 ${
-                      isPlaying
-                        ? "bg-[#8da9c4] animate-pulse"
-                        : "bg-neutral-300 dark:bg-neutral-700"
-                    }`}
-                    style={{
-                      height: isPlaying ? `${Math.max(6, (h * (audioProgress % 30 + 10)) / 25)}px` : `${h / 2.5}px`,
-                      animationDelay: `${i * 60}ms`
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Transcripción del mensaje */}
-              <p className="text-[11.5px] italic text-neutral-600 dark:text-neutral-400 leading-relaxed pt-1 border-t border-black/5 dark:border-white/5">
+              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+                  {isEn ? "Cognitive Behavioral Therapy (CBT)" : "Enfoque Cognitivo-Conductual"}
+                </strong>
                 {isEn
-                  ? '"Hello, I am Mariana. Therapy is not a place where you come to be judged. It is a warm, evidence-based sanctuary where we dismantle automatic worry, understand your emotions, and build real peace for your daily life."'
-                  : '«Hola, soy Mariana. Sé lo difícil que puede ser dar el primer paso hacia la terapia. Quiero que sepas que en este espacio no vienes a ser juzgado/a; vienes a encontrar un lugar seguro donde desarmar lo que te pesa, entender tus emociones y construir herramientas reales para tu día a día.»'}
+                  ? "Protocol-driven interventions with the highest scientific evidence to dismantle rumination and anxiety."
+                  : "Protocolos estructurados con la más alta evidencia científica internacional para desarmar la ansiedad, el sobrepensamiento y patrones limitantes."}
+              </p>
+            </div>
+
+            {/* Card 2: Terapias de 3ª Generación */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-sm group-hover:scale-105 transition-transform">
+                <Heart className="w-5 h-5 stroke-[2.2]" />
+              </div>
+              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+                  {isEn ? "Third-Generation Therapies (ACT)" : "Aceptación y Mindfulness (ACT)"}
+                </strong>
+                {isEn
+                  ? "Compassionate emotional acceptance and mindfulness skills to relate to your feelings without struggle."
+                  : "Herramientas de autocompasión y flexibilidad psicológica para relacionarte con tus emociones sin juzgarte y volver a tu centro."}
+              </p>
+            </div>
+          </div>
+
+          {/* COLUMNA CENTRAL (Retrato cálido de Mariana en sesión) */}
+          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[420px] lg:min-h-[440px] group">
+            <Image
+              src="/images/therapists/mariana_v2.png"
+              alt="Dra. Mariana Caicedo - Sesión Clínica Online"
+              fill
+              quality={100}
+              priority
+              className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            {/* Sutil viñeta para contraste */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
+
+            {/* Identificación en la base de la tarjeta central */}
+            <div className="absolute bottom-5 inset-x-5 text-white flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-bold text-white tracking-tight">Dra. Mariana Caicedo</h4>
+                <p className="text-[11px] text-[#8da9c4] font-medium">Psicóloga Clínica • Fundadora Soulmar</p>
+              </div>
+              <div className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                <CheckCircle2 className="w-4 h-4 text-[#1D9E75]" />
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMNA DERECHA (2 Cards apiladas) */}
+          <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
+            {/* Card 3: Modalidad Online */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-sm group-hover:scale-105 transition-transform">
+                <Globe2 className="w-5 h-5 stroke-[2.2]" />
+              </div>
+              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+                  {isEn ? "Worldwide Online Access" : "Consulta Online Internacional"}
+                </strong>
+                {isEn
+                  ? "Private, encrypted HD sessions on Google Meet, flexible for patients in the US, Europe, and Latin America."
+                  : "Sesiones privadas por Google Meet con adaptación horaria para pacientes en Colombia, Estados Unidos, España y Latinoamérica."}
+              </p>
+            </div>
+
+            {/* Card 4: Seguridad y Secreto Profesional */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-sm group-hover:scale-105 transition-transform">
+                <ShieldCheck className="w-5 h-5 stroke-[2.2]" />
+              </div>
+              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+                  {isEn ? "Medical Confidentiality" : "Confidencialidad Médica y Ética"}
+                </strong>
+                {isEn
+                  ? "Strict adherence to legal and bioethical standards (Law 1090). Your medical history remains 100% protected."
+                  : "Secreto profesional médico blindado conforme a la Ley 1090. Tu proceso clínico y tu privacidad están 100% protegidos."}
               </p>
             </div>
           </div>
@@ -343,9 +436,69 @@ export function SobreMiPage() {
       </section>
 
       {/* =========================================================================
-          SECCIÓN 2: FORMACIÓN ACADÉMICA Y PRUEBA DE AUTORIDAD INAPELABLE
+          SECCIÓN 3: MENSAJE PERSONAL DE VOZ (APPLE SOUNDWAVE AUDIO PLAYER)
           ========================================================================= */}
-      <section className="py-16 md:py-24 bg-white dark:bg-[#121214] border-y border-black/5 dark:border-white/5 px-4 sm:px-6 md:px-10">
+      <section className="py-12 md:py-16 px-4 sm:px-6 md:px-10 max-w-4xl mx-auto">
+        <div className="rounded-[32px] p-6 sm:p-8 bg-white dark:bg-neutral-900/90 backdrop-blur-xl border border-neutral-200/70 dark:border-white/10 shadow-xl space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-[#8da9c4]/20 flex items-center justify-center text-[#8da9c4] shrink-0">
+                <Volume2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-neutral-900 dark:text-white leading-tight">
+                  {isEn ? "Voice Note from Dr. Mariana" : "Mensaje de bienvenida de Mariana"}
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  {isEn ? "Listen to her personal voice and message (1:12 min)" : "Escucha su voz y mensaje personal (1:12 min)"}
+                </p>
+              </div>
+            </div>
+
+            {/* Botón Play / Pause interactivo */}
+            <button
+              onClick={toggleAudio}
+              aria-label={isPlaying ? "Pausar mensaje" : "Escuchar mensaje de voz"}
+              className="h-11 px-6 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto"
+            >
+              {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+              <span className="text-xs font-bold uppercase tracking-wider">
+                {isPlaying ? (isEn ? "Pause" : "Pausar") : (isEn ? "Listen" : "Escuchar")}
+              </span>
+            </button>
+          </div>
+
+          {/* Animación de onda sonora estilo Apple */}
+          <div className="flex items-center gap-1.5 h-8 px-3 bg-neutral-100 dark:bg-white/5 rounded-2xl overflow-hidden">
+            {[12, 22, 16, 28, 14, 24, 18, 30, 20, 15, 26, 17, 24, 19, 29, 14, 21, 16, 27, 18, 22, 15, 25, 17].map((h, i) => (
+              <span
+                key={i}
+                className={`flex-1 rounded-full transition-all duration-300 ${
+                  isPlaying
+                    ? "bg-[#8da9c4] animate-pulse"
+                    : "bg-neutral-300 dark:bg-neutral-700"
+                }`}
+                style={{
+                  height: isPlaying ? `${Math.max(8, (h * (audioProgress % 30 + 10)) / 22)}px` : `${h / 2.5}px`,
+                  animationDelay: `${i * 50}ms`
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Transcripción del mensaje */}
+          <p className="text-xs sm:text-sm italic text-neutral-600 dark:text-neutral-300 leading-relaxed pt-2 border-t border-neutral-100 dark:border-white/5">
+            {isEn
+              ? '«Hello, I am Mariana. Therapy is not a place where you come to be judged. It is a warm, evidence-based sanctuary where we dismantle automatic worry, understand your emotions, and build real peace for your daily life.»'
+              : '«Hola, soy Mariana. Sé lo difícil que puede ser dar el primer paso hacia la terapia. Quiero que sepas que en este espacio no vienes a ser juzgado/a; vienes a encontrar un lugar seguro donde desarmar lo que te pesa, entender tus emociones y construir herramientas reales para tu día a día.»'}
+          </p>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECCIÓN 4: FORMACIÓN ACADÉMICA Y CREDENCIALES CLÍNICAS
+          ========================================================= */}
+      <section className="py-16 md:py-24 bg-white dark:bg-[#121214] border-y border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10">
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -368,7 +521,7 @@ export function SobreMiPage() {
               return (
                 <div
                   key={idx}
-                  className="p-6 md:p-8 rounded-3xl bg-[#fafaf9] dark:bg-white/[0.03] border border-black/5 dark:border-white/10 hover:border-[#8da9c4]/50 transition-all duration-300 flex items-start gap-5 group shadow-xs"
+                  className="p-6 md:p-8 rounded-3xl bg-[#fafaf9] dark:bg-white/[0.03] border border-neutral-200/60 dark:border-white/10 hover:border-[#8da9c4]/50 transition-all duration-300 flex items-start gap-5 group shadow-xs"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-[#8da9c4]/15 dark:bg-[#8da9c4]/20 text-[#8da9c4] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <Icon className="w-6 h-6 stroke-[2.2]" />
@@ -390,7 +543,7 @@ export function SobreMiPage() {
           </div>
 
           {/* Sello de Garantía Legal & Secreto Profesional */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-neutral-50 dark:bg-white/[0.02] border border-black/5 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="p-6 sm:p-8 rounded-3xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/60 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-[#1D9E75]/15 text-[#1D9E75] flex items-center justify-center shrink-0">
                 <FileCheck2 className="w-6 h-6" />
@@ -420,105 +573,9 @@ export function SobreMiPage() {
       </section>
 
       {/* =========================================================================
-          SECCIÓN 3: EL ENFOQUE COGNITIVO-CONDUCTUAL Y POR QUÉ FUNCIONA
+          SECCIÓN 5: PREGUNTAS FRECUENTES (FAQ) DE AUTORIDAD CLÍNICA
           ========================================================================= */}
-      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          
-          <div className="lg:col-span-6 space-y-6">
-            <span className="text-xs font-black tracking-widest uppercase text-[#8da9c4]">
-              {isEn ? "THERAPEUTIC METHODOLOGY" : "ENFOQUE TERAPÉUTICO BASADO EN EVIDENCIA"}
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#1d1d1f] dark:text-white tracking-tight leading-tight">
-              {isEn ? (
-                <>
-                  Cognitive Behavioral Therapy (CBT) & <br />
-                  <span className="text-[#8da9c4]">Third-Generation Integration</span>
-                </>
-              ) : (
-                <>
-                  El Enfoque Cognitivo-Conductual (TCC) & <br />
-                  <span className="text-[#8da9c4]">Terapias de 3ª Generación</span>
-                </>
-              )}
-            </h2>
-            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
-              {isEn
-                ? "Our work is grounded in scientific rigor. We do not engage in endless, unstructured conversation; we actively map your emotional and cognitive triggers, transforming automatic patterns into practical tools."
-                : "La práctica clínica de la Dra. Mariana se basa en el principio de que tus emociones no ocurren por azar: son el resultado de cómo tu mente interpreta la realidad. A través de la TCC, desarmamos el sobrepensamiento, desactivamos las respuestas de alerta innecesarias y reprogramamos tus reacciones para que recuperes el control."}
-            </p>
-
-            <div className="space-y-4 pt-2">
-              {[
-                {
-                  title: isEn ? "Reconstructing Automatic Thoughts" : "Reestructuración de Pensamientos Automáticos",
-                  desc: isEn
-                    ? "Identifying cognitive distortions (catastrophizing, mind reading) and replacing them with objective, calm facts."
-                    : "Identificar y reemplazar distorsiones cognitivas (catastrofismo, autocrítica severa) por hechos objetivos y comprobables."
-                },
-                {
-                  title: isEn ? "Somatic Nervous System Regulation" : "Regulación Somática del Sistema Nervioso",
-                  desc: isEn
-                    ? "Concrete breathing, mindfulness, and sensory anchoring tools to halt anxiety and panic directly in the body."
-                    : "Herramientas concretas de respiración diafragmática y anclaje sensorial para frenar la taquicardia y la angustia corporal."
-                },
-                {
-                  title: isEn ? "Real-Life Practical Skills" : "Herramientas Prácticas para Tu Día a Día",
-                  desc: isEn
-                    ? "Structured exercises between sessions so progress continues in your daily relationships and work."
-                    : "Ejercicios claros entre sesiones para que tu evolución continúe en tu vida cotidiana, sin crear dependencia."
-                }
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3.5">
-                  <div className="w-6 h-6 rounded-full bg-[#8da9c4]/20 text-[#8da9c4] flex items-center justify-center shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 stroke-[3]" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-neutral-900 dark:text-white">{item.title}</h4>
-                    <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Gráfico Visual del Triángulo Cognitivo (Pensamiento - Emoción - Conducta) */}
-          <div className="lg:col-span-6 p-6 sm:p-8 rounded-3xl bg-white dark:bg-white/[0.02] border border-black/5 dark:border-white/10 shadow-xl space-y-6">
-            <h3 className="text-base font-extrabold text-center text-neutral-900 dark:text-white uppercase tracking-wider text-xs">
-              {isEn ? "THE COGNITIVE-BEHAVIORAL TRIANGLE" : "EL TRIÁNGULO COGNITIVO DE LA DRA. MARIANA"}
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-              <div className="p-4 rounded-2xl bg-[#8da9c4]/10 border border-[#8da9c4]/20 space-y-1">
-                <Brain className="w-6 h-6 text-[#8da9c4] mx-auto mb-2" />
-                <h4 className="text-xs font-black uppercase text-neutral-900 dark:text-white">1. Pensamiento</h4>
-                <p className="text-[11px] text-neutral-600 dark:text-neutral-400">Lo que te dices a ti mismo/a sobre lo que pasa</p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#8da9c4]/10 border border-[#8da9c4]/20 space-y-1">
-                <Heart className="w-6 h-6 text-[#8da9c4] mx-auto mb-2" />
-                <h4 className="text-xs font-black uppercase text-neutral-900 dark:text-white">2. Emoción</h4>
-                <p className="text-[11px] text-neutral-600 dark:text-neutral-400">Lo que experimenta y siente tu cuerpo</p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#8da9c4]/10 border border-[#8da9c4]/20 space-y-1">
-                <Compass className="w-6 h-6 text-[#8da9c4] mx-auto mb-2" />
-                <h4 className="text-xs font-black uppercase text-neutral-900 dark:text-white">3. Conducta</h4>
-                <p className="text-[11px] text-neutral-600 dark:text-neutral-400">La respuesta o acción que tomas en tu vida</p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-neutral-50 dark:bg-white/5 text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed italic border border-black/5 dark:border-white/5 text-center">
-              «Al intervenir sobre tus pensamientos e interpretaciones, transformamos cómo se siente tu cuerpo y recuperas la calma en tus decisiones.»
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SECCIÓN 4: PREGUNTAS FRECUENTES (FAQ) DE AUTORIDAD CLÍNICA
-          ========================================================================= */}
-      <section className="py-16 md:py-24 bg-neutral-100/60 dark:bg-black/40 border-t border-black/5 dark:border-white/5 px-4 sm:px-6 md:px-10">
+      <section className="py-16 md:py-24 bg-neutral-100/60 dark:bg-black/40 border-t border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-3">
             <span className="text-xs font-black tracking-widest uppercase text-[#8da9c4]">
@@ -535,7 +592,7 @@ export function SobreMiPage() {
               return (
                 <div
                   key={index}
-                  className="rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#151518] overflow-hidden transition-all duration-300 shadow-xs"
+                  className="rounded-2xl border border-neutral-200/60 dark:border-white/10 bg-white dark:bg-[#151518] overflow-hidden transition-all duration-300 shadow-xs"
                 >
                   <button
                     onClick={() => setOpenFaqIndex(isOpen ? null : index)}
@@ -556,7 +613,7 @@ export function SobreMiPage() {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
-                        <div className="px-5 pb-6 sm:px-6 sm:pb-7 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed border-t border-black/5 dark:border-white/5 pt-4">
+                        <div className="px-5 pb-6 sm:px-6 sm:pb-7 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed border-t border-neutral-100 dark:border-white/5 pt-4">
                           {faq.a}
                         </div>
                       </motion.div>
@@ -570,7 +627,7 @@ export function SobreMiPage() {
       </section>
 
       {/* =========================================================================
-          SECCIÓN 5: CTA FINAL DE AGENDAMIENTO
+          SECCIÓN 6: CTA FINAL DE AGENDAMIENTO DIRECTO
           ========================================================================= */}
       <section className="py-20 px-4 sm:px-6 md:px-10 max-w-5xl mx-auto text-center space-y-6">
         <span className="text-xs font-black tracking-widest uppercase text-[#8da9c4]">
@@ -598,7 +655,7 @@ export function SobreMiPage() {
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/#caja-agendamiento"
-            className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white font-bold text-sm shadow-xl shadow-[#8da9c4]/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white font-bold text-sm shadow-xl shadow-[#8da9c4]/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <Calendar className="w-4 h-4" />
             <span>{isEn ? "Book Online Session" : "Reservar Sesión Online"}</span>
@@ -608,7 +665,7 @@ export function SobreMiPage() {
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto h-12 px-8 rounded-full bg-white dark:bg-white/10 hover:bg-neutral-50 dark:hover:bg-white/15 text-[#1d1d1f] dark:text-white font-bold text-sm border border-black/10 dark:border-white/15 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="w-full sm:w-auto h-12 px-8 rounded-full bg-white dark:bg-white/10 hover:bg-neutral-50 dark:hover:bg-white/15 text-[#1d1d1f] dark:text-white font-bold text-sm border border-neutral-200/80 dark:border-white/15 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4 text-[#25D366]" />
             <span>{isEn ? "WhatsApp Direct Line" : "Línea Directa WhatsApp"}</span>
