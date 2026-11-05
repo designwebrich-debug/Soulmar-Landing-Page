@@ -14,7 +14,6 @@ import {
   Calendar,
   MessageCircle,
   ArrowRight,
-  ArrowLeft,
   ChevronDown,
   Lock,
   FileCheck2,
@@ -121,28 +120,9 @@ export function SobreMiPage() {
           SECCIÓN 1: HERO APPLE MINIMALISTA — CAJA COMPACTA CON ESPACIO LIMPIO PARA FOTO
           (El texto ocupa estrictamente el costado izquierdo sin cruzar el 50% de ancho)
           ========================================================================= */}
-      <section className="relative pt-20 md:pt-24 pb-8 sm:pb-12 px-3 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section className="relative pt-2 sm:pt-4 md:pt-6 pb-8 sm:pb-12 px-3 sm:px-6 md:px-10 max-w-7xl mx-auto">
         {/* Glow ambiental sutil */}
-        <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[70vw] max-w-3xl h-[280px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[130px] rounded-full pointer-events-none" />
-
-        {/* DRAFT INDICATOR (LOCAL DEV PREVIEW) */}
-        <div className="relative z-10 mb-3.5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
-          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-          <span>Modo Borrador • Esta página está habilitada en localhost mientras perfeccionas los detalles</span>
-        </div>
-
-        {/* BREADCRUMB */}
-        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-4">
-          <Link
-            href="/"
-            className="hover:text-[#1d1d1f] dark:hover:text-white flex items-center gap-1.5 transition-colors group"
-          >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            <span>{isEn ? "Home" : "Inicio"}</span>
-          </Link>
-          <span className="text-[#1d1d1f]/30 dark:text-white/20">/</span>
-          <span className="text-[#8da9c4] font-semibold">{isEn ? "About Me" : "Sobre mí"}</span>
-        </div>
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[70vw] max-w-3xl h-[240px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[130px] rounded-full pointer-events-none" />
 
         {/* ═══════════════════════════════════════════════════════════════════════
             CAJA HERO COMPACTA Y EQUILIBRADA (IMAGEN DE FONDO + TEXTO EN MITAD IZQUIERDA)
