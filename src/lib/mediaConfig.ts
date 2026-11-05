@@ -999,6 +999,41 @@ export const MEDIA_SLOTS: MediaSlot[] = [
 
   // ─── EQUIPO CLÍNICO & TERAPEUTAS ──────────────────────────
   {
+    key: "sobre_mi_hero_bg",
+    title: "Fondo Caja Principal (Sobre Mí)",
+    section: "general",
+    description: "Imagen de fondo panorámica para la caja de inicio en la página Sobre Mí (el texto queda por encima)",
+    defaultUrl: "/images/hero-soulmar-cozy.jpg",
+    dimensions: "1920 × 1080 px",
+    aspectRatio: "Panorámico 16:9",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "1920 × 1080 px",
+        aspectRatio: "16:9 Panorámico",
+        aspectClass: "aspect-video",
+        recommendedNotice: "Fondo panorámico para la caja de Sobre Mí en PC.",
+        defaultUrl: "/images/hero-soulmar-cozy.jpg"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "1080 × 1920 px",
+        aspectRatio: "9:16 Vertical",
+        aspectClass: "aspect-[9/16]",
+        recommendedNotice: "Fondo vertical para la caja de Sobre Mí en celular.",
+        defaultUrl: "/images/hero-soulmar-cozy.jpg"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "1536 × 2048 px",
+        aspectRatio: "3:4 / 4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Fondo para la caja de Sobre Mí en iPad.",
+        defaultUrl: "/images/hero-soulmar-cozy.jpg"
+      }
+    }
+  },
+  {
     key: "therapist_mariana",
     title: "Dra. Mariana Caicedo (Psicóloga)",
     section: "team",

@@ -34,9 +34,9 @@ export function SobreMiPage() {
   const isEn = language === "en"
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
-  const [userQuery, setUserQuery] = useState("")
 
-  // Foto de la Dra. Mariana configurada en el sistema multimedia
+  // Imagen de fondo de la caja principal y foto de la Dra. Mariana
+  const heroBgImage = getMediaUrl("sobre_mi_hero_bg", "/images/hero-soulmar-cozy.jpg", "desktop")
   const therapistHeroImage = getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "desktop")
 
   const whatsappHref = `https://api.whatsapp.com/send?phone=${WHATSAPP_ID}&text=${encodeURIComponent(
@@ -146,12 +146,29 @@ export function SobreMiPage() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════════
-            GRAN CAJA UNIFICADA CON ESQUINAS REDONDEADAS (REFERENCIA EXACTA FOTO 2)
+            GRAN CAJA UNIFICADA CON IMAGEN DE FONDO (TEXTO Y CONTENIDO POR ENCIMA)
             ═══════════════════════════════════════════════════════════════════════ */}
         <div className="relative w-full rounded-[32px] sm:rounded-[44px] md:rounded-[48px] bg-[#edeef1] dark:bg-[#151518] border border-black/5 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden p-6 sm:p-10 md:p-12 lg:p-16">
           
-          {/* Ondas sutiles estilizadas de fondo (Atmosphere & Mindfulness como en la referencia) */}
-          <div className="absolute top-1/2 right-12 -translate-y-1/2 w-[520px] h-[340px] pointer-events-none opacity-50 dark:opacity-20 hidden lg:block select-none">
+          {/* 1. IMAGEN DE FONDO DE TODA LA CAJA GRANDE (Configurable vía MediaContext con overlay de contraste) */}
+          {heroBgImage && (
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+              <Image
+                src={heroBgImage}
+                alt="Fondo Sobre mí - Soulmar"
+                fill
+                quality={90}
+                priority
+                className="object-cover object-center select-none"
+              />
+              {/* Capas de degradado y cristal translúcido para garantizar máxima legibilidad */}
+              <div className="absolute inset-0 bg-[#f7f8f9]/85 dark:bg-[#121214]/90 backdrop-blur-[4px]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#f7f8f9]/98 via-[#f7f8f9]/90 to-[#f7f8f9]/60 dark:from-[#121214]/98 dark:via-[#121214]/90 dark:to-[#121214]/70" />
+            </div>
+          )}
+
+          {/* Ondas sutiles estilizadas de fondo (Atmosphere & Mindfulness) */}
+          <div className="absolute top-1/2 right-12 -translate-y-1/2 w-[520px] h-[340px] pointer-events-none opacity-40 dark:opacity-20 hidden lg:block select-none z-[1]">
             <svg className="w-full h-full" viewBox="0 0 520 340" fill="none">
               <path d="M0 170 C 120 90, 220 240, 320 140 C 420 50, 470 180, 520 130" stroke="#8da9c4" strokeWidth="2" strokeDasharray="5 5" />
               <path d="M0 200 C 140 120, 240 270, 340 170 C 440 80, 480 210, 520 160" stroke="#8da9c4" strokeWidth="1.5" />
@@ -159,10 +176,10 @@ export function SobreMiPage() {
             </svg>
           </div>
 
-          {/* GRID INTERNA EN 2 COLUMNAS */}
+          {/* GRID INTERNA EN 2 COLUMNAS (CONTENIDO PRINCIPAL POR ENCIMA DEL FONDO) */}
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* COLUMNA IZQUIERDA: Titulares + Párrafo + Cápsula de Entrada */}
+            {/* COLUMNA IZQUIERDA: Titulares + Párrafo + CTA Directo */}
             <div className="lg:col-span-7 space-y-6">
               
               {/* Badge de identificación */}
@@ -173,61 +190,42 @@ export function SobreMiPage() {
                 </span>
               </div>
 
-              {/* Titular Principal estilo Apple */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.08]">
+              {/* Titular Principal optimizado para Google SEO, Seguridad y Calma */}
+              <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.12]">
                 {isEn ? (
                   <>
-                    A warm, evidence-based space <br className="hidden sm:block" />
-                    <span className="text-[#8da9c4]">to return to yourself.</span>
+                    Your safe space toward calm. <br className="hidden sm:block" />
+                    <span className="text-[#8da9c4]">Clinical psychotherapy with Dr. Mariana Caicedo.</span>
                   </>
                 ) : (
                   <>
-                    Un espacio cálido y científico <br className="hidden sm:block" />
-                    <span className="text-[#8da9c4]">para volver a ti.</span>
+                    Tu espacio seguro hacia la calma. <br className="hidden sm:block" />
+                    <span className="text-[#8da9c4]">Psicoterapia clínica con la Dra. Mariana Caicedo.</span>
                   </>
                 )}
               </h1>
 
-              {/* Párrafo descriptivo */}
+              {/* Párrafo descriptivo: Corto, empático y con alta intención de búsqueda SEO */}
               <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed max-w-xl">
                 {isEn
-                  ? "I am Dr. Mariana Caicedo Quintero. I combine evidence-based Cognitive Behavioral Therapy (CBT) and third-generation therapies with genuine empathy, providing a safe sanctuary to dismantle automatic worry and heal without judgment."
-                  : "Soy la Dra. Mariana Caicedo Quintero. Combino el rigor científico del Enfoque Cognitivo-Conductual (TCC) y terapias contextuales de tercera generación con una cercanía humana auténtica, para que recuperes el control de tus emociones y tu tranquilidad diaria."}
+                  ? "Evidence-based psychotherapy and authentic human warmth. A confidential, judgment-free sanctuary designed to help you overcome anxiety, regulate your nervous system, and restore inner peace with practical tools."
+                  : "Psicoterapia basada en evidencia y cercanía humana auténtica. Un espacio confidencial y libre de juicios para superar la ansiedad, regular tus emociones y recuperar tu tranquilidad diaria con herramientas prácticas."}
               </p>
 
-              {/* CÁPSULA DE ACCIÓN UNIFICADA (Estilo exacto de input + botón de la referencia) */}
-              <div className="pt-2">
-                <div className="bg-white dark:bg-white/[0.08] p-1.5 sm:p-2 rounded-full border border-neutral-200/90 dark:border-white/10 flex items-center justify-between shadow-[0_4px_25px_rgba(0,0,0,0.04)] max-w-lg transition-all duration-300 focus-within:border-[#8da9c4] focus-within:shadow-[0_4px_25px_rgba(141,169,196,0.2)]">
-                  <div className="flex items-center gap-2.5 pl-3 sm:pl-4 flex-1">
-                    <MessageCircle className="w-4 h-4 text-[#8da9c4] shrink-0" />
-                    <input
-                      type="text"
-                      value={userQuery}
-                      onChange={(e) => setUserQuery(e.target.value)}
-                      placeholder={
-                        isEn
-                          ? "What support do you need today? (Anxiety, therapy...)"
-                          : "¿En qué necesitas apoyo hoy? (ansiedad, terapia...)"
-                      }
-                      className="w-full bg-transparent text-xs sm:text-sm text-neutral-800 dark:text-white placeholder:text-neutral-400 outline-none font-medium"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          window.location.href = "/#caja-agendamiento"
-                        }
-                      }}
-                    />
-                  </div>
+              {/* ACCIÓN PRINCIPAL (Sin barra de búsqueda - Botón directo y elegante) */}
+              <div className="pt-2 space-y-4">
+                <div>
                   <Link
                     href="/#caja-agendamiento"
-                    className="h-10 sm:h-11 px-5 sm:px-6 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer select-none"
+                    className="h-12 sm:h-13 px-8 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-sm sm:text-base font-bold transition-all shadow-[0_10px_25px_rgba(141,169,196,0.35)] hover:shadow-[0_14px_30px_rgba(141,169,196,0.45)] inline-flex items-center gap-2.5 active:scale-95 cursor-pointer select-none group w-fit"
                   >
-                    <span>{isEn ? "Book Session" : "Agendar cita"}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span>{isEn ? "Schedule Clinical Consultation" : "Agendar sesión con Mariana"}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
 
-                {/* Micro-credenciales debajo de la cápsula */}
-                <div className="flex flex-wrap items-center gap-3 pt-3 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
+                {/* Micro-credenciales */}
+                <div className="flex flex-wrap items-center gap-3 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
                   <span className="flex items-center gap-1.5 font-medium">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
                     <span>Tarjeta Prof. Colpsic No. 248910</span>
