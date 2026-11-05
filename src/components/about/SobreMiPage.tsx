@@ -146,20 +146,21 @@ export function SobreMiPage() {
     <div className="min-h-screen bg-[#fafaf9] dark:bg-[#0b0b0c] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-500 overflow-x-hidden selection:bg-[#8da9c4]/30 selection:text-foreground">
       
       {/* =========================================================================
-          SECCIÓN 1: HERO APPLE MINIMALISTA (SPLIT SCREEN CON CÁPSULA INTERACTIVA)
+          SECCIÓN 1: HERO APPLE MINIMALISTA — TODO EN UNA GRAN CAJA CON ESQUINAS REDONDEADAS
+          (Referencia exacta: caja unificada con bordes redondeados y fondo sutil)
           ========================================================================= */}
-      <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
-        {/* Glow ambiental sutil de luz suave */}
-        <div className="absolute top-24 left-1/2 -translate-x-1/2 w-[75vw] max-w-4xl h-[360px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[140px] rounded-full pointer-events-none" />
+      <section className="relative pt-24 md:pt-28 pb-12 sm:pb-16 px-3 sm:px-6 md:px-10 max-w-7xl mx-auto">
+        {/* Glow ambiental sutil */}
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[75vw] max-w-4xl h-[360px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[140px] rounded-full pointer-events-none" />
 
         {/* DRAFT INDICATOR (LOCAL DEV PREVIEW) */}
-        <div className="relative z-10 mb-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
+        <div className="relative z-10 mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
           <span>Modo Borrador • Esta página está habilitada en localhost mientras perfeccionas los detalles</span>
         </div>
 
         {/* BREADCRUMB */}
-        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-8">
+        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-5">
           <Link
             href="/"
             className="hover:text-[#1d1d1f] dark:hover:text-white flex items-center gap-1.5 transition-colors group"
@@ -171,147 +172,162 @@ export function SobreMiPage() {
           <span className="text-[#8da9c4] font-semibold">{isEn ? "About Me" : "Sobre mí"}</span>
         </div>
 
-        {/* CONTENEDOR SPLIT EN 2 COLUMNAS (REFERENCIA EXACTA FOTO 1) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* ═══════════════════════════════════════════════════════════════════════
+            GRAN CAJA UNIFICADA CON ESQUINAS REDONDEADAS (REFERENCIA EXACTA FOTO 2)
+            ═══════════════════════════════════════════════════════════════════════ */}
+        <div className="relative w-full rounded-[32px] sm:rounded-[44px] md:rounded-[48px] bg-[#edeef1] dark:bg-[#151518] border border-black/5 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden p-6 sm:p-10 md:p-12 lg:p-16">
           
-          {/* COLUMNA IZQUIERDA: Textos editoriales + Cápsula interactiva */}
-          <div className="lg:col-span-6 space-y-6">
-            
-            {/* Pill de especialidad */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-xs font-bold text-[#8da9c4] shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#8da9c4]" />
-              <span className="tracking-wide uppercase text-[11px]">
-                {isEn ? "Clinical Psychologist • Soulmar Founder" : "Psicóloga Clínica • Fundadora Soulmar"}
-              </span>
-            </div>
-
-            {/* Titular Principal estilo Apple */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.08]">
-              {isEn ? (
-                <>
-                  A warm, evidence-based space <br className="hidden sm:block" />
-                  <span className="text-[#8da9c4]">to return to yourself.</span>
-                </>
-              ) : (
-                <>
-                  Un espacio cálido y científico <br className="hidden sm:block" />
-                  <span className="text-[#8da9c4]">para volver a ti.</span>
-                </>
-              )}
-            </h1>
-
-            {/* Párrafo descriptivo de alta legibilidad */}
-            <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed max-w-xl">
-              {isEn
-                ? "I am Dr. Mariana Caicedo Quintero. I combine evidence-based Cognitive Behavioral Therapy (CBT) and third-generation therapies with genuine empathy, providing a safe sanctuary to dismantle automatic worry and heal without judgment."
-                : "Soy la Dra. Mariana Caicedo Quintero. Combino el rigor científico del Enfoque Cognitivo-Conductual (TCC) y terapias contextuales de tercera generación con una cercanía humana auténtica, para que recuperes el control de tus emociones y tu tranquilidad diaria."}
-            </p>
-
-            {/* CÁPSULA DE ACCIÓN UNIFICADA (Idéntica al input + botón de la imagen de referencia) */}
-            <div className="pt-2">
-              <div className="bg-white dark:bg-white/[0.06] p-1.5 sm:p-2 rounded-full border border-neutral-200/80 dark:border-white/10 flex items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.04)] max-w-lg transition-all duration-300 focus-within:border-[#8da9c4] focus-within:shadow-[0_4px_25px_rgba(141,169,196,0.2)]">
-                <div className="flex items-center gap-2.5 pl-3 sm:pl-4 flex-1">
-                  <MessageCircle className="w-4 h-4 text-[#8da9c4] shrink-0" />
-                  <input
-                    type="text"
-                    value={userQuery}
-                    onChange={(e) => setUserQuery(e.target.value)}
-                    placeholder={
-                      isEn
-                        ? "What support do you need today? (Anxiety, therapy...)"
-                        : "¿En qué necesitas apoyo hoy? (ansiedad, terapia...)"
-                    }
-                    className="w-full bg-transparent text-xs sm:text-sm text-neutral-800 dark:text-white placeholder:text-neutral-400 outline-none font-medium"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        window.location.href = "/#caja-agendamiento"
-                      }
-                    }}
-                  />
-                </div>
-                <Link
-                  href="/#caja-agendamiento"
-                  className="h-10 sm:h-11 px-5 sm:px-6 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer select-none"
-                >
-                  <span>{isEn ? "Book Session" : "Agendar cita"}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              {/* Micro-credenciales debajo de la cápsula */}
-              <div className="flex flex-wrap items-center gap-3 pt-3 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
-                  <span>Tarjeta Prof. Colpsic No. 248910</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
-                  <span>Secreto Profesional Médico</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1.5 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
-                  <span>Google Meet Cifrado</span>
-                </span>
-              </div>
-            </div>
+          {/* Ondas sutiles estilizadas de fondo (Atmosphere & Mindfulness como en la referencia) */}
+          <div className="absolute top-1/2 right-12 -translate-y-1/2 w-[520px] h-[340px] pointer-events-none opacity-50 dark:opacity-20 hidden lg:block select-none">
+            <svg className="w-full h-full" viewBox="0 0 520 340" fill="none">
+              <path d="M0 170 C 120 90, 220 240, 320 140 C 420 50, 470 180, 520 130" stroke="#8da9c4" strokeWidth="2" strokeDasharray="5 5" />
+              <path d="M0 200 C 140 120, 240 270, 340 170 C 440 80, 480 210, 520 160" stroke="#8da9c4" strokeWidth="1.5" />
+              <path d="M0 230 C 160 150, 260 300, 360 200 C 460 110, 490 240, 520 190" stroke="#c9cba3" strokeWidth="1.5" />
+            </svg>
           </div>
 
-          {/* COLUMNA DERECHA: Card grande con foto de Mariana y Widget Flotante */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[460px] aspect-[4/5] rounded-[36px] sm:rounded-[44px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/70 dark:border-white/10 shadow-2xl group">
-              <Image
-                src={therapistHeroImage}
-                alt="Dra. Mariana Caicedo Quintero - Psicóloga Clínica"
-                fill
-                quality={100}
-                priority
-                className="object-cover object-top hover:scale-[1.02] transition-transform duration-700 select-none"
-              />
-
-              {/* Sutil viñeta para contraste */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
-
-              {/* Badge de Disponibilidad en la esquina superior derecha */}
-              <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md text-white text-[10.5px] font-bold flex items-center gap-2 border border-white/15">
-                <span className="w-2 h-2 rounded-full bg-[#1D9E75] animate-pulse" />
-                <span>{isEn ? "Online Session Available" : "Sesión Online Disponible"}</span>
+          {/* GRID INTERNA EN 2 COLUMNAS */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* COLUMNA IZQUIERDA: Titulares + Párrafo + Cápsula de Entrada */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Badge de identificación */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-xs font-bold text-[#8da9c4] shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#8da9c4]" />
+                <span className="tracking-wide uppercase text-[11px]">
+                  {isEn ? "Clinical Psychologist • Soulmar Founder" : "Psicóloga Clínica • Fundadora Soulmar"}
+                </span>
               </div>
 
-              {/* WIDGET FLOTANTE EN LA ESQUINA INFERIOR IZQUIERDA (Exacto al gráfico de la imagen de referencia) */}
-              <div className="absolute bottom-5 left-5 p-4 rounded-2xl bg-white/95 dark:bg-[#1a1a1c]/95 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-2xl space-y-2.5 max-w-[210px] select-none pointer-events-auto">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-                    {isEn ? "Clinical Progress" : "Evolución Clínica"}
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-full bg-[#1D9E75]/15 text-[#1D9E75] text-[9.5px] font-extrabold">
-                    94% Calma
-                  </span>
-                </div>
-                
-                {/* Ilustración de curva de autorregulación emocional en azul Soulmar */}
-                <div className="h-8 w-full flex items-end">
-                  <svg className="w-full h-8 overflow-visible" viewBox="0 0 100 32" fill="none">
-                    <path
-                      d="M0 26 C 20 24, 35 28, 50 14 C 65 3, 80 8, 100 4"
-                      stroke="#8da9c4"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
+              {/* Titular Principal estilo Apple */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.08]">
+                {isEn ? (
+                  <>
+                    A warm, evidence-based space <br className="hidden sm:block" />
+                    <span className="text-[#8da9c4]">to return to yourself.</span>
+                  </>
+                ) : (
+                  <>
+                    Un espacio cálido y científico <br className="hidden sm:block" />
+                    <span className="text-[#8da9c4]">para volver a ti.</span>
+                  </>
+                )}
+              </h1>
+
+              {/* Párrafo descriptivo */}
+              <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed max-w-xl">
+                {isEn
+                  ? "I am Dr. Mariana Caicedo Quintero. I combine evidence-based Cognitive Behavioral Therapy (CBT) and third-generation therapies with genuine empathy, providing a safe sanctuary to dismantle automatic worry and heal without judgment."
+                  : "Soy la Dra. Mariana Caicedo Quintero. Combino el rigor científico del Enfoque Cognitivo-Conductual (TCC) y terapias contextuales de tercera generación con una cercanía humana auténtica, para que recuperes el control de tus emociones y tu tranquilidad diaria."}
+              </p>
+
+              {/* CÁPSULA DE ACCIÓN UNIFICADA (Estilo exacto de input + botón de la referencia) */}
+              <div className="pt-2">
+                <div className="bg-white dark:bg-white/[0.08] p-1.5 sm:p-2 rounded-full border border-neutral-200/90 dark:border-white/10 flex items-center justify-between shadow-[0_4px_25px_rgba(0,0,0,0.04)] max-w-lg transition-all duration-300 focus-within:border-[#8da9c4] focus-within:shadow-[0_4px_25px_rgba(141,169,196,0.2)]">
+                  <div className="flex items-center gap-2.5 pl-3 sm:pl-4 flex-1">
+                    <MessageCircle className="w-4 h-4 text-[#8da9c4] shrink-0" />
+                    <input
+                      type="text"
+                      value={userQuery}
+                      onChange={(e) => setUserQuery(e.target.value)}
+                      placeholder={
+                        isEn
+                          ? "What support do you need today? (Anxiety, therapy...)"
+                          : "¿En qué necesitas apoyo hoy? (ansiedad, terapia...)"
+                      }
+                      className="w-full bg-transparent text-xs sm:text-sm text-neutral-800 dark:text-white placeholder:text-neutral-400 outline-none font-medium"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          window.location.href = "/#caja-agendamiento"
+                        }
+                      }}
                     />
-                    <path
-                      d="M0 29 C 25 27, 45 23, 70 20 C 85 18, 92 16, 100 12"
-                      stroke="#ffc971"
-                      strokeWidth="1.5"
-                      strokeDasharray="2.5 2.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  </div>
+                  <Link
+                    href="/#caja-agendamiento"
+                    className="h-10 sm:h-11 px-5 sm:px-6 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer select-none"
+                  >
+                    <span>{isEn ? "Book Session" : "Agendar cita"}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
 
-                <div className="flex items-center justify-between text-[9.5px] text-neutral-500 dark:text-neutral-400 font-medium pt-1.5 border-t border-neutral-100 dark:border-white/10">
-                  <span>{isEn ? "Session 01" : "Sesión 01"}</span>
-                  <span className="text-[#8da9c4] font-bold">{isEn ? "Self-regulation" : "Autonomía"}</span>
+                {/* Micro-credenciales debajo de la cápsula */}
+                <div className="flex flex-wrap items-center gap-3 pt-3 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
+                    <span>Tarjeta Prof. Colpsic No. 248910</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
+                    <span>Secreto Profesional Médico</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
+                    <span>Google Meet Cifrado</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* COLUMNA DERECHA: Retrato de Mariana y Widget Flotante */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-[440px] aspect-[4/5] rounded-[28px] sm:rounded-[36px] overflow-hidden bg-white/60 dark:bg-neutral-800/80 border border-white/80 dark:border-white/10 shadow-xl group">
+                <Image
+                  src={therapistHeroImage}
+                  alt="Dra. Mariana Caicedo Quintero - Psicóloga Clínica"
+                  fill
+                  quality={100}
+                  priority
+                  className="object-cover object-top hover:scale-[1.02] transition-transform duration-700 select-none"
+                />
+
+                {/* Sutil viñeta para contraste */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
+
+                {/* Badge de Disponibilidad en la esquina superior derecha */}
+                <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md text-white text-[10.5px] font-bold flex items-center gap-2 border border-white/15">
+                  <span className="w-2 h-2 rounded-full bg-[#1D9E75] animate-pulse" />
+                  <span>{isEn ? "Online Session Available" : "Sesión Online Disponible"}</span>
+                </div>
+
+                {/* WIDGET FLOTANTE EN LA ESQUINA INFERIOR IZQUIERDA (Gráfico de evolución emocional) */}
+                <div className="absolute bottom-5 left-5 p-4 rounded-2xl bg-white/95 dark:bg-[#1a1a1c]/95 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-2xl space-y-2.5 max-w-[210px] select-none pointer-events-auto">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                      {isEn ? "Clinical Progress" : "Evolución Clínica"}
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-[#1D9E75]/15 text-[#1D9E75] text-[9.5px] font-extrabold">
+                      94% Calma
+                    </span>
+                  </div>
+                  
+                  {/* Ilustración de curva de autorregulación emocional en azul Soulmar */}
+                  <div className="h-8 w-full flex items-end">
+                    <svg className="w-full h-8 overflow-visible" viewBox="0 0 100 32" fill="none">
+                      <path
+                        d="M0 26 C 20 24, 35 28, 50 14 C 65 3, 80 8, 100 4"
+                        stroke="#8da9c4"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M0 29 C 25 27, 45 23, 70 20 C 85 18, 92 16, 100 12"
+                        stroke="#ffc971"
+                        strokeWidth="1.5"
+                        strokeDasharray="2.5 2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[9.5px] text-neutral-500 dark:text-neutral-400 font-medium pt-1.5 border-t border-neutral-100 dark:border-white/10">
+                    <span>{isEn ? "Session 01" : "Sesión 01"}</span>
+                    <span className="text-[#8da9c4] font-bold">{isEn ? "Self-regulation" : "Autonomía"}</span>
+                  </div>
                 </div>
               </div>
             </div>
