@@ -118,21 +118,21 @@ export function SobreMiPage() {
     <div className="min-h-screen bg-[#fafaf9] dark:bg-[#0b0b0c] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-500 overflow-x-hidden selection:bg-[#8da9c4]/30 selection:text-foreground">
       
       {/* =========================================================================
-          SECCIÓN 1: HERO APPLE MINIMALISTA — TODO EN UNA GRAN CAJA CON ESQUINAS REDONDEADAS
-          (Referencia exacta: caja unificada con bordes redondeados y fondo sutil)
+          SECCIÓN 1: HERO APPLE MINIMALISTA — CAJA COMPACTA CON ESPACIO LIMPIO PARA FOTO
+          (El texto ocupa estrictamente el costado izquierdo sin cruzar el 50% de ancho)
           ========================================================================= */}
-      <section className="relative pt-24 md:pt-28 pb-12 sm:pb-16 px-3 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section className="relative pt-20 md:pt-24 pb-8 sm:pb-12 px-3 sm:px-6 md:px-10 max-w-7xl mx-auto">
         {/* Glow ambiental sutil */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[75vw] max-w-4xl h-[360px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[70vw] max-w-3xl h-[280px] bg-[#8da9c4]/15 dark:bg-[#8da9c4]/10 blur-[130px] rounded-full pointer-events-none" />
 
         {/* DRAFT INDICATOR (LOCAL DEV PREVIEW) */}
-        <div className="relative z-10 mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
+        <div className="relative z-10 mb-3.5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-[11px] sm:text-xs font-semibold">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
           <span>Modo Borrador • Esta página está habilitada en localhost mientras perfeccionas los detalles</span>
         </div>
 
         {/* BREADCRUMB */}
-        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-5">
+        <div className="relative z-10 flex items-center gap-2 text-xs md:text-sm font-medium text-[#1d1d1f]/60 dark:text-white/50 mb-4">
           <Link
             href="/"
             className="hover:text-[#1d1d1f] dark:hover:text-white flex items-center gap-1.5 transition-colors group"
@@ -145,11 +145,11 @@ export function SobreMiPage() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════════
-            GRAN CAJA UNIFICADA CON IMAGEN DE FONDO (TEXTO Y CONTENIDO POR ENCIMA)
+            CAJA HERO COMPACTA Y EQUILIBRADA (IMAGEN DE FONDO + TEXTO EN MITAD IZQUIERDA)
             ═══════════════════════════════════════════════════════════════════════ */}
-        <div className="relative w-full rounded-[32px] sm:rounded-[44px] md:rounded-[48px] bg-[#edeef1] dark:bg-[#151518] border border-black/5 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden p-8 sm:p-12 md:p-16 lg:p-20 min-h-[440px] sm:min-h-[500px] flex items-center">
+        <div className="relative w-full rounded-[28px] sm:rounded-[36px] md:rounded-[40px] bg-[#edeef1] dark:bg-[#151518] border border-black/5 dark:border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.04)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.35)] overflow-hidden p-6 sm:p-8 md:p-10 lg:p-12 min-h-[340px] sm:min-h-[380px] lg:min-h-[400px] flex items-center">
           
-          {/* 1. IMAGEN DE FONDO DE TODA LA CAJA GRANDE (Configurable vía MediaContext con overlay de contraste) */}
+          {/* 1. IMAGEN DE FONDO DE TODA LA CAJA GRANDE (Configurable vía MediaContext) */}
           {heroBgImage && (
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
               <Image
@@ -160,34 +160,24 @@ export function SobreMiPage() {
                 priority
                 className="object-cover object-center select-none"
               />
-              {/* Capas de degradado y cristal translúcido para garantizar máxima legibilidad sobre la imagen */}
-              <div className="absolute inset-0 bg-[#f7f8f9]/75 dark:bg-[#121214]/80 backdrop-blur-[2px]" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#f7f8f9]/95 via-[#f7f8f9]/85 to-transparent dark:from-[#121214]/98 dark:via-[#121214]/88 dark:to-transparent" />
+              {/* Degradado inteligente: protege solo la mitad izquierda y deja la derecha 100% limpia para la foto */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#f7f8f9] via-[#f7f8f9]/90 via-[42%] to-transparent to-[52%] dark:from-[#121214] dark:via-[#121214]/90 dark:via-[42%] dark:to-transparent dark:to-[52%]" />
             </div>
           )}
 
-          {/* Ondas sutiles estilizadas de fondo (Atmosphere & Mindfulness) */}
-          <div className="absolute top-1/2 right-12 -translate-y-1/2 w-[520px] h-[340px] pointer-events-none opacity-40 dark:opacity-20 hidden lg:block select-none z-[1]">
-            <svg className="w-full h-full" viewBox="0 0 520 340" fill="none">
-              <path d="M0 170 C 120 90, 220 240, 320 140 C 420 50, 470 180, 520 130" stroke="#8da9c4" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M0 200 C 140 120, 240 270, 340 170 C 440 80, 480 210, 520 160" stroke="#8da9c4" strokeWidth="1.5" />
-              <path d="M0 230 C 160 150, 260 300, 360 200 C 460 110, 490 240, 520 190" stroke="#c9cba3" strokeWidth="1.5" />
-            </svg>
-          </div>
-
-          {/* CONTENIDO PRINCIPAL POR ENCIMA DE LA IMAGEN DE FONDO */}
-          <div className="relative z-10 max-w-2xl lg:max-w-3xl space-y-6 sm:space-y-8">
+          {/* CONTENIDO PRINCIPAL: ESTRICTAMENTE LIMITADO AL COSTADO IZQUIERDO (< 48% DE ANCHO) */}
+          <div className="relative z-10 w-full md:max-w-[48%] lg:max-w-[46%] xl:max-w-[44%] space-y-4 sm:space-y-5">
             
             {/* Badge de identificación */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-xs font-bold text-[#8da9c4] shadow-xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 text-[10.5px] sm:text-xs font-bold text-[#8da9c4] shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[#8da9c4]" />
-              <span className="tracking-wide uppercase text-[11px]">
+              <span className="tracking-wide uppercase">
                 {isEn ? "Clinical Psychologist • Soulmar Founder" : "Psicóloga Clínica • Fundadora Soulmar"}
               </span>
             </div>
 
             {/* Titular Principal optimizado para Google SEO, Seguridad y Calma */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.12]">
+            <h1 className="text-2xl sm:text-3xl lg:text-[32px] xl:text-[36px] font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.15]">
               {isEn ? (
                 <>
                   Your safe space toward calm. <br className="hidden sm:block" />
@@ -202,26 +192,26 @@ export function SobreMiPage() {
             </h1>
 
             {/* Párrafo descriptivo: Corto, empático y con alta intención de búsqueda SEO */}
-            <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-[14.5px] text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed">
               {isEn
                 ? "Evidence-based psychotherapy and authentic human warmth. A confidential, judgment-free sanctuary designed to help you overcome anxiety, regulate your nervous system, and restore inner peace with practical tools."
                 : "Psicoterapia basada en evidencia y cercanía humana auténtica. Un espacio confidencial y libre de juicios para superar la ansiedad, regular tus emociones y recuperar tu tranquilidad diaria con herramientas prácticas."}
             </p>
 
             {/* ACCIÓN PRINCIPAL (Sin barra de búsqueda - Botón directo y elegante) */}
-            <div className="pt-2 space-y-4">
+            <div className="pt-1 space-y-3.5">
               <div>
                 <Link
                   href="/#caja-agendamiento"
-                  className="h-12 sm:h-13 px-8 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-sm sm:text-base font-bold transition-all shadow-[0_10px_25px_rgba(141,169,196,0.35)] hover:shadow-[0_14px_30px_rgba(141,169,196,0.45)] inline-flex items-center gap-2.5 active:scale-95 cursor-pointer select-none group w-fit"
+                  className="h-11 sm:h-12 px-6 sm:px-7 rounded-full bg-[#8da9c4] hover:bg-[#7b9ab8] text-white text-xs sm:text-sm font-bold transition-all shadow-[0_8px_20px_rgba(141,169,196,0.35)] hover:shadow-[0_12px_26px_rgba(141,169,196,0.45)] inline-flex items-center gap-2 active:scale-95 cursor-pointer select-none group w-fit"
                 >
                   <span>{isEn ? "Schedule Clinical Consultation" : "Agendar sesión con Mariana"}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
               {/* Micro-credenciales */}
-              <div className="flex flex-wrap items-center gap-3 text-[11px] sm:text-xs text-neutral-500 dark:text-neutral-400">
+              <div className="flex flex-wrap items-center gap-2.5 text-[10.5px] sm:text-[11.5px] text-neutral-500 dark:text-neutral-400">
                 <span className="flex items-center gap-1.5 font-medium">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#1D9E75]" />
                   <span>Tarjeta Prof. Colpsic No. 248910</span>
