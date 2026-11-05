@@ -16,9 +16,6 @@ import {
   ArrowRight,
   ArrowLeft,
   ChevronDown,
-  Volume2,
-  Play,
-  Pause,
   Lock,
   FileCheck2,
   Globe2,
@@ -36,32 +33,8 @@ export function SobreMiPage() {
   const { getMediaUrl } = useMedia()
   const isEn = language === "en"
 
-  // Audio Player State (Mensaje personal de bienvenida)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [audioProgress, setAudioProgress] = useState(0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
   const [userQuery, setUserQuery] = useState("")
-
-  // Simulación de reproducción de audio con onda sonora animada
-  useEffect(() => {
-    let timer: NodeJS.Timeout
-    if (isPlaying) {
-      timer = setInterval(() => {
-        setAudioProgress((prev) => {
-          if (prev >= 100) {
-            setIsPlaying(false)
-            return 0
-          }
-          return prev + 1.25
-        })
-      }, 350)
-    }
-    return () => clearInterval(timer)
-  }, [isPlaying])
-
-  const toggleAudio = () => {
-    setIsPlaying((prev) => !prev)
-  }
 
   // Foto de la Dra. Mariana configurada en el sistema multimedia
   const therapistHeroImage = getMediaUrl("therapist_mariana", "/images/therapists/mariana.png", "desktop")
@@ -452,62 +425,176 @@ export function SobreMiPage() {
       </section>
 
       {/* =========================================================================
-          SECCIÓN 3: MENSAJE PERSONAL DE VOZ (APPLE SOUNDWAVE AUDIO PLAYER)
+          SECCIÓN 3: BENTO GRID APPLE LUXURY (ESTRUCTURA IDÉNTICA A LA SEGUNDA FOTO)
+          (4 tarjetas asimétricas: Izquierda alta + 2 superiores + 1 ancha inferior)
           ========================================================================= */}
-      <section className="py-12 md:py-16 px-4 sm:px-6 md:px-10 max-w-4xl mx-auto">
-        <div className="rounded-[32px] p-6 sm:p-8 bg-white dark:bg-neutral-900/90 backdrop-blur-xl border border-neutral-200/70 dark:border-white/10 shadow-xl space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-[#8da9c4]/20 flex items-center justify-center text-[#8da9c4] shrink-0">
-                <Volume2 className="w-6 h-6" />
+      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
+          
+          {/* TARJETA 1 (IZQUIERDA ALTA - SPAN DE ALTURA COMPLETA) */}
+          <div className="lg:col-span-5 flex flex-col justify-between bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-8 border border-black/5 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+            {/* Contenedor blanco superior con fotografía de mano / joyas / mindfulness */}
+            <div className="bg-white dark:bg-[#1f1f23] rounded-[24px] sm:rounded-[28px] p-6 flex items-center justify-center aspect-[4/3] sm:aspect-square w-full overflow-hidden shadow-xs relative group">
+              <Image
+                src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+                alt="Mindfulness y conexión terapéutica"
+                fill
+                sizes="(max-width: 768px) 100vw, 400px"
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+
+            {/* Texto editorial inferior */}
+            <div className="mt-6 sm:mt-8 space-y-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
+                {isEn
+                  ? "Handcrafted by clinical evidence and human warmth to deliver lasting calm and unmatched quality."
+                  : "Psicoterapia basada en evidencia científica y calidez humana para devolverte la serenidad y el control de tu vida."}
+              </h3>
+
+              {/* Botón píldora negro con flecha circular */}
+              <Link
+                href="/#caja-agendamiento"
+                className="inline-flex items-center gap-3 bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 px-6 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-95 group w-fit cursor-pointer select-none"
+              >
+                <span>{isEn ? "Explore Therapies" : "Conoce las terapias"}</span>
+                <span className="w-6 h-6 rounded-full bg-white/20 dark:bg-black/10 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          {/* CONTENEDOR DERECHO (DIVIDIDO EN FILA SUPERIOR CON 2 CARDS + FILA INFERIOR ANCHA) */}
+          <div className="lg:col-span-7 flex flex-col justify-between gap-5 lg:gap-6">
+            
+            {/* FILA SUPERIOR: 2 CARDS (CARD 2 + CARD 3) */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 lg:gap-6">
+              
+              {/* TARJETA 2 (SUPERIOR IZQUIERDA - ALIANZA TERAPÉUTICA / HANDSHAKE) */}
+              <div className="sm:col-span-7 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+                {/* Imagen horizontal de apretón de manos / confianza */}
+                <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-5 shadow-xs bg-neutral-200 dark:bg-neutral-800">
+                  <Image
+                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+                    alt="Alianza de confianza y acompañamiento terapéutico"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 350px"
+                    className="object-cover object-center hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+
+                <h4 className="text-base sm:text-lg leading-snug">
+                  <span className="font-bold text-[#1d1d1f] dark:text-white block sm:inline mr-1.5">
+                    {isEn ? "Trusted by" : "Alianza terapéutica"}
+                  </span>
+                  <span className="text-neutral-500 dark:text-neutral-400 font-normal">
+                    {isEn
+                      ? "over 450 patients worldwide with rigorous clinical standards."
+                      : "respaldada por más de 450 pacientes y rigor clínico internacional."}
+                  </span>
+                </h4>
               </div>
-              <div>
-                <h3 className="text-base font-bold text-neutral-900 dark:text-white leading-tight">
-                  {isEn ? "Voice Note from Dr. Mariana" : "Mensaje de bienvenida de Mariana"}
-                </h3>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  {isEn ? "Listen to her personal voice and message (1:12 min)" : "Escucha su voz y mensaje personal (1:12 min)"}
-                </p>
+
+              {/* TARJETA 3 (SUPERIOR DERECHA - STAT 50% + REY DE AJEDREZ DE CRISTAL AZUL Y CORONA) */}
+              <div className="sm:col-span-5 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] overflow-hidden relative min-h-[200px]">
+                {/* Texto de estadística a la izquierda */}
+                <div className="space-y-1.5 pr-2 z-10">
+                  <div className="text-4xl sm:text-5xl font-black text-[#1d1d1f] dark:text-white tracking-tight leading-none">
+                    50%
+                  </div>
+                  <p className="text-xs sm:text-[12.5px] text-neutral-500 dark:text-neutral-400 font-normal leading-snug">
+                    {isEn
+                      ? "Average reduction in baseline stress & anxiety within the first 6 clinical sessions."
+                      : "Reducción promedio de síntomas de ansiedad en las primeras 6 sesiones clínicas."}
+                  </p>
+                </div>
+
+                {/* Rey de ajedrez en cristal azul y corona de oro idéntico a la foto de referencia */}
+                <div className="relative shrink-0 flex items-center justify-center">
+                  <svg className="w-20 sm:w-24 h-28 sm:h-32 drop-shadow-[0_10px_20px_rgba(141,169,196,0.35)]" viewBox="0 0 100 140" fill="none">
+                    <defs>
+                      <linearGradient id="glassKing" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#dbeafe" stopOpacity="0.95" />
+                        <stop offset="30%" stopColor="#93c5fd" stopOpacity="0.85" />
+                        <stop offset="70%" stopColor="#60a5fa" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#2563eb" stopOpacity="0.95" />
+                      </linearGradient>
+                      <linearGradient id="goldCrownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#fef08a" />
+                        <stop offset="50%" stopColor="#eab308" />
+                        <stop offset="100%" stopColor="#a16207" />
+                      </linearGradient>
+                      <linearGradient id="shineGloss" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+                        <stop offset="50%" stopColor="#ffffff" stopOpacity="0.1" />
+                        <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Corona dorada con 3 puntas */}
+                    <g id="goldCrown">
+                      <path d="M 36 28 L 40 13 L 47 22 L 50 9 L 53 22 L 60 13 L 64 28 Z" fill="url(#goldCrownGrad)" stroke="#854d0e" strokeWidth="1" strokeLinejoin="round" />
+                      <circle cx="40" cy="12" r="2.2" fill="#fef08a" />
+                      <circle cx="50" cy="8" r="2.6" fill="#fef08a" />
+                      <circle cx="60" cy="12" r="2.2" fill="#fef08a" />
+                      <ellipse cx="50" cy="28" rx="14" ry="2.5" fill="#ca8a04" />
+                    </g>
+
+                    {/* Esfera / Cabeza de cristal azul */}
+                    <ellipse cx="50" cy="38" rx="11" ry="9" fill="url(#glassKing)" />
+                    <ellipse cx="47" cy="35" rx="5" ry="3" fill="url(#shineGloss)" />
+
+                    {/* Cuello y anillo */}
+                    <ellipse cx="50" cy="48" rx="14" ry="3.5" fill="url(#glassKing)" />
+                    <ellipse cx="48" cy="47" rx="8" ry="1.5" fill="url(#shineGloss)" />
+
+                    {/* Cuerpo de cristal estilizado (reloj de arena) */}
+                    <path d="M 41 51 C 43 65, 39 77, 36 94 L 64 94 C 61 77, 57 65, 59 51 Z" fill="url(#glassKing)" />
+                    <path d="M 42 53 C 44 65, 40 76, 38 92" stroke="url(#shineGloss)" strokeWidth="2.5" strokeLinecap="round" />
+
+                    {/* Anillo de base */}
+                    <ellipse cx="50" cy="96" rx="20" ry="5.5" fill="url(#glassKing)" />
+                    <ellipse cx="48" cy="94.5" rx="12" ry="2" fill="url(#shineGloss)" />
+
+                    {/* Pedestal ancho de la pieza de ajedrez */}
+                    <path d="M 30 100 C 27 108, 24 116, 20 126 C 28 130, 72 130, 80 126 C 76 116, 73 108, 70 100 Z" fill="url(#glassKing)" />
+                    <ellipse cx="50" cy="126" rx="30" ry="7" fill="url(#glassKing)" />
+                    <path d="M 24 124 C 32 128, 68 128, 76 124" stroke="url(#shineGloss)" strokeWidth="3" strokeLinecap="round" />
+                  </svg>
+                </div>
               </div>
             </div>
 
-            {/* Botón Play / Pause interactivo */}
-            <button
-              onClick={toggleAudio}
-              aria-label={isPlaying ? "Pausar mensaje" : "Escuchar mensaje de voz"}
-              className="h-11 px-6 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto"
-            >
-              {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
-              <span className="text-xs font-bold uppercase tracking-wider">
-                {isPlaying ? (isEn ? "Pause" : "Pausar") : (isEn ? "Listen" : "Escuchar")}
-              </span>
-            </button>
+            {/* TARJETA 4 (INFERIOR ANCHA - RETRATO ELEGANTE + TEXTO EDITORIAL) */}
+            <div className="bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-8 border border-black/5 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] overflow-hidden relative">
+              {/* Texto a la izquierda */}
+              <div className="flex-1 max-w-md space-y-2">
+                <h4 className="text-xl sm:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
+                  <span>{isEn ? "Elevates emotional regulation and " : "Fortalece tu regulación emocional y "}</span>
+                  <span className="text-neutral-500 dark:text-neutral-400 font-normal">
+                    {isEn
+                      ? "transforms your inner dialogue into lasting clarity, confidence, and authentic peace."
+                      : "transforma tu manera de habitar el presente con claridad, autocompasión y paz auténtica."}
+                  </span>
+                </h4>
+              </div>
+
+              {/* Retrato estilizado a la derecha como en la foto de referencia */}
+              <div className="relative w-44 sm:w-52 h-44 sm:h-52 shrink-0 rounded-[24px] overflow-hidden bg-neutral-200 dark:bg-neutral-800 shadow-sm">
+                <Image
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85"
+                  alt="Elevación y serenidad personal"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 250px"
+                  className="object-cover object-center hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+              </div>
+            </div>
+
           </div>
 
-          {/* Animación de onda sonora estilo Apple */}
-          <div className="flex items-center gap-1.5 h-8 px-3 bg-neutral-100 dark:bg-white/5 rounded-2xl overflow-hidden">
-            {[12, 22, 16, 28, 14, 24, 18, 30, 20, 15, 26, 17, 24, 19, 29, 14, 21, 16, 27, 18, 22, 15, 25, 17].map((h, i) => (
-              <span
-                key={i}
-                className={`flex-1 rounded-full transition-all duration-300 ${
-                  isPlaying
-                    ? "bg-[#8da9c4] animate-pulse"
-                    : "bg-neutral-300 dark:bg-neutral-700"
-                }`}
-                style={{
-                  height: isPlaying ? `${Math.max(8, (h * (audioProgress % 30 + 10)) / 22)}px` : `${h / 2.5}px`,
-                  animationDelay: `${i * 50}ms`
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Transcripción del mensaje */}
-          <p className="text-xs sm:text-sm italic text-neutral-600 dark:text-neutral-300 leading-relaxed pt-2 border-t border-neutral-100 dark:border-white/5">
-            {isEn
-              ? '«Hello, I am Mariana. Therapy is not a place where you come to be judged. It is a warm, evidence-based sanctuary where we dismantle automatic worry, understand your emotions, and build real peace for your daily life.»'
-              : '«Hola, soy Mariana. Sé lo difícil que puede ser dar el primer paso hacia la terapia. Quiero que sepas que en este espacio no vienes a ser juzgado/a; vienes a encontrar un lugar seguro donde desarmar lo que te pesa, entender tus emociones y construir herramientas reales para tu día a día.»'}
-          </p>
         </div>
       </section>
 
