@@ -3042,16 +3042,12 @@ export default function AdminPage() {
                               )}
                               <Icon
                                 className={`w-3.5 h-3.5 relative z-10 transition-colors duration-200 ${
-                                  isActive
-                                    ? "text-white stroke-[2.5]"
-                                    : "text-neutral-500 group-hover:text-[#8da9c4]"
+                                  isActive ? "text-white stroke-[2.5]" : "text-neutral-500 group-hover:text-[#8da9c4]"
                                 }`}
                               />
                               <span
                                 className={`relative z-10 transition-colors duration-200 ${
-                                  isActive
-                                    ? "text-white font-black"
-                                    : "text-neutral-600 group-hover:text-[#8da9c4]"
+                                  isActive ? "text-white font-black" : "text-neutral-600 group-hover:text-[#8da9c4]"
                                 }`}
                               >
                                 {device.shortLabel}
