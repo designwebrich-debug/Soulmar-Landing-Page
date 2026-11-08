@@ -61,11 +61,20 @@ export function OptimizedVideo({
     }
   }, [src])
 
+  useEffect(() => {
+    if (videoRef.current && typeof props.muted !== "undefined") {
+      videoRef.current.muted = props.muted
+      if (!props.muted && videoRef.current.paused) {
+        videoRef.current.play().catch(() => {})
+      }
+    }
+  }, [props.muted])
+
   return (
     <video
       ref={videoRef}
       src={src}
-      muted
+      muted={props.muted ?? true}
       playsInline
       loop
       autoPlay

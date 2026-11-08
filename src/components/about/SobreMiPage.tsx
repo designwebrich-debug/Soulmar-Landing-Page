@@ -21,7 +21,9 @@ import {
   FileCheck2,
   Globe2,
   Compass,
-  Check
+  Check,
+  Volume2,
+  VolumeX
 } from "lucide-react"
 import { FooterSection } from "@/components/home/FooterSection"
 import { useTranslation } from "@/context/LanguageContext"
@@ -34,11 +36,12 @@ export function SobreMiPage() {
   const { language } = useTranslation()
   const { getMediaUrl } = useMedia()
   const isEn = language === "en"
+  const [isMarianaMuted, setIsMarianaMuted] = useState(true)
 
   // Espacio multimedia central de Mariana (Soporta Fotos HD o Videos MP4 en máxima calidad para PC, Celular e iPad)
-  const marianaMediaDesktop = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_sobre_mi.webp", "desktop")
-  const marianaMediaMobile = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_sobre_mi.webp", "mobile")
-  const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_sobre_mi.webp", "tablet")
+  const marianaMediaDesktop = getMediaUrl("sobre_mi_mariana_media", "/videos/mariana_sobre_mi.mp4", "desktop")
+  const marianaMediaMobile = getMediaUrl("sobre_mi_mariana_media", "/videos/mariana_sobre_mi.mp4", "mobile")
+  const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/videos/mariana_sobre_mi.mp4", "tablet")
 
   // Bento Grid Multimedia (Tarjetas 1, 2, 3 y 4 de Sobre Mí)
   const bento1Desktop = getMediaUrl("sobre_mi_bento_1", "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85", "desktop")
@@ -209,13 +212,32 @@ export function SobreMiPage() {
 
           {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
           <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[440px] lg:min-h-[480px] group">
+            {/* Control interactivo de audio (Silenciar / Activar sonido) */}
+            {(isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet)) && (
+              <button
+                type="button"
+                onClick={() => setIsMarianaMuted((prev) => !prev)}
+                className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                title={isMarianaMuted ? (isEn ? "Unmute video" : "Activar sonido") : (isEn ? "Mute video" : "Silenciar")}
+                aria-label={isMarianaMuted ? "Activar sonido" : "Silenciar"}
+              >
+                {isMarianaMuted ? (
+                  <VolumeX className="w-4 h-4 text-white/90" />
+                ) : (
+                  <Volume2 className="w-4 h-4 text-[#8da9c4]" />
+                )}
+              </button>
+            )}
+
             {/* Versión Celular (Móvil) */}
             <div className="block md:hidden w-full h-full absolute inset-0">
               {isVideoUrl(marianaMediaMobile) ? (
                 <OptimizedVideo
                   src={marianaMediaMobile}
                   priority
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  muted={isMarianaMuted}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: "center 60%" }}
                 />
               ) : (
                 <Image
@@ -224,7 +246,8 @@ export function SobreMiPage() {
                   fill
                   quality={100}
                   priority
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: "center 60%" }}
                 />
               )}
             </div>
@@ -235,7 +258,9 @@ export function SobreMiPage() {
                 <OptimizedVideo
                   src={marianaMediaTablet}
                   priority
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  muted={isMarianaMuted}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: "center 60%" }}
                 />
               ) : (
                 <Image
@@ -244,7 +269,8 @@ export function SobreMiPage() {
                   fill
                   quality={100}
                   priority
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: "center 60%" }}
                 />
               )}
             </div>
@@ -255,7 +281,9 @@ export function SobreMiPage() {
                 <OptimizedVideo
                   src={marianaMediaDesktop}
                   priority
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  muted={isMarianaMuted}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: "center 60%" }}
                 />
               ) : (
                 <Image
@@ -264,7 +292,8 @@ export function SobreMiPage() {
                   fill
                   quality={100}
                   priority
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: "center 60%" }}
                 />
               )}
             </div>
@@ -273,7 +302,7 @@ export function SobreMiPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none z-10" />
 
             {/* Identificación en la base de la tarjeta central */}
-            <div className="absolute bottom-5 inset-x-5 text-white flex items-center justify-between z-20">
+            <div className="absolute bottom-5 inset-x-5 text-white flex items-center justify-between z-20 pointer-events-none">
               <div>
                 <h4 className="text-sm font-bold text-white tracking-tight">Dra. Mariana Caicedo</h4>
                 <p className="text-[11px] text-[#8da9c4] font-medium">Psicóloga Clínica • Fundadora Soulmar</p>

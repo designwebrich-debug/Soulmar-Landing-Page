@@ -1008,34 +1008,34 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     title: "Dra. Mariana Caicedo (Tarjeta Central Sobre Mí)",
     section: "sobre_mi",
     description: "Retrato principal o Video MP4 en alta resolución de la Dra. Mariana Caicedo en la página Sobre Mí (admite fotos y videos MP4 en máxima calidad).",
-    defaultUrl: "/images/therapists/mariana_sobre_mi.webp",
+    defaultUrl: "/videos/mariana_sobre_mi.mp4",
     previewUrl: "/sobre-mi",
-    dimensions: "800 × 1000 px",
-    aspectRatio: "Vertical 4:5",
+    dimensions: "720 × 1280 px (Vertical 9:16)",
+    aspectRatio: "Vertical 4:5 / 9:16",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "800 × 1000 px",
-        aspectRatio: "Vertical 4:5 HD",
+        dimensions: "720 × 1280 px",
+        aspectRatio: "Vertical 4:5 / 9:16",
         aspectClass: "aspect-[4/5]",
-        recommendedNotice: "Foto o Video MP4 vertical en alta definición para computador (PC).",
-        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
+        recommendedNotice: "Video MP4 o Foto vertical en alta definición para computador (PC).",
+        defaultUrl: "/videos/mariana_sobre_mi.mp4"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "600 × 750 px",
-        aspectRatio: "Vertical 4:5",
+        dimensions: "720 × 1280 px",
+        aspectRatio: "Vertical 4:5 / 9:16",
         aspectClass: "aspect-[4/5]",
-        recommendedNotice: "Foto o Video MP4 vertical optimizado para pantalla de celular.",
-        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
+        recommendedNotice: "Video MP4 o Foto vertical optimizado para pantalla de celular.",
+        defaultUrl: "/videos/mariana_sobre_mi.mp4"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "800 × 1000 px",
-        aspectRatio: "Vertical 4:5",
+        dimensions: "720 × 1280 px",
+        aspectRatio: "Vertical 4:5 / 9:16",
         aspectClass: "aspect-[4/5]",
-        recommendedNotice: "Foto o Video MP4 vertical en resolución intermedia para iPad.",
-        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
+        recommendedNotice: "Video MP4 o Foto vertical en resolución intermedia para iPad.",
+        defaultUrl: "/videos/mariana_sobre_mi.mp4"
       }
     }
   },
