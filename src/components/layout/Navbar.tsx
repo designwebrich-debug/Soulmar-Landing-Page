@@ -14,7 +14,7 @@ import { WHATSAPP_LINK } from "@/lib/constants"
 const navItems = [
   { key: "home", href: "/" },
   { key: "therapies", href: "/#caja-terapias" },
-  { key: "agendar", href: "/#caja-agendamiento" },
+  { key: "agendar", href: "/sobre-mi" },
   { key: "follow_us", href: "/#comunidad" },
 ]
 
@@ -98,7 +98,6 @@ export function Navbar() {
 
       const sections: { key: string; el: HTMLElement | null }[] = [
         { key: "follow_us", el: comunidadEl },
-        { key: "agendar", el: agendamientoEl },
         { key: "therapies", el: therapiesEl },
       ]
 
