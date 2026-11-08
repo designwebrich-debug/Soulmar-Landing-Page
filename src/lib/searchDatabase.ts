@@ -15,7 +15,7 @@ export const SOULMAR_SEARCH_DATABASE: SearchItem[] = [
   {
     id: "dra-mariana-sobre-mi",
     title: "Sobre mí • Dra. Mariana Caicedo Quintero",
-    subtitle: "Psicóloga Clínica • Tarjeta Prof. COLPSIC No. 248910",
+    subtitle: "Psicóloga Clínica • Tarjeta Prof. COLPSIC No. 292729",
     description: "Conoce mi formación académica, credenciales clínicas, enfoque cognitivo-conductual (TCC) y mensaje de voz personal.",
     category: "servicio",
     targetId: "caja-agendamiento",

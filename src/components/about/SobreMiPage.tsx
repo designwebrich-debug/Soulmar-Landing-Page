@@ -86,7 +86,7 @@ export function SobreMiPage() {
       q: isEn ? "How can I verify Dr. Mariana's professional credentials?" : "¿Cómo puedo verificar la tarjeta profesional de la Dra. Mariana?",
       a: isEn
         ? "Dr. Mariana Caicedo Quintero is a registered clinical psychologist accredited by the Colombian College of Psychologists (COLPSIC). Her active professional license is verifiable through the National Registry of Psychologists. Every session and diagnostic document meets the strictest legal, bioethical, and healthcare standards."
-        : "La Dra. Mariana Caicedo Quintero cuenta con Tarjeta Profesional No. 248910 expedida por el Colegio Colombiano de Psicólogos (COLPSIC) y avalada por el Ministerio de Salud. Su registro clínico activo puede verificarse públicamente en el Registro Único Nacional de Talento Humano en Salud (ReTHUS). Cada proceso cumple con la Ley 1090 de 2006 (Código Deontológico y Bioético de Psicología)."
+        : "La Dra. Mariana Caicedo Quintero cuenta con Tarjeta Profesional No. 292729 expedida por el Colegio Colombiano de Psicólogos (COLPSIC) y avalada por el Ministerio de Salud. Su registro clínico activo puede verificarse públicamente en el Registro Único Nacional de Talento Humano en Salud (ReTHUS). Cada proceso cumple con la Ley 1090 de 2006 (Código Deontológico y Bioético de Psicología)."
     },
     {
       q: isEn ? "What is the Cognitive Behavioral (CBT) approach and why is it recommended?" : "¿Qué es el Enfoque Cognitivo-Conductual (TCC) y por qué es el más recomendado?",
@@ -118,11 +118,11 @@ export function SobreMiPage() {
   const credentials = [
     {
       icon: GraduationCap,
-      title: isEn ? "Clinical Psychology Degree" : "Licenciada en Psicología Clínica",
-      institution: isEn ? "Accredited University • Health Sciences Faculty" : "Universidad Acreditada de Alta Calidad • Facultad de Ciencias de la Salud",
+      title: isEn ? "Psychologist — Universidad El Bosque" : "Psicóloga — Universidad El Bosque",
+      institution: isEn ? "University Professional Degree • Bogotá, Colombia" : "TÍTULO PROFESIONAL UNIVERSITARIO · BOGOTÁ, COLOMBIA",
       description: isEn
-        ? "Solid scientific foundation in psychopathology, clinical assessment, and evidence-based psychotherapy."
-        : "Formación científica rigurosa en psicopatología, evaluación clínica y psicoterapia basada en la evidencia."
+        ? "Professional Psychologist, graduated from Universidad El Bosque, degree awarded on June 19, 2024. University education supporting her professional practice and commitment to psychological wellbeing."
+        : "Profesional en Psicología, graduada de la Universidad El Bosque, con título otorgado el 19 de junio de 2024. Formación universitaria que respalda su ejercicio profesional y su compromiso con el bienestar psicológico."
     },
     {
       icon: Brain,
@@ -142,11 +142,11 @@ export function SobreMiPage() {
     },
     {
       icon: ShieldCheck,
-      title: isEn ? "Professional License No. 248910 (COLPSIC)" : "Tarjeta Profesional No. 248910 (COLPSIC)",
-      institution: isEn ? "Colombian College of Psychologists & Ministry of Health (ReTHUS)" : "Colegio Colombiano de Psicólogos y Ministerio de Salud (ReTHUS)",
+      title: isEn ? "Professional License No. 292729 (COLPSIC)" : "Tarjeta Profesional No. 292729 (COLPSIC)",
+      institution: isEn ? "Colombian College of Psychologists" : "COLEGIO COLOMBIANO DE PSICÓLOGOS",
       description: isEn
-        ? "Active legal clinical accreditation ensuring compliance with ethical, deontological, and healthcare laws."
-        : "Acreditación legal y habilitación clínica activa para el ejercicio profesional de la psicoterapia individual y de adultos."
+        ? "Professional accreditation as a psychologist in Colombia, endorsed by the professional license issued by the Colombian College of Psychologists."
+        : "Acreditación profesional como psicóloga en Colombia, respaldada por la tarjeta profesional expedida por el Colegio Colombiano de Psicólogos."
     }
   ]
 
