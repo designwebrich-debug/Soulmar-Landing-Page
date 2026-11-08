@@ -36,9 +36,9 @@ export function SobreMiPage() {
   const isEn = language === "en"
 
   // Espacio multimedia central de Mariana (Soporta Fotos HD o Videos MP4 en máxima calidad para PC, Celular e iPad)
-  const marianaMediaDesktop = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "desktop")
-  const marianaMediaMobile = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "mobile")
-  const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "tablet")
+  const marianaMediaDesktop = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_sobre_mi.webp", "desktop")
+  const marianaMediaMobile = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_sobre_mi.webp", "mobile")
+  const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_sobre_mi.webp", "tablet")
 
   // Bento Grid Multimedia (Tarjetas 1, 2, 3 y 4 de Sobre Mí)
   const bento1Desktop = getMediaUrl("sobre_mi_bento_1", "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85", "desktop")

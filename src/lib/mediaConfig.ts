@@ -1008,7 +1008,7 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     title: "Dra. Mariana Caicedo (Tarjeta Central Sobre Mí)",
     section: "sobre_mi",
     description: "Retrato principal o Video MP4 en alta resolución de la Dra. Mariana Caicedo en la página Sobre Mí (admite fotos y videos MP4 en máxima calidad).",
-    defaultUrl: "/images/therapists/mariana_v2.png",
+    defaultUrl: "/images/therapists/mariana_sobre_mi.webp",
     previewUrl: "/sobre-mi",
     dimensions: "800 × 1000 px",
     aspectRatio: "Vertical 4:5",
@@ -1019,7 +1019,7 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         aspectRatio: "Vertical 4:5 HD",
         aspectClass: "aspect-[4/5]",
         recommendedNotice: "Foto o Video MP4 vertical en alta definición para computador (PC).",
-        defaultUrl: "/images/therapists/mariana_v2.png"
+        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
@@ -1027,7 +1027,7 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         aspectRatio: "Vertical 4:5",
         aspectClass: "aspect-[4/5]",
         recommendedNotice: "Foto o Video MP4 vertical optimizado para pantalla de celular.",
-        defaultUrl: "/images/therapists/mariana_v2.png"
+        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
@@ -1035,7 +1035,7 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         aspectRatio: "Vertical 4:5",
         aspectClass: "aspect-[4/5]",
         recommendedNotice: "Foto o Video MP4 vertical en resolución intermedia para iPad.",
-        defaultUrl: "/images/therapists/mariana_v2.png"
+        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
       }
     }
   },
