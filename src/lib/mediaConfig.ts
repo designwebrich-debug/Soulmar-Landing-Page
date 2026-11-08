@@ -1043,35 +1043,35 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     key: "sobre_mi_bento_1",
     title: "Bento Card 1 - Soy Mariana (Sobre Mí)",
     section: "sobre_mi",
-    description: "Fotografía principal de Mariana Caicedo en la tarjeta izquierda vertical del bento grid de Sobre Mí",
-    defaultUrl: "/images/therapists/mariana_sobre_mi.webp",
+    description: "Fotografía principal de Mariana Caicedo con su diploma universitario en la tarjeta izquierda vertical del bento grid de Sobre Mí",
+    defaultUrl: "/images/therapists/mariana_diploma.webp",
     previewUrl: "/sobre-mi",
-    dimensions: "819 × 1024 px",
-    aspectRatio: "4:5 Vertical",
+    dimensions: "1024 × 921 px",
+    aspectRatio: "10:9 / 4:3.6",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "819 × 1024 px",
-        aspectRatio: "4:5 Vertical",
-        aspectClass: "aspect-[4/5]",
-        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en PC.",
-        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
+        dimensions: "1024 × 921 px",
+        aspectRatio: "10:9",
+        aspectClass: "aspect-[10/9]",
+        recommendedNotice: "Fotografía real de Mariana Caicedo con su diploma para la tarjeta 1 de Sobre Mí en PC.",
+        defaultUrl: "/images/therapists/mariana_diploma.webp"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "819 × 1024 px",
-        aspectRatio: "4:5 Vertical",
-        aspectClass: "aspect-[4/5]",
-        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en celular.",
-        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
+        dimensions: "1024 × 921 px",
+        aspectRatio: "10:9",
+        aspectClass: "aspect-[10/9]",
+        recommendedNotice: "Fotografía real de Mariana Caicedo con su diploma para la tarjeta 1 de Sobre Mí en celular.",
+        defaultUrl: "/images/therapists/mariana_diploma.webp"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "819 × 1024 px",
-        aspectRatio: "4:5 Vertical",
-        aspectClass: "aspect-[4/5]",
-        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en iPad.",
-        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
+        dimensions: "1024 × 921 px",
+        aspectRatio: "10:9",
+        aspectClass: "aspect-[10/9]",
+        recommendedNotice: "Fotografía real de Mariana Caicedo con su diploma para la tarjeta 1 de Sobre Mí en iPad.",
+        defaultUrl: "/images/therapists/mariana_diploma.webp"
       }
     }
   },
