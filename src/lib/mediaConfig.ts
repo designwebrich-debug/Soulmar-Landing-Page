@@ -1041,73 +1041,73 @@ export const MEDIA_SLOTS: MediaSlot[] = [
   },
   {
     key: "sobre_mi_bento_1",
-    title: "Bento Card 1 - Evidencia & Calidez (Sobre Mí)",
+    title: "Bento Card 1 - Soy Mariana (Sobre Mí)",
     section: "sobre_mi",
-    description: "Fotografía superior de la tarjeta izquierda alta en el bento grid de Sobre Mí (admite fotos o videos MP4)",
-    defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85",
+    description: "Fotografía principal de Mariana Caicedo en la tarjeta izquierda vertical del bento grid de Sobre Mí",
+    defaultUrl: "/images/therapists/mariana_sobre_mi.webp",
     previewUrl: "/sobre-mi",
-    dimensions: "800 × 600 px",
-    aspectRatio: "4:3 / Cuadrado",
+    dimensions: "819 × 1024 px",
+    aspectRatio: "4:5 Vertical",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "800 × 600 px",
-        aspectRatio: "4:3 HD",
-        aspectClass: "aspect-[4/3]",
-        recommendedNotice: "Foto o video para la tarjeta 1 de Sobre Mí en PC.",
-        defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+        dimensions: "819 × 1024 px",
+        aspectRatio: "4:5 Vertical",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en PC.",
+        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "600 × 600 px",
-        aspectRatio: "1:1 Cuadrado",
-        aspectClass: "aspect-square",
-        recommendedNotice: "Foto o video para la tarjeta 1 de Sobre Mí en celular.",
-        defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+        dimensions: "819 × 1024 px",
+        aspectRatio: "4:5 Vertical",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en celular.",
+        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "800 × 600 px",
-        aspectRatio: "4:3",
-        aspectClass: "aspect-[4/3]",
-        recommendedNotice: "Foto o video para la tarjeta 1 de Sobre Mí en iPad.",
-        defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+        dimensions: "819 × 1024 px",
+        aspectRatio: "4:5 Vertical",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en iPad.",
+        defaultUrl: "/images/therapists/mariana_sobre_mi.webp"
       }
     }
   },
   {
     key: "sobre_mi_bento_2",
-    title: "Bento Card 2 - Alianza Terapéutica (Sobre Mí)",
+    title: "Bento Card 2 - Mi Vocación (Sobre Mí)",
     section: "sobre_mi",
-    description: "Fotografía de confianza / alianza terapéutica en el bento grid de Sobre Mí (admite fotos o videos MP4)",
-    defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85",
+    description: "Fotografía del espacio terapéutico cálido en la tarjeta superior central del bento grid de Sobre Mí",
+    defaultUrl: "/images/hero-soulmar-cozy.jpg",
     previewUrl: "/sobre-mi",
-    dimensions: "800 × 500 px",
-    aspectRatio: "16:10 Panorámico",
+    dimensions: "1024 × 768 px",
+    aspectRatio: "16:10 / 4:3",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "800 × 500 px",
+        dimensions: "1024 × 768 px",
         aspectRatio: "16:10 Panorámico",
         aspectClass: "aspect-[16/10]",
-        recommendedNotice: "Foto o video horizontal para la tarjeta 2 en PC.",
-        defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+        recommendedNotice: "Fotografía de espacio terapéutico cálido para la tarjeta 2 en PC.",
+        defaultUrl: "/images/hero-soulmar-cozy.jpg"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "600 × 400 px",
+        dimensions: "1024 × 768 px",
         aspectRatio: "16:10",
         aspectClass: "aspect-[16/10]",
-        recommendedNotice: "Foto o video para la tarjeta 2 en celular.",
-        defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+        recommendedNotice: "Fotografía de espacio terapéutico cálido para la tarjeta 2 en celular.",
+        defaultUrl: "/images/hero-soulmar-cozy.jpg"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "800 × 500 px",
+        dimensions: "1024 × 768 px",
         aspectRatio: "16:10",
         aspectClass: "aspect-[16/10]",
-        recommendedNotice: "Foto o video para la tarjeta 2 en iPad.",
-        defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+        recommendedNotice: "Fotografía de espacio terapéutico cálido para la tarjeta 2 en iPad.",
+        defaultUrl: "/images/hero-soulmar-cozy.jpg"
       }
     }
   },
