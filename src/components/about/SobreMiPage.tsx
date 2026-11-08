@@ -80,37 +80,47 @@ export function SobreMiPage() {
       : "Hola Dra. Mariana Caicedo 🌿✨ Vengo de leer tu sección Sobre Mí y quisiera coordinar mi primera sesión de terapia en Soulmar 💙"
   )}`
 
-  // Preguntas Frecuentes de Autoridad Clínica
+  // Preguntas Frecuentes de Autoridad Clínica y Metodología
   const faqs = [
     {
-      q: isEn ? "How can I verify Dr. Mariana's professional credentials?" : "¿Cómo puedo verificar la tarjeta profesional de la Dra. Mariana?",
+      q: isEn
+        ? "How can I verify Dr. Mariana's academic and professional credentials?"
+        : "¿Cómo puedo verificar la formación académica y tarjeta profesional de Mariana?",
       a: isEn
-        ? "Dr. Mariana Caicedo Quintero is a registered clinical psychologist accredited by the Colombian College of Psychologists (COLPSIC). Her active professional license is verifiable through the National Registry of Psychologists. Every session and diagnostic document meets the strictest legal, bioethical, and healthcare standards."
-        : "La Dra. Mariana Caicedo Quintero cuenta con Tarjeta Profesional No. 292729 expedida por el Colegio Colombiano de Psicólogos (COLPSIC) y avalada por el Ministerio de Salud. Su registro clínico activo puede verificarse públicamente en el Registro Único Nacional de Talento Humano en Salud (ReTHUS). Cada proceso cumple con la Ley 1090 de 2006 (Código Deontológico y Bioético de Psicología)."
+        ? "Mariana Caicedo Quintero is a professional psychologist graduated from Universidad El Bosque in Bogotá, Colombia (degree awarded on June 19, 2024), and holds Professional License No. 292729 issued by the Colombian College of Psychologists (COLPSIC). Her professional credential is fully registered and verifiable under Colombian law, complying with Law 1090 of 2006 (Deontological and Bioethical Code of Psychology)."
+        : "Mariana Caicedo Quintero es psicóloga profesional graduada de la Universidad El Bosque en Bogotá, Colombia (título otorgado el 19 de junio de 2024), y cuenta con Tarjeta Profesional No. 292729 expedida por el Colegio Colombiano de Psicólogos (COLPSIC). Su registro profesional activo puede verificarse públicamente ante el Colegio Colombiano de Psicólogos y el ReTHUS, cumpliendo rigurosamente con la Ley 1090 de 2006 (Código Deontológico y Bioético de Psicología)."
     },
     {
-      q: isEn ? "What is the Cognitive Behavioral (CBT) approach and why is it recommended?" : "¿Qué es el Enfoque Cognitivo-Conductual (TCC) y por qué es el más recomendado?",
+      q: isEn
+        ? "What is the Cognitive Behavioral (CBT) approach and how does it work?"
+        : "¿Qué es el Enfoque Cognitivo-Conductual (TCC) y cómo funciona en las sesiones?",
       a: isEn
-        ? "Cognitive Behavioral Therapy (CBT) is the gold standard approach with the highest worldwide scientific evidence for treating anxiety, depression, and emotional dysregulation. Rather than just passive listening, CBT actively investigates how your thoughts, emotions, and behaviors interact, providing real tools to modify automatic patterns and achieve lasting autonomy."
-        : "El Enfoque Cognitivo-Conductual (TCC) es el estándar de oro con mayor evidencia científica internacional (reconocido por la APA y la OMS). A diferencia de enfoques pasivos donde solo se habla sin rumbo, la TCC es un proceso colaborativo, estructurado y enfocado en objetivos. Trabajamos en cómo tus pensamientos automáticos influyen en lo que sientes y haces, entregándote herramientas prácticas para regular tu sistema nervioso y transformar patrones limitantes en la vida real."
+        ? "Cognitive Behavioral Therapy (CBT) is an evidence-based psychotherapeutic approach recognized worldwide (APA and WHO). Rather than passive listening without direction, CBT is a collaborative, structured, and goal-oriented process. We explore the direct connection between thoughts, emotions, and behaviors, providing clear tools to transform limiting patterns into genuine autonomy and well-being."
+        : "El Enfoque Cognitivo-Conductual (TCC) es una corriente psicoterapéutica estructurada y respaldada por la mayor evidencia científica internacional (reconocida por la APA y la OMS). En lugar de una conversación pasiva y sin rumbo, la TCC es un proceso colaborativo y orientado a objetivos prácticos. Trabajamos sobre la relación directa entre pensamientos, emociones y conductas, entregándote herramientas claras para transformar patrones limitantes en autonomía y bienestar real."
     },
     {
-      q: isEn ? "What third-generation therapies are integrated in sessions?" : "¿Qué terapias de tercera generación se integran en las sesiones?",
+      q: isEn
+        ? "How are sessions conducted, what is the format, and what is the fee?"
+        : "¿Cómo se realizan las sesiones y qué valor tienen?",
       a: isEn
-        ? "Dr. Mariana integrates Acceptance and Commitment Therapy (ACT), Mindfulness, and Emotion Regulation techniques. This combination unites scientific rigor with deep self-compassion, helping you accept difficult feelings without judgment and take action aligned with your core values."
-        : "La Dra. Mariana complementa la TCC clásica con Terapias de Tercera Generación: Terapia de Aceptación y Compromiso (ACT), Mindfulness Clínico y Técnicas de Regulación Emocional Somática. Este abordaje integrativo une el rigor científico con una profunda calidez humana, permitiéndote relacionarte de una forma compasiva con tus emociones en lugar de luchar contra ellas."
+        ? "Individual sessions are conducted 100% online via Google Meet from the comfort and privacy of your home. Each session lasts approximately 50 to 60 minutes and has a fee of $120,000 COP (or its equivalent in USD for international clients). It is a warm, confidential, and structured space designed to progress at your own pace."
+        : "Las sesiones individuales se realizan 100% online a través de Google Meet desde la comodidad y privacidad de tu casa. Cada sesión tiene una duración aproximada de 50 a 60 minutos y un valor de $120.000 COP (o su equivalente en USD para consultantes en el exterior). Es un espacio seguro, confidencial y estructurado para avanzar a tu propio ritmo."
     },
     {
-      q: isEn ? "Do you see international patients outside of Colombia?" : "¿Atiendes a personas que viven fuera de Colombia?",
+      q: isEn
+        ? "Do you offer online sessions for clients living outside Colombia?"
+        : "¿Atiendes a personas que viven fuera de Colombia?",
       a: isEn
-        ? "Yes. Over 60% of Soulmar's consultations are with Hispanic and international patients residing in the United States, Europe, Mexico, and Latin America via encrypted Google Meet sessions, with flexible time zones."
-        : "Sí, absolutamente. Más del 60% de los consultantes de Soulmar son hispanohablantes que residen en Estados Unidos, España, Canadá, México, Chile y toda Latinoamérica. Las sesiones se realizan por videollamada cifrada de alta definición (Google Meet) con adaptación horaria personalizada."
+        ? "Yes, absolutely. A significant portion of Soulmar's clients are Spanish-speaking individuals residing in the United States, Spain, Canada, Mexico, Chile, and throughout Latin America. Sessions are held via encrypted Google Meet video calls with flexible, coordinated time zones."
+        : "Sí, absolutamente. Una parte importante de los consultantes de Soulmar son hispanohablantes que residen en Estados Unidos, España, Canadá, México, Chile y diversos países de Latinoamérica. Las sesiones se coordinan con flexibilidad horaria y se llevan a cabo mediante videollamada cifrada por Google Meet."
     },
     {
-      q: isEn ? "How does privacy and medical confidentiality work?" : "¿Cómo se garantiza la confidencialidad médica y el secreto profesional?",
+      q: isEn
+        ? "How is privacy and professional confidentiality guaranteed?"
+        : "¿Cómo se garantiza la confidencialidad y el secreto profesional?",
       a: isEn
-        ? "Everything discussed in therapy is protected by professional medical confidentiality. Soulmar complies with HIPAA guidelines for online health privacy, encrypted communications, and strict bioethical codes."
-        : "Todo lo compartido en sesión está estrictamente blindado por el Secreto Profesional Médico y Psicológico según la Ley 1090. Soulmar utiliza canales cifrados de extremo a extremo, almacenamiento protegido de historia clínica y protocolos éticos internacionales para asegurar tu máxima privacidad."
+        ? "Everything discussed in session is strictly protected by professional confidentiality under Law 1090 of 2006. Soulmar uses encrypted digital channels and follows bioethical standards to ensure your complete privacy, respect, and peace of mind."
+        : "Todo lo compartido en sesión está estrictamente protegido por el secreto profesional conforme a la Ley 1090 de 2006. Soulmar utiliza canales digitales cifrados y rigurosos estándares bioéticos para asegurar tu absoluta privacidad, respeto y tranquilidad."
     }
   ]
 
@@ -517,8 +527,8 @@ export function SobreMiPage() {
             </h2>
             <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
               {isEn
-                ? "Your mental health deserves registered, certified, and constantly updated clinical guidance."
-                : "Tu salud mental merece estar en manos de un profesional colegiado, legalmente habilitado y con continua actualización científica."}
+                ? "Your mental health deserves a licensed, legally authorized professional with continuous scientific updates."
+                : "Tu salud mental merece estar en manos de una profesional colegiada, legalmente habilitada y con continua actualización científica."}
             </p>
           </div>
 
