@@ -382,7 +382,7 @@ export function SobreMiPage() {
             {/* Fotografía de Mariana Caicedo - Contenedor expandido al máximo espacio disponible sin alterar la caja ni el texto */}
             <div className="bg-neutral-200 dark:bg-[#1f1f23] rounded-[22px] sm:rounded-[24px] overflow-hidden w-full relative shadow-xs group mb-5 flex-1 min-h-[300px] sm:min-h-[340px] aspect-[4/3.6] lg:aspect-auto">
               <Image
-                src={bento1Desktop || "/images/therapists/mariana_cozy_sweater.webp"}
+                src={bento1Desktop || bento1Mobile || bento1Tablet || "/images/therapists/mariana_cozy_sweater.webp"}
                 alt="Mariana Caicedo, psicóloga y fundadora de Soulmar"
                 fill
                 priority
@@ -422,7 +422,7 @@ export function SobreMiPage() {
                 {/* Imagen horizontal de ambiente clínico cálido */}
                 <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-4 shadow-xs bg-neutral-200 dark:bg-neutral-800 group">
                   <Image
-                    src={bento2Desktop || "/images/therapists/mariana_diploma_horizontal.webp"}
+                    src={bento2Desktop || bento2Mobile || bento2Tablet || "/images/therapists/mariana_diploma_horizontal.webp"}
                     alt="Mariana Caicedo Quintero con su diploma oficial de Psicóloga de la Universidad El Bosque"
                     fill
                     loading="lazy"

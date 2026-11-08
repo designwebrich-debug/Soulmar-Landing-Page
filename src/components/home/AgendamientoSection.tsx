@@ -211,6 +211,42 @@ export function AgendamientoSection() {
 
   const successContainerRef = useRef<HTMLDivElement>(null)
 
+  // Desplazamiento exacto directo a la caja de agendamiento (saltando el encabezado de sección)
+  useEffect(() => {
+    const scrollToCaja = () => {
+      if (typeof window === "undefined") return
+      const hash = window.location.hash
+      if (hash === "#caja-agendamiento" || hash === "#agendamiento") {
+        const el = document.getElementById("caja-agendamiento")
+        if (el) {
+          // Altura del navbar flotante + margen óptimo de respiro
+          const navOffset = window.innerWidth >= 768 ? 76 : 64
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+          const offsetPosition = elementPosition - navOffset
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          })
+        }
+      }
+    }
+
+    // Ejecutar tras hidratación y cambios de layout de secciones superiores
+    scrollToCaja()
+    const t1 = setTimeout(scrollToCaja, 100)
+    const t2 = setTimeout(scrollToCaja, 350)
+    const t3 = setTimeout(scrollToCaja, 750)
+
+    window.addEventListener("hashchange", scrollToCaja)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+      clearTimeout(t3)
+      window.removeEventListener("hashchange", scrollToCaja)
+    }
+  }, [])
+
   // Trigger confetti on success
   useEffect(() => {
     if (isSuccess) {
@@ -430,12 +466,12 @@ export function AgendamientoSection() {
         </div>
         
         {/* ANCLA DIRECTA A LA CAJA DE AGENDAMIENTO (Para enlaces #agendamiento y #caja-agendamiento) */}
-        <div id="agendamiento" className="scroll-mt-24 md:scroll-mt-28 pointer-events-none" />
+        <div id="agendamiento" className="scroll-mt-16 md:scroll-mt-20 pointer-events-none" />
 
         {/* WIDGET CONTAINER - EXACT REFERENCE STYLE */}
         <div 
           id="caja-agendamiento"
-          className="scroll-mt-24 md:scroll-mt-28 bg-white dark:bg-[#111112] rounded-[24px] border border-border/70 dark:border-border/10 shadow-2xl overflow-hidden transition-all duration-500"
+          className="scroll-mt-16 md:scroll-mt-20 bg-white dark:bg-[#111112] rounded-[24px] border border-border/70 dark:border-border/10 shadow-2xl overflow-hidden transition-all duration-500"
         >
           
           <AnimatePresence mode="wait">
