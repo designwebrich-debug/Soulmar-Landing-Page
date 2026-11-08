@@ -216,33 +216,39 @@ export function AgendamientoSection() {
     const scrollToCaja = () => {
       if (typeof window === "undefined") return
       const hash = window.location.hash
-      if (hash === "#caja-agendamiento" || hash === "#agendamiento") {
+      const sessionTarget = sessionStorage.getItem("soulmar_scroll_target")
+      if (hash === "#caja-agendamiento" || hash === "#agendamiento" || sessionTarget === "caja-agendamiento") {
         const el = document.getElementById("caja-agendamiento")
         if (el) {
           // Altura del navbar flotante + margen óptimo de respiro
           const navOffset = window.innerWidth >= 768 ? 76 : 64
           const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
-          const offsetPosition = elementPosition - navOffset
+          const offsetPosition = Math.max(0, elementPosition - navOffset)
 
           window.scrollTo({
             top: offsetPosition,
             behavior: "smooth"
           })
+          if (sessionTarget === "caja-agendamiento") {
+            sessionStorage.removeItem("soulmar_scroll_target")
+          }
         }
       }
     }
 
     // Ejecutar tras hidratación y cambios de layout de secciones superiores
     scrollToCaja()
-    const t1 = setTimeout(scrollToCaja, 100)
-    const t2 = setTimeout(scrollToCaja, 350)
-    const t3 = setTimeout(scrollToCaja, 750)
+    const t1 = setTimeout(scrollToCaja, 80)
+    const t2 = setTimeout(scrollToCaja, 250)
+    const t3 = setTimeout(scrollToCaja, 600)
+    const t4 = setTimeout(scrollToCaja, 1000)
 
     window.addEventListener("hashchange", scrollToCaja)
     return () => {
       clearTimeout(t1)
       clearTimeout(t2)
       clearTimeout(t3)
+      clearTimeout(t4)
       window.removeEventListener("hashchange", scrollToCaja)
     }
   }, [])

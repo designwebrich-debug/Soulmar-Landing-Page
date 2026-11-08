@@ -57,7 +57,13 @@ export function Navbar() {
       const id = href.replace("/#", "")
       const el = document.getElementById(id)
       if (el) {
-        el.scrollIntoView({ behavior: "smooth" })
+        const navOffset = window.innerWidth >= 768 ? 76 : 64
+        const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+        const offsetPosition = Math.max(0, elementPosition - navOffset)
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        })
       }
     }
   }

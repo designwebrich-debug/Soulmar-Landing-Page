@@ -74,6 +74,19 @@ export function SobreMiPage() {
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
+  // Asegurar que al entrar a Sobre Mí desde cualquier lugar se inicie en el primer título superior
+  useEffect(() => {
+    if (typeof window !== "undefined" && (!window.location.hash || window.location.hash === "#mariana-titulo")) {
+      window.scrollTo({ top: 0, behavior: "instant" })
+    }
+  }, [])
+
+  const handleBookingClick = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("soulmar_scroll_target", "caja-agendamiento")
+    }
+  }
+
   const whatsappHref = `https://api.whatsapp.com/send?phone=${WHATSAPP_ID}&text=${encodeURIComponent(
     isEn
       ? "Hello Dr. Mariana Caicedo 🌿✨ I'd like to book a psychological therapy session with Soulmar 💙"
@@ -150,10 +163,10 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 1: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
           ========================================================================= */}
-      <section className="pt-8 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         
         {/* ENCABEZADO CENTRADO */}
-        <div className="text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
+        <div id="mariana-titulo" className="scroll-mt-24 md:scroll-mt-28 text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
             {isEn
               ? "Mariana Caicedo | Psychologist at Soulmar"
@@ -504,6 +517,7 @@ export function SobreMiPage() {
               <div className="shrink-0 pt-2 sm:pt-0">
                 <Link
                   href="/#caja-agendamiento"
+                  onClick={handleBookingClick}
                   className="inline-flex items-center gap-3 bg-[#1d1d1f] text-white hover:bg-[#8da9c4] hover:text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-[#ffc971] dark:hover:text-[#1d1d1f] px-6 py-3.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm active:scale-95 group/btn whitespace-nowrap cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
                 >
                   <span>{isEn ? "Book your first session" : "Agenda tu primera sesión"}</span>
@@ -679,6 +693,7 @@ export function SobreMiPage() {
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/#caja-agendamiento"
+            onClick={handleBookingClick}
             className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#8da9c4] hover:bg-[#7a9ab8] text-white font-bold text-sm shadow-xl shadow-[#8da9c4]/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <Calendar className="w-4 h-4" />
