@@ -151,9 +151,9 @@ export function SobreMiPage() {
               </p>
             </div>
 
-            {/* Card 2: Terapias de 3ª Generación - Icono Verde Soulmar */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#1D9E75]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#1D9E75] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#1D9E75]/25 group-hover:scale-105 transition-transform">
+            {/* Card 2: Terapias de 3ª Generación - Icono Verde Soulmar Oficial */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#c9cba3]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform">
                 <Heart className="w-5 h-5 stroke-[2.2]" />
               </div>
               <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
@@ -194,9 +194,9 @@ export function SobreMiPage() {
 
           {/* COLUMNA DERECHA (2 Cards apiladas) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
-            {/* Card 3: Modalidad Online - Icono Morado Soulmar */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8b5cf6]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#8b5cf6] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#8b5cf6]/25 group-hover:scale-105 transition-transform">
+            {/* Card 3: Modalidad Online - Icono Morado Soulmar Oficial */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#a78bfa]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform">
                 <Globe2 className="w-5 h-5 stroke-[2.2]" />
               </div>
               <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">

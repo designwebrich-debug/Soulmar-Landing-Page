@@ -78,12 +78,14 @@ export function SocialCommunitySection() {
     e.preventDefault()
     e.stopPropagation()
     setIsFollowingInsta((prev) => !prev)
+    window.open("https://www.instagram.com/soulmar.org_/?hl=es", "_blank")
   }
 
   const handleFollowTikTok = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsFollowingTikTok((prev) => !prev)
+    window.open("https://www.tiktok.com/@soulmar.org_?is_from_webapp=1&sender_device=pc", "_blank")
   }
 
   // Track active slide in mobile carousel
@@ -215,7 +217,7 @@ export function SocialCommunitySection() {
 
           {/* WIDGET 2: TIKTOK */}
           <Link
-            href="https://www.tiktok.com/@soulmar.psicologia?_r=1&_t=ZS-9AYEqfc2W28"
+            href="https://www.tiktok.com/@soulmar.org_?is_from_webapp=1&sender_device=pc"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative rounded-[28px] md:rounded-[32px] p-5 sm:p-7 overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between min-h-[190px] bg-white/70 dark:bg-white/[0.04] backdrop-blur-xl border border-white/80 dark:border-white/10 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.03),inset_0_1px_0_rgba(255,255,255,0.6)] dark:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)]"
@@ -238,7 +240,7 @@ export function SocialCommunitySection() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <h3 className="font-extrabold text-[15px] sm:text-base md:text-lg text-[#1d1d1f] dark:text-white tracking-tight truncate">
-                      @soulmar.psicologia
+                      @Soulmar.org_
                     </h3>
                     <div className="relative w-4 h-4 shrink-0">
                       <Image
