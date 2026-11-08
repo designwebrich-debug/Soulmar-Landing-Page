@@ -10,6 +10,8 @@ import {
   GraduationCap,
   Brain,
   Heart,
+  HeartHandshake,
+  MessagesSquare,
   CheckCircle2,
   Calendar,
   MessageCircle,
@@ -145,13 +147,13 @@ export function SobreMiPage() {
         <div className="text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
             {isEn
-              ? "Core features that set our clinical space apart"
-              : "Pilares clínicos que definen nuestro acompañamiento"}
+              ? "Dr. Mariana Caicedo Quintero"
+              : "Dra. Mariana Caicedo Quintero"}
           </h2>
           <p className="text-base sm:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
             {isEn
-              ? "Evidence-based Cognitive Behavioral Therapy combined with warmth and unconditional support to guide you back to yourself."
-              : "Psicoterapia basada en la más alta evidencia científica internacional, combinada con un espacio humano, libre de juicios y enfocado en devolverte el control de tu vida."}
+              ? "Clinical Psychologist • Universidad El Bosque (Bogotá, Colombia). Evidence-based psychotherapy, human warmth, and a safe space to guide you back to yourself."
+              : "Psicóloga Clínica • Universidad El Bosque (Bogotá, Colombia). Psicoterapia basada en evidencia, calidez humana y un espacio seguro para volver a ti."}
           </p>
         </div>
 
@@ -160,33 +162,33 @@ export function SobreMiPage() {
           
           {/* COLUMNA IZQUIERDA (2 Cards apiladas) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
-            {/* Card 1: Enfoque TCC - Icono Azul Soulmar */}
+            {/* Card 1: Formación profesional - Icono Azul Soulmar */}
             <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
               <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#8da9c4]/25 group-hover:scale-105 transition-transform">
+                <GraduationCap className="w-5 h-5 stroke-[2.2]" />
+              </div>
+              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+                  {isEn ? "Professional Background" : "Formación profesional"}
+                </strong>
+                {isEn
+                  ? "Psychologist graduated from Universidad El Bosque (Bogotá, Colombia). My academic training and clinical experience back a professional, ethical, and deeply human accompaniment."
+                  : "Psicóloga graduada de la Universidad El Bosque (Bogotá, Colombia). Mi preparación académica y experiencia respaldan un acompañamiento psicológico profesional y humano."}
+              </p>
+            </div>
+
+            {/* Card 2: Enfoque terapéutico - Icono Verde Soulmar Oficial */}
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#c9cba3]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
+              <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform">
                 <Brain className="w-5 h-5 stroke-[2.2]" />
               </div>
               <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
                 <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
-                  {isEn ? "Cognitive Behavioral Therapy (CBT)" : "Enfoque Cognitivo-Conductual"}
+                  {isEn ? "Therapeutic Approach" : "Enfoque terapéutico"}
                 </strong>
                 {isEn
-                  ? "Protocol-driven interventions with the highest scientific evidence to dismantle rumination and anxiety."
-                  : "Protocolos estructurados con la más alta evidencia científica internacional para desarmar la ansiedad, el sobrepensamiento y patrones limitantes."}
-              </p>
-            </div>
-
-            {/* Card 2: Terapias de 3ª Generación - Icono Verde Soulmar Oficial */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#c9cba3]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform">
-                <Heart className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
-                  {isEn ? "Third-Generation Therapies (ACT)" : "Aceptación y Mindfulness (ACT)"}
-                </strong>
-                {isEn
-                  ? "Compassionate emotional acceptance and mindfulness skills to relate to your feelings without struggle."
-                  : "Herramientas de autocompasión y flexibilidad psicológica para relacionarte con tus emociones sin juzgarte y volver a tu centro."}
+                  ? "Cognitive-Behavioral Therapy based on clinical evidence, adapted to your needs, emotions, and personal goals."
+                  : "Terapia Cognitivo-Conductual basada en evidencia, adaptada a tus necesidades, emociones y objetivos personales."}
               </p>
             </div>
           </div>
@@ -270,33 +272,33 @@ export function SobreMiPage() {
 
           {/* COLUMNA DERECHA (2 Cards apiladas) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
-            {/* Card 3: Modalidad Online - Icono Morado Soulmar Oficial */}
+            {/* Card 3: Mi filosofía - Icono Morado Soulmar Oficial */}
             <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#a78bfa]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
               <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform">
-                <Globe2 className="w-5 h-5 stroke-[2.2]" />
+                <HeartHandshake className="w-5 h-5 stroke-[2.2]" />
               </div>
               <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
                 <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
-                  {isEn ? "Worldwide Online Access" : "Consulta Online Internacional"}
+                  {isEn ? "My Philosophy" : "Mi filosofía"}
                 </strong>
                 {isEn
-                  ? "Private, encrypted HD sessions on Google Meet, flexible for patients in the US, Europe, and Latin America."
-                  : "Sesiones privadas por Google Meet con adaptación horaria para pacientes en Colombia, Estados Unidos, España y Latinoamérica."}
+                  ? "A safe space where you can be yourself, feel heard, and explore your emotions without judgment."
+                  : "Un espacio seguro donde puedas ser tú, sentirte escuchado y explorar tus emociones sin juicios."}
               </p>
             </div>
 
-            {/* Card 4: Seguridad y Secreto Profesional - Como está */}
+            {/* Card 4: Nuestras sesiones - Como está en la primera foto */}
             <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
               <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-sm group-hover:scale-105 transition-transform">
-                <ShieldCheck className="w-5 h-5 stroke-[2.2]" />
+                <MessagesSquare className="w-5 h-5 stroke-[2.2]" />
               </div>
               <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
                 <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
-                  {isEn ? "Medical Confidentiality" : "Confidencialidad Médica y Ética"}
+                  {isEn ? "Our Sessions" : "Nuestras sesiones"}
                 </strong>
                 {isEn
-                  ? "Strict adherence to legal and bioethical standards (Law 1090). Your medical history remains 100% protected."
-                  : "Secreto profesional médico blindado conforme a la Ley 1090. Tu proceso clínico y tu privacidad están 100% protegidos."}
+                  ? "A close, personalized process to understand what you feel and move forward at your own pace."
+                  : "Un proceso cercano y personalizado para comprender lo que sientes y avanzar a tu propio ritmo."}
               </p>
             </div>
           </div>
