@@ -25,11 +25,18 @@ import { FooterSection } from "@/components/home/FooterSection"
 import { useTranslation } from "@/context/LanguageContext"
 import { useMedia } from "@/context/MediaContext"
 import { WHATSAPP_ID } from "@/lib/constants"
+import { OptimizedVideo } from "@/components/ui/OptimizedVideo"
+import { isVideoUrl } from "@/lib/utils"
 
 export function SobreMiPage() {
   const { language } = useTranslation()
   const { getMediaUrl } = useMedia()
   const isEn = language === "en"
+
+  // Espacio multimedia central de Mariana (Soporta Fotos HD o Videos MP4 en máxima calidad para PC, Celular e iPad)
+  const marianaMediaDesktop = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "desktop")
+  const marianaMediaMobile = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "mobile")
+  const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "tablet")
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
@@ -167,21 +174,73 @@ export function SobreMiPage() {
             </div>
           </div>
 
-          {/* COLUMNA CENTRAL (Retrato cálido de Mariana en sesión) */}
-          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[420px] lg:min-h-[440px] group">
-            <Image
-              src="/images/therapists/mariana_v2.png"
-              alt="Dra. Mariana Caicedo - Sesión Clínica Online"
-              fill
-              quality={100}
-              priority
-              className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-            />
+          {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
+          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[420px] lg:min-h-[440px] group">
+            {/* Versión Celular (Móvil) */}
+            <div className="block md:hidden w-full h-full absolute inset-0">
+              {isVideoUrl(marianaMediaMobile) ? (
+                <OptimizedVideo
+                  src={marianaMediaMobile}
+                  priority
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              ) : (
+                <Image
+                  src={marianaMediaMobile}
+                  alt="Dra. Mariana Caicedo - Sesión Clínica Online"
+                  fill
+                  quality={100}
+                  priority
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              )}
+            </div>
+
+            {/* Versión iPad (Tablet) */}
+            <div className="hidden md:block lg:hidden w-full h-full absolute inset-0">
+              {isVideoUrl(marianaMediaTablet) ? (
+                <OptimizedVideo
+                  src={marianaMediaTablet}
+                  priority
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              ) : (
+                <Image
+                  src={marianaMediaTablet}
+                  alt="Dra. Mariana Caicedo - Sesión Clínica Online"
+                  fill
+                  quality={100}
+                  priority
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              )}
+            </div>
+
+            {/* Versión Computador (PC) */}
+            <div className="hidden lg:block w-full h-full absolute inset-0">
+              {isVideoUrl(marianaMediaDesktop) ? (
+                <OptimizedVideo
+                  src={marianaMediaDesktop}
+                  priority
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              ) : (
+                <Image
+                  src={marianaMediaDesktop}
+                  alt="Dra. Mariana Caicedo - Sesión Clínica Online"
+                  fill
+                  quality={100}
+                  priority
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                />
+              )}
+            </div>
+
             {/* Sutil viñeta para contraste */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none z-10" />
 
             {/* Identificación en la base de la tarjeta central */}
-            <div className="absolute bottom-5 inset-x-5 text-white flex items-center justify-between">
+            <div className="absolute bottom-5 inset-x-5 text-white flex items-center justify-between z-20">
               <div>
                 <h4 className="text-sm font-bold text-white tracking-tight">Dra. Mariana Caicedo</h4>
                 <p className="text-[11px] text-[#8da9c4] font-medium">Psicóloga Clínica • Fundadora Soulmar</p>

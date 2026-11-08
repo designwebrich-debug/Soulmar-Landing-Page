@@ -50,8 +50,15 @@ function isVideoUrl(url?: string | null): boolean {
   return clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov") || clean.endsWith(".quicktime")
 }
 
-function isVideoSupportedSection(section?: string): boolean {
-  return section === "social" || section === "hero" || section === "highlights"
+function isVideoSupportedSection(section?: string, slotKey?: string): boolean {
+  return (
+    section === "social" ||
+    section === "hero" ||
+    section === "highlights" ||
+    section === "sobre_mi" ||
+    slotKey === "sobre_mi_mariana_media" ||
+    slotKey?.includes("mariana") === true
+  )
 }
 import {
   MEDIA_SECTIONS,
@@ -3375,7 +3382,7 @@ export default function AdminPage() {
                                       <span className="text-neutral-400 font-semibold">Medida:</span>
                                       <strong className="text-black font-bold font-mono">{deviceSpec.dimensions}</strong>
                                       <span className="text-[9px] text-[#1D9E75] font-black uppercase tracking-wider ml-auto">
-                                        {isVideoSupportedSection(slot.section) ? "Foto o Video MP4" : "Alta Calidad"}
+                                        {isVideoSupportedSection(slot.section, slot.key) ? "Foto o Video MP4" : "Alta Calidad"}
                                       </span>
                                     </div>
 
@@ -3399,7 +3406,7 @@ export default function AdminPage() {
                                     <label className="flex-1 h-10 rounded-full bg-black hover:bg-neutral-800 text-white text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98 shadow-xs">
                                       <UploadCloud className="w-4 h-4" />
                                       <span>
-                                        {isVideoSupportedSection(slot.section)
+                                        {isVideoSupportedSection(slot.section, slot.key)
                                           ? (isDirectCustom
                                               ? `Cambiar foto/video (${activeDev.shortLabel})`
                                               : `Subir foto o video MP4 (${activeDev.shortLabel})`)
@@ -3410,7 +3417,7 @@ export default function AdminPage() {
                                       <input
                                         type="file"
                                         accept={
-                                          isVideoSupportedSection(slot.section)
+                                          isVideoSupportedSection(slot.section, slot.key)
                                             ? "image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm"
                                             : "image/jpeg,image/png,image/webp"
                                         }

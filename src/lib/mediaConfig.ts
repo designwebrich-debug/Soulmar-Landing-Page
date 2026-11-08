@@ -97,6 +97,11 @@ export const MEDIA_SECTIONS: { id: string; title: string; description: string }[
     description: "Fotografías de perfil de los profesionales clínicos en la sección de agendamiento."
   },
   {
+    id: "sobre_mi",
+    title: "Sobre Mí",
+    description: "Espacios visuales y video de la página Sobre Mí (admite Fotos en alta resolución o Videos MP4 en máxima calidad)."
+  },
+  {
     id: "audio",
     title: "Audio Atmosphere",
     description: "Música ambiental exclusiva de Soulmar (Soulmar Atmosphere — Un momento para volver a ti)."
@@ -997,11 +1002,47 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     }
   },
 
-  // ─── EQUIPO CLÍNICO & TERAPEUTAS ──────────────────────────
+  // ─── SOBRE MÍ & BIOGRAFÍA CLÍNICA ──────────────────────────
+  {
+    key: "sobre_mi_mariana_media",
+    title: "Dra. Mariana Caicedo (Tarjeta Central Sobre Mí)",
+    section: "sobre_mi",
+    description: "Retrato principal o Video MP4 en alta resolución de la Dra. Mariana Caicedo en la página Sobre Mí (admite fotos y videos MP4 en máxima calidad).",
+    defaultUrl: "/images/therapists/mariana_v2.png",
+    previewUrl: "/sobre-mi",
+    dimensions: "800 × 1000 px",
+    aspectRatio: "Vertical 4:5",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5 HD",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Foto o Video MP4 vertical en alta definición para computador (PC).",
+        defaultUrl: "/images/therapists/mariana_v2.png"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "600 × 750 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Foto o Video MP4 vertical optimizado para pantalla de celular.",
+        defaultUrl: "/images/therapists/mariana_v2.png"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "800 × 1000 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Foto o Video MP4 vertical en resolución intermedia para iPad.",
+        defaultUrl: "/images/therapists/mariana_v2.png"
+      }
+    }
+  },
   {
     key: "sobre_mi_hero_bg",
     title: "Fondo Caja Principal (Sobre Mí)",
-    section: "general",
+    section: "sobre_mi",
     description: "Imagen de fondo panorámica para la caja de inicio en la página Sobre Mí (el texto queda por encima)",
     defaultUrl: "/images/hero-soulmar-cozy.jpg",
     dimensions: "1920 × 1080 px",

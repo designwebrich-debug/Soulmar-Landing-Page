@@ -166,6 +166,7 @@ export async function POST(request: Request) {
           revalidatePath("/", "layout")
           revalidatePath("/", "page")
           revalidatePath("/admin")
+          revalidatePath("/sobre-mi")
         } catch (e) {
           console.warn("[API_MEDIA_POST] revalidatePath error:", e)
         }
@@ -247,6 +248,7 @@ export async function POST(request: Request) {
           revalidatePath("/", "layout")
           revalidatePath("/", "page")
           revalidatePath("/admin")
+          revalidatePath("/sobre-mi")
         } catch (e) {
           console.warn("[API_MEDIA_POST] revalidatePath error:", e)
         }
