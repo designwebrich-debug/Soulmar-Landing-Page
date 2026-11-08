@@ -1040,6 +1040,150 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     }
   },
   {
+    key: "sobre_mi_bento_1",
+    title: "Bento Card 1 - Evidencia & Calidez (Sobre Mí)",
+    section: "sobre_mi",
+    description: "Fotografía superior de la tarjeta izquierda alta en el bento grid de Sobre Mí (admite fotos o videos MP4)",
+    defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85",
+    previewUrl: "/sobre-mi",
+    dimensions: "800 × 600 px",
+    aspectRatio: "4:3 / Cuadrado",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "800 × 600 px",
+        aspectRatio: "4:3 HD",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Foto o video para la tarjeta 1 de Sobre Mí en PC.",
+        defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "600 × 600 px",
+        aspectRatio: "1:1 Cuadrado",
+        aspectClass: "aspect-square",
+        recommendedNotice: "Foto o video para la tarjeta 1 de Sobre Mí en celular.",
+        defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "800 × 600 px",
+        aspectRatio: "4:3",
+        aspectClass: "aspect-[4/3]",
+        recommendedNotice: "Foto o video para la tarjeta 1 de Sobre Mí en iPad.",
+        defaultUrl: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
+      }
+    }
+  },
+  {
+    key: "sobre_mi_bento_2",
+    title: "Bento Card 2 - Alianza Terapéutica (Sobre Mí)",
+    section: "sobre_mi",
+    description: "Fotografía de confianza / alianza terapéutica en el bento grid de Sobre Mí (admite fotos o videos MP4)",
+    defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85",
+    previewUrl: "/sobre-mi",
+    dimensions: "800 × 500 px",
+    aspectRatio: "16:10 Panorámico",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "800 × 500 px",
+        aspectRatio: "16:10 Panorámico",
+        aspectClass: "aspect-[16/10]",
+        recommendedNotice: "Foto o video horizontal para la tarjeta 2 en PC.",
+        defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "600 × 400 px",
+        aspectRatio: "16:10",
+        aspectClass: "aspect-[16/10]",
+        recommendedNotice: "Foto o video para la tarjeta 2 en celular.",
+        defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "800 × 500 px",
+        aspectRatio: "16:10",
+        aspectClass: "aspect-[16/10]",
+        recommendedNotice: "Foto o video para la tarjeta 2 en iPad.",
+        defaultUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
+      }
+    }
+  },
+  {
+    key: "sobre_mi_bento_3",
+    title: "Bento Card 3 - Icono / Stat 50% (Sobre Mí)",
+    section: "sobre_mi",
+    description: "Ilustración, fotografía o render 3D (por defecto Rey de ajedrez azul) de la tarjeta 50% en Sobre Mí",
+    defaultUrl: "",
+    previewUrl: "/sobre-mi",
+    dimensions: "400 × 500 px",
+    aspectRatio: "Vertical 4:5",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "400 × 500 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Foto o icono para la tarjeta de estadística 50% en PC.",
+        defaultUrl: ""
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "300 × 400 px",
+        aspectRatio: "Vertical 3:4",
+        aspectClass: "aspect-[3/4]",
+        recommendedNotice: "Foto o icono para la tarjeta 50% en celular.",
+        defaultUrl: ""
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "400 × 500 px",
+        aspectRatio: "Vertical 4:5",
+        aspectClass: "aspect-[4/5]",
+        recommendedNotice: "Foto o icono para la tarjeta 50% en iPad.",
+        defaultUrl: ""
+      }
+    }
+  },
+  {
+    key: "sobre_mi_bento_4",
+    title: "Bento Card 4 - Regulación Emocional (Sobre Mí)",
+    section: "sobre_mi",
+    description: "Fotografía retrato de la tarjeta ancha inferior en el bento grid de Sobre Mí (admite fotos o videos MP4)",
+    defaultUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85",
+    previewUrl: "/sobre-mi",
+    dimensions: "600 × 600 px",
+    aspectRatio: "Cuadrado 1:1",
+    devices: {
+      desktop: {
+        label: "Versión Computador (PC)",
+        dimensions: "600 × 600 px",
+        aspectRatio: "Cuadrado 1:1",
+        aspectClass: "aspect-square",
+        recommendedNotice: "Foto o video para la tarjeta de regulación emocional en PC.",
+        defaultUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85"
+      },
+      mobile: {
+        label: "Versión Celular (Móvil)",
+        dimensions: "500 × 500 px",
+        aspectRatio: "Cuadrado 1:1",
+        aspectClass: "aspect-square",
+        recommendedNotice: "Foto o video para la tarjeta de regulación emocional en celular.",
+        defaultUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85"
+      },
+      tablet: {
+        label: "Versión iPad (Tablet)",
+        dimensions: "600 × 600 px",
+        aspectRatio: "Cuadrado 1:1",
+        aspectClass: "aspect-square",
+        recommendedNotice: "Foto o video para la tarjeta de regulación emocional en iPad.",
+        defaultUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85"
+      }
+    }
+  },
+  {
     key: "sobre_mi_hero_bg",
     title: "Fondo Caja Principal (Sobre Mí)",
     section: "sobre_mi",

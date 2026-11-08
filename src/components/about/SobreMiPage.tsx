@@ -38,6 +38,23 @@ export function SobreMiPage() {
   const marianaMediaMobile = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "mobile")
   const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/images/therapists/mariana_v2.png", "tablet")
 
+  // Bento Grid Multimedia (Tarjetas 1, 2, 3 y 4 de Sobre Mí)
+  const bento1Desktop = getMediaUrl("sobre_mi_bento_1", "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85", "desktop")
+  const bento1Mobile = getMediaUrl("sobre_mi_bento_1", "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85", "mobile")
+  const bento1Tablet = getMediaUrl("sobre_mi_bento_1", "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85", "tablet")
+
+  const bento2Desktop = getMediaUrl("sobre_mi_bento_2", "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85", "desktop")
+  const bento2Mobile = getMediaUrl("sobre_mi_bento_2", "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85", "mobile")
+  const bento2Tablet = getMediaUrl("sobre_mi_bento_2", "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85", "tablet")
+
+  const bento3Desktop = getMediaUrl("sobre_mi_bento_3", "", "desktop")
+  const bento3Mobile = getMediaUrl("sobre_mi_bento_3", "", "mobile")
+  const bento3Tablet = getMediaUrl("sobre_mi_bento_3", "", "tablet")
+
+  const bento4Desktop = getMediaUrl("sobre_mi_bento_4", "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85", "desktop")
+  const bento4Mobile = getMediaUrl("sobre_mi_bento_4", "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85", "mobile")
+  const bento4Tablet = getMediaUrl("sobre_mi_bento_4", "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85", "tablet")
+
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
   const whatsappHref = `https://api.whatsapp.com/send?phone=${WHATSAPP_ID}&text=${encodeURIComponent(
@@ -295,15 +312,64 @@ export function SobreMiPage() {
           
           {/* TARJETA 1 (IZQUIERDA ALTA - SPAN DE ALTURA COMPLETA) */}
           <div className="lg:col-span-5 flex flex-col justify-between bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-8 border border-black/5 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-            {/* Contenedor blanco superior con fotografía de mano / joyas / mindfulness */}
+            {/* Contenedor blanco superior con fotografía o video de mindfulness / calidez */}
             <div className="bg-white dark:bg-[#1f1f23] rounded-[24px] sm:rounded-[28px] p-6 flex items-center justify-center aspect-[4/3] sm:aspect-square w-full overflow-hidden shadow-xs relative group">
-              <Image
-                src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=85"
-                alt="Mindfulness y conexión terapéutica"
-                fill
-                sizes="(max-width: 768px) 100vw, 400px"
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-              />
+              {/* Celular */}
+              <div className="block md:hidden w-full h-full absolute inset-0">
+                {isVideoUrl(bento1Mobile) ? (
+                  <OptimizedVideo
+                    src={bento1Mobile}
+                    priority
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <Image
+                    src={bento1Mobile}
+                    alt="Mindfulness y conexión terapéutica"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                )}
+              </div>
+
+              {/* Tablet */}
+              <div className="hidden md:block lg:hidden w-full h-full absolute inset-0">
+                {isVideoUrl(bento1Tablet) ? (
+                  <OptimizedVideo
+                    src={bento1Tablet}
+                    priority
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <Image
+                    src={bento1Tablet}
+                    alt="Mindfulness y conexión terapéutica"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 400px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                )}
+              </div>
+
+              {/* Computador (PC) */}
+              <div className="hidden lg:block w-full h-full absolute inset-0">
+                {isVideoUrl(bento1Desktop) ? (
+                  <OptimizedVideo
+                    src={bento1Desktop}
+                    priority
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <Image
+                    src={bento1Desktop}
+                    alt="Mindfulness y conexión terapéutica"
+                    fill
+                    sizes="(max-width: 1280px) 100vw, 500px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  />
+                )}
+              </div>
             </div>
 
             {/* Texto editorial inferior */}
@@ -336,14 +402,63 @@ export function SobreMiPage() {
               {/* TARJETA 2 (SUPERIOR IZQUIERDA - ALIANZA TERAPÉUTICA / HANDSHAKE) */}
               <div className="sm:col-span-7 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
                 {/* Imagen horizontal de apretón de manos / confianza */}
-                <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-5 shadow-xs bg-neutral-200 dark:bg-neutral-800">
-                  <Image
-                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=85"
-                    alt="Alianza de confianza y acompañamiento terapéutico"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 350px"
-                    className="object-cover object-center hover:scale-105 transition-transform duration-700"
-                  />
+                <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-5 shadow-xs bg-neutral-200 dark:bg-neutral-800 group">
+                  {/* Celular */}
+                  <div className="block md:hidden w-full h-full absolute inset-0">
+                    {isVideoUrl(bento2Mobile) ? (
+                      <OptimizedVideo
+                        src={bento2Mobile}
+                        priority
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <Image
+                        src={bento2Mobile}
+                        alt="Alianza de confianza y acompañamiento terapéutico"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 350px"
+                        className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    )}
+                  </div>
+
+                  {/* Tablet */}
+                  <div className="hidden md:block lg:hidden w-full h-full absolute inset-0">
+                    {isVideoUrl(bento2Tablet) ? (
+                      <OptimizedVideo
+                        src={bento2Tablet}
+                        priority
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <Image
+                        src={bento2Tablet}
+                        alt="Alianza de confianza y acompañamiento terapéutico"
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 350px"
+                        className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    )}
+                  </div>
+
+                  {/* Computador (PC) */}
+                  <div className="hidden lg:block w-full h-full absolute inset-0">
+                    {isVideoUrl(bento2Desktop) ? (
+                      <OptimizedVideo
+                        src={bento2Desktop}
+                        priority
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    ) : (
+                      <Image
+                        src={bento2Desktop}
+                        alt="Alianza de confianza y acompañamiento terapéutico"
+                        fill
+                        sizes="(max-width: 1280px) 100vw, 400px"
+                        className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      />
+                    )}
+                  </div>
                 </div>
 
                 <h4 className="text-base sm:text-lg leading-snug">
@@ -358,7 +473,7 @@ export function SobreMiPage() {
                 </h4>
               </div>
 
-              {/* TARJETA 3 (SUPERIOR DERECHA - STAT 50% + REY DE AJEDREZ DE CRISTAL AZUL Y CORONA) */}
+              {/* TARJETA 3 (SUPERIOR DERECHA - STAT 50% + REY DE AJEDREZ DE CRISTAL AZUL O FOTO/VIDEO PERSONALIZADO) */}
               <div className="sm:col-span-5 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] overflow-hidden relative min-h-[200px]">
                 {/* Texto de estadística a la izquierda */}
                 <div className="space-y-1.5 pr-2 z-10">
@@ -372,58 +487,87 @@ export function SobreMiPage() {
                   </p>
                 </div>
 
-                {/* Rey de ajedrez en cristal azul y corona de oro idéntico a la foto de referencia */}
+                {/* Rey de ajedrez en cristal azul o elemento multimedia personalizado */}
                 <div className="relative shrink-0 flex items-center justify-center">
-                  <svg className="w-20 sm:w-24 h-28 sm:h-32 drop-shadow-[0_10px_20px_rgba(141,169,196,0.35)]" viewBox="0 0 100 140" fill="none">
-                    <defs>
-                      <linearGradient id="glassKing" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#dbeafe" stopOpacity="0.95" />
-                        <stop offset="30%" stopColor="#93c5fd" stopOpacity="0.85" />
-                        <stop offset="70%" stopColor="#60a5fa" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#2563eb" stopOpacity="0.95" />
-                      </linearGradient>
-                      <linearGradient id="goldCrownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#fef08a" />
-                        <stop offset="50%" stopColor="#eab308" />
-                        <stop offset="100%" stopColor="#a16207" />
-                      </linearGradient>
-                      <linearGradient id="shineGloss" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
-                        <stop offset="50%" stopColor="#ffffff" stopOpacity="0.1" />
-                        <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
+                  {(bento3Desktop || bento3Mobile || bento3Tablet) ? (
+                    <div className="relative w-20 sm:w-24 h-28 sm:h-32 rounded-2xl overflow-hidden shadow-sm flex items-center justify-center">
+                      {/* Celular */}
+                      <div className="block md:hidden w-full h-full absolute inset-0">
+                        {isVideoUrl(bento3Mobile) ? (
+                          <OptimizedVideo src={bento3Mobile} className="w-full h-full object-contain" />
+                        ) : (
+                          <Image src={bento3Mobile || bento3Desktop} alt="50% Reducción" fill className="object-contain" />
+                        )}
+                      </div>
+                      {/* Tablet */}
+                      <div className="hidden md:block lg:hidden w-full h-full absolute inset-0">
+                        {isVideoUrl(bento3Tablet) ? (
+                          <OptimizedVideo src={bento3Tablet} className="w-full h-full object-contain" />
+                        ) : (
+                          <Image src={bento3Tablet || bento3Desktop} alt="50% Reducción" fill className="object-contain" />
+                        )}
+                      </div>
+                      {/* PC */}
+                      <div className="hidden lg:block w-full h-full absolute inset-0">
+                        {isVideoUrl(bento3Desktop) ? (
+                          <OptimizedVideo src={bento3Desktop} className="w-full h-full object-contain" />
+                        ) : (
+                          <Image src={bento3Desktop} alt="50% Reducción" fill className="object-contain" />
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <svg className="w-20 sm:w-24 h-28 sm:h-32 drop-shadow-[0_10px_20px_rgba(141,169,196,0.35)]" viewBox="0 0 100 140" fill="none">
+                      <defs>
+                        <linearGradient id="glassKing" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#dbeafe" stopOpacity="0.95" />
+                          <stop offset="30%" stopColor="#93c5fd" stopOpacity="0.85" />
+                          <stop offset="70%" stopColor="#60a5fa" stopOpacity="0.9" />
+                          <stop offset="100%" stopColor="#2563eb" stopOpacity="0.95" />
+                        </linearGradient>
+                        <linearGradient id="goldCrownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#fef08a" />
+                          <stop offset="50%" stopColor="#eab308" />
+                          <stop offset="100%" stopColor="#a16207" />
+                        </linearGradient>
+                        <linearGradient id="shineGloss" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+                          <stop offset="50%" stopColor="#ffffff" stopOpacity="0.1" />
+                          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
+                        </linearGradient>
+                      </defs>
 
-                    {/* Corona dorada con 3 puntas */}
-                    <g id="goldCrown">
-                      <path d="M 36 28 L 40 13 L 47 22 L 50 9 L 53 22 L 60 13 L 64 28 Z" fill="url(#goldCrownGrad)" stroke="#854d0e" strokeWidth="1" strokeLinejoin="round" />
-                      <circle cx="40" cy="12" r="2.2" fill="#fef08a" />
-                      <circle cx="50" cy="8" r="2.6" fill="#fef08a" />
-                      <circle cx="60" cy="12" r="2.2" fill="#fef08a" />
-                      <ellipse cx="50" cy="28" rx="14" ry="2.5" fill="#ca8a04" />
-                    </g>
+                      {/* Corona dorada con 3 puntas */}
+                      <g id="goldCrown">
+                        <path d="M 36 28 L 40 13 L 47 22 L 50 9 L 53 22 L 60 13 L 64 28 Z" fill="url(#goldCrownGrad)" stroke="#854d0e" strokeWidth="1" strokeLinejoin="round" />
+                        <circle cx="40" cy="12" r="2.2" fill="#fef08a" />
+                        <circle cx="50" cy="8" r="2.6" fill="#fef08a" />
+                        <circle cx="60" cy="12" r="2.2" fill="#fef08a" />
+                        <ellipse cx="50" cy="28" rx="14" ry="2.5" fill="#ca8a04" />
+                      </g>
 
-                    {/* Esfera / Cabeza de cristal azul */}
-                    <ellipse cx="50" cy="38" rx="11" ry="9" fill="url(#glassKing)" />
-                    <ellipse cx="47" cy="35" rx="5" ry="3" fill="url(#shineGloss)" />
+                      {/* Esfera / Cabeza de cristal azul */}
+                      <ellipse cx="50" cy="38" rx="11" ry="9" fill="url(#glassKing)" />
+                      <ellipse cx="47" cy="35" rx="5" ry="3" fill="url(#shineGloss)" />
 
-                    {/* Cuello y anillo */}
-                    <ellipse cx="50" cy="48" rx="14" ry="3.5" fill="url(#glassKing)" />
-                    <ellipse cx="48" cy="47" rx="8" ry="1.5" fill="url(#shineGloss)" />
+                      {/* Cuello y anillo */}
+                      <ellipse cx="50" cy="48" rx="14" ry="3.5" fill="url(#glassKing)" />
+                      <ellipse cx="48" cy="47" rx="8" ry="1.5" fill="url(#shineGloss)" />
 
-                    {/* Cuerpo de cristal estilizado (reloj de arena) */}
-                    <path d="M 41 51 C 43 65, 39 77, 36 94 L 64 94 C 61 77, 57 65, 59 51 Z" fill="url(#glassKing)" />
-                    <path d="M 42 53 C 44 65, 40 76, 38 92" stroke="url(#shineGloss)" strokeWidth="2.5" strokeLinecap="round" />
+                      {/* Cuerpo de cristal estilizado (reloj de arena) */}
+                      <path d="M 41 51 C 43 65, 39 77, 36 94 L 64 94 C 61 77, 57 65, 59 51 Z" fill="url(#glassKing)" />
+                      <path d="M 42 53 C 44 65, 40 76, 38 92" stroke="url(#shineGloss)" strokeWidth="2.5" strokeLinecap="round" />
 
-                    {/* Anillo de base */}
-                    <ellipse cx="50" cy="96" rx="20" ry="5.5" fill="url(#glassKing)" />
-                    <ellipse cx="48" cy="94.5" rx="12" ry="2" fill="url(#shineGloss)" />
+                      {/* Anillo de base */}
+                      <ellipse cx="50" cy="96" rx="20" ry="5.5" fill="url(#glassKing)" />
+                      <ellipse cx="48" cy="94.5" rx="12" ry="2" fill="url(#shineGloss)" />
 
-                    {/* Pedestal ancho de la pieza de ajedrez */}
-                    <path d="M 30 100 C 27 108, 24 116, 20 126 C 28 130, 72 130, 80 126 C 76 116, 73 108, 70 100 Z" fill="url(#glassKing)" />
-                    <ellipse cx="50" cy="126" rx="30" ry="7" fill="url(#glassKing)" />
-                    <path d="M 24 124 C 32 128, 68 128, 76 124" stroke="url(#shineGloss)" strokeWidth="3" strokeLinecap="round" />
-                  </svg>
+                      {/* Pedestal ancho de la pieza de ajedrez */}
+                      <path d="M 30 100 C 27 108, 24 116, 20 126 C 28 130, 72 130, 80 126 C 76 116, 73 108, 70 100 Z" fill="url(#glassKing)" />
+                      <ellipse cx="50" cy="126" rx="30" ry="7" fill="url(#glassKing)" />
+                      <path d="M 24 124 C 32 128, 68 128, 76 124" stroke="url(#shineGloss)" strokeWidth="3" strokeLinecap="round" />
+                    </svg>
+                  )}
                 </div>
               </div>
             </div>
@@ -443,15 +587,64 @@ export function SobreMiPage() {
               </div>
 
               {/* Retrato estilizado a la derecha como en la foto de referencia */}
-              <div className="relative w-44 sm:w-52 h-44 sm:h-52 shrink-0 rounded-[24px] overflow-hidden bg-neutral-200 dark:bg-neutral-800 shadow-sm">
-                <Image
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85"
-                  alt="Elevación y serenidad personal"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 250px"
-                  className="object-cover object-center hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+              <div className="relative w-44 sm:w-52 h-44 sm:h-52 shrink-0 rounded-[24px] overflow-hidden bg-neutral-200 dark:bg-neutral-800 shadow-sm group">
+                {/* Celular */}
+                <div className="block md:hidden w-full h-full absolute inset-0">
+                  {isVideoUrl(bento4Mobile) ? (
+                    <OptimizedVideo
+                      src={bento4Mobile}
+                      priority
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    <Image
+                      src={bento4Mobile}
+                      alt="Elevación y serenidad personal"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 250px"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  )}
+                </div>
+
+                {/* Tablet */}
+                <div className="hidden md:block lg:hidden w-full h-full absolute inset-0">
+                  {isVideoUrl(bento4Tablet) ? (
+                    <OptimizedVideo
+                      src={bento4Tablet}
+                      priority
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    <Image
+                      src={bento4Tablet}
+                      alt="Elevación y serenidad personal"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 250px"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  )}
+                </div>
+
+                {/* Computador (PC) */}
+                <div className="hidden lg:block w-full h-full absolute inset-0">
+                  {isVideoUrl(bento4Desktop) ? (
+                    <OptimizedVideo
+                      src={bento4Desktop}
+                      priority
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    <Image
+                      src={bento4Desktop}
+                      alt="Elevación y serenidad personal"
+                      fill
+                      sizes="(max-width: 1280px) 100vw, 250px"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                  )}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none z-10" />
               </div>
             </div>
 
