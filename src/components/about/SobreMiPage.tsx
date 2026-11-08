@@ -446,8 +446,8 @@ export function SobreMiPage() {
               </div>
 
               {/* CAJA 3 (sm:col-span-5) — CONFIANZA PROFESIONAL (UNIVERSIDAD EL BOSQUE) */}
-              <div className="sm:col-span-5 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col items-center justify-between text-center shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
-                <div className="flex flex-col items-center">
+              <div className="sm:col-span-5 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col items-center justify-center text-center shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
+                <div className="flex flex-col items-center justify-center">
                   {/* Icono académico minimalista */}
                   <div className="w-12 h-12 rounded-2xl bg-[#8da9c4]/15 dark:bg-[#8da9c4]/25 text-[#8da9c4] dark:text-[#a5c0db] flex items-center justify-center mb-3 shadow-xs">
                     <GraduationCap className="w-6 h-6 stroke-[2.2]" />
@@ -461,23 +461,23 @@ export function SobreMiPage() {
                     Universidad El Bosque
                   </h3>
 
-                  <p className="text-xs sm:text-[13px] text-neutral-500 dark:text-neutral-400 font-normal leading-relaxed max-w-[210px]">
+                  <p className="text-xs sm:text-[13px] text-neutral-500 dark:text-neutral-400 font-normal leading-relaxed max-w-[210px] mb-4">
                     {isEn
                       ? "University Degree in Psychology · Bogotá, Colombia."
                       : "Formación universitaria en Psicología · Bogotá, Colombia."}
                   </p>
-                </div>
 
-                {/* Botón con enlace oficial a la Universidad El Bosque */}
-                <a
-                  href="https://www.unbosque.edu.co/programas-academicos/facultad-psicologia/psicologia?utm_source=google&utm_medium=cpl&utm_campaign=lead-ok_psicologia&utm_content=texto&gad_source=1&gad_campaignid=18440125824&gbraid=0AAAAADRwOneygcoauUxFffKntGLDp9gNZ&gclid=CjwKCAiAtbvXBhB_EiwAjwv9JkEcdjHNAqz5G9fm_W5-rL055Lqn658K_Qf8WqpGdiTKO_5ZlSf4uxoCgGEQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 text-xs font-semibold transition-all shadow-xs active:scale-95 group/btn focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
-                >
-                  <span>{isEn ? "Learn more" : "Conoce más"}</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                </a>
+                  {/* Botón con enlace oficial a la Universidad El Bosque - Unificado con separación armónica */}
+                  <a
+                    href="https://www.unbosque.edu.co/programas-academicos/facultad-psicologia/psicologia?utm_source=google&utm_medium=cpl&utm_campaign=lead-ok_psicologia&utm_content=texto&gad_source=1&gad_campaignid=18440125824&gbraid=0AAAAADRwOneygcoauUxFffKntGLDp9gNZ&gclid=CjwKCAiAtbvXBhB_EiwAjwv9JkEcdjHNAqz5G9fm_W5-rL055Lqn658K_Qf8WqpGdiTKO_5ZlSf4uxoCgGEQAvD_BwE"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 text-xs font-semibold transition-all shadow-xs active:scale-95 group/btn focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
+                  >
+                    <span>{isEn ? "Learn more" : "Conoce más"}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                  </a>
+                </div>
               </div>
             </div>
 
