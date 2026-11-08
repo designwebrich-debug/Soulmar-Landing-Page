@@ -371,69 +371,55 @@ export function SobreMiPage() {
 
       {/* =========================================================================
           SECCIÓN 3: BENTO GRID ESTRATÉGICO DE PRESENTACIÓN DE MARIANA CAICEDO
-          (4 tarjetas asimétricas: Caja 1 Izquierda Alta + Caja 2 Mi Vocación +
-           Caja 3 Formación Universidad El Bosque + Caja 4 Un Lugar Para Tu Historia)
+          (4 tarjetas asimétricas con separación premium uniforme Apple UX/UI)
           ========================================================================= */}
       <section className="py-16 md:py-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
-          {/* CAJA 1 (IZQUIERDA ALTA - lg:col-span-5) — LA HISTORIA DETRÁS DE SOULMAR */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-8 border border-black/5 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
-            {/* Fotografía de Mariana Caicedo - Protagonista, encuadre natural y elegante */}
-            <div className="bg-neutral-200 dark:bg-[#1f1f23] rounded-[24px] sm:rounded-[28px] overflow-hidden aspect-[4/4.5] sm:aspect-[4/4.2] w-full relative shadow-xs group">
+          {/* CAJA 1 (IZQUIERDA - lg:col-span-5) — LA HISTORIA DETRÁS DE SOULMAR */}
+          <div className="lg:col-span-5 flex flex-col justify-between bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
+            {/* Fotografía de Mariana Caicedo - Proporción compacta y equilibrada */}
+            <div className="bg-neutral-200 dark:bg-[#1f1f23] rounded-[22px] sm:rounded-[24px] overflow-hidden aspect-[4/3] w-full relative shadow-xs group mb-5 shrink-0">
               <Image
                 src={bento1Desktop || "/images/therapists/mariana_sobre_mi.webp"}
                 alt="Mariana Caicedo, psicóloga y fundadora de Soulmar"
                 fill
                 priority
-                sizes="(max-width: 1024px) 100vw, 500px"
+                sizes="(max-width: 1024px) 100vw, 450px"
                 className="object-cover object-[center_18%] group-hover:scale-[1.02] transition-transform duration-500 ease-out"
               />
             </div>
 
-            {/* Contenido editorial humano y cercano */}
-            <div className="mt-6 sm:mt-7 space-y-3.5 flex flex-col">
+            {/* Contenido editorial humano y cercano (sin botón) */}
+            <div className="space-y-2 flex flex-col">
               <span className="text-xs font-semibold uppercase tracking-wider text-[#8da9c4] dark:text-[#a5c0db] block">
                 {isEn ? "I am Mariana" : "Soy Mariana"}
               </span>
 
-              <h2 className="text-xl sm:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
+              <h2 className="text-lg sm:text-xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
                 {isEn
                   ? "“I believe we all deserve a safe space to be heard.”"
                   : "«Creo que todos merecemos un espacio para ser escuchados.»"}
               </h2>
 
-              <p className="text-sm sm:text-[14.5px] leading-relaxed text-neutral-600 dark:text-neutral-300 font-normal">
+              <p className="text-sm sm:text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-300 font-normal">
                 {isEn
                   ? "I am Mariana Caicedo, psychologist and founder of Soulmar. My purpose is to guide you to understand your emotions and build a kinder relationship with yourself."
                   : "Soy Mariana Caicedo, psicóloga y fundadora de Soulmar. Mi propósito es acompañarte a comprender tus emociones y construir una relación más amable contigo mismo."}
               </p>
-
-              {/* Botón hacia la sección biográfica real (#historia) */}
-              <div className="pt-2">
-                <Link
-                  href="#historia"
-                  className="inline-flex items-center gap-3 bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 px-6 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-95 group/btn w-fit cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
-                >
-                  <span>{isEn ? "Read my story" : "Conoce mi historia"}</span>
-                  <span className="w-6 h-6 rounded-full bg-white/20 dark:bg-black/10 flex items-center justify-center group-hover/btn:translate-x-0.5 transition-transform">
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </Link>
-              </div>
             </div>
           </div>
 
-          {/* CONTENEDOR DERECHO (lg:col-span-7 flex flex-col justify-between gap-5 lg:gap-6) */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-5 lg:gap-6">
+          {/* CONTENEDOR DERECHO (lg:col-span-7 flex flex-col gap-5 lg:gap-6 - Separación uniforme idéntica a horizontal) */}
+          <div className="lg:col-span-7 flex flex-col gap-5 lg:gap-6">
             
             {/* FILA SUPERIOR: CAJA 2 (MI VOCACIÓN) + CAJA 3 (CONFIANZA PROFESIONAL) */}
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 lg:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 lg:gap-6 items-stretch">
               
               {/* CAJA 2 (sm:col-span-7) — MI VOCACIÓN */}
               <div className="sm:col-span-7 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
                 {/* Imagen horizontal de ambiente clínico cálido */}
-                <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-5 shadow-xs bg-neutral-200 dark:bg-neutral-800 group">
+                <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-4 shadow-xs bg-neutral-200 dark:bg-neutral-800 group">
                   <Image
                     src={bento2Desktop || "/images/hero-soulmar-cozy.jpg"}
                     alt="Espacio terapéutico cálido, seguro y acogedor en Soulmar"
@@ -444,14 +430,14 @@ export function SobreMiPage() {
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#8da9c4] dark:text-[#a5c0db] block">
                     {isEn ? "My Vocation" : "Mi vocación"}
                   </span>
                   <h3 className="text-lg sm:text-xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
                     {isEn ? "Why did I choose psychology?" : "¿Por qué elegí la psicología?"}
                   </h3>
-                  <p className="text-sm sm:text-[14.5px] text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed italic pt-1">
+                  <p className="text-sm sm:text-[14px] text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed italic pt-0.5">
                     {isEn
                       ? "“Behind every story there is a person who deserves to be truly understood.”"
                       : "«Detrás de cada historia hay una persona que merece ser comprendida.»"}
@@ -460,40 +446,53 @@ export function SobreMiPage() {
               </div>
 
               {/* CAJA 3 (sm:col-span-5) — CONFIANZA PROFESIONAL (UNIVERSIDAD EL BOSQUE) */}
-              <div className="sm:col-span-5 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col items-center justify-center text-center shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] min-h-[220px] transition-all duration-200">
-                {/* Icono académico minimalista */}
-                <div className="w-14 h-14 rounded-2xl bg-[#8da9c4]/15 dark:bg-[#8da9c4]/25 text-[#8da9c4] dark:text-[#a5c0db] flex items-center justify-center mb-4 shadow-xs">
-                  <GraduationCap className="w-7 h-7 stroke-[2.2]" />
+              <div className="sm:col-span-5 bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col items-center justify-between text-center shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
+                <div className="flex flex-col items-center">
+                  {/* Icono académico minimalista */}
+                  <div className="w-12 h-12 rounded-2xl bg-[#8da9c4]/15 dark:bg-[#8da9c4]/25 text-[#8da9c4] dark:text-[#a5c0db] flex items-center justify-center mb-3 shadow-xs">
+                    <GraduationCap className="w-6 h-6 stroke-[2.2]" />
+                  </div>
+
+                  <span className="text-[11px] font-bold tracking-wider uppercase text-[#8da9c4] dark:text-[#a5c0db] mb-1 block">
+                    {isEn ? "Academic Credential" : "Formación Profesional"}
+                  </span>
+
+                  <h3 className="text-lg sm:text-xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug mb-1.5">
+                    Universidad El Bosque
+                  </h3>
+
+                  <p className="text-xs sm:text-[13px] text-neutral-500 dark:text-neutral-400 font-normal leading-relaxed max-w-[210px]">
+                    {isEn
+                      ? "University Degree in Psychology · Bogotá, Colombia."
+                      : "Formación universitaria en Psicología · Bogotá, Colombia."}
+                  </p>
                 </div>
 
-                <span className="text-[11px] font-bold tracking-wider uppercase text-[#8da9c4] dark:text-[#a5c0db] mb-1.5 block">
-                  {isEn ? "Academic Credential" : "Formación Profesional"}
-                </span>
-
-                <h3 className="text-xl sm:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug mb-2">
-                  Universidad El Bosque
-                </h3>
-
-                <p className="text-xs sm:text-[13px] text-neutral-500 dark:text-neutral-400 font-normal leading-relaxed max-w-[210px]">
-                  {isEn
-                    ? "University Degree in Psychology · Bogotá, Colombia."
-                    : "Formación universitaria en Psicología · Bogotá, Colombia."}
-                </p>
+                {/* Botón con enlace oficial a la Universidad El Bosque */}
+                <a
+                  href="https://www.unbosque.edu.co/programas-academicos/facultad-psicologia/psicologia?utm_source=google&utm_medium=cpl&utm_campaign=lead-ok_psicologia&utm_content=texto&gad_source=1&gad_campaignid=18440125824&gbraid=0AAAAADRwOneygcoauUxFffKntGLDp9gNZ&gclid=CjwKCAiAtbvXBhB_EiwAjwv9JkEcdjHNAqz5G9fm_W5-rL055Lqn658K_Qf8WqpGdiTKO_5ZlSf4uxoCgGEQAvD_BwE"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 text-xs font-semibold transition-all shadow-xs active:scale-95 group/btn focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
+                >
+                  <span>{isEn ? "Learn more" : "Conoce más"}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                </a>
               </div>
             </div>
 
             {/* CAJA 4 (INFERIOR ANCHA) — UN LUGAR PARA TU HISTORIA */}
-            <div className="bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-8 border border-black/5 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
-              <div className="space-y-2 max-w-xl">
+            <div className="bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
+              <div className="space-y-1.5 max-w-xl">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#8da9c4] dark:text-[#a5c0db] block">
                   {isEn ? "A place for your story" : "Un lugar para tu historia"}
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
+                <h3 className="text-lg sm:text-xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
                   {isEn
                     ? "You don’t have to have all the answers to begin."
                     : "No tienes que tener todas las respuestas para comenzar."}
                 </h3>
-                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed">
+                <p className="text-sm text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed">
                   {isEn
                     ? "Sometimes, the first step is finding a place where you can speak freely and feel accompanied."
                     : "A veces, el primer paso es encontrar un lugar donde puedas hablar con libertad y sentirte acompañado."}
