@@ -163,36 +163,46 @@ export function SobreMiPage() {
           {/* COLUMNA IZQUIERDA (2 Cards apiladas con flex-1 para alineación simétrica) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
             {/* Card 1: Formación profesional - Icono Azul Soulmar */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#8da9c4]/60 transition-all duration-300 shadow-xs flex-1 group">
-              <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#8da9c4]/25 group-hover:scale-105 transition-transform">
-                <GraduationCap className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
-                  {isEn ? "Professional Background" : "Formación profesional"}
-                </h3>
-                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                  {isEn
-                    ? "Psychologist graduated from Universidad El Bosque in Bogotá, Colombia. My academic background and clinical experience back a professional, ethical, and deeply human accompaniment."
-                    : "Psicóloga graduada de la Universidad El Bosque en Bogotá, Colombia. Mi preparación académica y experiencia clínica respaldan un acompañamiento profesional, ético y profundamente humano."}
-                </p>
+            <div className="relative group flex-1 flex flex-col">
+              {/* Luz / Glow detrás de la caja en hover */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#8da9c4]/35 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#8da9c4]/60 group-hover:shadow-[0_20px_50px_rgba(141,169,196,0.22)] transition-all duration-500 shadow-xs h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#8da9c4]/25 group-hover:scale-105 transition-transform duration-300">
+                  <GraduationCap className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div className="flex flex-col flex-1">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                    {isEn ? "Professional Background" : "Formación profesional"}
+                  </h3>
+                  <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                    {isEn
+                      ? "Psychologist graduated from Universidad El Bosque in Bogotá, Colombia. My academic background and clinical experience back a professional, ethical, and deeply human accompaniment."
+                      : "Psicóloga graduada de la Universidad El Bosque en Bogotá, Colombia. Mi preparación académica y experiencia clínica respaldan un acompañamiento profesional, ético y profundamente humano."}
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* Card 2: Enfoque terapéutico - Icono Verde Soulmar Oficial */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#c9cba3]/60 transition-all duration-300 shadow-xs flex-1 group">
-              <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform">
-                <Brain className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
-                  {isEn ? "Therapeutic Approach" : "Enfoque terapéutico"}
-                </h3>
-                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                  {isEn
-                    ? "I guide each individual process under the Cognitive-Behavioral Therapy (CBT) approach, addressing the direct link between thoughts, emotions, and behaviors to transform limiting beliefs into real autonomy."
-                    : "Guío cada proceso individual bajo el Enfoque Cognitivo-Conductual (TCC), trabajando sobre la relación directa entre pensamientos, emociones y conductas para transformar creencias limitantes en autonomía real."}
-                </p>
+            <div className="relative group flex-1 flex flex-col">
+              {/* Luz / Glow detrás de la caja en hover */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#c9cba3]/40 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#c9cba3]/60 group-hover:shadow-[0_20px_50px_rgba(201,203,163,0.25)] transition-all duration-500 shadow-xs h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform duration-300">
+                  <Brain className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div className="flex flex-col flex-1">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                    {isEn ? "Therapeutic Approach" : "Enfoque terapéutico"}
+                  </h3>
+                  <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                    {isEn
+                      ? "I guide each individual process under the Cognitive-Behavioral Therapy (CBT) approach, addressing the direct link between thoughts, emotions, and behaviors to transform limiting beliefs into real autonomy."
+                      : "Guío cada proceso individual bajo el Enfoque Cognitivo-Conductual (TCC), trabajando sobre la relación directa entre pensamientos, emociones y conductas para transformar creencias limitantes en autonomía real."}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -277,36 +287,46 @@ export function SobreMiPage() {
           {/* COLUMNA DERECHA (2 Cards apiladas con flex-1 para alineación simétrica) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
             {/* Card 3: Mi filosofía - Icono Morado Soulmar Oficial */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#a78bfa]/60 transition-all duration-300 shadow-xs flex-1 group">
-              <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform">
-                <HeartHandshake className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
-                  {isEn ? "My Philosophy" : "Mi filosofía"}
-                </h3>
-                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                  {isEn
-                    ? "I strongly believe in creating a safe, close, and confidential space where you can truly be yourself, feel deeply heard, and explore your emotions free from judgment or labels."
-                    : "Creo en construir un espacio seguro, cercano y confidencial donde puedas ser tú mismo/a, sentirte verdaderamente escuchado/a y comprender tus emociones sin juicios ni etiquetas."}
-                </p>
+            <div className="relative group flex-1 flex flex-col">
+              {/* Luz / Glow detrás de la caja en hover */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#a78bfa]/35 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#a78bfa]/60 group-hover:shadow-[0_20px_50px_rgba(167,139,250,0.22)] transition-all duration-500 shadow-xs h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform duration-300">
+                  <HeartHandshake className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div className="flex flex-col flex-1">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                    {isEn ? "My Philosophy" : "Mi filosofía"}
+                  </h3>
+                  <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                    {isEn
+                      ? "I strongly believe in creating a safe, close, and confidential space where you can truly be yourself, feel deeply heard, and explore your emotions free from judgment or labels."
+                      : "Creo en construir un espacio seguro, cercano y confidencial donde puedas ser tú mismo/a, sentirte verdaderamente escuchado/a y comprender tus emociones sin juicios ni etiquetas."}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Card 4: Nuestras sesiones - Como está en la primera foto */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs flex-1 group">
-              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm group-hover:scale-105 transition-transform">
-                <MessagesSquare className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="flex flex-col flex-1">
-                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
-                  {isEn ? "Our Sessions" : "Nuestras sesiones"}
-                </h3>
-                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                  {isEn
-                    ? "100% online individual sessions via Google Meet from the comfort and privacy of your home ($120,000 COP per session), designed to move forward closely at your own pace."
-                    : "Sesiones individuales 100% online por Google Meet desde la comodidad y privacidad de tu casa ($120.000 COP por sesión), diseñadas para avanzar con cercanía a tu propio ritmo."}
-                </p>
+            {/* Card 4: Nuestras sesiones - Icono Amarillo Soulmar Oficial */}
+            <div className="relative group flex-1 flex flex-col">
+              {/* Luz / Glow detrás de la caja en hover */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#ffc971]/40 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#ffc971]/60 group-hover:shadow-[0_20px_50px_rgba(255,201,113,0.25)] transition-all duration-500 shadow-xs h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#ffc971] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#ffc971]/30 group-hover:scale-105 transition-transform duration-300">
+                  <MessagesSquare className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div className="flex flex-col flex-1">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                    {isEn ? "Our Sessions" : "Nuestras sesiones"}
+                  </h3>
+                  <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                    {isEn
+                      ? "100% online individual sessions via Google Meet from the comfort and privacy of your home ($120,000 COP per session), designed to move forward closely at your own pace."
+                      : "Sesiones individuales 100% online por Google Meet desde la comodidad y privacidad de tu casa ($120.000 COP por sesión), diseñadas para avanzar con cercanía a tu propio ritmo."}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
