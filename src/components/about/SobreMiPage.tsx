@@ -378,20 +378,20 @@ export function SobreMiPage() {
           
           {/* CAJA 1 (IZQUIERDA - lg:col-span-5) — LA HISTORIA DETRÁS DE SOULMAR */}
           <div className="lg:col-span-5 flex flex-col justify-between bg-[#edeef1] dark:bg-[#151518] rounded-[32px] sm:rounded-[36px] p-6 sm:p-7 border border-black/5 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-200">
-            {/* Fotografía de Mariana Caicedo - Proporción compacta y equilibrada */}
-            <div className="bg-neutral-200 dark:bg-[#1f1f23] rounded-[22px] sm:rounded-[24px] overflow-hidden aspect-[4/3] w-full relative shadow-xs group mb-5 shrink-0">
+            {/* Fotografía de Mariana Caicedo - Contenedor expandido al máximo espacio disponible sin alterar la caja ni el texto */}
+            <div className="bg-neutral-200 dark:bg-[#1f1f23] rounded-[22px] sm:rounded-[24px] overflow-hidden w-full relative shadow-xs group mb-5 flex-1 min-h-[300px] sm:min-h-[340px] aspect-[4/3.6] lg:aspect-auto">
               <Image
                 src={bento1Desktop || "/images/therapists/mariana_sobre_mi.webp"}
                 alt="Mariana Caicedo, psicóloga y fundadora de Soulmar"
                 fill
                 priority
-                sizes="(max-width: 1024px) 100vw, 450px"
+                sizes="(max-width: 1024px) 100vw, 500px"
                 className="object-cover object-[center_18%] group-hover:scale-[1.02] transition-transform duration-500 ease-out"
               />
             </div>
 
             {/* Contenido editorial humano y cercano (sin botón) */}
-            <div className="space-y-2 flex flex-col">
+            <div className="space-y-2 flex flex-col shrink-0">
               <span className="text-xs font-semibold uppercase tracking-wider text-[#8da9c4] dark:text-[#a5c0db] block">
                 {isEn ? "I am Mariana" : "Soy Mariana"}
               </span>
