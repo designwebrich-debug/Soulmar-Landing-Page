@@ -28,6 +28,7 @@ import {
 import { FooterSection } from "@/components/home/FooterSection"
 import { useTranslation } from "@/context/LanguageContext"
 import { useMedia } from "@/context/MediaContext"
+import { useAtmosphere } from "@/context/AtmosphereContext"
 import { WHATSAPP_ID } from "@/lib/constants"
 import { OptimizedVideo } from "@/components/ui/OptimizedVideo"
 import { isVideoUrl } from "@/lib/utils"
@@ -35,8 +36,19 @@ import { isVideoUrl } from "@/lib/utils"
 export function SobreMiPage() {
   const { language } = useTranslation()
   const { getMediaUrl } = useMedia()
+  const { isPlaying: isAtmospherePlaying, fadeOut: fadeOutAtmosphere } = useAtmosphere()
   const isEn = language === "en"
   const [isMarianaMuted, setIsMarianaMuted] = useState(true)
+
+  const toggleMarianaAudio = () => {
+    setIsMarianaMuted((prev) => {
+      const next = !prev
+      if (!next && isAtmospherePlaying) {
+        fadeOutAtmosphere(400)
+      }
+      return next
+    })
+  }
 
   // Espacio multimedia central de Mariana (Soporta Fotos HD o Videos MP4 en máxima calidad para PC, Celular e iPad)
   const marianaMediaDesktop = getMediaUrl("sobre_mi_mariana_media", "/videos/mariana_sobre_mi.mp4", "desktop")
@@ -216,7 +228,7 @@ export function SobreMiPage() {
             {(isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet)) && (
               <button
                 type="button"
-                onClick={() => setIsMarianaMuted((prev) => !prev)}
+                onClick={toggleMarianaAudio}
                 className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
                 title={isMarianaMuted ? (isEn ? "Unmute video" : "Activar sonido") : (isEn ? "Mute video" : "Silenciar")}
                 aria-label={isMarianaMuted ? "Activar sonido" : "Silenciar"}
@@ -229,11 +241,11 @@ export function SobreMiPage() {
               </button>
             )}
 
-            {/* Versión Celular (Móvil) */}
-            <div className="block md:hidden w-full h-full absolute inset-0">
-              {isVideoUrl(marianaMediaMobile) ? (
+            {/* Contenedor multimedia único: UN SOLO video en el DOM para evitar duplicación de audio */}
+            <div className="w-full h-full absolute inset-0">
+              {isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet) ? (
                 <OptimizedVideo
-                  src={marianaMediaMobile}
+                  src={marianaMediaDesktop || marianaMediaMobile || marianaMediaTablet}
                   priority
                   muted={isMarianaMuted}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -241,53 +253,7 @@ export function SobreMiPage() {
                 />
               ) : (
                 <Image
-                  src={marianaMediaMobile}
-                  alt="Dra. Mariana Caicedo - Sesión Clínica Online"
-                  fill
-                  quality={100}
-                  priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  style={{ objectPosition: "center 60%" }}
-                />
-              )}
-            </div>
-
-            {/* Versión iPad (Tablet) */}
-            <div className="hidden md:block lg:hidden w-full h-full absolute inset-0">
-              {isVideoUrl(marianaMediaTablet) ? (
-                <OptimizedVideo
-                  src={marianaMediaTablet}
-                  priority
-                  muted={isMarianaMuted}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  style={{ objectPosition: "center 60%" }}
-                />
-              ) : (
-                <Image
-                  src={marianaMediaTablet}
-                  alt="Dra. Mariana Caicedo - Sesión Clínica Online"
-                  fill
-                  quality={100}
-                  priority
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  style={{ objectPosition: "center 60%" }}
-                />
-              )}
-            </div>
-
-            {/* Versión Computador (PC) */}
-            <div className="hidden lg:block w-full h-full absolute inset-0">
-              {isVideoUrl(marianaMediaDesktop) ? (
-                <OptimizedVideo
-                  src={marianaMediaDesktop}
-                  priority
-                  muted={isMarianaMuted}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  style={{ objectPosition: "center 60%" }}
-                />
-              ) : (
-                <Image
-                  src={marianaMediaDesktop}
+                  src={marianaMediaDesktop || marianaMediaMobile || marianaMediaTablet}
                   alt="Dra. Mariana Caicedo - Sesión Clínica Online"
                   fill
                   quality={100}
