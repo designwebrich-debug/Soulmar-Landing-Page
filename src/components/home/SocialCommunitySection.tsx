@@ -252,7 +252,7 @@ export function SocialCommunitySection() {
                     </div>
                   </div>
                   <p className="text-xs text-[#1d1d1f]/60 dark:text-white/50 font-medium truncate">
-                    TikTok • Salud Mental en 60s
+                    TikTok • Dra. Mariana Caicedo
                   </p>
                 </div>
               </div>
