@@ -114,7 +114,7 @@ export function SobreMiPage() {
     }
   ]
 
-  // Formación académica y credenciales
+  // Formación académica y credenciales verificadas
   const credentials = [
     {
       icon: GraduationCap,
@@ -123,22 +123,6 @@ export function SobreMiPage() {
       description: isEn
         ? "Professional Psychologist, graduated from Universidad El Bosque, degree awarded on June 19, 2024. University education supporting her professional practice and commitment to psychological wellbeing."
         : "Profesional en Psicología, graduada de la Universidad El Bosque, con título otorgado el 19 de junio de 2024. Formación universitaria que respalda su ejercicio profesional y su compromiso con el bienestar psicológico."
-    },
-    {
-      icon: Brain,
-      title: isEn ? "Mastery in Cognitive Behavioral Psychotherapy" : "Especialización en Psicoterapia Cognitivo-Conductual (TCC)",
-      institution: isEn ? "Postgraduate Institute of Clinical Psychology" : "Formación de Posgrado y Posgrados Clínicos Continuos",
-      description: isEn
-        ? "Specialized training in protocol-driven intervention for mood, anxiety, and panic disorders."
-        : "Entrenamiento especializado en protocolos de intervención para trastornos del estado de ánimo, ansiedad, sobrepensamiento y pánico."
-    },
-    {
-      icon: Award,
-      title: isEn ? "Certified in Third-Generation Therapies (ACT & Mindfulness)" : "Certificación en Terapias de Tercera Generación (ACT y Mindfulness)",
-      institution: isEn ? "International Contextual Psychology Association" : "Entrenamiento Clínico en Terapia de Aceptación y Compromiso",
-      description: isEn
-        ? "Skills for emotional acceptance, distress tolerance, psychological flexibility, and nervous system regulation."
-        : "Herramientas de aceptación emocional, tolerancia al malestar, flexibilidad psicológica y regulación somática del sistema nervioso."
     },
     {
       icon: ShieldCheck,
