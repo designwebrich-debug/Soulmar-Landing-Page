@@ -182,19 +182,19 @@ export function SobreMiPage() {
         {/* ESTRUCTURA 3 COLUMNAS: 2 CARDS | FOTO CENTRAL | 2 CARDS */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
-          {/* COLUMNA IZQUIERDA (2 Cards apiladas con flex-1 para alineación simétrica) */}
-          <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
+          {/* COLUMNA IZQUIERDA (2 Cards en Grid de 2 filas para alineación horizontal matemática perfecta) */}
+          <div className="lg:col-span-4 grid grid-rows-2 gap-5">
             {/* Card 1: Formación profesional - Icono Azul Soulmar */}
-            <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+            <div className="relative group flex flex-col h-full">
+              {/* Luz / Glow suave detrás de la caja en hover (Sin borde de color) */}
               <div className="absolute -inset-0.5 bg-gradient-to-br from-[#8da9c4]/14 dark:from-[#8da9c4]/20 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#8da9c4]/30 group-hover:shadow-[0_12px_28px_rgba(141,169,196,0.08)] dark:group-hover:shadow-[0_14px_35px_rgba(141,169,196,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:shadow-[0_12px_28px_rgba(141,169,196,0.08)] dark:group-hover:shadow-[0_14px_35px_rgba(141,169,196,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full">
                 <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#8da9c4]/15 group-hover:scale-105 transition-transform duration-300">
                   <GraduationCap className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
-                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight leading-snug mb-2.5 min-h-[26px] flex items-center">
                     {isEn ? "Professional Background" : "Formación profesional"}
                   </h3>
                   <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
@@ -207,16 +207,16 @@ export function SobreMiPage() {
             </div>
 
             {/* Card 2: Enfoque terapéutico - Icono Verde Soulmar Oficial */}
-            <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+            <div className="relative group flex flex-col h-full">
+              {/* Luz / Glow suave detrás de la caja en hover (Sin borde de color) */}
               <div className="absolute -inset-0.5 bg-gradient-to-br from-[#c9cba3]/16 dark:from-[#c9cba3]/22 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#c9cba3]/35 group-hover:shadow-[0_12px_28px_rgba(201,203,163,0.10)] dark:group-hover:shadow-[0_14px_35px_rgba(201,203,163,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:shadow-[0_12px_28px_rgba(201,203,163,0.10)] dark:group-hover:shadow-[0_14px_35px_rgba(201,203,163,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full">
                 <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#c9cba3]/15 group-hover:scale-105 transition-transform duration-300">
                   <Brain className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
-                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight leading-snug mb-2.5 min-h-[26px] flex items-center">
                     {isEn ? "Therapeutic Approach" : "Enfoque terapéutico"}
                   </h3>
                   <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
@@ -231,7 +231,7 @@ export function SobreMiPage() {
 
           {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
           <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/50 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_35px_rgba(0,0,0,0.25)] min-h-[440px] lg:min-h-[480px] group">
-            {/* Controles interactivos: Play/Pausa + Sonido/Silenciar */}
+            {/* Controles interactivos: En pausa solo aparece Play; en reproducción aparecen Pausa y Volumen */}
             {(isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet)) && (
               <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
                 {/* Botón Play / Pausa */}
@@ -249,20 +249,22 @@ export function SobreMiPage() {
                   )}
                 </button>
 
-                {/* Botón Silenciar / Activar sonido */}
-                <button
-                  type="button"
-                  onClick={toggleMarianaAudio}
-                  className="w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
-                  title={isMarianaMuted ? (isEn ? "Unmute video" : "Activar sonido") : (isEn ? "Mute video" : "Silenciar")}
-                  aria-label={isMarianaMuted ? "Activar sonido" : "Silenciar"}
-                >
-                  {isMarianaMuted ? (
-                    <VolumeX className="w-4 h-4 text-white/90" />
-                  ) : (
-                    <Volume2 className="w-4 h-4 text-[#8da9c4]" />
-                  )}
-                </button>
+                {/* Botón Silenciar / Activar sonido (SOLO visible cuando el video se está reproduciendo, NO en foto estática) */}
+                {isMarianaPlaying && (
+                  <button
+                    type="button"
+                    onClick={toggleMarianaAudio}
+                    className="w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                    title={isMarianaMuted ? (isEn ? "Unmute video" : "Activar sonido") : (isEn ? "Mute video" : "Silenciar")}
+                    aria-label={isMarianaMuted ? "Activar sonido" : "Silenciar"}
+                  >
+                    {isMarianaMuted ? (
+                      <VolumeX className="w-4 h-4 text-white/90" />
+                    ) : (
+                      <Volume2 className="w-4 h-4 text-[#8da9c4]" />
+                    )}
+                  </button>
+                )}
               </div>
             )}
 
@@ -325,19 +327,19 @@ export function SobreMiPage() {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA (2 Cards apiladas con flex-1 para alineación simétrica) */}
-          <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
+          {/* COLUMNA DERECHA (2 Cards en Grid de 2 filas para alineación horizontal matemática perfecta) */}
+          <div className="lg:col-span-4 grid grid-rows-2 gap-5">
             {/* Card 3: Mi filosofía - Icono Morado Soulmar Oficial */}
-            <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+            <div className="relative group flex flex-col h-full">
+              {/* Luz / Glow suave detrás de la caja en hover (Sin borde de color) */}
               <div className="absolute -inset-0.5 bg-gradient-to-br from-[#a78bfa]/14 dark:from-[#a78bfa]/20 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#a78bfa]/30 group-hover:shadow-[0_12px_28px_rgba(167,139,250,0.08)] dark:group-hover:shadow-[0_14px_35px_rgba(167,139,250,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:shadow-[0_12px_28px_rgba(167,139,250,0.08)] dark:group-hover:shadow-[0_14px_35px_rgba(167,139,250,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full">
                 <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#a78bfa]/15 group-hover:scale-105 transition-transform duration-300">
                   <HeartHandshake className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
-                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight leading-snug mb-2.5 min-h-[26px] flex items-center">
                     {isEn ? "My Philosophy" : "Mi filosofía"}
                   </h3>
                   <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
@@ -350,16 +352,16 @@ export function SobreMiPage() {
             </div>
 
             {/* Card 4: Nuestras sesiones - Icono Amarillo Soulmar Oficial */}
-            <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+            <div className="relative group flex flex-col h-full">
+              {/* Luz / Glow suave detrás de la caja en hover (Sin borde de color) */}
               <div className="absolute -inset-0.5 bg-gradient-to-br from-[#ffc971]/16 dark:from-[#ffc971]/22 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#ffc971]/35 group-hover:shadow-[0_12px_28px_rgba(255,201,113,0.10)] dark:group-hover:shadow-[0_14px_35px_rgba(255,201,113,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:shadow-[0_12px_28px_rgba(255,201,113,0.10)] dark:group-hover:shadow-[0_14px_35px_rgba(255,201,113,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full">
                 <div className="w-10 h-10 rounded-2xl bg-[#ffc971] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#ffc971]/15 group-hover:scale-105 transition-transform duration-300">
                   <MessagesSquare className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
-                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
+                  <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight leading-snug mb-2.5 min-h-[26px] flex items-center">
                     {isEn ? "Our Sessions" : "Nuestras sesiones"}
                   </h3>
                   <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
