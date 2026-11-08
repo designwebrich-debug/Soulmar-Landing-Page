@@ -1043,8 +1043,8 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     key: "sobre_mi_bento_1",
     title: "Bento Card 1 - Soy Mariana (Sobre Mí)",
     section: "sobre_mi",
-    description: "Fotografía principal de Mariana Caicedo con su diploma universitario en la tarjeta izquierda vertical del bento grid de Sobre Mí",
-    defaultUrl: "/images/therapists/mariana_diploma.webp",
+    description: "Fotografía principal y cercana de Mariana Caicedo en la tarjeta izquierda vertical del bento grid de Sobre Mí",
+    defaultUrl: "/images/therapists/mariana_cozy_sweater.webp",
     previewUrl: "/sobre-mi",
     dimensions: "1024 × 921 px",
     aspectRatio: "10:9 / 4:3.6",
@@ -1054,24 +1054,24 @@ export const MEDIA_SLOTS: MediaSlot[] = [
         dimensions: "1024 × 921 px",
         aspectRatio: "10:9",
         aspectClass: "aspect-[10/9]",
-        recommendedNotice: "Fotografía real de Mariana Caicedo con su diploma para la tarjeta 1 de Sobre Mí en PC.",
-        defaultUrl: "/images/therapists/mariana_diploma.webp"
+        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en PC.",
+        defaultUrl: "/images/therapists/mariana_cozy_sweater.webp"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
         dimensions: "1024 × 921 px",
         aspectRatio: "10:9",
         aspectClass: "aspect-[10/9]",
-        recommendedNotice: "Fotografía real de Mariana Caicedo con su diploma para la tarjeta 1 de Sobre Mí en celular.",
-        defaultUrl: "/images/therapists/mariana_diploma.webp"
+        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en celular.",
+        defaultUrl: "/images/therapists/mariana_cozy_sweater.webp"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
         dimensions: "1024 × 921 px",
         aspectRatio: "10:9",
         aspectClass: "aspect-[10/9]",
-        recommendedNotice: "Fotografía real de Mariana Caicedo con su diploma para la tarjeta 1 de Sobre Mí en iPad.",
-        defaultUrl: "/images/therapists/mariana_diploma.webp"
+        recommendedNotice: "Fotografía real de Mariana Caicedo para la tarjeta 1 de Sobre Mí en iPad.",
+        defaultUrl: "/images/therapists/mariana_cozy_sweater.webp"
       }
     }
   },
@@ -1079,35 +1079,35 @@ export const MEDIA_SLOTS: MediaSlot[] = [
     key: "sobre_mi_bento_2",
     title: "Bento Card 2 - Mi Vocación (Sobre Mí)",
     section: "sobre_mi",
-    description: "Fotografía del espacio terapéutico cálido en la tarjeta superior central del bento grid de Sobre Mí",
-    defaultUrl: "/images/hero-soulmar-cozy.jpg",
+    description: "Fotografía de Mariana Caicedo con su diploma universitario de Psicóloga en la tarjeta superior central del bento grid de Sobre Mí",
+    defaultUrl: "/images/therapists/mariana_diploma_horizontal.webp",
     previewUrl: "/sobre-mi",
-    dimensions: "1024 × 768 px",
-    aspectRatio: "16:10 / 4:3",
+    dimensions: "1024 × 640 px",
+    aspectRatio: "16:10 Panorámico",
     devices: {
       desktop: {
         label: "Versión Computador (PC)",
-        dimensions: "1024 × 768 px",
+        dimensions: "1024 × 640 px",
         aspectRatio: "16:10 Panorámico",
         aspectClass: "aspect-[16/10]",
-        recommendedNotice: "Fotografía de espacio terapéutico cálido para la tarjeta 2 en PC.",
-        defaultUrl: "/images/hero-soulmar-cozy.jpg"
+        recommendedNotice: "Fotografía de Mariana Caicedo con su diploma para la tarjeta 2 en PC.",
+        defaultUrl: "/images/therapists/mariana_diploma_horizontal.webp"
       },
       mobile: {
         label: "Versión Celular (Móvil)",
-        dimensions: "1024 × 768 px",
+        dimensions: "1024 × 640 px",
         aspectRatio: "16:10",
         aspectClass: "aspect-[16/10]",
-        recommendedNotice: "Fotografía de espacio terapéutico cálido para la tarjeta 2 en celular.",
-        defaultUrl: "/images/hero-soulmar-cozy.jpg"
+        recommendedNotice: "Fotografía de Mariana Caicedo con su diploma para la tarjeta 2 en celular.",
+        defaultUrl: "/images/therapists/mariana_diploma_horizontal.webp"
       },
       tablet: {
         label: "Versión iPad (Tablet)",
-        dimensions: "1024 × 768 px",
+        dimensions: "1024 × 640 px",
         aspectRatio: "16:10",
         aspectClass: "aspect-[16/10]",
-        recommendedNotice: "Fotografía de espacio terapéutico cálido para la tarjeta 2 en iPad.",
-        defaultUrl: "/images/hero-soulmar-cozy.jpg"
+        recommendedNotice: "Fotografía de Mariana Caicedo con su diploma para la tarjeta 2 en iPad.",
+        defaultUrl: "/images/therapists/mariana_diploma_horizontal.webp"
       }
     }
   },

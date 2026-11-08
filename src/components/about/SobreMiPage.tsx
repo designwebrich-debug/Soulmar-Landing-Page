@@ -64,13 +64,13 @@ export function SobreMiPage() {
   const marianaMediaTablet = getMediaUrl("sobre_mi_mariana_media", "/videos/mariana_sobre_mi.mp4", "tablet")
 
   // Bento Grid Multimedia (Tarjetas de Sobre Mí - Solo fotografía e iconografía)
-  const bento1Desktop = getMediaUrl("sobre_mi_bento_1", "/images/therapists/mariana_diploma.webp", "desktop")
-  const bento1Mobile = getMediaUrl("sobre_mi_bento_1", "/images/therapists/mariana_diploma.webp", "mobile")
-  const bento1Tablet = getMediaUrl("sobre_mi_bento_1", "/images/therapists/mariana_diploma.webp", "tablet")
+  const bento1Desktop = getMediaUrl("sobre_mi_bento_1", "/images/therapists/mariana_cozy_sweater.webp", "desktop")
+  const bento1Mobile = getMediaUrl("sobre_mi_bento_1", "/images/therapists/mariana_cozy_sweater.webp", "mobile")
+  const bento1Tablet = getMediaUrl("sobre_mi_bento_1", "/images/therapists/mariana_cozy_sweater.webp", "tablet")
 
-  const bento2Desktop = getMediaUrl("sobre_mi_bento_2", "/images/hero-soulmar-cozy.jpg", "desktop")
-  const bento2Mobile = getMediaUrl("sobre_mi_bento_2", "/images/hero-soulmar-cozy.jpg", "mobile")
-  const bento2Tablet = getMediaUrl("sobre_mi_bento_2", "/images/hero-soulmar-cozy.jpg", "tablet")
+  const bento2Desktop = getMediaUrl("sobre_mi_bento_2", "/images/therapists/mariana_diploma_horizontal.webp", "desktop")
+  const bento2Mobile = getMediaUrl("sobre_mi_bento_2", "/images/therapists/mariana_diploma_horizontal.webp", "mobile")
+  const bento2Tablet = getMediaUrl("sobre_mi_bento_2", "/images/therapists/mariana_diploma_horizontal.webp", "tablet")
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
@@ -381,8 +381,8 @@ export function SobreMiPage() {
             {/* Fotografía de Mariana Caicedo - Contenedor expandido al máximo espacio disponible sin alterar la caja ni el texto */}
             <div className="bg-neutral-200 dark:bg-[#1f1f23] rounded-[22px] sm:rounded-[24px] overflow-hidden w-full relative shadow-xs group mb-5 flex-1 min-h-[300px] sm:min-h-[340px] aspect-[4/3.6] lg:aspect-auto">
               <Image
-                src={bento1Desktop || "/images/therapists/mariana_diploma.webp"}
-                alt="Mariana Caicedo, psicóloga graduada de la Universidad El Bosque y fundadora de Soulmar"
+                src={bento1Desktop || "/images/therapists/mariana_cozy_sweater.webp"}
+                alt="Mariana Caicedo, psicóloga y fundadora de Soulmar"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 500px"
@@ -421,12 +421,12 @@ export function SobreMiPage() {
                 {/* Imagen horizontal de ambiente clínico cálido */}
                 <div className="rounded-[22px] overflow-hidden relative aspect-[16/10] w-full mb-4 shadow-xs bg-neutral-200 dark:bg-neutral-800 group">
                   <Image
-                    src={bento2Desktop || "/images/hero-soulmar-cozy.jpg"}
-                    alt="Espacio terapéutico cálido, seguro y acogedor en Soulmar"
+                    src={bento2Desktop || "/images/therapists/mariana_diploma_horizontal.webp"}
+                    alt="Mariana Caicedo Quintero con su diploma oficial de Psicóloga de la Universidad El Bosque"
                     fill
                     loading="lazy"
                     sizes="(max-width: 1024px) 100vw, 400px"
-                    className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+                    className="object-cover object-[center_20%] group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                   />
                 </div>
 
