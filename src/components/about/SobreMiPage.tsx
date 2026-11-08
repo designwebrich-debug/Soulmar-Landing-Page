@@ -23,7 +23,9 @@ import {
   Compass,
   Check,
   Volume2,
-  VolumeX
+  VolumeX,
+  Play,
+  Pause
 } from "lucide-react"
 import { FooterSection } from "@/components/home/FooterSection"
 import { useTranslation } from "@/context/LanguageContext"
@@ -31,7 +33,7 @@ import { useMedia } from "@/context/MediaContext"
 import { useAtmosphere } from "@/context/AtmosphereContext"
 import { WHATSAPP_ID } from "@/lib/constants"
 import { OptimizedVideo } from "@/components/ui/OptimizedVideo"
-import { isVideoUrl } from "@/lib/utils"
+import { isVideoUrl, cn } from "@/lib/utils"
 
 export function SobreMiPage() {
   const { language } = useTranslation()
@@ -39,6 +41,11 @@ export function SobreMiPage() {
   const { isPlaying: isAtmospherePlaying, fadeOut: fadeOutAtmosphere } = useAtmosphere()
   const isEn = language === "en"
   const [isMarianaMuted, setIsMarianaMuted] = useState(true)
+  const [isMarianaPlaying, setIsMarianaPlaying] = useState(true)
+
+  const toggleMarianaPlay = () => {
+    setIsMarianaPlaying((prev) => !prev)
+  }
 
   const toggleMarianaAudio = () => {
     setIsMarianaMuted((prev) => {
@@ -224,33 +231,72 @@ export function SobreMiPage() {
 
           {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
           <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/50 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_35px_rgba(0,0,0,0.25)] min-h-[440px] lg:min-h-[480px] group">
-            {/* Control interactivo de audio (Silenciar / Activar sonido) */}
+            {/* Controles interactivos: Play/Pausa + Sonido/Silenciar */}
             {(isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet)) && (
-              <button
-                type="button"
-                onClick={toggleMarianaAudio}
-                className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
-                title={isMarianaMuted ? (isEn ? "Unmute video" : "Activar sonido") : (isEn ? "Mute video" : "Silenciar")}
-                aria-label={isMarianaMuted ? "Activar sonido" : "Silenciar"}
-              >
-                {isMarianaMuted ? (
-                  <VolumeX className="w-4 h-4 text-white/90" />
-                ) : (
-                  <Volume2 className="w-4 h-4 text-[#8da9c4]" />
-                )}
-              </button>
+              <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
+                {/* Botón Play / Pausa */}
+                <button
+                  type="button"
+                  onClick={toggleMarianaPlay}
+                  className="w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                  title={isMarianaPlaying ? (isEn ? "Pause video" : "Pausar video") : (isEn ? "Play video" : "Reproducir video")}
+                  aria-label={isMarianaPlaying ? "Pausar video" : "Reproducir video"}
+                >
+                  {isMarianaPlaying ? (
+                    <Pause className="w-4 h-4 fill-white text-white" />
+                  ) : (
+                    <Play className="w-4 h-4 fill-white text-white ml-0.5" />
+                  )}
+                </button>
+
+                {/* Botón Silenciar / Activar sonido */}
+                <button
+                  type="button"
+                  onClick={toggleMarianaAudio}
+                  className="w-9 h-9 rounded-full bg-black/45 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                  title={isMarianaMuted ? (isEn ? "Unmute video" : "Activar sonido") : (isEn ? "Mute video" : "Silenciar")}
+                  aria-label={isMarianaMuted ? "Activar sonido" : "Silenciar"}
+                >
+                  {isMarianaMuted ? (
+                    <VolumeX className="w-4 h-4 text-white/90" />
+                  ) : (
+                    <Volume2 className="w-4 h-4 text-[#8da9c4]" />
+                  )}
+                </button>
+              </div>
             )}
 
-            {/* Contenedor multimedia único: UN SOLO video en el DOM para evitar duplicación de audio */}
+            {/* Contenedor multimedia: Video con cambio fluido a foto estática al pausar */}
             <div className="w-full h-full absolute inset-0">
               {isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet) ? (
-                <OptimizedVideo
-                  src={marianaMediaDesktop || marianaMediaMobile || marianaMediaTablet}
-                  priority
-                  muted={isMarianaMuted}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  style={{ objectPosition: "center 60%" }}
-                />
+                <>
+                  <OptimizedVideo
+                    src={marianaMediaDesktop || marianaMediaMobile || marianaMediaTablet}
+                    priority
+                    muted={isMarianaMuted}
+                    isPlaying={isMarianaPlaying}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    style={{ objectPosition: "center 60%" }}
+                  />
+
+                  {/* Foto estática oficial que aparece cuando el video es pausado */}
+                  <div
+                    className={cn(
+                      "absolute inset-0 w-full h-full transition-opacity duration-500",
+                      isMarianaPlaying ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+                    )}
+                  >
+                    <Image
+                      src="/images/therapists/mariana_sobre_mi.webp"
+                      alt="Dra. Mariana Caicedo - Psicóloga Clínica"
+                      fill
+                      quality={100}
+                      priority
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      style={{ objectPosition: "center 60%" }}
+                    />
+                  </div>
+                </>
               ) : (
                 <Image
                   src={marianaMediaDesktop || marianaMediaMobile || marianaMediaTablet}

@@ -7,6 +7,7 @@ interface OptimizedVideoProps extends React.VideoHTMLAttributes<HTMLVideoElement
   src: string
   className?: string
   priority?: boolean
+  isPlaying?: boolean
 }
 
 /**
@@ -38,7 +39,7 @@ export function OptimizedVideo({
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            if (video.paused) {
+            if (props.isPlaying !== false && video.paused) {
               video.play().catch(() => {})
             }
           } else {
@@ -59,7 +60,22 @@ export function OptimizedVideo({
     return () => {
       observer.disconnect()
     }
-  }, [src])
+  }, [src, props.isPlaying])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || typeof props.isPlaying === "undefined") return
+
+    if (props.isPlaying) {
+      if (video.paused) {
+        video.play().catch(() => {})
+      }
+    } else {
+      if (!video.paused) {
+        video.pause()
+      }
+    }
+  }, [props.isPlaying])
 
   useEffect(() => {
     if (videoRef.current && typeof props.muted !== "undefined") {
