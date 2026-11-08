@@ -179,11 +179,11 @@ export function SobreMiPage() {
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
             {/* Card 1: Formación profesional - Icono Azul Soulmar */}
             <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover */}
-              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#8da9c4]/35 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#8da9c4]/14 dark:from-[#8da9c4]/20 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#8da9c4]/60 group-hover:shadow-[0_20px_50px_rgba(141,169,196,0.22)] transition-all duration-500 shadow-xs h-full flex-1">
-                <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#8da9c4]/25 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#8da9c4]/30 group-hover:shadow-[0_12px_28px_rgba(141,169,196,0.08)] dark:group-hover:shadow-[0_14px_35px_rgba(141,169,196,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#8da9c4]/15 group-hover:scale-105 transition-transform duration-300">
                   <GraduationCap className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -201,11 +201,11 @@ export function SobreMiPage() {
 
             {/* Card 2: Enfoque terapéutico - Icono Verde Soulmar Oficial */}
             <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover */}
-              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#c9cba3]/40 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#c9cba3]/16 dark:from-[#c9cba3]/22 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#c9cba3]/60 group-hover:shadow-[0_20px_50px_rgba(201,203,163,0.25)] transition-all duration-500 shadow-xs h-full flex-1">
-                <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#c9cba3]/35 group-hover:shadow-[0_12px_28px_rgba(201,203,163,0.10)] dark:group-hover:shadow-[0_14px_35px_rgba(201,203,163,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#c9cba3]/15 group-hover:scale-105 transition-transform duration-300">
                   <Brain className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -223,7 +223,7 @@ export function SobreMiPage() {
           </div>
 
           {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
-          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[440px] lg:min-h-[480px] group">
+          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/50 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_35px_rgba(0,0,0,0.25)] min-h-[440px] lg:min-h-[480px] group">
             {/* Control interactivo de audio (Silenciar / Activar sonido) */}
             {(isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet)) && (
               <button
@@ -283,11 +283,11 @@ export function SobreMiPage() {
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
             {/* Card 3: Mi filosofía - Icono Morado Soulmar Oficial */}
             <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover */}
-              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#a78bfa]/35 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#a78bfa]/14 dark:from-[#a78bfa]/20 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#a78bfa]/60 group-hover:shadow-[0_20px_50px_rgba(167,139,250,0.22)] transition-all duration-500 shadow-xs h-full flex-1">
-                <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#a78bfa]/30 group-hover:shadow-[0_12px_28px_rgba(167,139,250,0.08)] dark:group-hover:shadow-[0_14px_35px_rgba(167,139,250,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#a78bfa]/15 group-hover:scale-105 transition-transform duration-300">
                   <HeartHandshake className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
@@ -305,11 +305,11 @@ export function SobreMiPage() {
 
             {/* Card 4: Nuestras sesiones - Icono Amarillo Soulmar Oficial */}
             <div className="relative group flex-1 flex flex-col">
-              {/* Luz / Glow detrás de la caja en hover */}
-              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#ffc971]/40 to-transparent rounded-[30px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              {/* Luz / Glow detrás de la caja en hover (Suave y elegante) */}
+              <div className="absolute -inset-0.5 bg-gradient-to-br from-[#ffc971]/16 dark:from-[#ffc971]/22 to-transparent rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start group-hover:border-[#ffc971]/60 group-hover:shadow-[0_20px_50px_rgba(255,201,113,0.25)] transition-all duration-500 shadow-xs h-full flex-1">
-                <div className="w-10 h-10 rounded-2xl bg-[#ffc971] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#ffc971]/30 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative bg-[#f5f5f7] dark:bg-[#151518]/90 dark:backdrop-blur-xl rounded-[28px] p-7 md:p-8 border border-neutral-200/50 dark:border-white/5 flex flex-col justify-start group-hover:border-[#ffc971]/35 group-hover:shadow-[0_12px_28px_rgba(255,201,113,0.10)] dark:group-hover:shadow-[0_14px_35px_rgba(255,201,113,0.15)] transition-all duration-500 shadow-[0_2px_12px_rgba(0,0,0,0.02)] h-full flex-1">
+                <div className="w-10 h-10 rounded-2xl bg-[#ffc971] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm shadow-[#ffc971]/15 group-hover:scale-105 transition-transform duration-300">
                   <MessagesSquare className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div className="flex flex-col flex-1">
