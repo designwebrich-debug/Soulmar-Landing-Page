@@ -160,41 +160,45 @@ export function SobreMiPage() {
         {/* ESTRUCTURA 3 COLUMNAS: 2 CARDS | FOTO CENTRAL | 2 CARDS */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
-          {/* COLUMNA IZQUIERDA (2 Cards apiladas) */}
+          {/* COLUMNA IZQUIERDA (2 Cards apiladas con flex-1 para alineación simétrica) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
             {/* Card 1: Formación profesional - Icono Azul Soulmar */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#8da9c4]/25 group-hover:scale-105 transition-transform">
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#8da9c4]/60 transition-all duration-300 shadow-xs flex-1 group">
+              <div className="w-10 h-10 rounded-2xl bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#8da9c4]/25 group-hover:scale-105 transition-transform">
                 <GraduationCap className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+              <div className="flex flex-col flex-1">
+                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
                   {isEn ? "Professional Background" : "Formación profesional"}
-                </strong>
-                {isEn
-                  ? "Psychologist graduated from Universidad El Bosque (Bogotá, Colombia). My academic training and clinical experience back a professional, ethical, and deeply human accompaniment."
-                  : "Psicóloga graduada de la Universidad El Bosque (Bogotá, Colombia). Mi preparación académica y experiencia respaldan un acompañamiento psicológico profesional y humano."}
-              </p>
+                </h3>
+                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                  {isEn
+                    ? "Psychologist graduated from Universidad El Bosque in Bogotá, Colombia. My academic background and clinical experience back a professional, ethical, and deeply human accompaniment."
+                    : "Psicóloga graduada de la Universidad El Bosque en Bogotá, Colombia. Mi preparación académica y experiencia clínica respaldan un acompañamiento profesional, ético y profundamente humano."}
+                </p>
+              </div>
             </div>
 
             {/* Card 2: Enfoque terapéutico - Icono Verde Soulmar Oficial */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#c9cba3]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform">
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#c9cba3]/60 transition-all duration-300 shadow-xs flex-1 group">
+              <div className="w-10 h-10 rounded-2xl bg-[#c9cba3] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#c9cba3]/30 group-hover:scale-105 transition-transform">
                 <Brain className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+              <div className="flex flex-col flex-1">
+                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
                   {isEn ? "Therapeutic Approach" : "Enfoque terapéutico"}
-                </strong>
-                {isEn
-                  ? "Cognitive-Behavioral Therapy based on clinical evidence, adapted to your needs, emotions, and personal goals."
-                  : "Terapia Cognitivo-Conductual basada en evidencia, adaptada a tus necesidades, emociones y objetivos personales."}
-              </p>
+                </h3>
+                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                  {isEn
+                    ? "I guide each individual process under the Cognitive-Behavioral Therapy (CBT) approach, addressing the direct link between thoughts, emotions, and behaviors to transform limiting beliefs into real autonomy."
+                    : "Guío cada proceso individual bajo el Enfoque Cognitivo-Conductual (TCC), trabajando sobre la relación directa entre pensamientos, emociones y conductas para transformar creencias limitantes en autonomía real."}
+                </p>
+              </div>
             </div>
           </div>
 
           {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
-          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[420px] lg:min-h-[440px] group">
+          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/70 dark:border-white/10 shadow-lg min-h-[440px] lg:min-h-[480px] group">
             {/* Versión Celular (Móvil) */}
             <div className="block md:hidden w-full h-full absolute inset-0">
               {isVideoUrl(marianaMediaMobile) ? (
@@ -270,36 +274,40 @@ export function SobreMiPage() {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA (2 Cards apiladas) */}
+          {/* COLUMNA DERECHA (2 Cards apiladas con flex-1 para alineación simétrica) */}
           <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
             {/* Card 3: Mi filosofía - Icono Morado Soulmar Oficial */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#a78bfa]/60 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-6 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform">
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#a78bfa]/60 transition-all duration-300 shadow-xs flex-1 group">
+              <div className="w-10 h-10 rounded-2xl bg-[#a78bfa] text-white flex items-center justify-center shrink-0 mb-5 shadow-md shadow-[#a78bfa]/30 group-hover:scale-105 transition-transform">
                 <HeartHandshake className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+              <div className="flex flex-col flex-1">
+                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
                   {isEn ? "My Philosophy" : "Mi filosofía"}
-                </strong>
-                {isEn
-                  ? "A safe space where you can be yourself, feel heard, and explore your emotions without judgment."
-                  : "Un espacio seguro donde puedas ser tú, sentirte escuchado y explorar tus emociones sin juicios."}
-              </p>
+                </h3>
+                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                  {isEn
+                    ? "I strongly believe in creating a safe, close, and confidential space where you can truly be yourself, feel deeply heard, and explore your emotions free from judgment or labels."
+                    : "Creo en construir un espacio seguro, cercano y confidencial donde puedas ser tú mismo/a, sentirte verdaderamente escuchado/a y comprender tus emociones sin juicios ni etiquetas."}
+                </p>
+              </div>
             </div>
 
             {/* Card 4: Nuestras sesiones - Como está en la primera foto */}
-            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-between hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs h-full min-h-[190px] group">
-              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-6 shadow-sm group-hover:scale-105 transition-transform">
+            <div className="bg-[#f5f5f7] dark:bg-white/[0.03] rounded-[28px] p-7 md:p-8 border border-neutral-200/60 dark:border-white/5 flex flex-col justify-start hover:border-[#8da9c4]/50 transition-all duration-300 shadow-xs flex-1 group">
+              <div className="w-10 h-10 rounded-2xl bg-[#1d1d1f] dark:bg-[#8da9c4] text-white flex items-center justify-center shrink-0 mb-5 shadow-sm group-hover:scale-105 transition-transform">
                 <MessagesSquare className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <p className="text-sm md:text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400">
-                <strong className="text-[#1d1d1f] dark:text-white font-bold block sm:inline mr-1">
+              <div className="flex flex-col flex-1">
+                <h3 className="font-bold text-[16px] text-[#1d1d1f] dark:text-white tracking-tight mb-2.5">
                   {isEn ? "Our Sessions" : "Nuestras sesiones"}
-                </strong>
-                {isEn
-                  ? "A close, personalized process to understand what you feel and move forward at your own pace."
-                  : "Un proceso cercano y personalizado para comprender lo que sientes y avanzar a tu propio ritmo."}
-              </p>
+                </h3>
+                <p className="text-sm md:text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                  {isEn
+                    ? "100% online individual sessions via Google Meet from the comfort and privacy of your home ($120,000 COP per session), designed to move forward closely at your own pace."
+                    : "Sesiones individuales 100% online por Google Meet desde la comodidad y privacidad de tu casa ($120.000 COP por sesión), diseñadas para avanzar con cercanía a tu propio ritmo."}
+                </p>
+              </div>
             </div>
           </div>
         </div>
