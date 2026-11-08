@@ -150,7 +150,7 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 1: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
           ========================================================================= */}
-      <section className="pt-8 sm:pt-12 md:pt-16 pb-20 md:pb-28 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section className="pt-8 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         
         {/* ENCABEZADO CENTRADO */}
         <div className="text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
@@ -367,7 +367,14 @@ export function SobreMiPage() {
           SECCIÓN 3: BENTO GRID ESTRATÉGICO DE PRESENTACIÓN DE MARIANA CAICEDO
           (4 tarjetas asimétricas con separación premium uniforme Apple UX/UI)
           ========================================================================= */}
-      <section className="py-16 md:py-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section className="pt-6 sm:pt-10 md:pt-12 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+        {/* ENCABEZADO CENTRADO DE SECCIÓN - APPLE HIG DESIGN */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
+            {isEn ? "A little more about me" : "Un poco más sobre mí"}
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
           {/* CAJA 1 (IZQUIERDA - lg:col-span-5) — LA HISTORIA DETRÁS DE SOULMAR */}
