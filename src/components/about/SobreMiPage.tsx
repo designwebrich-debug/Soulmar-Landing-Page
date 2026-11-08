@@ -467,12 +467,12 @@ export function SobreMiPage() {
                       : "Formación universitaria en Psicología · Bogotá, Colombia."}
                   </p>
 
-                  {/* Botón con enlace oficial a la Universidad El Bosque - Unificado con separación armónica */}
+                  {/* Botón con enlace oficial a la Universidad El Bosque - Azul Soulmar, hover Verde Soulmar (Modo Claro) / hover Amarillo Soulmar (Modo Oscuro) */}
                   <a
                     href="https://www.unbosque.edu.co/programas-academicos/facultad-psicologia/psicologia?utm_source=google&utm_medium=cpl&utm_campaign=lead-ok_psicologia&utm_content=texto&gad_source=1&gad_campaignid=18440125824&gbraid=0AAAAADRwOneygcoauUxFffKntGLDp9gNZ&gclid=CjwKCAiAtbvXBhB_EiwAjwv9JkEcdjHNAqz5G9fm_W5-rL055Lqn658K_Qf8WqpGdiTKO_5ZlSf4uxoCgGEQAvD_BwE"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 text-xs font-semibold transition-all shadow-xs active:scale-95 group/btn focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#8da9c4] text-white hover:bg-[#c9cba3] hover:text-[#1d1d1f] dark:bg-[#8da9c4] dark:text-white dark:hover:bg-[#ffc971] dark:hover:text-[#1d1d1f] text-xs font-semibold transition-all duration-200 shadow-xs active:scale-95 group/btn focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
                   >
                     <span>{isEn ? "Learn more" : "Conoce más"}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
@@ -499,14 +499,14 @@ export function SobreMiPage() {
                 </p>
               </div>
 
-              {/* Botón hacia el flujo de agendamiento oficial */}
+              {/* Botón hacia el flujo de agendamiento oficial - hover Azul Soulmar (Modo Claro) / hover Amarillo Soulmar (Modo Oscuro) */}
               <div className="shrink-0 pt-2 sm:pt-0">
                 <Link
                   href="/#caja-agendamiento"
-                  className="inline-flex items-center gap-3 bg-[#1d1d1f] hover:bg-black text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 px-6 py-3.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-95 group/btn whitespace-nowrap cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
+                  className="inline-flex items-center gap-3 bg-[#1d1d1f] text-white hover:bg-[#8da9c4] hover:text-white dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-[#ffc971] dark:hover:text-[#1d1d1f] px-6 py-3.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm active:scale-95 group/btn whitespace-nowrap cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8da9c4]"
                 >
                   <span>{isEn ? "Book your first session" : "Agenda tu primera sesión"}</span>
-                  <span className="w-6 h-6 rounded-full bg-white/20 dark:bg-black/10 flex items-center justify-center group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform">
+                  <span className="w-6 h-6 rounded-full bg-white/20 dark:bg-black/10 group-hover/btn:bg-white/20 dark:group-hover/btn:bg-black/20 flex items-center justify-center group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform">
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </span>
                 </Link>
