@@ -134,7 +134,7 @@ export function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[999] h-16 md:hidden transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-in-out border-b border-transparent transform-gpu flex items-center px-4",
           isScrolled
-            ? "bg-white/95 dark:bg-[#121214]/95 backdrop-blur-md shadow-xs border-neutral-200/60 dark:border-white/10"
+            ? "bg-white dark:bg-black backdrop-blur-md shadow-xs border-neutral-200/60 dark:border-white/10"
             : "bg-transparent"
         )}
       >
@@ -189,14 +189,14 @@ export function Navbar() {
           className={cn(
             "relative pointer-events-auto w-full h-14 sm:h-16 rounded-full px-5 sm:px-7 md:px-8 flex items-center justify-between transition-all duration-300 ease-out overflow-hidden",
             isScrolled
-              ? "bg-white/94 dark:bg-[#111113]/94 backdrop-blur-2xl backdrop-saturate-[180%] border border-white/80 dark:border-white/15 shadow-[0_16px_45px_-8px_rgba(0,0,0,0.12),inset_0_1.5px_0_rgba(255,255,255,0.95)] dark:shadow-[0_16px_40px_-6px_rgba(0,0,0,0.6),inset_0_1.5px_0_rgba(255,255,255,0.25)]"
+              ? "bg-white dark:bg-black backdrop-blur-2xl border border-black/10 dark:border-white/15 shadow-[0_16px_45px_-8px_rgba(0,0,0,0.10)] dark:shadow-[0_16px_40px_-6px_rgba(0,0,0,0.8)]"
               : "bg-transparent border-transparent shadow-none backdrop-blur-none"
           )}
         >
-          {/* Apple Optical Lens Specular Glare (solo visible cuando se activa la píldora al hacer scroll) */}
+          {/* Apple Optical Lens Specular Glare (solo visible cuando se activa la píldora al hacer scroll en modo claro) */}
           <div 
             className={cn(
-              "absolute inset-x-6 top-0 h-[46%] rounded-t-full bg-gradient-to-b from-white/70 dark:from-white/12 via-white/15 dark:via-white/3 to-transparent pointer-events-none z-0 transition-opacity duration-300",
+              "absolute inset-x-6 top-0 h-[46%] rounded-t-full bg-gradient-to-b from-white/70 via-white/15 to-transparent dark:hidden pointer-events-none z-0 transition-opacity duration-300",
               isScrolled ? "opacity-100" : "opacity-0"
             )} 
           />
@@ -204,7 +204,7 @@ export function Navbar() {
           {/* Bottom Refracted Light Catch */}
           <div 
             className={cn(
-              "absolute inset-x-12 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 dark:via-white/20 to-transparent pointer-events-none z-0 transition-opacity duration-300",
+              "absolute inset-x-12 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent pointer-events-none z-0 transition-opacity duration-300",
               isScrolled ? "opacity-100" : "opacity-0"
             )} 
           />

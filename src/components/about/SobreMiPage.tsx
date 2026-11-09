@@ -73,6 +73,43 @@ export function SobreMiPage() {
   const bento2Tablet = getMediaUrl("sobre_mi_bento_2", "/images/therapists/mariana_diploma_horizontal.webp", "tablet")
 
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
+  const [activeSection, setActiveSection] = useState<string>("perfil")
+
+  // Scroll spy para resaltar la sección activa en el submenú de cristal líquido
+  useEffect(() => {
+    const handleScroll = () => {
+      const sectionIds = ["perfil", "vocacion", "acreditacion", "faq"]
+      const triggerY = window.innerWidth >= 768 ? 220 : 180
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        const rect = el.getBoundingClientRect()
+        if (rect.top <= triggerY && rect.bottom >= triggerY) {
+          setActiveSection(id)
+          return
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleScrollTo = (targetId: string) => {
+    setActiveSection(targetId)
+    const el = document.getElementById(targetId)
+    if (el) {
+      // Compensación para limpiar tanto la barra principal como el submenú de cristal líquido
+      const navOffset = window.innerWidth >= 768 ? 148 : 124
+      const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+      const offsetPosition = Math.max(0, elementPosition - navOffset)
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    }
+  }
 
   // Asegurar que al entrar a Sobre Mí desde cualquier lugar se inicie en el primer título superior
   useEffect(() => {
@@ -158,15 +195,13 @@ export function SobreMiPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#fafaf9] dark:bg-[#0b0b0c] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-500 overflow-x-hidden selection:bg-[#8da9c4]/30 selection:text-foreground">
+    <div className="min-h-screen bg-white dark:bg-black text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-500 overflow-x-clip selection:bg-[#8da9c4]/30 selection:text-foreground">
       
       {/* =========================================================================
-          SECCIÓN 1: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
+          ENCABEZADO PRINCIPAL DE LA PÁGINA (Apple Premium Spacing)
           ========================================================================= */}
-      <section className="pt-2 sm:pt-4 md:pt-5 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
-        
-        {/* ENCABEZADO CENTRADO */}
-        <div id="mariana-titulo" className="scroll-mt-24 md:scroll-mt-28 text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14 space-y-4">
+      <section className="pt-8 sm:pt-10 md:pt-12 pb-3 sm:pb-4 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+        <div id="mariana-titulo" className="scroll-mt-28 md:scroll-mt-36 text-center max-w-3xl mx-auto space-y-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
             {isEn
               ? "Mariana Caicedo | Psychologist at Soulmar"
@@ -177,41 +212,45 @@ export function SobreMiPage() {
               ? "Clinical Psychologist • Universidad El Bosque (Bogotá, Colombia). Evidence-based psychotherapy, human warmth, and a safe space to guide you back to yourself."
               : "Psicóloga Clínica • Universidad El Bosque (Bogotá, Colombia). Psicoterapia basada en evidencia, calidez humana y un espacio seguro para volver a ti."}
           </p>
+        </div>
+      </section>
 
-          {/* CUATRO BOTONES DE NAVEGACIÓN 100% ALINEADOS (Negro/Blanco en Claro | Blanco/Negro en Oscuro) */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 pt-3">
+      {/* CONTENEDOR RELATIVO PARA QUE EL SUBMENÚ STICKY DE CRISTAL LÍQUIDO PERMANEZCA FIJADO EN TODAS LAS SECCIONES */}
+      <div className="relative">
+        {/* SUBMENÚ SECUNDARIO STICKY CON EFECTO CRISTAL LÍQUIDO (liquid-glass) */}
+        <div className="sticky top-[68px] sm:top-[74px] md:top-[86px] z-40 py-2 sm:py-3 px-4 flex justify-center pointer-events-none mb-5 sm:mb-7">
+          <div className="liquid-glass pointer-events-auto p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1.5 sm:gap-2.5 max-w-[95vw] overflow-x-auto no-scrollbar shadow-lg">
             {[
               { label: isEn ? "My Profile" : "Mi perfil", targetId: "perfil" },
               { label: isEn ? "My Vocation" : "Mi vocación", targetId: "vocacion" },
               { label: isEn ? "Accreditation" : "Acreditación", targetId: "acreditacion" },
               { label: "FAQ", targetId: "faq" },
-            ].map((btn) => (
-              <a
-                key={btn.targetId}
-                href={`#${btn.targetId}`}
-                onClick={(e) => {
-                  e.preventDefault()
-                  const el = document.getElementById(btn.targetId)
-                  if (el) {
-                    const navOffset = window.innerWidth >= 768 ? 76 : 64
-                    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
-                    const offsetPosition = Math.max(0, elementPosition - navOffset)
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: "smooth"
-                    })
-                  }
-                }}
-                className="px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-full bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 text-xs sm:text-sm font-semibold tracking-tight transition-all duration-200 shadow-sm active:scale-95 cursor-pointer select-none text-center"
-              >
-                {btn.label}
-              </a>
-            ))}
+            ].map((btn) => {
+              const isActive = activeSection === btn.targetId
+              return (
+                <button
+                  key={btn.targetId}
+                  onClick={() => handleScrollTo(btn.targetId)}
+                  className={cn(
+                    "px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-tight transition-all duration-300 active:scale-95 cursor-pointer select-none text-center whitespace-nowrap",
+                    isActive
+                      ? "bg-black text-white dark:bg-white dark:text-[#1d1d1f] shadow-md ring-2 ring-black/20 dark:ring-white/30 scale-[1.02]"
+                      : "bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 opacity-90 hover:opacity-100"
+                  )}
+                >
+                  {btn.label}
+                </button>
+              )
+            })}
           </div>
         </div>
 
-        {/* ESTRUCTURA 3 COLUMNAS: 2 CARDS | FOTO CENTRAL | 2 CARDS */}
-        <div id="perfil" className="scroll-mt-24 md:scroll-mt-28 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
+        {/* =========================================================================
+            SECCIÓN 1: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
+            ========================================================================= */}
+        <section className="pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+          {/* ESTRUCTURA 3 COLUMNAS: 2 CARDS | FOTO CENTRAL | 2 CARDS */}
+          <div id="perfil" className="scroll-mt-36 md:scroll-mt-44 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
           {/* COLUMNA IZQUIERDA (2 Cards en Grid de 2 filas para alineación horizontal matemática perfecta) */}
           <div className="lg:col-span-4 grid grid-rows-2 gap-5">
@@ -411,7 +450,7 @@ export function SobreMiPage() {
           SECCIÓN 3: BENTO GRID ESTRATÉGICO DE PRESENTACIÓN DE MARIANA CAICEDO
           (4 tarjetas asimétricas con separación premium uniforme Apple UX/UI)
           ========================================================================= */}
-      <section id="vocacion" className="scroll-mt-20 md:scroll-mt-24 pt-6 sm:pt-10 md:pt-12 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section id="vocacion" className="scroll-mt-36 md:scroll-mt-44 pt-6 sm:pt-10 md:pt-12 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         {/* ENCABEZADO CENTRADO DE SECCIÓN - APPLE HIG DESIGN */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
@@ -567,8 +606,8 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 4: FORMACIÓN ACADÉMICA Y CREDENCIALES CLÍNICAS
           ========================================================================= */}
-      <section id="acreditacion" className="py-16 md:py-24 bg-white dark:bg-[#121214] border-y border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-20 md:scroll-mt-24">
-        <div id="historia" className="scroll-mt-20 md:scroll-mt-24 pointer-events-none" />
+      <section id="acreditacion" className="py-16 md:py-24 bg-neutral-50/60 dark:bg-[#121214] border-y border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-36 md:scroll-mt-44">
+        <div id="historia" className="scroll-mt-36 md:scroll-mt-44 pointer-events-none" />
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -645,7 +684,7 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 5: PREGUNTAS FRECUENTES (FAQ) DE AUTORIDAD CLÍNICA
           ========================================================================= */}
-      <section id="faq" className="py-16 md:py-24 bg-neutral-100/60 dark:bg-black/40 border-t border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-20 md:scroll-mt-24">
+      <section id="faq" className="py-16 md:py-24 bg-neutral-100/60 dark:bg-black/40 border-t border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-36 md:scroll-mt-44">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-3">
             <span className="text-xs font-black tracking-widest uppercase text-[#8da9c4]">
@@ -695,6 +734,7 @@ export function SobreMiPage() {
           </div>
         </div>
       </section>
+      </div>
 
       {/* =========================================================================
           SECCIÓN 6: CTA FINAL DE AGENDAMIENTO DIRECTO
