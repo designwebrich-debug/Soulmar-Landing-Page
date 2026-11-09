@@ -163,7 +163,7 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 1: CORE FEATURES (3-COLUMN LAYOUT CON FOTO DE MARIANA EN EL CENTRO)
           ========================================================================= */}
-      <section className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section className="pt-2 sm:pt-4 md:pt-5 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         
         {/* ENCABEZADO CENTRADO */}
         <div id="mariana-titulo" className="scroll-mt-24 md:scroll-mt-28 text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14 space-y-4">
