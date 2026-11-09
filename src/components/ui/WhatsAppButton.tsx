@@ -14,9 +14,9 @@ import { SocialFloatingMenu } from "./SocialFloatingMenu"
 export const WhatsAppButton = () => {
   const pathname = usePathname()
 
-  // Visibility logic: ONLY show on Inicio (/), Soulmar Camp (/retreats), and Tienda (/shop)
-  const visiblePaths = ["/", "/retreats", "/shop"]
-  const isVisible = visiblePaths.some((path) => pathname === path)
+  // Visibility logic: show on Inicio (/), Soulmar Camp (/retreats), Tienda (/shop), and Sobre mí (/sobre-mi)
+  const visiblePaths = ["/", "/retreats", "/shop", "/sobre-mi"]
+  const isVisible = visiblePaths.some((path) => pathname === path || (path !== "/" && pathname?.startsWith(path)))
 
   if (!isVisible) return null
 

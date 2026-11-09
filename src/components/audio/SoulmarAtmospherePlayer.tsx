@@ -23,7 +23,7 @@ export function SoulmarAtmospherePlayer() {
 
   return (
     <div
-      className="hidden md:flex fixed md:bottom-8 md:left-8 z-[9995] items-center select-none"
+      className="hidden md:flex fixed bottom-6 left-6 md:bottom-8 md:left-8 z-[9995] items-center select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
