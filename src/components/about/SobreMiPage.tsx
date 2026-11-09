@@ -166,7 +166,7 @@ export function SobreMiPage() {
       <section className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         
         {/* ENCABEZADO CENTRADO */}
-        <div id="mariana-titulo" className="scroll-mt-24 md:scroll-mt-28 text-center max-w-3xl mx-auto mb-14 md:mb-18 space-y-3.5">
+        <div id="mariana-titulo" className="scroll-mt-24 md:scroll-mt-28 text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14 space-y-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
             {isEn
               ? "Mariana Caicedo | Psychologist at Soulmar"
@@ -177,10 +177,41 @@ export function SobreMiPage() {
               ? "Clinical Psychologist • Universidad El Bosque (Bogotá, Colombia). Evidence-based psychotherapy, human warmth, and a safe space to guide you back to yourself."
               : "Psicóloga Clínica • Universidad El Bosque (Bogotá, Colombia). Psicoterapia basada en evidencia, calidez humana y un espacio seguro para volver a ti."}
           </p>
+
+          {/* CUATRO BOTONES DE NAVEGACIÓN 100% ALINEADOS (Negro/Blanco en Claro | Blanco/Negro en Oscuro) */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 pt-3">
+            {[
+              { label: isEn ? "My Profile" : "Mi perfil", targetId: "perfil" },
+              { label: isEn ? "My Vocation" : "Mi vocación", targetId: "vocacion" },
+              { label: isEn ? "Accreditation" : "Acreditación", targetId: "acreditacion" },
+              { label: "FAQ", targetId: "faq" },
+            ].map((btn) => (
+              <a
+                key={btn.targetId}
+                href={`#${btn.targetId}`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById(btn.targetId)
+                  if (el) {
+                    const navOffset = window.innerWidth >= 768 ? 76 : 64
+                    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+                    const offsetPosition = Math.max(0, elementPosition - navOffset)
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: "smooth"
+                    })
+                  }
+                }}
+                className="px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-full bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 text-xs sm:text-sm font-semibold tracking-tight transition-all duration-200 shadow-sm active:scale-95 cursor-pointer select-none text-center"
+              >
+                {btn.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* ESTRUCTURA 3 COLUMNAS: 2 CARDS | FOTO CENTRAL | 2 CARDS */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
+        <div id="perfil" className="scroll-mt-24 md:scroll-mt-28 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
           {/* COLUMNA IZQUIERDA (2 Cards en Grid de 2 filas para alineación horizontal matemática perfecta) */}
           <div className="lg:col-span-4 grid grid-rows-2 gap-5">
@@ -380,7 +411,7 @@ export function SobreMiPage() {
           SECCIÓN 3: BENTO GRID ESTRATÉGICO DE PRESENTACIÓN DE MARIANA CAICEDO
           (4 tarjetas asimétricas con separación premium uniforme Apple UX/UI)
           ========================================================================= */}
-      <section className="pt-6 sm:pt-10 md:pt-12 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+      <section id="vocacion" className="scroll-mt-20 md:scroll-mt-24 pt-6 sm:pt-10 md:pt-12 pb-16 md:pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
         {/* ENCABEZADO CENTRADO DE SECCIÓN - APPLE HIG DESIGN */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-[1.1]">
@@ -536,7 +567,8 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 4: FORMACIÓN ACADÉMICA Y CREDENCIALES CLÍNICAS
           ========================================================================= */}
-      <section id="historia" className="py-16 md:py-24 bg-white dark:bg-[#121214] border-y border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-20">
+      <section id="acreditacion" className="py-16 md:py-24 bg-white dark:bg-[#121214] border-y border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-20 md:scroll-mt-24">
+        <div id="historia" className="scroll-mt-20 md:scroll-mt-24 pointer-events-none" />
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -613,7 +645,7 @@ export function SobreMiPage() {
       {/* =========================================================================
           SECCIÓN 5: PREGUNTAS FRECUENTES (FAQ) DE AUTORIDAD CLÍNICA
           ========================================================================= */}
-      <section className="py-16 md:py-24 bg-neutral-100/60 dark:bg-black/40 border-t border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10">
+      <section id="faq" className="py-16 md:py-24 bg-neutral-100/60 dark:bg-black/40 border-t border-neutral-200/60 dark:border-white/5 px-4 sm:px-6 md:px-10 scroll-mt-20 md:scroll-mt-24">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-3">
             <span className="text-xs font-black tracking-widest uppercase text-[#8da9c4]">
