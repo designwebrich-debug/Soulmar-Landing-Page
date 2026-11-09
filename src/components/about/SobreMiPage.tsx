@@ -215,11 +215,11 @@ export function SobreMiPage() {
         </div>
       </section>
 
-      {/* CONTENEDOR RELATIVO PARA QUE EL SUBMENÚ STICKY DE CRISTAL LÍQUIDO PERMANEZCA FIJADO EN TODAS LAS SECCIONES */}
+      {/* CONTENEDOR RELATIVO PARA QUE EL SUBMENÚ STICKY ACOMPAÑE TODAS LAS SECCIONES */}
       <div className="relative">
-        {/* SUBMENÚ SECUNDARIO STICKY CON EFECTO CRISTAL LÍQUIDO (liquid-glass) */}
-        <div className="sticky top-[68px] sm:top-[74px] md:top-[86px] z-40 py-2 sm:py-3 px-4 flex justify-center pointer-events-none mb-5 sm:mb-7">
-          <div className="liquid-glass pointer-events-auto p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1.5 sm:gap-2.5 max-w-[95vw] overflow-x-auto no-scrollbar shadow-lg">
+        {/* SUBMENÚ SECUNDARIO STICKY (Sin la barra envolvente, botones sutiles con tipografía idéntica al navbar principal) */}
+        <div className="sticky top-[68px] sm:top-[74px] md:top-[86px] z-40 py-2 px-4 flex justify-center pointer-events-none mb-10 sm:mb-12 md:mb-14">
+          <div className="pointer-events-auto flex items-center justify-center gap-2 sm:gap-2.5 max-w-[95vw] overflow-x-auto no-scrollbar">
             {[
               { label: isEn ? "My Profile" : "Mi perfil", targetId: "perfil" },
               { label: isEn ? "My Vocation" : "Mi vocación", targetId: "vocacion" },
@@ -232,10 +232,10 @@ export function SobreMiPage() {
                   key={btn.targetId}
                   onClick={() => handleScrollTo(btn.targetId)}
                   className={cn(
-                    "px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-tight transition-all duration-300 active:scale-95 cursor-pointer select-none text-center whitespace-nowrap",
+                    "px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-[13px] tracking-tight transition-all duration-200 active:scale-95 cursor-pointer select-none text-center whitespace-nowrap",
                     isActive
-                      ? "bg-black text-white dark:bg-white dark:text-[#1d1d1f] shadow-md ring-2 ring-black/20 dark:ring-white/30 scale-[1.02]"
-                      : "bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-[#1d1d1f] dark:hover:bg-neutral-200 opacity-90 hover:opacity-100"
+                      ? "bg-black text-white dark:bg-white dark:text-[#1d1d1f] font-semibold shadow-xs"
+                      : "bg-black/85 hover:bg-black text-white/90 hover:text-white dark:bg-white/85 dark:hover:bg-white dark:text-[#1d1d1f] font-medium"
                   )}
                 >
                   {btn.label}
