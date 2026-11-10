@@ -374,24 +374,12 @@ export function MobileTabBar() {
       data-floating-dock="true"
       className="md:hidden fixed bottom-5 inset-x-0 z-[9990] flex items-center justify-center pointer-events-none px-3"
     >
-      <div className="relative w-full max-w-[420px] pointer-events-auto">
+      <div className="relative w-full max-w-[440px] pointer-events-auto">
         {/* ================= 1. BARRA PRINCIPAL FLOTANTE COMPLETA ================= */}
-        {!isSearching && (
-          <motion.nav
-            key="liquid-dock"
-            aria-label="Liquid Glass Dock"
-            initial={{ opacity: 0, y: 12, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 420, damping: 32 }}
-            style={{ borderRadius: 9999 }}
-            className={cn(
-              "liquid-glass w-full h-[54px] px-2 flex items-center justify-between rounded-full shadow-[0_12px_35px_rgba(0,0,0,0.22)]",
-              isOverLightBg && "liquid-glass-light-bg"
-            )}
-          >
-            {/* 1. BOTÓN (+) DESPLEGABLE (Música + Modo Claro/Oscuro) */}
-            <div ref={plusMenuRef} className="relative flex items-center justify-center">
+        {!isSearching ? (
+          <div className="flex items-center gap-2 w-full">
+            {/* 1. BOTÓN (+) EN SU PROPIO CÍRCULO SEPARADO DE LA BARRA */}
+            <div ref={plusMenuRef} className="relative shrink-0 flex items-center justify-center">
               <button
                 type="button"
                 onClick={() => {
@@ -399,35 +387,36 @@ export function MobileTabBar() {
                   setIsPlusMenuOpen((prev) => !prev)
                 }}
                 className={cn(
-                  "relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer",
-                  isPlusMenuOpen && "bg-black/10 dark:bg-white/15"
+                  "liquid-glass relative w-[52px] h-[52px] shrink-0 flex items-center justify-center rounded-full cursor-pointer select-none transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.18)]",
+                  isPlusMenuOpen && "ring-2 ring-[#8da9c4]/80 shadow-[0_0_22px_rgba(141,169,196,0.45)]",
+                  isOverLightBg && "liquid-glass-light-bg"
                 )}
                 aria-label="Más opciones"
                 title="Más opciones"
               >
                 <Plus
                   className={cn(
-                    "w-[20px] h-[20px] stroke-[2.4] transition-transform duration-300",
+                    "w-[22px] h-[22px] stroke-[2.4] transition-transform duration-300",
                     isPlusMenuOpen && "rotate-45 text-[#8da9c4]",
                     !isPlusMenuOpen && (isOverLightBg ? "text-neutral-800" : "text-white/85")
                   )}
                 />
                 {/* Indicador sutil de música activa si está reproduciendo */}
                 {isPlaying && !isPlusMenuOpen && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#8da9c4] animate-pulse" />
+                  <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#8da9c4] animate-pulse" />
                 )}
               </button>
 
-              {/* POPUP FLOTANTE DE MÚSICA Y TEMA (Por encima del botón +) */}
+              {/* POPUP FLOTANTE 100% CENTRADO VERTICALMENTE ARRIBA DEL BOTÓN (+) */}
               <AnimatePresence>
                 {isPlusMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    initial={{ opacity: 0, y: 12, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.9 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
                     transition={{ type: "spring", stiffness: 450, damping: 30 }}
                     className={cn(
-                      "liquid-glass absolute bottom-[62px] left-0 flex flex-col items-center gap-2 p-1.5 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] z-50",
+                      "liquid-glass absolute bottom-[60px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 p-1.5 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] z-50",
                       isOverLightBg && "liquid-glass-light-bg"
                     )}
                   >
@@ -482,67 +471,79 @@ export function MobileTabBar() {
               </AnimatePresence>
             </div>
 
-            {/* 2. ICONOS DE NAVEGACIÓN: Inicio, Terapias, Agendar, Sobre mí */}
-            {navTabs.map((tab) => {
-              const Icon = tab.icon
-              const isActive = activeTab === tab.id
-
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => handleTabClick(tab.id)}
-                  className="relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer"
-                  aria-label={tab.label}
-                  title={tab.label}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="liquidActiveTabPill"
-                      className="absolute inset-0 rounded-full liquid-glass-pill"
-                      transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                    />
-                  )}
-                  <span
-                    className={cn(
-                      "relative z-10 flex items-center justify-center transition-colors duration-300",
-                      isActive
-                        ? "text-[#8da9c4]"
-                        : isOverLightBg
-                        ? "text-neutral-700 hover:text-black"
-                        : "text-white/75 hover:text-white"
-                    )}
-                  >
-                    <Icon className="w-[19px] h-[19px] stroke-[2.2]" />
-                  </span>
-                </button>
-              )
-            })}
-
-            {/* 3. BOTÓN LUPA (Búsqueda) */}
-            <button
-              type="button"
-              onClick={openSearch}
-              className="relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer"
-              aria-label={language === "es" ? "Buscar en la web" : "Search site"}
-              title={language === "es" ? "Buscar" : "Search"}
+            {/* 2. DOCK AMPLIO QUE CONTIENE LAS SECCIONES + BÚSQUEDA */}
+            <motion.nav
+              key="liquid-dock"
+              aria-label="Liquid Glass Dock"
+              initial={{ opacity: 0, y: 12, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 420, damping: 32 }}
+              style={{ borderRadius: 9999 }}
+              className={cn(
+                "liquid-glass flex-1 h-[52px] px-2 flex items-center justify-around rounded-full shadow-[0_12px_35px_rgba(0,0,0,0.22)]",
+                isOverLightBg && "liquid-glass-light-bg"
+              )}
             >
-              <span
-                className={cn(
-                  "relative z-10 transition-colors duration-300",
-                  isOverLightBg
-                    ? "text-neutral-800 hover:text-black"
-                    : "text-white/80 hover:text-white"
-                )}
-              >
-                <Search className="w-[19px] h-[19px] stroke-[2.3]" />
-              </span>
-            </button>
-          </motion.nav>
-        )}
+              {/* Iconos de Navegación: Inicio, Terapias, Agendar, Sobre mí */}
+              {navTabs.map((tab) => {
+                const Icon = tab.icon
+                const isActive = activeTab === tab.id
 
-        {/* ================= 2. MODO BÚSQUEDA EXPANDIDA ================= */}
-        {isSearching && (
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => handleTabClick(tab.id)}
+                    className="relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer"
+                    aria-label={tab.label}
+                    title={tab.label}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="liquidActiveTabPill"
+                        className="absolute inset-0 rounded-full liquid-glass-pill"
+                        transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                      />
+                    )}
+                    <span
+                      className={cn(
+                        "relative z-10 flex items-center justify-center transition-colors duration-300",
+                        isActive
+                          ? "text-[#8da9c4]"
+                          : isOverLightBg
+                          ? "text-neutral-700 hover:text-black"
+                          : "text-white/75 hover:text-white"
+                      )}
+                    >
+                      <Icon className="w-[19px] h-[19px] stroke-[2.2]" />
+                    </span>
+                  </button>
+                )
+              })}
+
+              {/* Botón Lupa (Búsqueda) */}
+              <button
+                type="button"
+                onClick={openSearch}
+                className="relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer"
+                aria-label={language === "es" ? "Buscar en la web" : "Search site"}
+                title={language === "es" ? "Buscar" : "Search"}
+              >
+                <span
+                  className={cn(
+                    "relative z-10 transition-colors duration-300",
+                    isOverLightBg
+                      ? "text-neutral-800 hover:text-black"
+                      : "text-white/80 hover:text-white"
+                  )}
+                >
+                  <Search className="w-[19px] h-[19px] stroke-[2.3]" />
+                </span>
+              </button>
+            </motion.nav>
+          </div>
+        ) : (
           <div className="relative w-full">
           {/* DROPDOWN FLOTANTE INTELIGENTE POR ENCIMA DE LA BARRA INFERIOR */}
           <AnimatePresence>
