@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Home, Sparkles, Calendar, Search, Moon, Sun, X, Mic, ExternalLink, ArrowRight, Play, Pause } from "lucide-react"
+import { Home, Sparkles, Calendar, Search, Moon, Sun, X, Mic, ExternalLink, ArrowRight, Play, Pause, Plus, User } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useTranslation } from "@/context/LanguageContext"
@@ -17,6 +17,8 @@ export function MobileTabBar() {
   const { setTheme, resolvedTheme } = useTheme()
   const { isPlaying, isEnabled: isAtmosphereEnabled, togglePlay: toggleAtmosphere } = useAtmosphere()
   const [activeTab, setActiveTab] = useState<string>("home")
+  const [isPlusMenuOpen, setIsPlusMenuOpen] = useState(false)
+  const plusMenuRef = useRef<HTMLDivElement>(null)
   const [isSearching, setIsSearching] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<SearchItem[]>([])
@@ -33,6 +35,22 @@ export function MobileTabBar() {
     setMounted(true)
   }, [])
 
+  // Cerrar menú popup (+) al hacer clic/tap fuera
+  useEffect(() => {
+    if (!isPlusMenuOpen) return
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (plusMenuRef.current && !plusMenuRef.current.contains(e.target as Node)) {
+        setIsPlusMenuOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("touchstart", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("touchstart", handleClickOutside)
+    }
+  }, [isPlusMenuOpen])
+
   // Auto-focus input when search mode activates
   useEffect(() => {
     if (isSearching) {
@@ -46,6 +64,11 @@ export function MobileTabBar() {
 
   // Auto-detect section on scroll (Apple-like Dynamic Island navigation)
   useEffect(() => {
+    if (pathname === "/sobre-mi") {
+      setActiveTab("sobre-mi")
+      return
+    }
+
     if (pathname !== "/" || isSearching) return
 
     const handleScroll = () => {
@@ -115,11 +138,7 @@ export function MobileTabBar() {
   // Smooth scroll & navigation helper
   const handleTabClick = (tabId: string) => {
     triggerHaptic()
-
-    if (tabId === "theme") {
-      toggleTheme()
-      return
-    }
+    setIsPlusMenuOpen(false)
 
     setActiveTab(tabId)
 
@@ -127,21 +146,35 @@ export function MobileTabBar() {
       if (pathname === "/") {
         window.scrollTo({ top: 0, behavior: "smooth" })
       } else {
-        window.location.href = "/"
+        router.push("/")
       }
     } else if (tabId === "services") {
-      const el = document.getElementById("servicios")
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" })
+      if (pathname === "/") {
+        const el = document.getElementById("caja-terapias") || document.getElementById("servicios")
+        if (el) {
+          const navOffset = 64
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+          window.scrollTo({ top: Math.max(0, elementPosition - navOffset), behavior: "smooth" })
+        }
       } else {
-        window.location.href = "/#servicios"
+        router.push("/#servicios")
       }
     } else if (tabId === "booking") {
-      const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" })
+      if (pathname === "/") {
+        const el = document.getElementById("caja-agendamiento") || document.getElementById("agendamiento")
+        if (el) {
+          const navOffset = 64
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+          window.scrollTo({ top: Math.max(0, elementPosition - navOffset), behavior: "smooth" })
+        }
       } else {
-        window.location.href = "/#caja-agendamiento"
+        router.push("/#caja-agendamiento")
+      }
+    } else if (tabId === "sobre-mi") {
+      if (pathname === "/sobre-mi") {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      } else {
+        router.push("/sobre-mi")
       }
     }
   }
@@ -326,9 +359,9 @@ export function MobileTabBar() {
       icon: Calendar,
     },
     {
-      id: "theme",
-      label: isDarkMode ? (language === "es" ? "Modo Claro" : "Light Mode") : (language === "es" ? "Modo Oscuro" : "Dark Mode"),
-      icon: isDarkMode ? Sun : Moon,
+      id: "sobre-mi",
+      label: language === "es" ? "Sobre mí" : "About me",
+      icon: User,
     },
   ]
 
@@ -339,76 +372,117 @@ export function MobileTabBar() {
   return (
     <div
       data-floating-dock="true"
-      className="md:hidden fixed bottom-6 left-0 right-0 z-[9990] flex items-center justify-center gap-2 pointer-events-none px-3"
+      className="md:hidden fixed bottom-5 inset-x-0 z-[9990] flex items-center justify-center pointer-events-none px-3"
     >
-      {/* ================= 1. BOTÓN SOULMAR ATMOSPHERE EN SU PROPIO CÍRCULO (IZQUIERDA) ================= */}
-      <AnimatePresence mode="popLayout" initial={false}>
-        {!isSearching && isAtmosphereEnabled && (
-          <motion.button
-            key="atmosphere-circle"
-            onClick={() => {
-              triggerHaptic()
-              toggleAtmosphere()
-            }}
-            initial={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
-            transition={{ type: "spring", stiffness: 380, damping: 32 }}
-            style={{ borderRadius: 9999 }}
-            whileTap={{ scale: 0.9 }}
-            className={cn(
-              "liquid-glass relative w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none rounded-full overflow-hidden transition-all duration-300",
-              isPlaying && "ring-2 ring-[#8da9c4]/80 shadow-[0_0_22px_rgba(141,169,196,0.45)]",
-              isOverLightBg && "liquid-glass-light-bg"
-            )}
-            aria-label={isPlaying ? "Pausar Soulmar Atmosphere" : "Reproducir Soulmar Atmosphere"}
-            title="Soulmar Atmosphere"
-          >
-            {/* Apple liquid glass convex specular highlight */}
-            <div className="absolute top-0 left-2 right-2 h-5 rounded-full bg-gradient-to-b from-white/60 dark:from-white/20 via-white/10 to-transparent pointer-events-none" />
-
-            {/* Aura pulsante sutil si está reproduciendo */}
-            {isPlaying && (
-              <div className="absolute inset-0 bg-[#8da9c4]/20 animate-pulse pointer-events-none" />
-            )}
-
-            <span
-              className={cn(
-                "relative z-10 transition-colors duration-300 flex items-center justify-center",
-                isPlaying
-                  ? "text-[#4a6b82] dark:text-[#a8c5db]"
-                  : isOverLightBg
-                  ? "text-neutral-800 hover:text-black"
-                  : "text-white/85 hover:text-white"
-              )}
-            >
-              {isPlaying ? (
-                <Pause className="w-[19px] h-[19px] fill-current stroke-[2.2]" />
-              ) : (
-                <Play className="w-[19px] h-[19px] fill-current stroke-[2.2] ml-0.5" />
-              )}
-            </span>
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      {/* ================= 2. DOCK PRINCIPAL (Cristal líquido transparente) ================= */}
-      <AnimatePresence mode="popLayout" initial={false}>
+      <div className="relative w-full max-w-[420px] pointer-events-auto">
+        {/* ================= 1. BARRA PRINCIPAL FLOTANTE COMPLETA ================= */}
         {!isSearching && (
           <motion.nav
             key="liquid-dock"
             aria-label="Liquid Glass Dock"
-            initial={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.85, filter: "blur(6px)" }}
+            initial={{ opacity: 0, y: 12, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 420, damping: 32 }}
             style={{ borderRadius: 9999 }}
             className={cn(
-              "liquid-glass flex items-center gap-1 p-1.5 pointer-events-auto origin-center",
+              "liquid-glass w-full h-[54px] px-2 flex items-center justify-between rounded-full shadow-[0_12px_35px_rgba(0,0,0,0.22)]",
               isOverLightBg && "liquid-glass-light-bg"
             )}
           >
-            {/* 1. Inicio, 2. Terapias, 3. Agendar, 4. Libros & PDFs */}
+            {/* 1. BOTÓN (+) DESPLEGABLE (Música + Modo Claro/Oscuro) */}
+            <div ref={plusMenuRef} className="relative flex items-center justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic()
+                  setIsPlusMenuOpen((prev) => !prev)
+                }}
+                className={cn(
+                  "relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer",
+                  isPlusMenuOpen && "bg-black/10 dark:bg-white/15"
+                )}
+                aria-label="Más opciones"
+                title="Más opciones"
+              >
+                <Plus
+                  className={cn(
+                    "w-[20px] h-[20px] stroke-[2.4] transition-transform duration-300",
+                    isPlusMenuOpen && "rotate-45 text-[#8da9c4]",
+                    !isPlusMenuOpen && (isOverLightBg ? "text-neutral-800" : "text-white/85")
+                  )}
+                />
+                {/* Indicador sutil de música activa si está reproduciendo */}
+                {isPlaying && !isPlusMenuOpen && (
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#8da9c4] animate-pulse" />
+                )}
+              </button>
+
+              {/* POPUP FLOTANTE DE MÚSICA Y TEMA (Por encima del botón +) */}
+              <AnimatePresence>
+                {isPlusMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                    className={cn(
+                      "liquid-glass absolute bottom-[62px] left-0 flex flex-col items-center gap-2 p-1.5 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] z-50",
+                      isOverLightBg && "liquid-glass-light-bg"
+                    )}
+                  >
+                    {/* Botón de Música / Soulmar Atmosphere */}
+                    {isAtmosphereEnabled && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic()
+                          toggleAtmosphere()
+                        }}
+                        className={cn(
+                          "relative w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer overflow-hidden",
+                          isPlaying
+                            ? "bg-[#8da9c4] text-white shadow-[0_0_16px_rgba(141,169,196,0.6)]"
+                            : isOverLightBg
+                            ? "bg-black/5 hover:bg-black/10 text-neutral-800"
+                            : "bg-white/10 hover:bg-white/20 text-white"
+                        )}
+                        aria-label={isPlaying ? "Pausar Soulmar Atmosphere" : "Reproducir Soulmar Atmosphere"}
+                        title="Soulmar Atmosphere"
+                      >
+                        {isPlaying ? (
+                          <Pause className="w-[18px] h-[18px] fill-current stroke-[2.2]" />
+                        ) : (
+                          <Play className="w-[18px] h-[18px] fill-current stroke-[2.2] ml-0.5" />
+                        )}
+                      </button>
+                    )}
+
+                    {/* Botón de Modo Oscuro / Claro */}
+                    <button
+                      type="button"
+                      onClick={toggleTheme}
+                      className={cn(
+                        "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer",
+                        isOverLightBg
+                          ? "bg-black/5 hover:bg-black/10 text-neutral-800"
+                          : "bg-white/10 hover:bg-white/20 text-white"
+                      )}
+                      aria-label="Cambiar tema"
+                      title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
+                    >
+                      {isDarkMode ? (
+                        <Sun className="w-[19px] h-[19px] stroke-[2.2] text-amber-300" />
+                      ) : (
+                        <Moon className="w-[19px] h-[19px] stroke-[2.2] text-neutral-800" />
+                      )}
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* 2. ICONOS DE NAVEGACIÓN: Inicio, Terapias, Agendar, Sobre mí */}
             {navTabs.map((tab) => {
               const Icon = tab.icon
               const isActive = activeTab === tab.id
@@ -416,15 +490,12 @@ export function MobileTabBar() {
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => handleTabClick(tab.id)}
-                  className={cn(
-                    "relative z-10 flex items-center justify-center w-10 h-10 rounded-full",
-                    "transition-transform active:scale-90 select-none cursor-pointer"
-                  )}
+                  className="relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer"
                   aria-label={tab.label}
                   title={tab.label}
                 >
-                  {/* Active liquid drop (Spring Physics) */}
                   {isActive && (
                     <motion.div
                       layoutId="liquidActiveTabPill"
@@ -432,7 +503,6 @@ export function MobileTabBar() {
                       transition={{ type: "spring", stiffness: 450, damping: 35 }}
                     />
                   )}
-
                   <span
                     className={cn(
                       "relative z-10 flex items-center justify-center transition-colors duration-300",
@@ -443,18 +513,37 @@ export function MobileTabBar() {
                         : "text-white/75 hover:text-white"
                     )}
                   >
-                    <Icon className="w-[18px] h-[18px] stroke-[2.2]" />
+                    <Icon className="w-[19px] h-[19px] stroke-[2.2]" />
                   </span>
                 </button>
               )
             })}
+
+            {/* 3. BOTÓN LUPA (Búsqueda) */}
+            <button
+              type="button"
+              onClick={openSearch}
+              className="relative flex items-center justify-center w-10 h-10 rounded-full transition-transform active:scale-90 select-none cursor-pointer"
+              aria-label={language === "es" ? "Buscar en la web" : "Search site"}
+              title={language === "es" ? "Buscar" : "Search"}
+            >
+              <span
+                className={cn(
+                  "relative z-10 transition-colors duration-300",
+                  isOverLightBg
+                    ? "text-neutral-800 hover:text-black"
+                    : "text-white/80 hover:text-white"
+                )}
+              >
+                <Search className="w-[19px] h-[19px] stroke-[2.3]" />
+              </span>
+            </button>
           </motion.nav>
         )}
-      </AnimatePresence>
 
-      {/* ================= 3. LUPA EN SU PROPIO CÍRCULO (DERECHA) O BARRA EXPANDIDA ================= */}
-      {isSearching ? (
-        <div className="relative flex-1 max-w-md pointer-events-auto">
+        {/* ================= 2. MODO BÚSQUEDA EXPANDIDA ================= */}
+        {isSearching && (
+          <div className="relative w-full">
           {/* DROPDOWN FLOTANTE INTELIGENTE POR ENCIMA DE LA BARRA INFERIOR */}
           <AnimatePresence>
             {searchQuery.trim().length >= 2 && (
@@ -617,33 +706,8 @@ export function MobileTabBar() {
             </motion.div>
           </motion.form>
         </div>
-      ) : (
-        <motion.button
-          key="search-circle"
-          layoutId="liquid-search-glass"
-          onClick={openSearch}
-          transition={{ type: "spring", stiffness: 380, damping: 32 }}
-          style={{ borderRadius: 9999 }}
-          whileTap={{ scale: 0.9 }}
-          className={cn(
-            "liquid-glass w-[52px] h-[52px] shrink-0 flex items-center justify-center pointer-events-auto cursor-pointer select-none rounded-full",
-            isOverLightBg && "liquid-glass-light-bg"
-          )}
-          aria-label={language === "es" ? "Buscar en la web" : "Search site"}
-          title={language === "es" ? "Buscar" : "Search"}
-        >
-          <span
-            className={cn(
-              "relative z-10 transition-colors duration-300",
-              isOverLightBg
-                ? "text-neutral-800 hover:text-black"
-                : "text-white/80 hover:text-white"
-            )}
-          >
-            <Search className="w-[19px] h-[19px] stroke-[2.4]" />
-          </span>
-        </motion.button>
       )}
+      </div>
     </div>
   )
 }

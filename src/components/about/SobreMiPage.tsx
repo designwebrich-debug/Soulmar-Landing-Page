@@ -217,8 +217,8 @@ export function SobreMiPage() {
 
       {/* CONTENEDOR RELATIVO PARA QUE EL SUBMENÚ STICKY ACOMPAÑE TODAS LAS SECCIONES */}
       <div className="relative">
-        {/* SUBMENÚ SECUNDARIO STICKY (Sin la barra envolvente, botones sutiles con tipografía idéntica al navbar principal) */}
-        <div className="sticky top-[68px] sm:top-[74px] md:top-[86px] z-40 py-2 px-4 flex justify-center pointer-events-none mb-10 sm:mb-12 md:mb-14">
+        {/* SUBMENÚ SECUNDARIO STICKY (Oculto en móvil, visible solo en PC y iPad) */}
+        <div className="hidden md:flex sticky md:top-[86px] z-40 py-2 px-4 justify-center pointer-events-none mb-10 sm:mb-12 md:mb-14">
           <div className="pointer-events-auto flex items-center justify-center gap-2 sm:gap-2.5 max-w-[95vw] overflow-x-auto no-scrollbar">
             {[
               { label: isEn ? "My Profile" : "Mi perfil", targetId: "perfil" },
