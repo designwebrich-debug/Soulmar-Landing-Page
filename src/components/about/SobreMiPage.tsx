@@ -253,7 +253,7 @@ export function SobreMiPage() {
           <div id="perfil" className="scroll-mt-36 md:scroll-mt-44 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
           
           {/* COLUMNA IZQUIERDA (2 Cards en Grid de 2 filas para alineación horizontal matemática perfecta) */}
-          <div className="lg:col-span-4 grid grid-rows-2 gap-5">
+          <div className="order-2 lg:order-1 lg:col-span-4 grid grid-rows-2 gap-5">
             {/* Card 1: Formación profesional - Icono Azul Soulmar */}
             <div className="relative group flex flex-col h-full">
               {/* Luz / Glow suave detrás de la caja en hover (Sin borde de color) */}
@@ -300,7 +300,7 @@ export function SobreMiPage() {
           </div>
 
           {/* COLUMNA CENTRAL (Retrato o Video MP4 en alta resolución de Mariana en sesión) */}
-          <div className="lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/50 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_35px_rgba(0,0,0,0.25)] min-h-[440px] lg:min-h-[480px] group">
+          <div className="order-1 lg:order-2 lg:col-span-4 relative rounded-[32px] overflow-hidden bg-neutral-900 border border-neutral-200/50 dark:border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_35px_rgba(0,0,0,0.25)] min-h-[440px] lg:min-h-[480px] group">
             {/* Controles interactivos: En pausa solo aparece Play; en reproducción aparecen Pausa y Volumen */}
             {(isVideoUrl(marianaMediaDesktop) || isVideoUrl(marianaMediaMobile) || isVideoUrl(marianaMediaTablet)) && (
               <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
@@ -398,7 +398,7 @@ export function SobreMiPage() {
           </div>
 
           {/* COLUMNA DERECHA (2 Cards en Grid de 2 filas para alineación horizontal matemática perfecta) */}
-          <div className="lg:col-span-4 grid grid-rows-2 gap-5">
+          <div className="order-3 lg:order-3 lg:col-span-4 grid grid-rows-2 gap-5">
             {/* Card 3: Mi filosofía - Icono Morado Soulmar Oficial */}
             <div className="relative group flex flex-col h-full">
               {/* Luz / Glow suave detrás de la caja en hover (Sin borde de color) */}
