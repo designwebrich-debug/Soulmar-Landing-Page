@@ -379,7 +379,7 @@ export function MobileTabBar() {
         {!isSearching ? (
           <div className="flex items-center gap-2 w-full">
             {/* 1. BOTÓN (+) EN SU PROPIO CÍRCULO SEPARADO DE LA BARRA */}
-            <div ref={plusMenuRef} className="relative shrink-0 flex items-center justify-center">
+            <div ref={plusMenuRef} className="relative shrink-0 w-[52px] h-[52px] flex items-center justify-center">
               <button
                 type="button"
                 onClick={() => {
@@ -411,12 +411,13 @@ export function MobileTabBar() {
               <AnimatePresence>
                 {isPlusMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 12, scale: 0.9 }}
+                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                    exit={{ opacity: 0, y: 16, scale: 0.8 }}
+                    style={{ transformOrigin: "bottom center" }}
                     transition={{ type: "spring", stiffness: 450, damping: 30 }}
                     className={cn(
-                      "liquid-glass absolute bottom-[60px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 p-1.5 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] z-50",
+                      "liquid-glass absolute bottom-[62px] left-0 w-[52px] flex flex-col items-center gap-2 py-2 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] z-50",
                       isOverLightBg && "liquid-glass-light-bg"
                     )}
                   >
@@ -429,7 +430,7 @@ export function MobileTabBar() {
                           toggleAtmosphere()
                         }}
                         className={cn(
-                          "relative w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer overflow-hidden",
+                          "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer overflow-hidden mx-auto",
                           isPlaying
                             ? "bg-[#8da9c4] text-white shadow-[0_0_16px_rgba(141,169,196,0.6)]"
                             : isOverLightBg
@@ -452,7 +453,7 @@ export function MobileTabBar() {
                       type="button"
                       onClick={toggleTheme}
                       className={cn(
-                        "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer",
+                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer mx-auto",
                         isOverLightBg
                           ? "bg-black/5 hover:bg-black/10 text-neutral-800"
                           : "bg-white/10 hover:bg-white/20 text-white"
