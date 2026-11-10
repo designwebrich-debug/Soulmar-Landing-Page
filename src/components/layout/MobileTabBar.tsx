@@ -388,7 +388,7 @@ export function MobileTabBar() {
                 }}
                 className={cn(
                   "liquid-glass relative w-[52px] h-[52px] shrink-0 flex items-center justify-center rounded-full cursor-pointer select-none transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.18)]",
-                  isPlusMenuOpen && "ring-2 ring-[#8da9c4]/80 shadow-[0_0_22px_rgba(141,169,196,0.45)]",
+                  isPlusMenuOpen && "ring-2 ring-[#2563eb] shadow-[0_0_20px_rgba(37,99,235,0.4)]",
                   isOverLightBg && "liquid-glass-light-bg"
                 )}
                 aria-label="Más opciones"
@@ -397,13 +397,13 @@ export function MobileTabBar() {
                 <Plus
                   className={cn(
                     "w-[22px] h-[22px] stroke-[2.4] transition-transform duration-300",
-                    isPlusMenuOpen && "rotate-45 text-[#8da9c4]",
+                    isPlusMenuOpen && "rotate-45 text-[#2563eb]",
                     !isPlusMenuOpen && (isOverLightBg ? "text-neutral-800" : "text-white/85")
                   )}
                 />
                 {/* Indicador sutil de música activa si está reproduciendo */}
                 {isPlaying && !isPlusMenuOpen && (
-                  <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#8da9c4] animate-pulse" />
+                  <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#2563eb] animate-pulse" />
                 )}
               </button>
 
@@ -411,13 +411,19 @@ export function MobileTabBar() {
               <AnimatePresence>
                 {isPlusMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 16, scale: 0.8 }}
-                    style={{ transformOrigin: "bottom center" }}
-                    transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ type: "spring", stiffness: 420, damping: 28 }}
+                    style={{
+                      position: "absolute",
+                      bottom: "64px",
+                      left: "0px",
+                      width: "52px",
+                      zIndex: 50,
+                    }}
                     className={cn(
-                      "liquid-glass absolute bottom-[62px] left-0 w-[52px] flex flex-col items-center gap-2 py-2 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] z-50",
+                      "liquid-glass flex flex-col items-center gap-2.5 py-2.5 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] select-none",
                       isOverLightBg && "liquid-glass-light-bg"
                     )}
                   >
@@ -430,9 +436,9 @@ export function MobileTabBar() {
                           toggleAtmosphere()
                         }}
                         className={cn(
-                          "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer overflow-hidden mx-auto",
+                          "relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer overflow-hidden mx-auto active:scale-95",
                           isPlaying
-                            ? "bg-[#8da9c4] text-white shadow-[0_0_16px_rgba(141,169,196,0.6)]"
+                            ? "bg-[#2563eb] text-white shadow-[0_0_14px_rgba(37,99,235,0.5)]"
                             : isOverLightBg
                             ? "bg-black/5 hover:bg-black/10 text-neutral-800"
                             : "bg-white/10 hover:bg-white/20 text-white"
@@ -443,7 +449,7 @@ export function MobileTabBar() {
                         {isPlaying ? (
                           <Pause className="w-[18px] h-[18px] fill-current stroke-[2.2]" />
                         ) : (
-                          <Play className="w-[18px] h-[18px] fill-current stroke-[2.2] ml-0.5" />
+                          <Play className="w-[18px] h-[18px] fill-current stroke-0 ml-0.5" />
                         )}
                       </button>
                     )}
@@ -453,7 +459,7 @@ export function MobileTabBar() {
                       type="button"
                       onClick={toggleTheme}
                       className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer mx-auto",
+                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer mx-auto active:scale-95",
                         isOverLightBg
                           ? "bg-black/5 hover:bg-black/10 text-neutral-800"
                           : "bg-white/10 hover:bg-white/20 text-white"
