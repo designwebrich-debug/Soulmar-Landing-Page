@@ -704,13 +704,38 @@ export function SobreMiPage() {
                   className="rounded-2xl border border-neutral-200/60 dark:border-white/10 bg-white dark:bg-[#151518] overflow-hidden transition-all duration-300 shadow-xs"
                 >
                   <button
+                    type="button"
                     onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-neutral-50/50 dark:hover:bg-white/[0.02] transition-colors"
+                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-neutral-50/50 dark:hover:bg-white/[0.02] transition-colors group select-none"
                   >
-                    <span className="text-sm sm:text-base font-bold text-[#1d1d1f] dark:text-white pr-2">
-                      {faq.q}
-                    </span>
-                    <div className={`w-8 h-8 rounded-full bg-neutral-100 dark:bg-white/10 flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 bg-[#8da9c4] text-white" : "text-neutral-500"}`}>
+                    <div className="flex items-center gap-3.5 sm:gap-4 flex-1 min-w-0 pr-2">
+                      {/* Número circular en la esquina izquierda (Verde Soulmar -> Azul Soulmar en hover o al abrir) */}
+                      <div
+                        className={cn(
+                          "w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-xs sm:text-sm text-white transition-all duration-300 shadow-xs",
+                          isOpen
+                            ? "bg-[#8da9c4]"
+                            : "bg-[#1D9E75] group-hover:bg-[#8da9c4]"
+                        )}
+                      >
+                        {index + 1}
+                      </div>
+
+                      {/* Texto de la pregunta */}
+                      <span className="text-sm sm:text-base font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#8da9c4] transition-colors">
+                        {faq.q}
+                      </span>
+                    </div>
+
+                    {/* Icono de flecha en el extremo derecho con la misma función de color */}
+                    <div
+                      className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white transition-all duration-300 shadow-xs",
+                        isOpen
+                          ? "rotate-180 bg-[#8da9c4]"
+                          : "bg-[#1D9E75] group-hover:bg-[#8da9c4]"
+                      )}
+                    >
                       <ChevronDown className="w-4 h-4 stroke-[2.5]" />
                     </div>
                   </button>
