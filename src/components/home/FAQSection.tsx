@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown } from "lucide-react"
 import { useTranslation } from "@/context/LanguageContext"
+import { cn } from "@/lib/utils"
 
 interface FAQItem {
   question: string
@@ -110,19 +111,39 @@ export function FAQSection() {
               <button
                 type="button"
                 onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                className={`w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg transition-colors cursor-pointer select-none group ${
-                  isOpen ? "text-[#1d1d1f] dark:text-white" : "text-[#1d1d1f] dark:text-white hover:text-[#8da9c4] dark:hover:text-[#8da9c4]"
-                }`}
+                className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-neutral-50/50 dark:hover:bg-white/[0.02] transition-colors group select-none"
                 aria-expanded={isOpen}
               >
-                <span className={isOpen ? "text-[#1d1d1f] dark:text-white" : "group-hover:text-[#8da9c4] transition-colors"}>
-                  {faq.question}
-                </span>
-                <ChevronDown
-                  className={`w-5 h-5 shrink-0 transition-transform duration-300 ${
-                    isOpen ? "rotate-180 text-[#8da9c4]" : "text-[#1d1d1f]/40 dark:text-white/40 group-hover:text-[#8da9c4]"
-                  }`}
-                />
+                <div className="flex items-center gap-3.5 sm:gap-4 flex-1 min-w-0 pr-2">
+                  {/* Número circular en la esquina izquierda (Verde Soulmar Oficial #c9cba3 -> Azul Soulmar #8da9c4 en hover o al abrir) */}
+                  <div
+                    className={cn(
+                      "w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-xs sm:text-sm text-white transition-all duration-300 shadow-xs",
+                      isOpen
+                        ? "bg-[#8da9c4]"
+                        : "bg-[#c9cba3] group-hover:bg-[#8da9c4]"
+                    )}
+                  >
+                    {idx + 1}
+                  </div>
+
+                  {/* Texto de la pregunta */}
+                  <span className="text-sm sm:text-base font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#8da9c4] transition-colors">
+                    {faq.question}
+                  </span>
+                </div>
+
+                {/* Icono de flecha en el extremo derecho con la misma función de color */}
+                <div
+                  className={cn(
+                    "w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white transition-all duration-300 shadow-xs",
+                    isOpen
+                      ? "rotate-180 bg-[#8da9c4]"
+                      : "bg-[#c9cba3] group-hover:bg-[#8da9c4]"
+                  )}
+                >
+                  <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+                </div>
               </button>
 
               <AnimatePresence initial={false}>
