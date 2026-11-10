@@ -115,13 +115,13 @@ export function FAQSection() {
                 aria-expanded={isOpen}
               >
                 <div className="flex items-center gap-3.5 sm:gap-4 flex-1 min-w-0 pr-2">
-                  {/* Número circular en la esquina izquierda (Verde Soulmar Oficial #c9cba3 -> Azul Soulmar #8da9c4 en hover o al abrir) */}
+                  {/* Número circular en la esquina izquierda (Azul Soulmar #8da9c4 fijo -> Verde Soulmar Oficial #c9cba3 en hover o al abrir) */}
                   <div
                     className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-xs sm:text-sm text-white transition-all duration-300 shadow-xs",
                       isOpen
-                        ? "bg-[#8da9c4]"
-                        : "bg-[#c9cba3] group-hover:bg-[#8da9c4]"
+                        ? "bg-[#c9cba3]"
+                        : "bg-[#8da9c4] group-hover:bg-[#c9cba3]"
                     )}
                   >
                     {idx + 1}
@@ -133,13 +133,13 @@ export function FAQSection() {
                   </span>
                 </div>
 
-                {/* Icono de flecha en el extremo derecho con la misma función de color */}
+                {/* Icono de flecha en el extremo derecho con la misma función de color (Azul fijo -> Verde en hover/abierto) */}
                 <div
                   className={cn(
                     "w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white transition-all duration-300 shadow-xs",
                     isOpen
-                      ? "rotate-180 bg-[#8da9c4]"
-                      : "bg-[#c9cba3] group-hover:bg-[#8da9c4]"
+                      ? "rotate-180 bg-[#c9cba3]"
+                      : "bg-[#8da9c4] group-hover:bg-[#c9cba3]"
                   )}
                 >
                   <ChevronDown className="w-4 h-4 stroke-[2.5]" />
