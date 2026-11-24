@@ -8,7 +8,7 @@ export function HowToStartSection() {
   const { language } = useTranslation()
   const isEn = language === "en"
 
-  const title1 = isEn ? "EASY BOOKING" : "AGENDAR EN FÁCIL"
+  const title1 = isEn ? "EASY BOOKING" : "AGENDAR ES FÁCIL"
   const title2 = isEn ? "FOLLOW THESE STEPS" : "SIGUE ESTOS PASOS"
 
   const steps = [
